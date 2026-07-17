@@ -63,7 +63,7 @@ body {
     linear-gradient(var(--line-soft) 1px, transparent 1px),
     linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
   background-size: 100% 64px, 64px 100%;
-  opacity: 0.5;
+  opacity: 0.35;
 }
 
 body::after {
@@ -295,6 +295,88 @@ a:hover { color: var(--blue-300); }
   color: var(--blue-400);
   margin: 10px 0 0;
 }
+
+/* Contact form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--line);
+  border-radius: 4px;
+  background: rgba(16, 20, 31, 0.88);
+  backdrop-filter: blur(3px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-form:focus-within {
+  border-color: var(--blue-600);
+  border-left-color: var(--blue-400);
+  box-shadow: 0 0 0 1px rgba(53, 104, 224, 0.15), 0 10px 30px -14px var(--blue-glow);
+}
+
+.contact-form label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin: 14px 0 2px;
+}
+
+.contact-form label:first-of-type { margin-top: 0; }
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  resize: vertical;
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+  border-color: var(--blue-500);
+}
+
+.contact-form button {
+  align-self: flex-start;
+  margin-top: 18px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--bg);
+  background: var(--blue-400);
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.contact-form button:hover {
+  background: var(--blue-300);
+  transform: translateY(-1px);
+}
+
+.sent-note {
+  display: none;
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--up);
+}
+
+.sent-note.visible { display: block; }
 
 /* Links list */
 .links {

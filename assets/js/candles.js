@@ -71,8 +71,8 @@
     candles.forEach(function (c, i) {
       var x = i * (candleW + gap);
       var up = c.close >= c.open;
-      var color = up ? "rgba(56, 201, 193, 0.30)" : "rgba(239, 90, 110, 0.26)";
-      var wickColor = up ? "rgba(56, 201, 193, 0.18)" : "rgba(239, 90, 110, 0.16)";
+      var color = up ? "rgba(56, 201, 193, 0.16)" : "rgba(239, 90, 110, 0.14)";
+      var wickColor = up ? "rgba(56, 201, 193, 0.09)" : "rgba(239, 90, 110, 0.08)";
 
       ctx.strokeStyle = wickColor;
       ctx.lineWidth = 1;
@@ -91,7 +91,7 @@
   }
 
   var lastTick = 0;
-  var TICK_MS = 900;
+  var TICK_MS = 180;
   function loop(ts) {
     if (!lastTick) lastTick = ts;
     if (ts - lastTick > TICK_MS) {
