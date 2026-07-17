@@ -41,6 +41,7 @@ body {
   font-size: 17px;
   line-height: 1.6;
   position: relative;
+  isolation: isolate;
 }
 
 /* Full-page trading-floor backdrop: live candlestick feed + grid, fixed behind all content */
@@ -49,14 +50,14 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
+  z-index: -2;
   pointer-events: none;
 }
 
 .bg-grid {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -2;
   pointer-events: none;
   background-image:
     linear-gradient(var(--line-soft) 1px, transparent 1px),
@@ -69,7 +70,7 @@ body::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   background:
     linear-gradient(180deg, var(--bg) 0%, rgba(5, 7, 12, 0) 14%, rgba(5, 7, 12, 0) 78%, var(--bg) 100%);
@@ -96,7 +97,7 @@ body::after {
   font-size: 11px;
   letter-spacing: 0.08em;
   color: var(--blue-400);
-  animation: scroll-ticker 40s linear infinite;
+  animation: scroll-ticker 26s linear infinite;
 }
 
 .ticker-track span { margin-right: 10px; }

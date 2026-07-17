@@ -4,6 +4,19 @@
   var ctx = canvas.getContext("2d");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Deterministic PRNG (mulberry32) so the chart pattern is the same on every load.
+  var SEED = 1337420;
+  function mulberry32(a) {
+    return function () {
+      a |= 0;
+      a = (a + 0x6d2b79f5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  var rand = mulberry32(SEED);
+
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
   var candleW = 9;
@@ -29,10 +42,10 @@
 
   function makeCandle() {
     var open = price;
-    var drift = (Math.random() - 0.5) * 3.2;
+    var drift = (rand() - 0.5) * 3.2;
     var close = Math.max(20, open + drift);
-    var high = Math.max(open, close) + Math.random() * 1.8;
-    var low = Math.min(open, close) - Math.random() * 1.8;
+    var high = Math.max(open, close) + rand() * 1.8;
+    var low = Math.min(open, close) - rand() * 1.8;
     price = close;
     return { open: open, close: close, high: high, low: low };
   }
@@ -78,9 +91,10 @@
   }
 
   var lastTick = 0;
+  var TICK_MS = 900;
   function loop(ts) {
     if (!lastTick) lastTick = ts;
-    if (ts - lastTick > 1600) {
+    if (ts - lastTick > TICK_MS) {
       lastTick = ts;
       candles.shift();
       candles.push(makeCandle());
