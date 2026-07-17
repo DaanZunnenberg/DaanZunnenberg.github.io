@@ -9,6 +9,7 @@
   <link rel="icon" href="data:,">
 </head>
 <body>
+  <canvas id="candles" aria-hidden="true"></canvas>
   <div class="ticker">
     <div class="ticker-track">
       <span>PHD&nbsp;MATHEMATICS</span><span class="tick up">&#9650;</span>
@@ -56,5 +57,6 @@
       <div class="footer-note">&copy; {{ 'now' | date: "%Y" }} Daan Zunnenberg</div>
     </footer>
   </div>
+  <script src="{{ '/assets/js/candles.js' | relative_url }}"></script>
 </body>
 </html>
