@@ -23,17 +23,17 @@
   var gap = 5;
   var slotPx = candleW + gap;
 
-  // One bar occupies the same width as the header ticker's own motion covers in
-  // the same time, so the two elements read as moving at one consistent pace —
-  // it's just that this one advances in discrete steps (one bar at a time)
-  // rather than sliding continuously, like a real OHLC feed.
-  var speed = window.SITE_SCROLL_SPEED || 34; // px/s
-  var periodMs = (slotPx / speed) * 1000;
+  // Each bar is a real one-second interval, like an actual OHLC feed.
+  var periodMs = 1000;
 
   var candles = [];
   var price = 100;
   var forming = null;
   var elapsed = 0;
+
+  var priceEl = document.getElementById("live-price");
+  var badge = document.getElementById("live-badge");
+  var lastDirection = 1;
 
   function newForming(open) {
     return { open: open, close: open, high: open, low: open };
@@ -70,10 +70,20 @@
   // arriving intrabar, without moving any bar's on-screen position.
   function tickForming(dt) {
     var wobble = (rand() - 0.5) * 2.4 * (dt / periodMs);
+    lastDirection = wobble >= 0 ? 1 : -1;
     price = Math.max(20, price + wobble);
     forming.close = price;
     forming.high = Math.max(forming.high, price);
     forming.low = Math.min(forming.low, price);
+    updateBadge();
+  }
+
+  function updateBadge() {
+    if (priceEl) priceEl.textContent = price.toFixed(2);
+    if (badge) {
+      badge.classList.toggle("live-up", lastDirection >= 0);
+      badge.classList.toggle("live-down", lastDirection < 0);
+    }
   }
 
   function finalizeForming() {

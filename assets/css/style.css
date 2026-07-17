@@ -82,6 +82,61 @@ body::after {
   z-index: 1;
 }
 
+/* Live chart status badge */
+.live-badge {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line-soft);
+  background: rgba(10, 13, 21, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--up);
+  box-shadow: 0 0 6px var(--up);
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+.live-label {
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.live-price {
+  color: var(--blue-300);
+  min-width: 52px;
+  text-align: right;
+  transition: color 0.15s ease;
+}
+
+.live-badge.live-down .live-price { color: var(--down); }
+.live-badge.live-up .live-price { color: var(--up); }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@media (max-width: 520px) {
+  .live-badge { right: 12px; bottom: 12px; padding: 6px 10px; font-size: 10px; }
+}
+
 /* Ticker strip */
 .ticker {
   background: #000;
@@ -509,4 +564,5 @@ code {
 @media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; }
   .cursor { animation: none; }
+  .live-dot { animation: none; }
 }
