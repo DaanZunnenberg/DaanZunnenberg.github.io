@@ -1,0 +1,17 @@
+title: Daan Zunnenberg
+description: PhD Researcher in Mathematics (Leiden University) & Quantitative Researcher — probability theory, empirical processes, and quantitative finance.
+url: "https://daanzunnenberg.github.io"
+author: Daan Zunnenberg
+email: dw.zunnenberg@gmail.com
+github: DaanZunnenberg
+linkedin: daanzunnenberg
+scholar: JLg2KjEAAAAJ
+
+markdown: kramdown
+plugins:
+  - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
