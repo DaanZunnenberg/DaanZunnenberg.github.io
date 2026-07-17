@@ -4,39 +4,29 @@
   var ctx = canvas.getContext("2d");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Deterministic PRNG (mulberry32) so the chart pattern is the same on every load.
-  var SEED = 1337420;
-  function mulberry32(a) {
-    return function () {
-      a |= 0;
-      a = (a + 0x6d2b79f5) | 0;
-      var t = Math.imul(a ^ (a >>> 15), 1 | a);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-  var rand = mulberry32(SEED);
-
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
   var candleW = 9;
   var gap = 5;
   var slotPx = candleW + gap;
-
-  // Each bar is a real one-second interval, like an actual OHLC feed.
-  var periodMs = 1000;
+  var periodMs = 1000; // one bar per second, mirroring Binance's 1s klines
 
   var candles = [];
-  var price = 100;
   var forming = null;
-  var elapsed = 0;
+  var price = null;
+  var lastDirection = 1;
+  var live = false; // true once real BTC/USDT data is flowing
 
   var priceEl = document.getElementById("live-price");
+  var labelEl = document.getElementById("live-symbol");
   var badge = document.getElementById("live-badge");
-  var lastDirection = 1;
 
   function newForming(open) {
     return { open: open, close: open, high: open, low: open };
+  }
+
+  function slotCount() {
+    return Math.ceil(W / slotPx) + 1;
   }
 
   function resize() {
@@ -47,50 +37,21 @@
     canvas.style.width = W + "px";
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var count = Math.ceil(W / slotPx) + 1;
-    if (!forming) forming = newForming(price);
-    if (candles.length < count) {
-      while (candles.length < count) candles.unshift(makeCandle());
-    } else {
-      candles = candles.slice(candles.length - count);
+    if (candles.length > slotCount()) {
+      candles = candles.slice(candles.length - slotCount());
     }
   }
 
-  function makeCandle() {
-    var open = price;
-    var drift = (rand() - 0.5) * 3.2;
-    var close = Math.max(20, open + drift);
-    var high = Math.max(open, close) + rand() * 1.8;
-    var low = Math.min(open, close) - rand() * 1.8;
-    price = close;
-    return { open: open, close: close, high: high, low: low };
-  }
-
-  // Nudge the still-forming (rightmost) candle's OHLC a little, like live prints
-  // arriving intrabar, without moving any bar's on-screen position.
-  function tickForming(dt) {
-    var wobble = (rand() - 0.5) * 2.4 * (dt / periodMs);
-    lastDirection = wobble >= 0 ? 1 : -1;
-    price = Math.max(20, price + wobble);
-    forming.close = price;
-    forming.high = Math.max(forming.high, price);
-    forming.low = Math.min(forming.low, price);
-    updateBadge();
-  }
-
   function updateBadge() {
-    if (priceEl) priceEl.textContent = price.toFixed(2);
+    if (priceEl && price != null) {
+      priceEl.textContent = price >= 1000
+        ? price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        : price.toFixed(2);
+    }
     if (badge) {
       badge.classList.toggle("live-up", lastDirection >= 0);
       badge.classList.toggle("live-down", lastDirection < 0);
     }
-  }
-
-  function finalizeForming() {
-    candles.push(forming);
-    var maxCount = Math.ceil(W / slotPx) + 1;
-    if (candles.length > maxCount) candles.shift();
-    forming = newForming(price);
   }
 
   function drawCandle(c, x, y) {
@@ -115,15 +76,16 @@
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
+    var all = forming ? candles.concat([forming]) : candles;
+    if (!all.length) return;
 
-    var all = candles.concat([forming]);
     var vals = [];
     all.forEach(function (c) {
       vals.push(c.high, c.low);
     });
     var max = Math.max.apply(null, vals);
     var min = Math.min.apply(null, vals);
-    var range = Math.max(max - min, 1);
+    var range = Math.max(max - min, max * 0.0005, 1e-6);
     var padTop = H * 0.15;
     var padBottom = H * 0.15;
     var chartH = H - padTop - padBottom;
@@ -138,26 +100,152 @@
     });
   }
 
-  var lastTs = 0;
-  function loop(ts) {
-    if (!lastTs) lastTs = ts;
-    var dt = ts - lastTs;
-    lastTs = ts;
+  // ---- Live BTC/USDT feed via Binance's public REST + WebSocket API (no key required) ----
+  function startLiveFeed() {
+    var seedUrl = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1s&limit=" + slotCount();
 
-    elapsed += dt;
-    tickForming(dt);
+    fetch(seedUrl)
+      .then(function (res) {
+        if (!res.ok) throw new Error("bad response");
+        return res.json();
+      })
+      .then(function (rows) {
+        candles = rows.map(function (r) {
+          return { open: +r[1], high: +r[2], low: +r[3], close: +r[4] };
+        });
+        price = candles.length ? candles[candles.length - 1].close : null;
+        forming = null;
+        connectSocket();
+      })
+      .catch(function () {
+        startSimulatedFeed();
+      });
+  }
 
-    if (elapsed >= periodMs) {
-      elapsed = 0;
-      finalizeForming();
+  function connectSocket() {
+    var ws;
+    try {
+      ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1s");
+    } catch (e) {
+      startSimulatedFeed();
+      return;
     }
 
-    draw();
+    var connected = false;
+    var connectTimeout = setTimeout(function () {
+      if (!connected) {
+        try { ws.close(); } catch (e) {}
+        startSimulatedFeed();
+      }
+    }, 5000);
+
+    ws.onopen = function () {
+      connected = true;
+      clearTimeout(connectTimeout);
+      live = true;
+      if (labelEl) labelEl.textContent = "BTC/USDT";
+    };
+
+    ws.onmessage = function (evt) {
+      var msg;
+      try {
+        msg = JSON.parse(evt.data);
+      } catch (e) {
+        return;
+      }
+      var k = msg.k;
+      if (!k) return;
+
+      var candle = { open: +k.o, high: +k.h, low: +k.l, close: +k.c };
+      var prevPrice = price;
+      price = candle.close;
+      lastDirection = prevPrice == null || price >= prevPrice ? 1 : -1;
+      forming = candle;
+      updateBadge();
+
+      if (k.x) {
+        candles.push(candle);
+        if (candles.length > slotCount()) candles.shift();
+        forming = null;
+      }
+      draw();
+    };
+
+    ws.onerror = function () {
+      if (!connected) {
+        clearTimeout(connectTimeout);
+        startSimulatedFeed();
+      }
+    };
+
+    ws.onclose = function () {
+      clearTimeout(connectTimeout);
+    };
+  }
+
+  // ---- Fallback: deterministic simulated feed, used if Binance is unreachable ----
+  function startSimulatedFeed() {
+    if (live) return; // already running for real
+    live = false;
+    if (labelEl) labelEl.textContent = "SIMULATED";
+
+    var SEED = 1337420;
+    function mulberry32(a) {
+      return function () {
+        a |= 0;
+        a = (a + 0x6d2b79f5) | 0;
+        var t = Math.imul(a ^ (a >>> 15), 1 | a);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    var rand = mulberry32(SEED);
+
+    price = 100;
+    candles = [];
+    forming = newForming(price);
+    while (candles.length < slotCount()) {
+      var open = price;
+      var drift = (rand() - 0.5) * 3.2;
+      var close = Math.max(20, open + drift);
+      var high = Math.max(open, close) + rand() * 1.8;
+      var low = Math.min(open, close) - rand() * 1.8;
+      price = close;
+      candles.unshift({ open: open, close: close, high: high, low: low });
+    }
+
+    var elapsed = 0;
+    var lastTs = 0;
+    function loop(ts) {
+      if (!lastTs) lastTs = ts;
+      var dt = ts - lastTs;
+      lastTs = ts;
+
+      var wobble = (rand() - 0.5) * 2.4 * (dt / periodMs);
+      lastDirection = wobble >= 0 ? 1 : -1;
+      price = Math.max(20, price + wobble);
+      forming.close = price;
+      forming.high = Math.max(forming.high, price);
+      forming.low = Math.min(forming.low, price);
+      updateBadge();
+
+      elapsed += dt;
+      if (elapsed >= periodMs) {
+        elapsed = 0;
+        candles.push(forming);
+        if (candles.length > slotCount()) candles.shift();
+        forming = newForming(price);
+      }
+
+      draw();
+      if (!reduceMotion) requestAnimationFrame(loop);
+    }
+
     if (!reduceMotion) requestAnimationFrame(loop);
+    else draw();
   }
 
   window.addEventListener("resize", resize);
   resize();
-  draw();
-  if (!reduceMotion) requestAnimationFrame(loop);
+  startLiveFeed();
 })();

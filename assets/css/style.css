@@ -120,8 +120,9 @@ body::after {
 
 .live-price {
   color: var(--blue-300);
-  min-width: 52px;
+  min-width: 78px;
   text-align: right;
+  font-variant-numeric: tabular-nums;
   transition: color 0.15s ease;
 }
 
