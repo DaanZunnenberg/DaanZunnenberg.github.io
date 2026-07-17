@@ -21,8 +21,19 @@
   var W, H;
   var candleW = 9;
   var gap = 5;
+  var slotPx = candleW + gap;
+  var speed = window.SITE_SCROLL_SPEED || 34; // px/s, shared with the header ticker
+  var periodMs = (slotPx / speed) * 1000; // time for one bar-slot to scroll by
+
   var candles = [];
   var price = 100;
+  var scrollX = 0;
+  var forming = null;
+  var formingElapsed = 0;
+
+  function newForming(open) {
+    return { open: open, close: open, high: open, low: open };
+  }
 
   function resize() {
     W = window.innerWidth;
@@ -32,7 +43,8 @@
     canvas.style.width = W + "px";
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var count = Math.ceil(W / (candleW + gap)) + 2;
+    var count = Math.ceil(W / slotPx) + 2;
+    if (!forming) forming = newForming(price);
     if (candles.length < count) {
       while (candles.length < count) candles.unshift(makeCandle());
     } else {
@@ -50,11 +62,48 @@
     return { open: open, close: close, high: high, low: low };
   }
 
+  // Nudge the still-forming candle's OHLC a little, like live prints arriving intrabar.
+  function tickForming(dt) {
+    var wobble = (rand() - 0.5) * 2.2 * (dt / periodMs) * 6;
+    price = Math.max(20, price + wobble);
+    forming.close = price;
+    forming.high = Math.max(forming.high, price);
+    forming.low = Math.min(forming.low, price);
+  }
+
+  function finalizeForming() {
+    candles.push(forming);
+    var maxCount = Math.ceil(W / slotPx) + 2;
+    if (candles.length > maxCount) candles.shift();
+    forming = newForming(price);
+  }
+
+  function drawCandle(c, x, y) {
+    var up = c.close >= c.open;
+    var color = up ? "rgba(56, 201, 193, 0.16)" : "rgba(239, 90, 110, 0.14)";
+    var wickColor = up ? "rgba(56, 201, 193, 0.09)" : "rgba(239, 90, 110, 0.08)";
+
+    ctx.strokeStyle = wickColor;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x + candleW / 2, y(c.high));
+    ctx.lineTo(x + candleW / 2, y(c.low));
+    ctx.stroke();
+
+    ctx.fillStyle = color;
+    var yOpen = y(c.open);
+    var yClose = y(c.close);
+    var top = Math.min(yOpen, yClose);
+    var h = Math.max(Math.abs(yClose - yOpen), 1.2);
+    ctx.fillRect(x, top, candleW, h);
+  }
+
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
+    var all = candles.concat([forming]);
     var vals = [];
-    candles.forEach(function (c) {
+    all.forEach(function (c) {
       vals.push(c.high, c.low);
     });
     var max = Math.max.apply(null, vals);
@@ -68,37 +117,28 @@
       return padTop + (1 - (v - min) / range) * chartH;
     }
 
-    candles.forEach(function (c, i) {
-      var x = i * (candleW + gap);
-      var up = c.close >= c.open;
-      var color = up ? "rgba(56, 201, 193, 0.16)" : "rgba(239, 90, 110, 0.14)";
-      var wickColor = up ? "rgba(56, 201, 193, 0.09)" : "rgba(239, 90, 110, 0.08)";
-
-      ctx.strokeStyle = wickColor;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(x + candleW / 2, y(c.high));
-      ctx.lineTo(x + candleW / 2, y(c.low));
-      ctx.stroke();
-
-      ctx.fillStyle = color;
-      var yOpen = y(c.open);
-      var yClose = y(c.close);
-      var top = Math.min(yOpen, yClose);
-      var h = Math.max(Math.abs(yClose - yOpen), 1.2);
-      ctx.fillRect(x, top, candleW, h);
+    all.forEach(function (c, i) {
+      var x = i * slotPx - scrollX;
+      drawCandle(c, x, y);
     });
   }
 
-  var lastTick = 0;
-  var TICK_MS = 180;
+  var lastTs = 0;
   function loop(ts) {
-    if (!lastTick) lastTick = ts;
-    if (ts - lastTick > TICK_MS) {
-      lastTick = ts;
-      candles.shift();
-      candles.push(makeCandle());
+    if (!lastTs) lastTs = ts;
+    var dt = ts - lastTs;
+    lastTs = ts;
+
+    scrollX += (speed * dt) / 1000;
+    formingElapsed += dt;
+    tickForming(dt);
+
+    if (scrollX >= slotPx) {
+      scrollX -= slotPx;
+      finalizeForming();
+      formingElapsed = 0;
     }
+
     draw();
     if (!reduceMotion) requestAnimationFrame(loop);
   }
