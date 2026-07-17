@@ -40,6 +40,45 @@ body {
   font-family: var(--serif);
   font-size: 17px;
   line-height: 1.6;
+  position: relative;
+}
+
+/* Full-page trading-floor backdrop: live candlestick feed + grid, fixed behind all content */
+#candles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size: 100% 64px, 64px 100%;
+  opacity: 0.5;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, var(--bg) 0%, rgba(5, 7, 12, 0) 14%, rgba(5, 7, 12, 0) 78%, var(--bg) 100%);
+}
+
+.ticker,
+.wrap {
+  position: relative;
+  z-index: 1;
 }
 
 /* Ticker strip */
@@ -146,61 +185,6 @@ body {
   transform: scaleX(1);
 }
 
-/* Hero chart panel (home page only) */
-.chart-panel {
-  position: relative;
-  height: 200px;
-  margin: 0 0 40px;
-  border: 1px solid var(--line);
-  border-top: none;
-  background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 100%);
-  overflow: hidden;
-}
-
-.chart-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(var(--line-soft) 1px, transparent 1px);
-  background-size: 100% 25px;
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.chart-panel canvas {
-  position: relative;
-  display: block;
-  z-index: 1;
-}
-
-.chart-panel-label {
-  position: absolute;
-  top: 12px;
-  left: 16px;
-  z-index: 2;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  color: var(--ink-faint);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.chart-panel-label .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--up);
-  box-shadow: 0 0 6px var(--up);
-  animation: pulse-dot 1.8s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
-}
-
 /* Typography */
 h1 {
   font-size: 30px;
@@ -256,7 +240,8 @@ a:hover { color: var(--blue-300); }
   border: 1px solid var(--line);
   border-left: 2px solid var(--line);
   border-radius: 4px;
-  background: var(--bg-raised);
+  background: rgba(16, 20, 31, 0.88);
+  backdrop-filter: blur(3px);
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -368,11 +353,9 @@ code {
 @media (max-width: 520px) {
   .site-header { padding-top: 32px; }
   h1 { font-size: 26px; }
-  .chart-panel { height: 140px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; }
   .cursor { animation: none; }
-  .chart-panel-label .dot { animation: none; }
 }

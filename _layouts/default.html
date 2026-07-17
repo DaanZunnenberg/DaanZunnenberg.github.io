@@ -9,6 +9,8 @@
   <link rel="icon" href="data:,">
 </head>
 <body>
+  <canvas id="candles" aria-hidden="true"></canvas>
+  <div class="bg-grid" aria-hidden="true"></div>
   <div class="ticker">
     <div class="ticker-track">
       <span>PHD&nbsp;MATHEMATICS</span><span class="tick up">&#9650;</span>
@@ -38,15 +40,6 @@
         <a href="mailto:{{ site.email }}">Contact</a>
       </nav>
     </header>
-
-    {% if page.url == '/' %}
-    <div class="chart-panel">
-      <canvas id="candles" aria-hidden="true"></canvas>
-      <div class="chart-panel-label">
-        <span class="dot"></span> LIVE &mdash; SIMULATED FEED
-      </div>
-    </div>
-    {% endif %}
 
     <main>
       {{ content }}

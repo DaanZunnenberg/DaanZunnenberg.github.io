@@ -1,21 +1,19 @@
 (function () {
   var canvas = document.getElementById("candles");
   if (!canvas) return;
-  var panel = canvas.parentElement;
   var ctx = canvas.getContext("2d");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
-  var candleW = 7;
-  var gap = 4;
+  var candleW = 9;
+  var gap = 5;
   var candles = [];
   var price = 100;
 
   function resize() {
-    var rect = panel.getBoundingClientRect();
-    W = rect.width;
-    H = rect.height;
+    W = window.innerWidth;
+    H = window.innerHeight;
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     canvas.style.width = W + "px";
@@ -60,8 +58,8 @@
     candles.forEach(function (c, i) {
       var x = i * (candleW + gap);
       var up = c.close >= c.open;
-      var color = up ? "rgba(56, 201, 193, 0.85)" : "rgba(239, 90, 110, 0.8)";
-      var wickColor = up ? "rgba(56, 201, 193, 0.5)" : "rgba(239, 90, 110, 0.45)";
+      var color = up ? "rgba(56, 201, 193, 0.30)" : "rgba(239, 90, 110, 0.26)";
+      var wickColor = up ? "rgba(56, 201, 193, 0.18)" : "rgba(239, 90, 110, 0.16)";
 
       ctx.strokeStyle = wickColor;
       ctx.lineWidth = 1;
