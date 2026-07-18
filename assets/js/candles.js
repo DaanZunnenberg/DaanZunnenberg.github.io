@@ -17,6 +17,17 @@
   var lastDirection = 1;
   var live = false; // true once real BTC/USDT data is flowing
 
+  // Moving averages drawn over the candles, with enough history kept
+  // in `candles` (beyond the visible window) so the longest MA has a
+  // full lookback right up to the left edge of the chart.
+  var MA_PERIODS = [7, 25, 99];
+  var MA_STYLES = [
+    { color: "rgba(93, 143, 255, 0.4)", width: 1.2 },
+    { color: "rgba(147, 179, 255, 0.28)", width: 1.2 },
+    { color: "rgba(233, 236, 243, 0.18)", width: 1.4 }
+  ];
+  var maLookback = Math.max.apply(null, MA_PERIODS) - 1;
+
   var priceEl = document.getElementById("live-price");
   var labelEl = document.getElementById("live-symbol");
   var badge = document.getElementById("live-badge");
@@ -29,6 +40,10 @@
     return Math.ceil(W / slotPx) + 1;
   }
 
+  function historyCap() {
+    return slotCount() + maLookback;
+  }
+
   function resize() {
     W = window.innerWidth;
     H = window.innerHeight;
@@ -37,9 +52,22 @@
     canvas.style.width = W + "px";
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    if (candles.length > slotCount()) {
-      candles = candles.slice(candles.length - slotCount());
+    if (candles.length > historyCap()) {
+      candles = candles.slice(candles.length - historyCap());
     }
+  }
+
+  function computeMAs(closes) {
+    return MA_PERIODS.map(function (period) {
+      var out = new Array(closes.length).fill(null);
+      var sum = 0;
+      for (var i = 0; i < closes.length; i++) {
+        sum += closes[i];
+        if (i >= period) sum -= closes[i - period];
+        if (i >= period - 1) out[i] = sum / period;
+      }
+      return out;
+    });
   }
 
   function updateBadge() {
@@ -79,9 +107,19 @@
     var all = forming ? candles.concat([forming]) : candles;
     if (!all.length) return;
 
+    var visibleCount = Math.min(all.length, slotCount() + 1);
+    var startIdx = all.length - visibleCount;
+    var closes = all.map(function (c) { return c.close; });
+    var maSeries = computeMAs(closes);
+
     var vals = [];
-    all.forEach(function (c) {
+    all.slice(startIdx).forEach(function (c) {
       vals.push(c.high, c.low);
+    });
+    maSeries.forEach(function (series) {
+      series.slice(startIdx).forEach(function (v) {
+        if (v != null) vals.push(v);
+      });
     });
     var max = Math.max.apply(null, vals);
     var min = Math.min.apply(null, vals);
@@ -94,15 +132,37 @@
       return padTop + (1 - (v - min) / range) * chartH;
     }
 
-    all.forEach(function (c, i) {
-      var x = i * slotPx;
-      drawCandle(c, x, y);
+    for (var i = startIdx; i < all.length; i++) {
+      drawCandle(all[i], (i - startIdx) * slotPx, y);
+    }
+
+    maSeries.forEach(function (series, idx) {
+      var style = MA_STYLES[idx];
+      ctx.strokeStyle = style.color;
+      ctx.lineWidth = style.width;
+      ctx.beginPath();
+      var drawing = false;
+      for (var j = startIdx; j < series.length; j++) {
+        var v = series[j];
+        var x = (j - startIdx) * slotPx + candleW / 2;
+        if (v == null) {
+          drawing = false;
+          continue;
+        }
+        if (!drawing) {
+          ctx.moveTo(x, y(v));
+          drawing = true;
+        } else {
+          ctx.lineTo(x, y(v));
+        }
+      }
+      ctx.stroke();
     });
   }
 
   // ---- Live BTC/USDT feed via Binance's public REST + WebSocket API (no key required) ----
   function startLiveFeed() {
-    var seedUrl = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1s&limit=" + slotCount();
+    var seedUrl = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1s&limit=" + Math.min(historyCap(), 1000);
 
     fetch(seedUrl)
       .then(function (res) {
@@ -165,7 +225,7 @@
 
       if (k.x) {
         candles.push(candle);
-        if (candles.length > slotCount()) candles.shift();
+        if (candles.length > historyCap()) candles.shift();
         forming = null;
       }
       draw();
@@ -204,7 +264,7 @@
     price = 100;
     candles = [];
     forming = newForming(price);
-    while (candles.length < slotCount()) {
+    while (candles.length < historyCap()) {
       var open = price;
       var drift = (rand() - 0.5) * 3.2;
       var close = Math.max(20, open + drift);
@@ -233,7 +293,7 @@
       if (elapsed >= periodMs) {
         elapsed = 0;
         candles.push(forming);
-        if (candles.length > slotCount()) candles.shift();
+        if (candles.length > historyCap()) candles.shift();
         forming = newForming(price);
       }
 

@@ -16,23 +16,9 @@
     <span id="live-symbol" class="live-label">CONNECTING&hellip;</span>
     <span id="live-price" class="live-price">&mdash;</span>
   </div>
-  <div class="ticker">
-    <div class="ticker-track">
-      <span>PHD&nbsp;MATHEMATICS</span><span class="tick up">&#9650;</span>
-      <span>LEIDEN&nbsp;UNIVERSITY</span><span class="tick down">&#9660;</span>
-      <span>EMPIRICAL&nbsp;PROCESSES</span><span class="tick up">&#9650;</span>
-      <span>QUANTITATIVE&nbsp;RESEARCH</span><span class="tick up">&#9650;</span>
-      <span>MARKET&nbsp;MAKING</span><span class="tick down">&#9660;</span>
-      <span>PYTHON&nbsp;/&nbsp;NUMBA</span><span class="tick up">&#9650;</span>
-      <span>STOCHASTIC&nbsp;CALCULUS</span><span class="tick up">&#9650;</span>
-      <span>PHD&nbsp;MATHEMATICS</span><span class="tick up">&#9650;</span>
-      <span>LEIDEN&nbsp;UNIVERSITY</span><span class="tick down">&#9660;</span>
-      <span>EMPIRICAL&nbsp;PROCESSES</span><span class="tick up">&#9650;</span>
-      <span>QUANTITATIVE&nbsp;RESEARCH</span><span class="tick up">&#9650;</span>
-      <span>MARKET&nbsp;MAKING</span><span class="tick down">&#9660;</span>
-      <span>PYTHON&nbsp;/&nbsp;NUMBA</span><span class="tick up">&#9650;</span>
-      <span>STOCHASTIC&nbsp;CALCULUS</span><span class="tick up">&#9650;</span>
-    </div>
+  <div class="console-bar" aria-hidden="true">
+    <span class="console-prompt">daan@leiden<span class="console-colon">:</span>~<span class="console-colon">$</span></span>
+    <span id="console-text" class="console-text"></span><span class="console-caret">&#9608;</span>
   </div>
   <div class="wrap">
     <header class="site-header">
@@ -63,8 +49,7 @@
       <div class="footer-note">&copy; {{ 'now' | date: "%Y" }} Daan Zunnenberg</div>
     </footer>
   </div>
-  <script src="{{ '/assets/js/scroll-speed.js' | relative_url }}"></script>
-  <script src="{{ '/assets/js/ticker-speed.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/console-bar.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/candles.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/external-links.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/contact.js' | relative_url }}"></script>
