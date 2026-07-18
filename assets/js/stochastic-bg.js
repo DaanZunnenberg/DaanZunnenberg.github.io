@@ -67,7 +67,7 @@
         if (i === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       });
-      ctx.strokeStyle = "rgba(111, 154, 255, " + path.opacity + ")";
+      ctx.strokeStyle = "rgba(44, 66, 130, " + path.opacity + ")";
       ctx.lineWidth = 1;
       ctx.stroke();
     });
