@@ -22,9 +22,9 @@
   // full lookback right up to the left edge of the chart.
   var MA_PERIODS = [7, 25, 99];
   var MA_STYLES = [
-    { color: "rgba(93, 143, 255, 0.4)", width: 1.2 },
-    { color: "rgba(147, 179, 255, 0.28)", width: 1.2 },
-    { color: "rgba(233, 236, 243, 0.18)", width: 1.4 }
+    { color: "rgba(93, 143, 255, 0.55)", width: 1.2 },
+    { color: "rgba(147, 179, 255, 0.42)", width: 1.2 },
+    { color: "rgba(233, 236, 243, 0.3)", width: 1.4 }
   ];
   var maLookback = Math.max.apply(null, MA_PERIODS) - 1;
 
@@ -37,7 +37,7 @@
   // latest bar rather than overlapping the candles.
   var VP_BINS = 28;
   var VP_MAX_WIDTH = 70;
-  var VP_COLOR = "rgba(93, 143, 255, 0.16)";
+  var VP_COLOR = "rgba(93, 143, 255, 0.24)";
 
   var priceEl = document.getElementById("live-price");
   var labelEl = document.getElementById("live-symbol");
@@ -107,8 +107,8 @@
 
   function drawCandle(c, x, y) {
     var up = c.close >= c.open;
-    var color = up ? "rgba(56, 201, 193, 0.16)" : "rgba(239, 90, 110, 0.14)";
-    var wickColor = up ? "rgba(56, 201, 193, 0.09)" : "rgba(239, 90, 110, 0.08)";
+    var color = up ? "rgba(56, 201, 193, 0.26)" : "rgba(239, 90, 110, 0.24)";
+    var wickColor = up ? "rgba(56, 201, 193, 0.16)" : "rgba(239, 90, 110, 0.15)";
 
     ctx.strokeStyle = wickColor;
     ctx.lineWidth = 1;
