@@ -95,26 +95,32 @@ permalink: /experience/
   <p>
     Designed likelihood-based estimation algorithms for functional location-scale models, contributing to
     Lin &amp; Lucas's work on robust observation-driven dynamics (see <a href="{{ '/research/' | relative_url }}">Publications</a>).
-    The estimation loop runs a large number of Monte Carlo replications to check finite-sample behavior of the
-    estimator, so the main lever for speed was moving the inner loop out of Python:
+    The conditional-variance operators are projected onto a finite Bernstein-polynomial basis, reducing an
+    infinite-dimensional positivity-constrained QMLE problem to a bounded, finite-dimensional optimization:
   </p>
-  <pre class="code-block" data-lang="python"><code># before: python-level loop over simulations
-for sim in range(n_sims):
-    theta_hat[sim] = estimate(simulate(theta_true))
+  <pre class="code-block" data-lang="python"><code>def bernstein_basis(u, M, k):
+    return comb(M - 1, k - 1) * u ** (k - 1) * (1 - u) ** (M - k)
 
-# after: vectorized simulation + multiprocessing across replications
-with Pool(n_workers) as pool:
-    theta_hat = pool.map(estimate_one, range(n_sims))
+def functional_operator(grid, coefs, M):
+    phi = np.stack([bernstein_basis(grid, M, k) for k in range(1, M + 1)])
+    return sum(c * np.outer(phi[i], phi[j]) for c, (i, j) in zip(coefs, product(range(M), repeat=2)))
+
+def qmle_filter(returns, theta, M):
+    delta, alpha, beta = theta[:M], theta[M:M + M**2], theta[M + M**2:]
+    grid = np.linspace(0, 1, returns.shape[0])
+    A, B = functional_operator(grid, alpha, M), functional_operator(grid, beta, M)
+    d = sum(c * bernstein_basis(grid, M, k) for k, c in enumerate(delta, 1))
+
+    sigma2 = np.ones(returns.shape[0])
+    surface = np.zeros_like(returns)
+    for t in range(1, returns.shape[1]):
+        sigma2 = d + (A @ returns[:, t - 1] ** 2 + B @ sigma2) / returns.shape[0]
+        surface[:, t] = sigma2
+    return surface
+
+theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method='SLSQP').x
 </code></pre>
-  <p class="form-hint">Vectorizing the simulation step and parallelizing across replications cut wall-clock time by 92.3% on average.</p>
-  <p>
-    TODO items left on the estimation script, kept as a plain comment block rather than an issue tracker since it's a
-    one-person research codebase:
-  </p>
-  <pre class="code-block" data-lang="python"><code># TODO:
-#     1. Generalise oracle basis to take arbitrary shapes
-#     2. Use real data and compare
-</code></pre>
+  <p class="form-hint">Non-negative Bernstein coefficients guarantee a positive volatility surface directly, without constrained optimization over the full operator.</p>
   <p>
     The MATLAB estimation script itself (<a href="https://github.com/DaanZunnenberg/FunctionalScaleMod/tree/main/MATLAB_YC" target="_blank" rel="noopener noreferrer">MATLAB_YC on GitHub</a>)
     fits the GAS recursion by reparameterized maximum likelihood, using a B-spline basis for the volatility surface
@@ -206,10 +212,11 @@ end
 
         <h4>Model Definition</h4>
         <p>
-          The functional scale model decomposes returns using a time-varying conditional variance curve \(\sigma_t^2(u)\):
+          The functional scale model decomposes returns using a time-varying conditional variance curve \(\sigma_t^2(u)\), so we look at
+          \[y_t(u) = \sigma_t(u)\eta_t(u)\]
+          driven by the recursion
+          \[\sigma_t^2 = \delta + \sum_{i=1}^{q}\alpha_i\left(y_{t-i}^2\right) + \sum_{j=1}^{p}\beta_j\left(\sigma_{t-j}^2\right)\]
         </p>
-        \[y_t(u) = \sigma_t(u)\eta_t(u)\]
-        \[\sigma_t^2 = \delta + \sum_{i=1}^{q}\alpha_i\left(y_{t-i}^2\right) + \sum_{j=1}^{p}\beta_j\left(\sigma_{t-j}^2\right)\]
         <p>
           where \(\delta\) is a strictly positive baseline intercept curve, and \(\alpha_i, \beta_j\) are non-negative integral kernel operators mapping past squared return curves and past volatility curves into today's volatility surface.
         </p>
