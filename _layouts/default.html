@@ -9,25 +9,8 @@
   <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
 </head>
 <body>
-  <canvas id="market-table" aria-hidden="true"></canvas>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
   <div class="bg-grid" aria-hidden="true"></div>
-  <div class="live-badge-stack" aria-hidden="true">
-    <div id="live-badge-btc" class="live-badge">
-      <span class="live-dot"></span>
-      <span class="live-label">BTC/USDT</span>
-      <span id="live-price-btc" class="live-price">&mdash;</span>
-    </div>
-    <div id="live-badge-eth" class="live-badge">
-      <span class="live-dot"></span>
-      <span class="live-label">ETH/USDT</span>
-      <span id="live-price-eth" class="live-price">&mdash;</span>
-    </div>
-    <div id="live-badge-sol" class="live-badge">
-      <span class="live-dot"></span>
-      <span class="live-label">SOL/USDT</span>
-      <span id="live-price-sol" class="live-price">&mdash;</span>
-    </div>
-  </div>
   <div class="console-bar" aria-hidden="true">
     <span class="console-prompt"><span class="console-user">Daan@main</span><span class="console-sep">:</span><span class="console-path">~</span><span class="console-sep">$</span></span>
     <span id="console-text" class="console-text"></span><span class="console-caret">&#9608;</span>
@@ -71,7 +54,7 @@
   </div>
   <script src="{{ '/assets/js/nav-toggle.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/console-bar.js' | relative_url }}"></script>
-  <script src="{{ '/assets/js/options-table.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/stochastic-bg.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/external-links.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/code-highlight.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/contact.js' | relative_url }}"></script>
