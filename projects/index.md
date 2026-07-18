@@ -18,9 +18,12 @@ permalink: /projects/
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale on GitHub</a></div>
 
-  <details>
-    <summary><span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span></summary>
-    <div class="readme">
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
       <h4>Overview</h4>
       <p>
         Treats intraday log-return curves as functional observations in <em>L</em><sup>2</sup>[0,1] and extends
@@ -75,7 +78,8 @@ result = minimize(
 </code></pre>
       <p class="form-hint">Requires Python &ge; 3.9. Full theory, references, and repository layout in the README.</p>
     </div>
-  </details>
+    </div>
+  </div>
 </div>
 
 <div class="entry">
@@ -89,9 +93,12 @@ result = minimize(
   </ul>
   <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
 
-  <details>
-    <summary><span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span></summary>
-    <div class="readme">
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
       <h4>Overview</h4>
       <p>
         Mean-variance allocation is fragile in high dimensions because it inverts a noisy covariance matrix.
@@ -115,7 +122,8 @@ weights = recursive_bisection(returns.cov(), order)
 </code></pre>
       <p class="form-hint">Illustrative interface &mdash; the production version adds transaction-cost-aware rebalancing.</p>
     </div>
-  </details>
+    </div>
+  </div>
 </div>
 
 <div class="entry">
@@ -126,9 +134,12 @@ weights = recursive_bisection(returns.cov(), order)
   <p>A novel functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis and released as an open-source library.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></div>
 
-  <details>
-    <summary><span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span></summary>
-    <div class="readme">
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
       <h4>Overview</h4>
       <p>
         A nonparametric test for stationarity of a multivariate It&ocirc; diffusion, built on a
@@ -206,7 +217,8 @@ tests/
 </code></pre>
       <p class="form-hint">Requires Python &ge; 3.10. Also includes batch KPSS and Leybourne&ndash;McCabe tests for comparison, and BH/BY FDR procedures for simulation studies.</p>
     </div>
-  </details>
+    </div>
+  </div>
 </div>
 
 <div class="entry">
