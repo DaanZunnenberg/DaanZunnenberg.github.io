@@ -334,14 +334,27 @@ h1 {
 }
 
 h2 {
+  position: relative;
   font-family: var(--mono);
-  font-size: 12px;
+  font-weight: 700;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   color: var(--blue-400);
-  margin: 44px 0 18px;
-  padding-bottom: 8px;
+  margin: 52px 0 20px;
+  padding: 0 0 10px 16px;
   border-bottom: 1px solid var(--line);
+}
+
+h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--blue-400);
 }
 
 h3 {
