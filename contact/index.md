@@ -14,6 +14,17 @@ permalink: /contact/
   <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 8l11 5 9-4.09V17h2V8L12 3zm-7 9.18V16c0 2.21 3.13 4 7 4s7-1.79 7-4v-3.82l-7 3.18-7-3.18z"/></svg>Google Scholar</a>
 </div>
 
+<div class="nav-cards">
+  <a class="nav-card" href="mailto:dw.zunnenberg@gmail.com?subject=Research%20inquiry">
+    <span class="nav-card-title">Research &amp; Academic</span>
+    <span class="nav-card-hint">Collaboration proposals, seminar invitations, peer review, or questions about the PhD work.</span>
+  </a>
+  <a class="nav-card" href="mailto:dw.zunnenberg@gmail.com?subject=Role%20or%20opportunity">
+    <span class="nav-card-title">Recruiters &amp; Professional</span>
+    <span class="nav-card-hint">Roles, consulting, or an invitation to meet up &mdash; industry and professional contact.</span>
+  </a>
+</div>
+
 <h2>Send a message</h2>
 
 <form class="contact-form" action="https://formsubmit.co/dw.zunnenberg@gmail.com" method="POST">
@@ -37,8 +48,8 @@ permalink: /contact/
   <div class="field">
     <label for="topic">What's this about?</label>
     <select id="topic" name="topic">
-      <option value="Research collaboration">Research collaboration / proposal</option>
-      <option value="Role or opportunity">Role or opportunity</option>
+      <option value="Research collaboration">Research &amp; academic inquiry</option>
+      <option value="Role or opportunity">Recruiting / professional opportunity</option>
       <option value="Starting something together">Starting something together</option>
       <option value="General question">General question</option>
       <option value="Other">Other</option>
