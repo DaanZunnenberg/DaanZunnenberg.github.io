@@ -1,23 +1,24 @@
 :root {
-  /* Cohesive cobalt hue scale — everything derives from one hue (~221deg) */
-  --bg: #05070c;
-  --bg-1: #0a0e17;
-  --bg-2: #0f1420;
-  --bg-raised: #10141f;
-  --line: #1c2333;
-  --line-soft: #151a27;
+  /* Cohesive cobalt hue scale — everything derives from one hue (~221deg),
+     lifted a few notches lighter than pure black for daily readability. */
+  --bg: #0b1018;
+  --bg-1: #121a2c;
+  --bg-2: #182238;
+  --bg-raised: #1c2740;
+  --line: #2c3853;
+  --line-soft: #202b45;
 
-  --ink: #f3f5fa;
-  --ink-soft: #a6afc2;
-  --ink-faint: #6b7488;
+  --ink: #f5f7fb;
+  --ink-soft: #b9c2d6;
+  --ink-faint: #8892a8;
 
-  --blue-950: #060a16;
-  --blue-800: #12244d;
-  --blue-600: #1f45a3;
-  --blue-500: #3568e0;
-  --blue-400: #5c8bff;
-  --blue-300: #93b3ff;
-  --blue-glow: rgba(53, 104, 224, 0.35);
+  --blue-950: #0c1830;
+  --blue-800: #1a2f63;
+  --blue-600: #2c55b8;
+  --blue-500: #4778e8;
+  --blue-400: #6f9aff;
+  --blue-300: #a5c2ff;
+  --blue-glow: rgba(71, 120, 232, 0.4);
 
   --up: #2fd1c4;
   --down: #f2596c;
@@ -37,7 +38,7 @@ html { -webkit-font-smoothing: antialiased; }
 body {
   margin: 0;
   background:
-    radial-gradient(1100px 520px at 50% -10%, var(--blue-800) 0%, transparent 60%),
+    radial-gradient(1100px 520px at 50% -10%, var(--blue-800) 0%, transparent 62%),
     linear-gradient(180deg, var(--bg-1) 0%, var(--bg) 100%);
   background-attachment: fixed;
   color: var(--ink);
@@ -47,9 +48,9 @@ body {
   position: relative;
   isolation: isolate;
   text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.95),
-    0 2px 8px rgba(0, 0, 0, 0.85),
-    0 0 20px rgba(0, 0, 0, 0.6);
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 2px 10px rgba(0, 0, 0, 0.7),
+    0 0 22px rgba(0, 0, 0, 0.5);
 }
 
 /* Full-page trading-floor backdrop: BTC/ETH/SOL options chains (ThinkOrSwim-inspired) + grid, fixed behind all content */
@@ -81,7 +82,7 @@ body::after {
   z-index: -1;
   pointer-events: none;
   background:
-    linear-gradient(180deg, var(--bg) 0%, rgba(5, 7, 12, 0) 14%, rgba(5, 7, 12, 0) 78%, var(--bg) 100%);
+    linear-gradient(180deg, var(--bg) 0%, rgba(11, 16, 24, 0) 14%, rgba(11, 16, 24, 0) 78%, var(--bg) 100%);
 }
 
 .console-bar,
@@ -110,7 +111,7 @@ body::after {
   padding: 7px 12px;
   border-radius: 999px;
   border: 1px solid var(--line-soft);
-  background: rgba(10, 13, 21, 0.75);
+  background: rgba(18, 24, 40, 0.8);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   font-family: var(--mono);
@@ -159,7 +160,7 @@ body::after {
 /* Console bar: a terminal-style header line that types out a rotating
    set of research/career facts, in place of a stock-ticker strip. */
 .console-bar {
-  background: #000;
+  background: var(--bg-1);
   border-bottom: 1px solid var(--blue-800);
   overflow: hidden;
   white-space: nowrap;
@@ -228,9 +229,9 @@ main::before {
   bottom: -8px;
   left: -24px;
   right: -24px;
-  background: linear-gradient(180deg, rgba(7, 9, 16, 0.22) 0%, rgba(7, 9, 16, 0.3) 100%);
-  backdrop-filter: blur(34px);
-  -webkit-backdrop-filter: blur(34px);
+  background: linear-gradient(180deg, rgba(13, 18, 30, 0.58) 0%, rgba(13, 18, 30, 0.66) 100%);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   border-radius: 10px;
   border: 1px solid var(--line-soft);
   mask-image: linear-gradient(180deg, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
@@ -316,7 +317,7 @@ main::before {
   padding: 0;
   border: 1px solid var(--line);
   border-radius: 4px;
-  background: rgba(16, 20, 31, 0.7);
+  background: rgba(24, 32, 52, 0.7);
   cursor: pointer;
 }
 
@@ -451,7 +452,7 @@ a:hover { color: var(--blue-300); }
   border: 1px solid var(--line);
   border-left: 2px solid var(--line);
   border-radius: 4px;
-  background: rgba(16, 20, 31, 0.24);
+  background: rgba(24, 32, 52, 0.5);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
@@ -592,7 +593,7 @@ pre.code-block code {
   border: 1px solid var(--line);
   border-left: 2px solid var(--line);
   border-radius: 6px;
-  background: rgba(13, 17, 27, 0.28);
+  background: rgba(24, 32, 52, 0.52);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -790,7 +791,7 @@ pre.code-block code {
   border: 1px solid var(--line);
   border-left: 2px solid var(--line);
   border-radius: 4px;
-  background: rgba(16, 20, 31, 0.24);
+  background: rgba(24, 32, 52, 0.5);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   text-decoration: none;
