@@ -539,6 +539,63 @@ a:hover { color: var(--blue-300); }
   border-bottom-color: var(--blue-400);
 }
 
+.links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: currentColor;
+}
+
+/* Explore / quick-nav cards */
+.nav-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.nav-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--line);
+  border-radius: 4px;
+  background: rgba(16, 20, 31, 0.88);
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-card:hover {
+  border-color: var(--blue-600);
+  border-left-color: var(--blue-400);
+  transform: translateX(2px);
+  box-shadow: 0 0 0 1px rgba(53, 104, 224, 0.15), 0 10px 30px -14px var(--blue-glow);
+}
+
+.nav-card-title {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.nav-card-hint {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 560px) {
+  .nav-cards { grid-template-columns: 1fr; }
+}
+
 code {
   font-family: var(--mono);
   font-size: 0.85em;
@@ -559,10 +616,18 @@ code {
 }
 
 .footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   color: var(--ink-soft);
   text-decoration: none;
   margin-right: 4px;
   transition: color 0.2s ease;
+}
+
+.footer-links .icon {
+  width: 12px;
+  height: 12px;
 }
 
 .footer-links a:hover { color: var(--blue-300); }
