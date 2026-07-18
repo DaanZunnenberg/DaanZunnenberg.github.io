@@ -20,9 +20,7 @@ title: About
 </section>
 
 <p class="lede">
-My research lives in abstract probability &mdash; convergence, chaining, empirical processes. Before the PhD, I
-spent a few years on the applied end of quantitative work, building live market-making and execution systems.
-<a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
+Abstract probability by day, ex-market-maker by trade. <a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
 </p>
 
 <h2>Selected Projects</h2>
