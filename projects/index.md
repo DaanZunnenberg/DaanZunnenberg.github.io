@@ -120,11 +120,11 @@ weights = recursive_bisection(returns.cov(), order)
 
 <div class="entry">
   <div class="entry-head">
-    <h3>Multivariate Hamrick&ndash;Taqqu Stationarity Test</h3>
+    <h3>Functional Stationarity Test</h3>
     <span class="entry-date">2024</span>
   </div>
   <p>A novel functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis and released as an open-source library.</p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">MultivariateHamrickTaqqu on GitHub</a></div>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></div>
 
   <details>
     <summary><span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span></summary>

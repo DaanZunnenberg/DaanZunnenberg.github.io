@@ -547,13 +547,40 @@ pre.code-block code {
   .market-widget canvas { height: 360px; }
 }
 
+/* Secondary nav strip: section shortcuts directly under the site header,
+   above the hero, so the landing page doubles as a quick jump-off point. */
+.landing-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+
+.landing-nav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.landing-nav a:hover {
+  color: var(--blue-400);
+  border-color: var(--blue-400);
+  background: rgba(255, 255, 255, 0.8);
+}
+
 /* Landing-page hero: the same live options chain as a full-bleed backdrop,
-   with the intro copy faded in on a dark scrim so it reads clearly over the
-   moving chart without hiding it entirely. */
+   with a short line of intro copy faded in on a light scrim so the chain
+   itself stays the dominant, legible element. */
 .hero {
   position: relative;
-  margin: 28px -24px 40px;
-  min-height: 460px;
+  margin: 16px -24px 40px;
+  min-height: 620px;
   overflow: hidden;
   border-radius: 10px;
   border: 1px solid #232d47;
@@ -566,21 +593,20 @@ pre.code-block code {
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.6;
+  opacity: 0.85;
 }
 
 .hero-fade {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(100deg, rgba(11, 15, 24, 0.96) 0%, rgba(11, 15, 24, 0.88) 34%, rgba(11, 15, 24, 0.42) 64%, rgba(11, 15, 24, 0.08) 100%),
-    linear-gradient(0deg, rgba(11, 15, 24, 0.5) 0%, transparent 30%);
+    linear-gradient(100deg, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
 }
 
 .hero-content {
   position: relative;
-  max-width: 480px;
-  padding: 52px 40px;
+  max-width: 420px;
+  padding: 44px 40px;
   animation: hero-fade-in 900ms ease both;
 }
 
@@ -595,33 +621,32 @@ pre.code-block code {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--term-blue);
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
 }
 
 .hero-name {
-  margin: 10px 0 16px;
-  font-size: 40px;
+  margin: 10px 0 12px;
+  font-size: 48px;
   line-height: 1.1;
   color: #f6f8fc;
-  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.65);
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.85);
 }
 
 .hero-name .cursor { color: var(--term-green); }
 
 .hero-lede {
-  font-family: var(--serif);
-  font-size: 16px;
+  font-family: var(--mono);
+  font-size: 14px;
   line-height: 1.6;
-  color: rgba(243, 245, 250, 0.86);
-  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.55);
-  margin-bottom: 22px;
+  color: rgba(243, 245, 250, 0.92);
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.8);
+  margin-bottom: 20px;
 }
 
 .hero-links {
   display: flex;
   flex-wrap: wrap;
   gap: 6px 18px;
-  margin-bottom: 24px;
   font-family: var(--mono);
   font-size: 12.5px;
 }
@@ -630,8 +655,9 @@ pre.code-block code {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: rgba(243, 245, 250, 0.78);
+  color: rgba(243, 245, 250, 0.85);
   text-decoration: none;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
 }
 
 .hero-links a:hover { color: var(--term-blue); }
@@ -642,41 +668,15 @@ pre.code-block code {
   fill: currentColor;
 }
 
-.hero-cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.hero-cta a {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  color: #f3f5fa;
-  text-decoration: none;
-  padding: 7px 13px;
-  border: 1px solid rgba(243, 245, 250, 0.22);
-  border-radius: 4px;
-  background: rgba(243, 245, 250, 0.05);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
-}
-
-.hero-cta a:hover {
-  border-color: var(--term-blue);
-  background: rgba(77, 210, 255, 0.12);
-  color: var(--term-blue);
-}
-
 @media (max-width: 640px) {
-  .hero { margin: 20px -24px 32px; min-height: 0; }
-  .hero-content { max-width: none; padding: 32px 20px; }
-  .hero-name { font-size: 30px; }
+  .hero { margin: 12px -24px 32px; min-height: 420px; }
+  .hero-content { max-width: none; padding: 28px 20px; }
+  .hero-name { font-size: 32px; }
   .hero-fade {
     background:
-      linear-gradient(180deg, rgba(11, 15, 24, 0.97) 0%, rgba(11, 15, 24, 0.9) 58%, rgba(11, 15, 24, 0.55) 100%);
+      linear-gradient(180deg, rgba(11, 15, 24, 0.92) 0%, rgba(11, 15, 24, 0.78) 50%, rgba(11, 15, 24, 0.35) 100%);
   }
+  .landing-nav { margin-top: 16px; }
 }
 
 /* Contact form */
