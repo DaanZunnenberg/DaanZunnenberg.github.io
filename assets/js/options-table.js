@@ -7,12 +7,19 @@
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
-  var FLASH_MS = 550;
-  var RECOMPUTE_MS = 650; // pace of the decorative price jitter, like a slow-ticking options desk
-  var STRIKES_HALF = 5; // strikes above/below ATM
+  var FLASH_MS = 750;
+  var RECOMPUTE_MS = 1400; // pace of the decorative price jitter, like a slow-ticking desk, not a strobe
+  var FLASH_CHANCE = 0.3; // only a fraction of changed cells actually flash per tick, to keep it a backdrop
+  var STRIKES_HALF = 4; // strikes above/below ATM
   var DAYS_TO_EXP = 21;
-  var UP_TEXT = "rgba(56, 201, 193, 0.85)";
-  var DOWN_TEXT = "rgba(239, 90, 110, 0.85)";
+
+  // ThinkOrSwim-inspired palette: near-black grid, amber accents, muted green/red — not a copy, just the vibe.
+  var AMBER = "rgba(224, 168, 82, 0.65)";
+  var AMBER_DIM = "rgba(224, 168, 82, 0.3)";
+  var UP_TEXT = "rgba(76, 201, 137, 0.85)";
+  var DOWN_TEXT = "rgba(224, 92, 92, 0.85)";
+  var UP_BG = "56, 201, 193";
+  var DOWN_BG = "239, 90, 110";
 
   // ---- Black-Scholes (r = 0), just enough fidelity to look like a real chain ----
   function erf(x) {
@@ -54,30 +61,26 @@
     if (v == null || !isFinite(v)) return "—";
     if (v >= 1000) return v.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     if (v >= 1) return v.toFixed(2);
-    return v.toFixed(4);
+    return v.toFixed(3);
   }
 
   var SYMBOLS = [
     {
-      key: "btcusdt",
-      label: "BTC/USDT",
-      baseIv: 0.52,
-      spot: 65000,
-      seed: 0.3,
+      key: "btcusdt", label: "BTC/USDT", baseIv: 0.52, spot: 65000, dayOpen: 65000, seed: 0.3,
       lastDirection: 1,
-      badgeEl: document.getElementById("live-price-btc"),
-      dotEl: document.getElementById("live-badge-btc"),
+      badgeEl: document.getElementById("live-price-btc"), dotEl: document.getElementById("live-badge-btc"),
       rows: []
     },
     {
-      key: "ethusdt",
-      label: "ETH/USDT",
-      baseIv: 0.64,
-      spot: 3400,
-      seed: 1.7,
+      key: "ethusdt", label: "ETH/USDT", baseIv: 0.64, spot: 3400, dayOpen: 3400, seed: 1.7,
       lastDirection: 1,
-      badgeEl: document.getElementById("live-price-eth"),
-      dotEl: document.getElementById("live-badge-eth"),
+      badgeEl: document.getElementById("live-price-eth"), dotEl: document.getElementById("live-badge-eth"),
+      rows: []
+    },
+    {
+      key: "solusdt", label: "SOL/USDT", baseIv: 0.75, spot: 150, dayOpen: 150, seed: 3.1,
+      lastDirection: 1,
+      badgeEl: document.getElementById("live-price-sol"), dotEl: document.getElementById("live-badge-sol"),
       rows: []
     }
   ];
@@ -93,7 +96,7 @@
     for (var i = -STRIKES_HALF; i <= STRIKES_HALF; i++) {
       var strike = Math.max(step, atm + i * step);
       var smile = 1 + 0.1 * Math.abs(i) / STRIKES_HALF;
-      var wobble = 1 + 0.025 * Math.sin(now / 4000 + i * 0.8 + sym.seed);
+      var wobble = 1 + 0.02 * Math.sin(now / 5000 + i * 0.8 + sym.seed);
       var iv = sym.baseIv * smile * wobble;
       var spreadPct = 0.012 + 0.006 * Math.abs(i) / STRIKES_HALF;
 
@@ -105,20 +108,8 @@
         strike: strike,
         atm: strike === atm,
         iv: iv,
-        call: {
-          bid: call.price * (1 - spreadPct),
-          ask: call.price * (1 + spreadPct),
-          delta: call.delta,
-          flash: 0,
-          dir: 0
-        },
-        put: {
-          bid: put.price * (1 - spreadPct),
-          ask: put.price * (1 + spreadPct),
-          delta: put.delta,
-          flash: 0,
-          dir: 0
-        }
+        call: { bid: call.price * (1 - spreadPct), ask: call.price * (1 + spreadPct), delta: call.delta, flash: 0, dir: 0 },
+        put: { bid: put.price * (1 - spreadPct), ask: put.price * (1 + spreadPct), delta: put.delta, flash: 0, dir: 0 }
       };
       rows.push(row);
 
@@ -126,7 +117,8 @@
         [["call", call.price], ["put", put.price]].forEach(function (pair) {
           var side = pair[0], price = pair[1];
           var prevMid = (prev[side].bid + prev[side].ask) / 2;
-          if (Math.abs(price - prevMid) / prevMid > 0.0006) {
+          var changed = Math.abs(price - prevMid) / prevMid > 0.0006;
+          if (changed && Math.random() < FLASH_CHANCE) {
             row[side].flash = now;
             row[side].dir = price > prevMid ? 1 : -1;
           } else {
@@ -161,20 +153,78 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function drawPanel(sym, x0, y0, panelW, panelH, now) {
-    var headerH = 30;
+  function computeLayout() {
+    var margin = Math.max(16, W * 0.025);
+    var ribbonH = 30;
+    var top = margin + ribbonH + 14;
+    var panels = [];
+    if (W >= 980) {
+      var gap = 18;
+      var panelW = (W - margin * 2 - gap * 2) / 3;
+      var panelH = H - top - margin;
+      SYMBOLS.forEach(function (sym, i) {
+        panels.push({ x: margin + i * (panelW + gap), y: top, w: panelW, h: panelH });
+      });
+    } else {
+      var gapV = 16;
+      var panelH2 = (H - top - margin - gapV * 2) / 3;
+      SYMBOLS.forEach(function (sym, i) {
+        panels.push({ x: margin, y: top + i * (panelH2 + gapV), w: W - margin * 2, h: panelH2 });
+      });
+    }
+    return { margin: margin, ribbonH: ribbonH, panels: panels };
+  }
+
+  function drawRibbon(margin, ribbonH) {
+    var y0 = margin;
+    ctx.strokeStyle = AMBER_DIM;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(margin, y0 + ribbonH);
+    ctx.lineTo(W - margin, y0 + ribbonH);
+    ctx.stroke();
+
+    ctx.font = "10px " + MONO_FONT;
+    ctx.textAlign = "left";
+    var segW = (W - margin * 2) / SYMBOLS.length;
+    SYMBOLS.forEach(function (sym, i) {
+      var x = margin + i * segW;
+      var chg = sym.dayOpen ? ((sym.spot - sym.dayOpen) / sym.dayOpen) * 100 : 0;
+      var chgColor = chg >= 0 ? UP_TEXT : DOWN_TEXT;
+      ctx.fillStyle = AMBER;
+      ctx.fillText(sym.label, x, y0 + 14);
+      ctx.fillStyle = "rgba(233, 236, 243, 0.5)";
+      ctx.fillText(fmt(sym.spot), x, y0 + 26);
+      ctx.fillStyle = chgColor;
+      ctx.fillText((chg >= 0 ? "+" : "") + chg.toFixed(2) + "%", x + 92, y0 + 26);
+    });
+
+    ctx.textAlign = "right";
+    ctx.fillStyle = "rgba(166, 175, 194, 0.35)";
+    ctx.fillText((live ? "LIVE" : "SIMULATED") + " · " + DAYS_TO_EXP + "D CHAIN", W - margin, y0 + 14);
+  }
+
+  function drawPanel(sym, rect, now) {
+    var x0 = rect.x, y0 = rect.y, panelW = rect.w, panelH = rect.h;
+    var headerH = 28;
     var rowCount = sym.rows.length;
-    var rowH = Math.max(16, Math.min(30, (panelH - headerH) / rowCount));
+    var rowH = Math.max(15, Math.min(28, (panelH - headerH) / rowCount));
+
+    // Panel frame, ToS-style hairline border with a squared-off header bar.
+    ctx.strokeStyle = "rgba(224, 168, 82, 0.14)";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x0 + 0.5, y0 + 0.5, panelW - 1, headerH + rowCount * rowH - 1);
+    ctx.fillStyle = "rgba(224, 168, 82, 0.05)";
+    ctx.fillRect(x0, y0, panelW, headerH);
+
     var cols = [
-      { w: 0.10, align: "right" },  // call delta
-      { w: 0.10, align: "right" },  // call iv
-      { w: 0.13, align: "right" },  // call bid
-      { w: 0.13, align: "right" },  // call ask
-      { w: 0.14, align: "center" }, // strike
-      { w: 0.13, align: "left" },   // put bid
-      { w: 0.13, align: "left" },   // put ask
-      { w: 0.10, align: "left" },   // put iv
-      { w: 0.10, align: "left" }    // put delta
+      { w: 0.12, align: "right" },  // call delta
+      { w: 0.16, align: "right" },  // call bid
+      { w: 0.16, align: "right" },  // call ask
+      { w: 0.16, align: "center" }, // strike
+      { w: 0.16, align: "left" },   // put bid
+      { w: 0.16, align: "left" },   // put ask
+      { w: 0.08, align: "left" }    // put delta
     ];
     var colX = [];
     var cursor = x0;
@@ -185,17 +235,19 @@
 
     ctx.font = "10px " + MONO_FONT;
     ctx.textAlign = "left";
-    ctx.fillStyle = "rgba(166, 175, 194, 0.55)";
-    ctx.fillText(sym.label.toUpperCase() + " OPTIONS · " + DAYS_TO_EXP + "D EXP · " + (live ? "LIVE" : "SIMULATED"), x0, y0 + 12);
-
+    ctx.fillStyle = AMBER;
+    ctx.fillText(sym.label.toUpperCase() + " · CALLS / PUTS", x0 + 6, y0 + 12);
     ctx.font = "9px " + MONO_FONT;
-    ctx.fillStyle = "rgba(166, 175, 194, 0.35)";
-    ["Δ", "IV", "BID", "ASK", "STRIKE", "BID", "ASK", "IV", "Δ"].forEach(function (label, i) {
+    ctx.fillStyle = "rgba(166, 175, 194, 0.4)";
+    ctx.fillText("IV " + (sym.rows.length ? (sym.baseIv * 100).toFixed(0) : "—") + "%", x0 + 6, y0 + 23);
+
+    ["Δ", "BID", "ASK", "STRIKE", "BID", "ASK", "Δ"].forEach(function (label, i) {
       ctx.textAlign = cols[i].align;
       var tx = cols[i].align === "right" ? colX[i] + cols[i].w * panelW - 4
         : cols[i].align === "center" ? colX[i] + (cols[i].w * panelW) / 2
         : colX[i] + 4;
-      ctx.fillText(label, tx, y0 + headerH - 6);
+      ctx.fillStyle = "rgba(166, 175, 194, 0.32)";
+      ctx.fillText(label, tx, y0 + headerH - 3);
     });
 
     ctx.font = "10px " + MONO_FONT;
@@ -203,7 +255,10 @@
       var ry = y0 + headerH + i * rowH;
 
       if (row.atm) {
-        ctx.fillStyle = "rgba(93, 143, 255, 0.06)";
+        ctx.fillStyle = "rgba(224, 168, 82, 0.07)";
+        ctx.fillRect(x0, ry, panelW, rowH);
+      } else if (i % 2 === 0) {
+        ctx.fillStyle = "rgba(233, 236, 243, 0.015)";
         ctx.fillRect(x0, ry, panelW, rowH);
       }
 
@@ -215,25 +270,24 @@
         var age = now - flashUntil;
         if (flashUntil && age >= 0 && age < FLASH_MS) {
           var alpha = 1 - age / FLASH_MS;
-          ctx.fillStyle = dir >= 0 ? "rgba(56, 201, 193, " + (0.22 * alpha).toFixed(2) + ")" : "rgba(239, 90, 110, " + (0.22 * alpha).toFixed(2) + ")";
+          var rgb = dir >= 0 ? UP_BG : DOWN_BG;
+          ctx.fillStyle = "rgba(" + rgb + ", " + (0.14 * alpha).toFixed(2) + ")";
           ctx.fillRect(colX[idx], ry, cols[idx].w * panelW, rowH);
           ctx.fillStyle = dir >= 0 ? UP_TEXT : DOWN_TEXT;
         } else {
-          ctx.fillStyle = row.atm ? "rgba(233, 236, 243, 0.4)" : "rgba(233, 236, 243, 0.22)";
+          ctx.fillStyle = row.atm ? "rgba(233, 236, 243, 0.42)" : "rgba(233, 236, 243, 0.2)";
         }
         ctx.textAlign = align;
-        ctx.fillText(text, tx, ry + rowH - rowH * 0.32);
+        ctx.fillText(text, tx, ry + rowH - rowH * 0.3);
       }
 
       cell(0, row.call.delta.toFixed(2), 0, 0);
-      cell(1, (row.iv * 100).toFixed(0) + "%", 0, 0);
-      cell(2, fmt(row.call.bid), row.call.flash, row.call.dir);
-      cell(3, fmt(row.call.ask), row.call.flash, row.call.dir);
-      cell(4, fmt(row.strike), 0, 0);
-      cell(5, fmt(row.put.bid), row.put.flash, row.put.dir);
-      cell(6, fmt(row.put.ask), row.put.flash, row.put.dir);
-      cell(7, (row.iv * 100).toFixed(0) + "%", 0, 0);
-      cell(8, row.put.delta.toFixed(2), 0, 0);
+      cell(1, fmt(row.call.bid), row.call.flash, row.call.dir);
+      cell(2, fmt(row.call.ask), row.call.flash, row.call.dir);
+      cell(3, fmt(row.strike), 0, 0);
+      cell(4, fmt(row.put.bid), row.put.flash, row.put.dir);
+      cell(5, fmt(row.put.ask), row.put.flash, row.put.dir);
+      cell(6, row.put.delta.toFixed(2), 0, 0);
     });
   }
 
@@ -244,13 +298,9 @@
       SYMBOLS.forEach(function (sym) { buildChain(sym, now); });
     }
 
-    var margin = Math.max(16, W * 0.03);
-    var panelW = W - margin * 2;
-    var gap = 24;
-    var panelH = (H - margin * 2 - gap) / 2;
-
-    drawPanel(SYMBOLS[0], margin, margin, panelW, panelH, now);
-    drawPanel(SYMBOLS[1], margin, margin + panelH + gap, panelW, panelH, now);
+    var layout = computeLayout();
+    drawRibbon(layout.margin, layout.ribbonH);
+    SYMBOLS.forEach(function (sym, i) { drawPanel(sym, layout.panels[i], now); });
   }
 
   function loop(ts) {
@@ -260,7 +310,7 @@
 
   // ---- Live spot feed via Binance's public REST + combined WebSocket stream ----
   function seedSpotPrices() {
-    fetch("https://api.binance.com/api/v3/ticker/price?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%5D")
+    fetch("https://api.binance.com/api/v3/ticker/price?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22SOLUSDT%22%5D")
       .then(function (res) {
         if (!res.ok) throw new Error("bad response");
         return res.json();
@@ -268,7 +318,7 @@
       .then(function (rows) {
         rows.forEach(function (r) {
           var sym = SYMBOLS.filter(function (s) { return s.key === r.symbol.toLowerCase(); })[0];
-          if (sym) sym.spot = +r.price;
+          if (sym) { sym.spot = +r.price; sym.dayOpen = +r.price; }
         });
         SYMBOLS.forEach(function (sym) { buildChain(sym, performance.now()); updateBadge(sym); });
         connectSocket();
