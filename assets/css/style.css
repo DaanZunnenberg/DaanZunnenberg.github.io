@@ -570,6 +570,8 @@ pre.code-block code {
    itself stays the dominant, legible element. */
 .hero {
   position: relative;
+  display: flex;
+  align-items: center;
   margin: 16px -24px 40px;
   min-height: 340px;
   overflow: hidden;
