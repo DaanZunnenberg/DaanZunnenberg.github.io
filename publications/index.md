@@ -15,16 +15,10 @@ permalink: /publications/
     <span class="entry-date">2026 &middot; forthcoming</span>
   </div>
   <div class="entry-org">Zunnenberg, D. &amp; D&uuml;rre, A. &middot; <em>Bernoulli</em></div>
-  <div class="tags">Forthcoming &middot; Bernoulli Society for Mathematical Statistics and Probability</div>
-</div>
-
-<div class="entry">
-  <div class="entry-head">
-    <h3>Supplement to &ldquo;The Tukey depth under dependence&rdquo;</h3>
-    <span class="entry-date">2026 &middot; forthcoming</span>
+  <div class="tags">
+    Forthcoming &middot; Bernoulli Society for Mathematical Statistics and Probability
+    &middot; <span class="supplement-note">includes online supplement (proofs &amp; auxiliary results)</span>
   </div>
-  <div class="entry-org">Zunnenberg, D. &amp; D&uuml;rre, A. &middot; <em>Bernoulli</em></div>
-  <div class="tags">Forthcoming &middot; Bernoulli Society for Mathematical Statistics and Probability</div>
 </div>
 
 <div class="entry">
@@ -48,7 +42,7 @@ permalink: /publications/
 
 <div class="entry">
   <div class="entry-head">
-    <h3>MultivariateHamrickTaqqu</h3>
+    <h3><a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">MultivariateHamrickTaqqu</a></h3>
     <span class="entry-date">2024</span>
   </div>
   <p>Open-source implementation of a novel functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis.</p>
@@ -57,7 +51,7 @@ permalink: /publications/
 
 <div class="entry">
   <div class="entry-head">
-    <h3>FunctionalScale</h3>
+    <h3><a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale</a></h3>
     <span class="entry-date">2024 &ndash; present</span>
   </div>
   <p>Estimation library for functional GARCH/GAS models of time-varying intraday volatility surfaces, using B-splines and <code>Numba</code> JIT compilation.</p>
