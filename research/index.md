@@ -84,7 +84,7 @@ estimation once the independence assumption is dropped.
           constants. The discrete, partition-based functional and Fernique's continuous, measure-based one turn
           out to be the same quantity seen two ways.
         </p>
-        <p class="form-hint">
+        <p>
           This is the toolkit I'm extending, to processes that are only \(\beta\)-mixing rather than
           independent, where the chaining argument has to absorb a mixing-rate correction at every scale
           \(n\) instead of relying on independence between increments.
