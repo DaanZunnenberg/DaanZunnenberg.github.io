@@ -39,6 +39,7 @@ body {
   margin: 0;
   background:
     radial-gradient(1100px 520px at 50% -10%, var(--blue-800) 0%, transparent 62%),
+    radial-gradient(900px 460px at 100% 100%, var(--blue-800) 0%, transparent 58%),
     linear-gradient(180deg, var(--bg-1) 0%, var(--bg) 100%);
   background-attachment: fixed;
   color: var(--ink);
@@ -49,18 +50,8 @@ body {
   isolation: isolate;
 }
 
-/* Full-page backdrop: a handful of faint, static Brownian-motion sample paths
-   (a nod to the stochastic-processes research, not a live feed of anything),
-   fixed behind all content and never competing with it for attention. */
-#bg-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-  pointer-events: none;
-}
-
+/* Full-page backdrop: just a faint grid, fixed behind all content and never
+   competing with it for attention. */
 .bg-grid {
   position: fixed;
   inset: 0;
