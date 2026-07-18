@@ -7,9 +7,9 @@
   --line: #1c2333;
   --line-soft: #151a27;
 
-  --ink: #e9ecf3;
-  --ink-soft: #8891a3;
-  --ink-faint: #4d5568;
+  --ink: #f3f5fa;
+  --ink-soft: #a6afc2;
+  --ink-faint: #6b7488;
 
   --blue-950: #060a16;
   --blue-800: #12244d;
@@ -42,6 +42,7 @@ body {
   line-height: 1.6;
   position: relative;
   isolation: isolate;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75), 0 0 14px rgba(0, 0, 0, 0.45);
 }
 
 /* Full-page trading-floor backdrop: live candlestick feed + grid, fixed behind all content */
@@ -211,9 +212,9 @@ main::before {
   bottom: -8px;
   left: -24px;
   right: -24px;
-  background: linear-gradient(180deg, rgba(7, 9, 16, 0.6) 0%, rgba(7, 9, 16, 0.7) 100%);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: linear-gradient(180deg, rgba(7, 9, 16, 0.4) 0%, rgba(7, 9, 16, 0.48) 100%);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
   border-radius: 10px;
   border: 1px solid var(--line-soft);
   mask-image: linear-gradient(180deg, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
@@ -398,9 +399,9 @@ a:hover { color: var(--blue-300); }
   border: 1px solid var(--line);
   border-left: 2px solid var(--line);
   border-radius: 4px;
-  background: rgba(16, 20, 31, 0.62);
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
+  background: rgba(16, 20, 31, 0.4);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -518,9 +519,9 @@ pre.code-block code {
   border: 1px solid var(--line);
   border-left: 2px solid var(--line);
   border-radius: 6px;
-  background: rgba(13, 17, 27, 0.68);
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
+  background: rgba(13, 17, 27, 0.46);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -711,9 +712,9 @@ pre.code-block code {
   border: 1px solid var(--line);
   border-left: 2px solid var(--line);
   border-radius: 4px;
-  background: rgba(16, 20, 31, 0.62);
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
+  background: rgba(16, 20, 31, 0.4);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   text-decoration: none;
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
