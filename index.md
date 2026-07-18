@@ -3,15 +3,6 @@ layout: default
 title: About
 ---
 
-<nav class="landing-nav" aria-label="Section shortcuts">
-  <a href="{{ '/research/' | relative_url }}">Research</a>
-  <a href="{{ '/publications/' | relative_url }}">Publications</a>
-  <a href="{{ '/projects/' | relative_url }}">Projects</a>
-  <a href="{{ '/experience/' | relative_url }}">Experience</a>
-  <a href="{{ '/personal/' | relative_url }}">Personal</a>
-  <a href="{{ '/contact/' | relative_url }}">Contact</a>
-</nav>
-
 <section class="hero">
   <canvas id="market-widget-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
