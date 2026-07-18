@@ -535,6 +535,51 @@ python examples/ewma_fhs_example.py
   </div>
 </div>
 
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://github.com/DaanZunnenberg/MultipleSignalClassification" target="_blank" rel="noopener noreferrer">Subspace-Based Time-Delay Estimation for WiFi</a></h3>
+    <span class="entry-date">2026</span>
+  </div>
+  <p>Subspace-based (MUSIC, ESPRIT, matrix pencil) time-delay estimation for IEEE 802.11n WiFi L-LTF signals. Research paper to be published.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultipleSignalClassification" target="_blank" rel="noopener noreferrer">MultipleSignalClassification on GitHub</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        The L-LTF preamble of a WiFi packet is a known training sequence, so a receiver's channel estimate is
+        a sum of delayed, attenuated copies of it, one per multipath tap. Time-delay estimation recovers those
+        delays directly from the channel/frequency response rather than from cross-correlation alone. MUSIC
+        gets there by eigendecomposing the array/frequency covariance matrix into a signal subspace and a
+        noise subspace, then scanning candidate delays for the ones whose steering vector is (almost)
+        orthogonal to the noise subspace, using the pseudo-spectrum
+      </p>
+      \[
+      P(\tau) = \frac{1}{a(\tau)^{H} \, E_n E_n^{H} \, a(\tau)}
+      \]
+      <p>
+        where \(a(\tau)\) is the steering vector for delay \(\tau\) and \(E_n\) collects the noise-subspace
+        eigenvectors, so \(P(\tau)\) peaks sharply at the true delays. ESPRIT and matrix pencil solve the same
+        subspace-separation problem without an explicit search, by exploiting a shift-invariance structure in
+        the signal subspace instead.
+      </p>
+      <h4>Install</h4>
+      <pre class="code-block" data-lang="bash"><code>pip install -e .
+</code></pre>
+      <h4>Run</h4>
+      <pre class="code-block" data-lang="bash"><code>python examples/basic_usage.py
+python scripts/run_tde.py
+</code></pre>
+      <p class="form-hint"><code>src/musicssvd/</code> separates signal generation (<code>DataGenerator</code>), TDE algorithms (<code>DataProcessor</code>), accuracy metrics (<code>Evaluator</code>), and plotting (<code>Plotter</code>), wired together by the <code>MUSICTDE</code> facade.</p>
+    </div>
+    </div>
+  </div>
+</div>
+
 <p>More on <a href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
 
 <h2>Education</h2>
