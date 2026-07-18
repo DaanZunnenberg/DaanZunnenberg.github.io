@@ -169,7 +169,7 @@ body::after {
 }
 
 .console-sep {
-  color: var(--ink-soft);
+  color: var(--ink);
 }
 
 .console-path {
