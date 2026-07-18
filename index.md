@@ -50,6 +50,17 @@ Abstract probability by day, quant by heart. <a href="{{ '/personal/' | relative
         recursion under a multivariate Student-<em>t</em> likelihood with an Ornstein&ndash;Uhlenbeck covariance
         kernel across the intraday grid.
       </p>
+      <p>
+        In operator form, the functional GARCH(p,q) recursion is
+      </p>
+      $$
+      \sigma_t^2 = \omega + \sum_{i=1}^{p} \mathcal{A}_i\!\left(r_{t-i}^2\right) + \sum_{j=1}^{q} \mathcal{B}_j\!\left(\sigma_{t-j}^2\right)
+      $$
+      <p>
+        where &omega;, and the integral operators &Ascr;<sub>i</sub>, &Bscr;<sub>j</sub> acting on <em>L</em><sup>2</sup>[0,1],
+        are all represented in the non-negative Bernstein basis &mdash; the reason positivity of the surface reduces to a finite,
+        tractable coefficient constraint instead of an infinite-dimensional one.
+      </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/FunctionalScale.git
 cd FunctionalScale
@@ -99,15 +110,6 @@ result = minimize(
 
 <div class="entry">
   <div class="entry-head">
-    <h3><a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">HRP Portfolio Allocation</a></h3>
-    <span class="entry-date">2023 &ndash; 2024</span>
-  </div>
-  <p>Hierarchical Risk Parity via tree clustering, generating a mean alpha premium of 3.9% above benchmark in a look-ahead-free backtest.</p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
-</div>
-
-<div class="entry">
-  <div class="entry-head">
     <h3><a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Functional Stationarity Test</a></h3>
     <span class="entry-date">2024</span>
   </div>
@@ -129,6 +131,14 @@ result = minimize(
         diverges almost surely once the process is nonstationary. Their standardized difference is
         asymptotically Gaussian under stationarity (via &beta;-mixing), and the test rejects when the running
         maximum of that difference exceeds a Gumbel-type critical bound (Pickands/Berman).
+      </p>
+      <p>The running test statistic compares the two smoothers directly:</p>
+      $$
+      T_n = \max_{1 \le k \le n} \; \sqrt{k}\,\bigl\| \hat{\Sigma}^{\text{time}}_k - \hat{\Sigma}^{\text{state}}_k \bigr\|
+      $$
+      <p>
+        with critical values from the Gumbel-type limit law of Pickands and Berman for the running maximum of a
+        stationary Gaussian sequence.
       </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>pip install -e .
@@ -199,6 +209,15 @@ tests/
     </div>
     </div>
   </div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">HRP Portfolio Allocation</a></h3>
+    <span class="entry-date">2023 &ndash; 2024</span>
+  </div>
+  <p>Hierarchical Risk Parity via tree clustering, generating a mean alpha premium of 3.9% above benchmark in a look-ahead-free backtest.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
 </div>
 
 <p><a href="{{ '/projects/' | relative_url }}">All projects &rarr;</a></p>

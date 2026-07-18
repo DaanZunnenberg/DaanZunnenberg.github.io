@@ -505,6 +505,13 @@ a:hover { color: var(--blue-300); }
 
 .readme p { font-size: 15px; color: var(--ink-soft); }
 
+.katex-display {
+  margin: 12px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+}
+
 .readme h4 {
   font-family: var(--mono);
   font-size: 11px;

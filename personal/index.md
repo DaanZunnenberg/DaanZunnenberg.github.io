@@ -33,6 +33,55 @@ permalink: /personal/
     statistical estimation under dependence.
   </p>
   <p>I organize and lead a weekly graduate seminar on weak convergence and empirical process theory.</p>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ What is generic chaining?</span><span class="label-close">&minus; Hide the math</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+        <h4>Talagrand's &gamma;<sub>2</sub> functional</h4>
+        <p>
+          For a metric space <em>(T,d)</em>, an admissible sequence is a nested chain of subsets
+          <em>T</em><sub>0</sub> &sub; <em>T</em><sub>1</sub> &sub; &hellip; &sub; <em>T</em> with
+          |<em>T</em><sub>0</sub>| = 1 and |<em>T</em><sub>n</sub>| &le; 2<sup>2<sup>n</sup></sup>. The
+          &gamma;<sub>2</sub> functional measures the best such chain can do:
+        </p>
+        $$
+        \gamma_2(T,d) = \inf_{(T_n)} \; \sup_{t \in T} \; \sum_{n=0}^{\infty} 2^{n/2}\, d(t, T_n)
+        $$
+        <h4>The majorizing measure theorem</h4>
+        <p>
+          Talagrand's majorizing measure theorem shows &gamma;<sub>2</sub> is not merely an upper bound but the
+          exact answer for a centered Gaussian process (<em>X<sub>t</sub></em>)<sub>t&isin;T</sub> under its
+          canonical metric:
+        </p>
+        $$
+        \mathbb{E} \sup_{t \in T} X_t \;\asymp\; \gamma_2(T,d), \qquad d(s,t) = \bigl(\mathbb{E}\,|X_s - X_t|^2\bigr)^{1/2}
+        $$
+        <h4>The Bednorz&ndash;&#321;ata&#322;a theorem</h4>
+        <p>
+          Bernoulli processes <em>X<sub>t</sub></em> = &sum;<sub>i</sub> <em>a<sub>i</sub></em>(<em>t</em>)&thinsp;&epsilon;<sub>i</sub>
+          need a second functional, &gamma;<sub>1</sub>, to capture their &#8467;<sup>&infin;</sup> component:
+        </p>
+        $$
+        \gamma_1(T,d_\infty) = \inf_{(T_n)} \; \sup_{t \in T} \; \sum_{n=0}^{\infty} 2^{n}\, d_\infty(t, T_n)
+        $$
+        <p>
+          The Bednorz&ndash;&#321;ata&#322;a theorem (2014), resolving the long-standing Bernoulli conjecture,
+          shows the two functionals together give a sharp bound:
+        </p>
+        $$
+        \mathbb{E} \sup_{t \in T} X_t \;\asymp\; \gamma_1(T, d_\infty) + \gamma_2(T, d_2)
+        $$
+        <p class="form-hint">
+          This is the toolkit I'm extending: to processes that are only &beta;-mixing rather than independent,
+          where the chaining argument has to absorb a mixing-rate correction at every scale <em>n</em> instead of
+          relying on independence between increments.
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="entry">
