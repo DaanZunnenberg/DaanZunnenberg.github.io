@@ -156,12 +156,20 @@ body::after {
 }
 
 .console-prompt {
-  color: var(--up);
   flex: none;
 }
 
-.console-colon {
-  color: var(--blue-500);
+.console-user {
+  color: var(--up);
+  font-weight: 700;
+}
+
+.console-sep {
+  color: var(--ink-soft);
+}
+
+.console-path {
+  color: var(--blue-400);
 }
 
 .console-text {
@@ -446,6 +454,64 @@ a:hover { color: var(--blue-300); }
   margin: 10px 0 0;
 }
 
+/* Expandable README-style detail within an entry */
+.entry details {
+  margin-top: 10px;
+}
+
+.entry summary {
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--blue-400);
+  list-style: none;
+  outline: none;
+  user-select: none;
+}
+
+.entry summary::-webkit-details-marker { display: none; }
+.entry summary .label-close { display: none; }
+.entry details[open] summary .label-open { display: none; }
+.entry details[open] summary .label-close { display: inline; }
+
+.readme {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+}
+
+.readme p { font-size: 15px; color: var(--ink-soft); }
+
+.readme h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin: 14px 0 6px;
+}
+
+.readme h4:first-child { margin-top: 0; }
+
+pre.code-block {
+  margin: 6px 0 0;
+  padding: 12px 14px;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+pre.code-block code {
+  background: none;
+  padding: 0;
+  color: var(--ink-soft);
+  font-size: 1em;
+}
+
 /* Contact form */
 .contact-form {
   padding: 28px;
@@ -557,6 +623,26 @@ a:hover { color: var(--blue-300); }
 .contact-form button:hover {
   background: var(--blue-300);
   transform: translateY(-1px);
+}
+
+.cta-button {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--bg);
+  background: var(--blue-400);
+  border: none;
+  border-radius: 4px;
+  padding: 11px 22px;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.cta-button:hover {
+  background: var(--blue-300);
+  transform: translateY(-1px);
+  color: var(--bg);
 }
 
 .sent-note {

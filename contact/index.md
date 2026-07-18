@@ -15,11 +15,11 @@ permalink: /contact/
 </div>
 
 <div class="nav-cards">
-  <a class="nav-card" href="mailto:dw.zunnenberg@gmail.com?subject=Research%20inquiry">
+  <a class="nav-card" href="{{ '/contact/research/' | relative_url }}">
     <span class="nav-card-title">Research &amp; Academic</span>
     <span class="nav-card-hint">Collaboration proposals, seminar invitations, peer review, or questions about the PhD work.</span>
   </a>
-  <a class="nav-card" href="mailto:dw.zunnenberg@gmail.com?subject=Role%20or%20opportunity">
+  <a class="nav-card" href="{{ '/contact/recruiters/' | relative_url }}">
     <span class="nav-card-title">Recruiters &amp; Professional</span>
     <span class="nav-card-hint">Roles, consulting, or an invitation to meet up &mdash; industry and professional contact.</span>
   </a>

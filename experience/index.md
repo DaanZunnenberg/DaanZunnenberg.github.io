@@ -30,7 +30,7 @@ permalink: /experience/
   <div class="entry-org">Schiphol-Rijk, Netherlands</div>
   <ul>
     <li>Monitored production market-making algorithms, managing real-time risk parameters and system health to minimize inventory exposure during high-volatility periods.</li>
-    <li>Designed and deployed a live trading terminal using CCXT and native exchange APIs for real-time position and order tracking, integrating Tardis.dev for historical position reconstruction.</li>
+    <li>Designed and deployed a live trading terminal using <code>CCXT</code> and native exchange APIs for real-time position and order tracking, integrating <code>Tardis.dev</code> for historical position reconstruction.</li>
   </ul>
 </div>
 
@@ -42,7 +42,7 @@ permalink: /experience/
   <div class="entry-org">Amsterdam, Netherlands</div>
   <ul>
     <li>Designed scalable likelihood-based estimation algorithms for functional scale models, optimizing computational performance through vectorized computation and parallel processing.</li>
-    <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using NumPy vectorization and parallel computing.</li>
+    <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using <code>NumPy</code> vectorization and parallel computing.</li>
   </ul>
 </div>
 
@@ -88,8 +88,8 @@ permalink: /experience/
 
 <div class="entry">
   <ul>
-    <li><strong>Languages &amp; tools:</strong> Python (Pandas, NumPy, asyncio, Numba), Java, Git, Docker, Bash</li>
-    <li><strong>Machine learning:</strong> SciPy, CVXPY, statsmodels, scikit-learn, TensorFlow</li>
+    <li><strong>Languages &amp; tools:</strong> <code>Python</code> (<code>Pandas</code>, <code>NumPy</code>, <code>asyncio</code>, <code>Numba</code>), <code>Java</code>, <code>Git</code>, <code>Docker</code>, <code>Bash</code></li>
+    <li><strong>Machine learning:</strong> <code>SciPy</code>, <code>CVXPY</code>, <code>statsmodels</code>, <code>scikit-learn</code>, <code>TensorFlow</code></li>
     <li><strong>Statistical foundations:</strong> time series analysis, econometrics, inference theory</li>
   </ul>
 </div>

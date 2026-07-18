@@ -33,8 +33,8 @@ market-making and smart order routing systems, and completed an MSc in Econometr
     <h3>Functional Volatility Surface Modelling</h3>
     <span class="entry-date">2024 &ndash; present</span>
   </div>
-  <p>Extending functional GARCH to a GAS model for time-varying intraday volatility surfaces, estimated with B-splines and Numba JIT.</p>
-  <div class="tags">Python &middot; SAS &middot; <a href="https://github.com/DaanZunnenberg/FunctionalSurface" target="_blank" rel="noopener noreferrer">FunctionalSurface on GitHub</a></div>
+  <p>Extending functional GARCH to a GAS model for time-varying intraday volatility surfaces, estimated with B-splines and <code>Numba</code> JIT.</p>
+  <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalSurface" target="_blank" rel="noopener noreferrer">FunctionalSurface on GitHub</a></div>
 </div>
 
 <div class="entry">
@@ -43,7 +43,7 @@ market-making and smart order routing systems, and completed an MSc in Econometr
     <span class="entry-date">2023 &ndash; 2024</span>
   </div>
   <p>Hierarchical Risk Parity via tree clustering, generating a mean alpha premium of 3.9% above benchmark in a look-ahead-free backtest.</p>
-  <div class="tags">Python &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
+  <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
 </div>
 
 <div class="entry">
@@ -52,7 +52,7 @@ market-making and smart order routing systems, and completed an MSc in Econometr
     <span class="entry-date">2024</span>
   </div>
   <p>An open-source functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis.</p>
-  <div class="tags">Python &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">MultivariateHamrickTaqqu on GitHub</a></div>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">MultivariateHamrickTaqqu on GitHub</a></div>
 </div>
 
 <p><a href="{{ '/projects/' | relative_url }}">All projects &rarr;</a></p>

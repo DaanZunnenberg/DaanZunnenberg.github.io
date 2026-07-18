@@ -1,0 +1,46 @@
+---
+layout: default
+title: Research & Academia
+permalink: /contact/research/
+---
+
+<h1>Research &amp; Academia</h1>
+<p class="tagline">Collaboration proposals, seminar invitations, and questions about the work.</p>
+
+<p class="lede">
+I'm always glad to hear from other researchers &mdash; whether that's a concrete collaboration idea, a seminar
+or reading group invitation, a question about a proof or a dataset, or just a conversation about empirical
+process theory and where it meets applied statistics.
+</p>
+
+<h2>Research Interests</h2>
+
+<div class="entry">
+  <ul>
+    <li>Decomposition theorems, generic chaining, and majorizing measures for controlling suprema of stochastic processes.</li>
+    <li>Weak convergence and Donsker&ndash;Skorokhod-type results for processes satisfying absolute regularity (&beta;-mixing).</li>
+    <li>Depth functions and robust statistics under dependence &mdash; e.g. the Tukey depth for time-dependent data.</li>
+    <li>Functional time series: stationarity testing and functional GARCH/GAS models for volatility surfaces.</li>
+  </ul>
+</div>
+
+<h2>Current Work</h2>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>PhD Research — Leiden University</h3>
+    <span class="entry-date">2024 &ndash; present</span>
+  </div>
+  <p>
+    Currently working on decomposition theorems and majorizing measures applied to weak convergence for
+    dependent processes, alongside a line of work (with Alexander D&uuml;rre) on the Tukey depth under
+    dependence, forthcoming in <em>Bernoulli</em>.
+  </p>
+  <div class="tags"><a href="{{ '/research/' | relative_url }}">Full research page &rarr;</a> &middot; <a href="{{ '/publications/' | relative_url }}">Publications &rarr;</a></div>
+</div>
+
+<p>
+  <a class="cta-button" href="mailto:dw.zunnenberg@gmail.com?subject=Research%20inquiry">Email me about research &rarr;</a>
+</p>
+
+<p><a href="{{ '/contact/' | relative_url }}">&larr; Back to Contact</a></p>
