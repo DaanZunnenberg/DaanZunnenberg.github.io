@@ -76,7 +76,7 @@ body::after {
     linear-gradient(180deg, var(--bg) 0%, rgba(5, 7, 12, 0) 14%, rgba(5, 7, 12, 0) 78%, var(--bg) 100%);
 }
 
-.ticker,
+.console-bar,
 .wrap {
   position: relative;
   z-index: 1;
@@ -136,35 +136,50 @@ body::after {
 
 @media (max-width: 520px) {
   .live-badge { right: 12px; bottom: 12px; padding: 6px 10px; font-size: 10px; }
+  .site-footer { padding-bottom: 84px; }
 }
 
-/* Ticker strip */
-.ticker {
+/* Console bar: a terminal-style header line that types out a rotating
+   set of research/career facts, in place of a stock-ticker strip. */
+.console-bar {
   background: #000;
   border-bottom: 1px solid var(--blue-800);
   overflow: hidden;
   white-space: nowrap;
-  padding: 7px 0;
-}
-
-.ticker-track {
-  display: inline-block;
+  padding: 9px 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--blue-400);
-  animation: scroll-ticker 26s linear infinite;
+  font-size: 12px;
+  letter-spacing: 0.02em;
 }
 
-.ticker-track span { margin-right: 10px; }
+.console-prompt {
+  color: var(--up);
+  flex: none;
+}
 
-.tick { margin-right: 26px; font-size: 9px; }
-.tick.up { color: var(--up); }
-.tick.down { color: var(--down); }
+.console-colon {
+  color: var(--blue-500);
+}
 
-@keyframes scroll-ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+.console-text {
+  color: var(--blue-300);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.console-caret {
+  color: var(--blue-400);
+  font-size: 9px;
+  animation: blink 1s steps(1) infinite;
+  flex: none;
+}
+
+@media (max-width: 560px) {
+  .console-bar { padding: 8px 16px; font-size: 11px; }
+  .console-prompt { display: none; }
 }
 
 .wrap {
@@ -186,8 +201,8 @@ main::before {
   z-index: -1;
   top: -8px;
   bottom: -8px;
-  left: -20px;
-  right: -20px;
+  left: -24px;
+  right: -24px;
   background: linear-gradient(180deg, rgba(7, 9, 16, 0.86) 0%, rgba(7, 9, 16, 0.93) 100%);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -563,7 +578,7 @@ code {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticker-track { animation: none; }
+  .console-caret { animation: none; }
   .cursor { animation: none; }
   .live-dot { animation: none; }
 }
