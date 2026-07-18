@@ -213,6 +213,20 @@ main::before {
   gap: 20px;
 }
 
+/* On the landing page, stack the title above a centered nav row instead of
+   the usual left/right split — reads more like a hub than a subpage. */
+.site-header-home {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.site-header-home .site-nav {
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .site-nav a {
   position: relative;
   color: var(--ink-soft);
