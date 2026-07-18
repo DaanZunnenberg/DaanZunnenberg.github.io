@@ -9,7 +9,7 @@
   var candleW = 9;
   var gap = 5;
   var slotPx = candleW + gap;
-  var periodMs = 60000; // one bar per minute, mirroring Binance's 1m klines
+  var SIM_TICK_MS = 5000; // decorative bar-completion pace for the simulated fallback (real feed uses 1d klines)
 
   var candles = [];
   var forming = null;
@@ -28,6 +28,15 @@
   ];
   var maLookback = Math.max.apply(null, MA_PERIODS) - 1;
 
+  // Bollinger Bands: rolling mean +/- k * rolling std of closes — a
+  // standard volatility-banding tool from quant research, layered
+  // behind the candles as a soft band around the price.
+  var BOLL_PERIOD = 20;
+  var BOLL_K = 2;
+  var BOLL_LINE_COLOR = "rgba(56, 201, 193, 0.22)";
+  var BOLL_FILL_COLOR = "rgba(56, 201, 193, 0.045)";
+  var bandLookback = Math.max(maLookback, BOLL_PERIOD - 1);
+
   // Leave a few empty slots to the right of the latest bar, as classic
   // charting platforms do, instead of pinning the newest candle to the edge.
   var RIGHT_MARGIN_SLOTS = 5;
@@ -45,7 +54,7 @@
   }
 
   function historyCap() {
-    return slotCount() + maLookback;
+    return slotCount() + bandLookback;
   }
 
   function resize() {
@@ -72,6 +81,31 @@
       }
       return out;
     });
+  }
+
+  function computeBollinger(closes) {
+    var mid = new Array(closes.length).fill(null);
+    var upper = new Array(closes.length).fill(null);
+    var lower = new Array(closes.length).fill(null);
+    var sum = 0;
+    var sumSq = 0;
+    for (var i = 0; i < closes.length; i++) {
+      sum += closes[i];
+      sumSq += closes[i] * closes[i];
+      if (i >= BOLL_PERIOD) {
+        sum -= closes[i - BOLL_PERIOD];
+        sumSq -= closes[i - BOLL_PERIOD] * closes[i - BOLL_PERIOD];
+      }
+      if (i >= BOLL_PERIOD - 1) {
+        var mean = sum / BOLL_PERIOD;
+        var variance = Math.max(sumSq / BOLL_PERIOD - mean * mean, 0);
+        var sd = Math.sqrt(variance);
+        mid[i] = mean;
+        upper[i] = mean + BOLL_K * sd;
+        lower[i] = mean - BOLL_K * sd;
+      }
+    }
+    return { mid: mid, upper: upper, lower: lower };
   }
 
   function updateBadge() {
@@ -106,6 +140,39 @@
     ctx.fillRect(x, top, candleW, h);
   }
 
+  function drawBollinger(bollinger, startIdx, endIdx, y) {
+    var upperPts = [];
+    var lowerPts = [];
+    for (var j = startIdx; j < endIdx; j++) {
+      var u = bollinger.upper[j];
+      var l = bollinger.lower[j];
+      if (u == null || l == null) continue;
+      var x = (j - startIdx) * slotPx + candleW / 2;
+      upperPts.push([x, y(u)]);
+      lowerPts.push([x, y(l)]);
+    }
+    if (!upperPts.length) return;
+
+    ctx.fillStyle = BOLL_FILL_COLOR;
+    ctx.beginPath();
+    ctx.moveTo(upperPts[0][0], upperPts[0][1]);
+    upperPts.forEach(function (p) { ctx.lineTo(p[0], p[1]); });
+    for (var k = lowerPts.length - 1; k >= 0; k--) {
+      ctx.lineTo(lowerPts[k][0], lowerPts[k][1]);
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = BOLL_LINE_COLOR;
+    ctx.lineWidth = 1;
+    [upperPts, lowerPts].forEach(function (pts) {
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      pts.forEach(function (p) { ctx.lineTo(p[0], p[1]); });
+      ctx.stroke();
+    });
+  }
+
   function draw() {
     ctx.clearRect(0, 0, W, H);
     var all = forming ? candles.concat([forming]) : candles;
@@ -115,12 +182,18 @@
     var startIdx = all.length - visibleCount;
     var closes = all.map(function (c) { return c.close; });
     var maSeries = computeMAs(closes);
+    var bollinger = computeBollinger(closes);
 
     var vals = [];
     all.slice(startIdx).forEach(function (c) {
       vals.push(c.high, c.low);
     });
     maSeries.forEach(function (series) {
+      series.slice(startIdx).forEach(function (v) {
+        if (v != null) vals.push(v);
+      });
+    });
+    [bollinger.upper, bollinger.lower].forEach(function (series) {
       series.slice(startIdx).forEach(function (v) {
         if (v != null) vals.push(v);
       });
@@ -135,6 +208,8 @@
     function y(v) {
       return padTop + (1 - (v - min) / range) * chartH;
     }
+
+    drawBollinger(bollinger, startIdx, all.length, y);
 
     for (var i = startIdx; i < all.length; i++) {
       drawCandle(all[i], (i - startIdx) * slotPx, y);
@@ -166,7 +241,7 @@
 
   // ---- Live BTC/USDT feed via Binance's public REST + WebSocket API (no key required) ----
   function startLiveFeed() {
-    var seedUrl = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=" + Math.min(historyCap(), 1000);
+    var seedUrl = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=" + Math.min(historyCap(), 1000);
 
     fetch(seedUrl)
       .then(function (res) {
@@ -189,7 +264,7 @@
   function connectSocket() {
     var ws;
     try {
-      ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
+      ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1d");
     } catch (e) {
       startSimulatedFeed();
       return;
@@ -285,7 +360,7 @@
       var dt = ts - lastTs;
       lastTs = ts;
 
-      var wobble = (rand() - 0.5) * 2.4 * (dt / periodMs);
+      var wobble = (rand() - 0.5) * 2.4 * (dt / SIM_TICK_MS);
       lastDirection = wobble >= 0 ? 1 : -1;
       price = Math.max(20, price + wobble);
       forming.close = price;
@@ -294,7 +369,7 @@
       updateBadge();
 
       elapsed += dt;
-      if (elapsed >= periodMs) {
+      if (elapsed >= SIM_TICK_MS) {
         elapsed = 0;
         candles.push(forming);
         if (candles.length > historyCap()) candles.shift();

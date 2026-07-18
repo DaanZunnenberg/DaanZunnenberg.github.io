@@ -9,9 +9,9 @@ permalink: /contact/
 
 <div class="links">
   <a href="mailto:dw.zunnenberg@gmail.com">dw.zunnenberg@gmail.com</a>
-  <a href="https://github.com/DaanZunnenberg">GitHub</a>
-  <a href="https://www.linkedin.com/in/daanzunnenberg/">LinkedIn</a>
-  <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ">Google Scholar</a>
+  <a href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener noreferrer">GitHub</a>
+  <a href="https://www.linkedin.com/in/daanzunnenberg/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
 </div>
 
 <h2>Send a message</h2>

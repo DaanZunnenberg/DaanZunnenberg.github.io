@@ -46,7 +46,11 @@
         <span>&middot;</span>
         <a href="https://scholar.google.com/citations?user={{ site.scholar }}" target="_blank" rel="noopener noreferrer">Scholar</a>
       </div>
-      <div class="footer-note">&copy; {{ 'now' | date: "%Y" }} Daan Zunnenberg</div>
+      <div class="footer-note">
+        &copy; {{ 'now' | date: "%Y" }} Daan Zunnenberg
+        <span>&middot;</span>
+        <span>Last updated {{ site.time | date: "%B %Y" }}</span>
+      </div>
     </footer>
   </div>
   <script src="{{ '/assets/js/console-bar.js' | relative_url }}"></script>
