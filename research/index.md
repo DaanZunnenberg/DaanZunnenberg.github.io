@@ -29,7 +29,7 @@ permalink: /research/
   </div>
   <ul>
     <li>Designed scalable likelihood-based estimation algorithms for functional scale models, optimizing computational performance through vectorized computation and parallel processing.</li>
-    <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using NumPy vectorization and parallel computing.</li>
+    <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using <code>NumPy</code> vectorization and parallel computing.</li>
   </ul>
 </div>
 
@@ -42,7 +42,7 @@ permalink: /research/
     Developed a novel functional stationarity test for multidimensional diffusion processes, implementing and
     packaging the underlying mathematical framework as an open-source library.
   </p>
-  <div class="tags">Python &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu">MultivariateHamrickTaqqu on GitHub</a></div>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">MultivariateHamrickTaqqu on GitHub</a></div>
 </div>
 
 <h2>Publications &amp; Talks</h2>
