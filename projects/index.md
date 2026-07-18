@@ -35,6 +35,17 @@ permalink: /projects/
         recursion under a multivariate Student-<em>t</em> likelihood with an Ornstein&ndash;Uhlenbeck covariance
         kernel across the intraday grid.
       </p>
+      <p>
+        In operator form, the functional GARCH(p,q) recursion is
+      </p>
+      $$
+      \sigma_t^2 = \omega + \sum_{i=1}^{p} \mathcal{A}_i\!\left(r_{t-i}^2\right) + \sum_{j=1}^{q} \mathcal{B}_j\!\left(\sigma_{t-j}^2\right)
+      $$
+      <p>
+        where &omega;, and the integral operators &Ascr;<sub>i</sub>, &Bscr;<sub>j</sub> acting on <em>L</em><sup>2</sup>[0,1],
+        are all represented in the non-negative Bernstein basis &mdash; the reason positivity of the surface reduces to a finite,
+        tractable coefficient constraint instead of an infinite-dimensional one.
+      </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/FunctionalScale.git
 cd FunctionalScale
@@ -84,50 +95,6 @@ result = minimize(
 
 <div class="entry">
   <div class="entry-head">
-    <h3><a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">HRP Portfolio Allocation</a></h3>
-    <span class="entry-date">October 2023 &ndash; August 2024</span>
-  </div>
-  <ul>
-    <li>Implemented Hierarchical Risk Parity via tree clustering using <code>scipy.cluster</code> to stabilize high-dimensional asset allocation, bypassing classical covariance inversion to eliminate noise sensitivity.</li>
-    <li>Generated a mean alpha premium of 3.9% above the benchmark across diverse simulated horizons, in a look-ahead-free method that outperformed actively rebalanced benchmark portfolios.</li>
-  </ul>
-  <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
-
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-      <h4>Overview</h4>
-      <p>
-        Mean-variance allocation is fragile in high dimensions because it inverts a noisy covariance matrix.
-        Hierarchical Risk Parity (HRP) sidesteps the inversion entirely: assets are clustered by correlation
-        distance, then risk is allocated recursively down the resulting tree.
-      </p>
-      <h4>Approach</h4>
-      <p>
-        Clustering uses <code>scipy.cluster.hierarchy</code> on a correlation-distance matrix; weights are then
-        derived by recursive bisection down the dendrogram, splitting inverse-variance weight between each pair
-        of sub-clusters. All backtests are look-ahead-free, re-clustering only on data available at each date.
-      </p>
-      <pre class="code-block"><code>from scipy.cluster.hierarchy import linkage, dendrogram
-from hrp import correlation_distance, recursive_bisection
-
-dist = correlation_distance(returns)
-tree = linkage(dist, method="single")
-order = dendrogram(tree, no_plot=True)["leaves"]
-
-weights = recursive_bisection(returns.cov(), order)
-</code></pre>
-      <p class="form-hint">Illustrative interface &mdash; the production version adds transaction-cost-aware rebalancing.</p>
-    </div>
-    </div>
-  </div>
-</div>
-
-<div class="entry">
-  <div class="entry-head">
     <h3><a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Functional Stationarity Test</a></h3>
     <span class="entry-date">2024</span>
   </div>
@@ -149,6 +116,14 @@ weights = recursive_bisection(returns.cov(), order)
         diverges almost surely once the process is nonstationary. Their standardized difference is
         asymptotically Gaussian under stationarity (via &beta;-mixing), and the test rejects when the running
         maximum of that difference exceeds a Gumbel-type critical bound (Pickands/Berman).
+      </p>
+      <p>The running test statistic compares the two smoothers directly:</p>
+      $$
+      T_n = \max_{1 \le k \le n} \; \sqrt{k}\,\bigl\| \hat{\Sigma}^{\text{time}}_k - \hat{\Sigma}^{\text{state}}_k \bigr\|
+      $$
+      <p>
+        with critical values from the Gumbel-type limit law of Pickands and Berman for the running maximum of a
+        stationary Gaussian sequence.
       </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>pip install -e .
@@ -216,6 +191,49 @@ tests/
     test_kernel_test.py
 </code></pre>
       <p class="form-hint">Requires Python &ge; 3.10. Also includes batch KPSS and Leybourne&ndash;McCabe tests for comparison, and BH/BY FDR procedures for simulation studies.</p>
+    </div>
+    </div>
+  </div>
+</div>
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">HRP Portfolio Allocation</a></h3>
+    <span class="entry-date">October 2023 &ndash; August 2024</span>
+  </div>
+  <ul>
+    <li>Implemented Hierarchical Risk Parity via tree clustering using <code>scipy.cluster</code> to stabilize high-dimensional asset allocation, bypassing classical covariance inversion to eliminate noise sensitivity.</li>
+    <li>Generated a mean alpha premium of 3.9% above the benchmark across diverse simulated horizons, in a look-ahead-free method that outperformed actively rebalanced benchmark portfolios.</li>
+  </ul>
+  <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        Mean-variance allocation is fragile in high dimensions because it inverts a noisy covariance matrix.
+        Hierarchical Risk Parity (HRP) sidesteps the inversion entirely: assets are clustered by correlation
+        distance, then risk is allocated recursively down the resulting tree.
+      </p>
+      <h4>Approach</h4>
+      <p>
+        Clustering uses <code>scipy.cluster.hierarchy</code> on a correlation-distance matrix; weights are then
+        derived by recursive bisection down the dendrogram, splitting inverse-variance weight between each pair
+        of sub-clusters. All backtests are look-ahead-free, re-clustering only on data available at each date.
+      </p>
+      <pre class="code-block"><code>from scipy.cluster.hierarchy import linkage, dendrogram
+from hrp import correlation_distance, recursive_bisection
+
+dist = correlation_distance(returns)
+tree = linkage(dist, method="single")
+order = dendrogram(tree, no_plot=True)["leaves"]
+
+weights = recursive_bisection(returns.cov(), order)
+</code></pre>
+      <p class="form-hint">Illustrative interface &mdash; the production version adds transaction-cost-aware rebalancing.</p>
     </div>
     </div>
   </div>
