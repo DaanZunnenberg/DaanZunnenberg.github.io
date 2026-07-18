@@ -313,41 +313,28 @@ main::before {
   .site-nav a::after { display: none; }
 }
 
-/* Profile header: a real portrait next to name/tagline, large enough to
-   actually put a face to the page rather than a token thumbnail. */
-.profile-header {
-  display: flex;
-  align-items: center;
-  gap: 36px;
-  margin-bottom: 4px;
-}
-
-.profile-photo {
-  width: 260px;
-  height: 320px;
-  flex: none;
-  object-fit: cover;
-  border-radius: 12px;
+/* Profile cover: a full-width 16:9 banner photo, bleeding out of the reading
+   column the same way the hero does, with the name/tagline/intro following
+   directly underneath it rather than squeezed alongside. */
+.profile-cover {
+  margin: 16px -24px 24px;
+  border-radius: 10px;
+  overflow: hidden;
   border: 1px solid var(--line);
-  box-shadow: 0 20px 50px -20px rgba(22, 27, 40, 0.4);
+  box-shadow: 0 24px 60px -30px rgba(22, 27, 40, 0.45);
 }
 
-.profile-intro {
-  flex: 1;
-  min-width: 0;
+.profile-cover img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
-@media (max-width: 700px) {
-  .profile-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
+.profile-intro { margin-bottom: 4px; }
 
-  .profile-photo {
-    width: 100%;
-    height: 320px;
-  }
+@media (max-width: 640px) {
+  .profile-cover { margin: 12px -24px 20px; }
 }
 
 /* Typography */
