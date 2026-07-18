@@ -47,5 +47,6 @@ permalink: /research/
 
 <h2>Publications &amp; Talks</h2>
 <p>
-  A full, up-to-date list is maintained on <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ">Google Scholar</a>.
+  See the <a href="{{ '/publications/' | relative_url }}">Publications</a> page for papers and software, or
+  <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a> for the full, up-to-date list.
 </p>
