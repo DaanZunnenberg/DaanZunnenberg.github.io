@@ -525,6 +525,28 @@ pre.code-block code {
 .tok-func { color: #d2a8ff; }
 .tok-keyword { color: #ff7b72; }
 
+/* Live market widget: a contained, dark "terminal" card (same treatment as the
+   code blocks above) showing a small live BTC/ETH options chain. Scoped to this
+   one card on purpose — it's a demo artifact, not site chrome. */
+.market-widget {
+  position: relative;
+  margin-top: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #30363d;
+  background: #0b0f18;
+}
+
+.market-widget canvas {
+  display: block;
+  width: 100%;
+  height: 300px;
+}
+
+@media (max-width: 560px) {
+  .market-widget canvas { height: 360px; }
+}
+
 /* Contact form */
 .contact-form {
   padding: 28px;

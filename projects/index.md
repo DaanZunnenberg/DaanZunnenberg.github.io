@@ -209,4 +209,19 @@ tests/
   </details>
 </div>
 
+<div class="entry">
+  <div class="entry-head">
+    <h3>Live Options Chain Renderer</h3>
+    <span class="entry-date">2026</span>
+  </div>
+  <ul>
+    <li>A small quant-desk demo: a live BTC/USDT &amp; ETH/USDT options chain, priced with Black&ndash;Scholes over spot ticks from Binance's public feed and rendered on a &lt;canvas&gt; in a ThinkOrSwim-inspired style.</li>
+    <li>Cells flash on real price moves, but sparsely and slowly &mdash; deliberately toned down so it reads as a live artifact, not a strobing ticker.</li>
+  </ul>
+  <div class="tags"><code>JavaScript</code> &middot; <code>Canvas API</code> &middot; Binance public API</div>
+  <div class="market-widget">
+    <canvas id="market-widget-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain"></canvas>
+  </div>
+</div>
+
 <p>More on <a href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
