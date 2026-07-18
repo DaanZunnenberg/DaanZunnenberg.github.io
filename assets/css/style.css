@@ -385,10 +385,6 @@ main::before {
     width: 96px;
     height: 96px;
   }
-
-  .profile-intro .links {
-    justify-content: flex-start;
-  }
 }
 
 /* Typography */
@@ -743,20 +739,6 @@ pre.code-block code {
   font-family: var(--mono);
   font-size: 13px;
   margin-bottom: 24px;
-}
-
-.profile-intro .links {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  justify-content: start;
-  gap: 8px 22px;
-}
-
-@media (max-width: 560px) {
-  .profile-intro .links {
-    grid-template-columns: 1fr;
-    justify-content: stretch;
-  }
 }
 
 .links a {
