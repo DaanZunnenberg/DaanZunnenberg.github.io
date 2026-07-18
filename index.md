@@ -7,7 +7,7 @@ title: About
   <canvas id="market-widget-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">PhD Researcher &middot; Quant Enthusiast &middot; Probabilist</div>
+    <div class="hero-eyebrow">PhD Researcher &middot; Quant Enthusiast<span class="hero-eyebrow-extra"> &middot; Probabilist</span></div>
     <h1 class="hero-name">Daan Zunnenberg<span class="cursor">_</span></h1>
     <p class="hero-lede">Probability theory researcher, formerly a quantitative developer in crypto market-making.</p>
     <div class="hero-links">

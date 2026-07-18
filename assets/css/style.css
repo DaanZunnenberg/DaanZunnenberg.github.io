@@ -596,7 +596,7 @@ pre.code-block code {
 
 .hero-content {
   position: relative;
-  max-width: 420px;
+  max-width: 460px;
   padding: 32px 40px;
   animation: hero-fade-in 900ms ease both;
 }
@@ -613,6 +613,13 @@ pre.code-block code {
   letter-spacing: 0.1em;
   color: var(--term-blue);
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 480px) {
+  .hero-eyebrow-extra { display: none; }
 }
 
 .hero-name {
