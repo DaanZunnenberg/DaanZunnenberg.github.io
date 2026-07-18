@@ -43,7 +43,7 @@ permalink: /projects/
       $$
       <p>
         where &omega;, and the integral operators &Ascr;<sub>i</sub>, &Bscr;<sub>j</sub> acting on <em>L</em><sup>2</sup>[0,1],
-        are all represented in the non-negative Bernstein basis &mdash; the reason positivity of the surface reduces to a finite,
+        are all represented in the non-negative Bernstein basis. That's why positivity of the surface reduces to a finite,
         tractable coefficient constraint instead of an infinite-dimensional one.
       </p>
       <h4>Setup</h4>
@@ -52,11 +52,11 @@ cd FunctionalScale
 pip install -e .            # editable install, pulls in numpy/scipy/numba/pandas/matplotlib/tqdm
 pip install -e ".[dev]"      # + pytest, jupyter (optional, for tests/notebooks)
 </code></pre>
-      <h4>Usage &mdash; functional GARCH</h4>
+      <h4>Usage: functional GARCH</h4>
       <pre class="code-block" data-lang="python"><code>import numpy as np
 from funcgarch import fit, garch_filter
 
-# mY: (N, T) matrix of intraday return curves — N grid points per day, T days
+# mY: (N, T) matrix of intraday return curves, N grid points per day, T days
 mY = np.load("returns.npy")
 N, T = mY.shape
 M = 4  # number of Bernstein basis functions
@@ -66,7 +66,7 @@ vtheta_hat = result.x
 
 sigma2 = garch_filter(mY, n_grid=N, vtheta=vtheta_hat, M=M)  # (N, T) fitted variance surface
 </code></pre>
-      <h4>Usage &mdash; functional GAS-GARCH</h4>
+      <h4>Usage: functional GAS-GARCH</h4>
       <pre class="code-block" data-lang="python"><code>from scipy.optimize import minimize
 from funcgarch import gas_garch_estimator
 
@@ -98,7 +98,7 @@ result = minimize(
     <h3><a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Functional Stationarity Test</a></h3>
     <span class="entry-date">2024</span>
   </div>
-  <p>A novel functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis and released as an open-source library.</p>
+  <p>A functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis and released as an open-source library.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></div>
 
   <div class="readme-toggle">
@@ -233,7 +233,7 @@ order = dendrogram(tree, no_plot=True)["leaves"]
 
 weights = recursive_bisection(returns.cov(), order)
 </code></pre>
-      <p class="form-hint">Illustrative interface &mdash; the production version adds transaction-cost-aware rebalancing.</p>
+      <p class="form-hint">Illustrative interface. The production version adds transaction-cost-aware rebalancing.</p>
     </div>
     </div>
   </div>

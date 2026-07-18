@@ -9,7 +9,7 @@ permalink: /contact/recruiters/
 
 <p class="lede">
 I split my time between a Mathematics PhD and quantitative finance work, and I'm open to conversations about
-roles, consulting, or collaborations that sit at that intersection &mdash; particularly anything touching
+roles, consulting, or collaborations that sit at that intersection, particularly anything touching
 market making, estimation under uncertainty, or production trading systems.
 </p>
 
@@ -27,7 +27,7 @@ market making, estimation under uncertainty, or production trading systems.
 
 <div class="entry">
   <div class="entry-head">
-    <h3>QuantFi — Quantitative Developer</h3>
+    <h3>QuantFi &middot; Quantitative Developer</h3>
     <span class="entry-date">March 2023 &ndash; August 2024</span>
   </div>
   <div class="entry-org">Schiphol-Rijk, Netherlands</div>

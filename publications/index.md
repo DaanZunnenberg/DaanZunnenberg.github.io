@@ -45,7 +45,7 @@ permalink: /publications/
     <h3><a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">MultivariateHamrickTaqqu</a></h3>
     <span class="entry-date">2024</span>
   </div>
-  <p>Open-source implementation of a novel functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis.</p>
+  <p>Open-source implementation of a functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">github.com/DaanZunnenberg/MultivariateHamrickTaqqu</a></div>
 </div>
 
