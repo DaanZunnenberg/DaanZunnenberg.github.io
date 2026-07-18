@@ -219,15 +219,4 @@ tests/
   <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>Numba</code> &middot; <code>CCXT</code></div>
 </div>
 
-<div class="entry">
-  <div class="entry-head">
-    <h3>Skills</h3>
-  </div>
-  <div class="tags">
-    <code>Python</code> &middot; <code>Pandas</code> &middot; <code>NumPy</code> &middot; <code>Numba</code> &middot; <code>asyncio</code> &middot;
-    <code>SciPy</code> &middot; <code>CVXPY</code> &middot; <code>statsmodels</code> &middot; <code>scikit-learn</code> &middot; <code>TensorFlow</code> &middot;
-    <code>Java</code> &middot; <code>Docker</code> &middot; <code>Git</code>
-  </div>
-</div>
-
 <p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
