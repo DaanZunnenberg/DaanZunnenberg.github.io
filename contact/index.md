@@ -5,7 +5,7 @@ permalink: /contact/
 ---
 
 <h1>Contact</h1>
-<p class="tagline">Research collaborations, roles, or an idea worth starting &mdash; get in touch.</p>
+<p class="tagline">Research collaborations, roles, or an idea worth starting. Get in touch.</p>
 
 <div class="links">
   <a href="mailto:dw.zunnenberg@gmail.com"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20v16H2V4zm10 7L4 6v2l8 5 8-5V6l-8 5z"/></svg>dw.zunnenberg@gmail.com</a>
@@ -21,7 +21,7 @@ permalink: /contact/
   </a>
   <a class="nav-card" href="{{ '/contact/recruiters/' | relative_url }}">
     <span class="nav-card-title">Recruiters &amp; Professional</span>
-    <span class="nav-card-hint">Roles, consulting, or an invitation to meet up &mdash; industry and professional contact.</span>
+    <span class="nav-card-hint">Roles, consulting, or an invitation to meet up: industry and professional contact.</span>
   </a>
 </div>
 
@@ -58,13 +58,13 @@ permalink: /contact/
 
   <div class="field">
     <label for="message">Message</label>
-    <textarea id="message" name="message" rows="6" placeholder="A bit of context goes a long way &mdash; what you're working on, what you have in mind, and any relevant links." required></textarea>
+    <textarea id="message" name="message" rows="6" placeholder="A bit of context goes a long way: what you're working on, what you have in mind, and any relevant links." required></textarea>
   </div>
 
   <div class="form-footer">
-    <span class="form-hint">Sent directly to my inbox &mdash; I read and reply to everything.</span>
+    <span class="form-hint">Sent directly to my inbox. I read and reply to everything.</span>
     <button type="submit">Send message &rarr;</button>
   </div>
 </form>
 
-<p id="sent-note" class="sent-note">Thanks &mdash; your message was sent. I'll get back to you by email.</p>
+<p id="sent-note" class="sent-note">Thanks, your message was sent. I'll get back to you by email.</p>

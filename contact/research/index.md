@@ -8,7 +8,7 @@ permalink: /contact/research/
 <p class="tagline">Collaboration proposals, seminar invitations, and questions about the work.</p>
 
 <p class="lede">
-I'm always glad to hear from other researchers &mdash; whether that's a concrete collaboration idea, a seminar
+I'm always glad to hear from other researchers, whether that's a concrete collaboration idea, a seminar
 or reading group invitation, a question about a proof or a dataset, or just a conversation about empirical
 process theory and where it meets applied statistics.
 </p>
@@ -19,7 +19,7 @@ process theory and where it meets applied statistics.
   <ul>
     <li>Decomposition theorems, generic chaining, and majorizing measures for controlling suprema of stochastic processes.</li>
     <li>Weak convergence and Donsker&ndash;Skorokhod-type results for processes satisfying absolute regularity (&beta;-mixing).</li>
-    <li>Depth functions and robust statistics under dependence &mdash; e.g. the Tukey depth for time-dependent data.</li>
+    <li>Depth functions and robust statistics under dependence, e.g. the Tukey depth for time-dependent data.</li>
     <li>Functional time series: stationarity testing and functional GARCH/GAS models for volatility surfaces.</li>
   </ul>
 </div>
@@ -28,7 +28,7 @@ process theory and where it meets applied statistics.
 
 <div class="entry">
   <div class="entry-head">
-    <h3>PhD Research — Leiden University</h3>
+    <h3>PhD Research &middot; Leiden University</h3>
     <span class="entry-date">2024 &ndash; present</span>
   </div>
   <p>

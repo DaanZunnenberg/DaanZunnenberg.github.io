@@ -22,7 +22,7 @@ permalink: /personal/
 
 <div class="entry">
   <div class="entry-head">
-    <h3>PhD Research &mdash; Leiden University</h3>
+    <h3>PhD Research &middot; Leiden University</h3>
     <span class="entry-date">2024 &ndash; present</span>
   </div>
   <p>
@@ -40,40 +40,51 @@ permalink: /personal/
     </button>
     <div class="readme-collapse">
       <div class="readme">
-        <h4>Talagrand's &gamma;<sub>2</sub> functional</h4>
+        <h4>Admissible sequences and the &gamma;<sub>2</sub> functional</h4>
         <p>
-          For a metric space <em>(T,d)</em>, an admissible sequence is a nested chain of subsets
-          <em>T</em><sub>0</sub> &sub; <em>T</em><sub>1</sub> &sub; &hellip; &sub; <em>T</em> with
-          |<em>T</em><sub>0</sub>| = 1 and |<em>T</em><sub>n</sub>| &le; 2<sup>2<sup>n</sup></sup>. The
-          &gamma;<sub>2</sub> functional measures the best such chain can do:
+          Generic chaining, in Talagrand's formulation, works with partitions rather than nested sets. An
+          admissible sequence is a sequence of partitions (<em>A<sub>n</sub></em>)<sub>n&ge;0</sub> of <em>T</em>,
+          each refining the one before, with |<em>A</em><sub>0</sub>| = 1 and |<em>A<sub>n</sub></em>| &le;
+          <em>N<sub>n</sub></em> = 2<sup>2<sup>n</sup></sup> for <em>n</em> &ge; 1. Write <em>A<sub>n</sub></em>(<em>t</em>)
+          for the piece of <em>A<sub>n</sub></em> containing <em>t</em>, and &Delta;(&middot;) for diameter under
+          <em>d</em>. The &gamma;<sub>2</sub> functional is the best such sequence can do:
         </p>
         $$
-        \gamma_2(T,d) = \inf_{(T_n)} \; \sup_{t \in T} \; \sum_{n=0}^{\infty} 2^{n/2}\, d(t, T_n)
+        \gamma_2(T,d) = \inf_{(A_n)} \; \sup_{t \in T} \; \sum_{n=0}^{\infty} 2^{n/2}\, \Delta(A_n(t))
         $$
         <h4>The majorizing measure theorem</h4>
         <p>
-          Talagrand's majorizing measure theorem shows &gamma;<sub>2</sub> is not merely an upper bound but the
-          exact answer for a centered Gaussian process (<em>X<sub>t</sub></em>)<sub>t&isin;T</sub> under its
-          canonical metric:
+          For a centered Gaussian process (<em>X<sub>t</sub></em>)<sub>t&isin;T</sub> under its canonical metric
+          <em>d</em>(<em>s</em>,<em>t</em>) = (&Eopf;|<em>X<sub>s</sub></em> &minus; <em>X<sub>t</sub></em>|<sup>2</sup>)<sup>1/2</sup>,
+          the chaining construction only ever gives an upper bound on the expected supremum. That's Dudley's
+          entropy bound in disguise. Talagrand's majorizing measure theorem is the surprise: &gamma;<sub>2</sub> is
+          also a lower bound, so it pins down &Eopf; sup<sub>t</sub> <em>X<sub>t</sub></em> exactly, up to a
+          universal constant <em>L</em> that depends on neither <em>T</em> nor <em>d</em>:
         </p>
         $$
-        \mathbb{E} \sup_{t \in T} X_t \;\asymp\; \gamma_2(T,d), \qquad d(s,t) = \bigl(\mathbb{E}\,|X_s - X_t|^2\bigr)^{1/2}
-        $$
-        <h4>The Bednorz&ndash;&#321;ata&#322;a theorem</h4>
-        <p>
-          Bernoulli processes <em>X<sub>t</sub></em> = &sum;<sub>i</sub> <em>a<sub>i</sub></em>(<em>t</em>)&thinsp;&epsilon;<sub>i</sub>
-          need a second functional, &gamma;<sub>1</sub>, to capture their &#8467;<sup>&infin;</sup> component:
-        </p>
-        $$
-        \gamma_1(T,d_\infty) = \inf_{(T_n)} \; \sup_{t \in T} \; \sum_{n=0}^{\infty} 2^{n}\, d_\infty(t, T_n)
+        \frac{1}{L}\,\gamma_2(T,d) \;\le\; \mathbb{E} \sup_{t \in T} X_t \;\le\; L\,\gamma_2(T,d)
         $$
         <p>
-          The Bednorz&ndash;&#321;ata&#322;a theorem (2014), resolving the long-standing Bernoulli conjecture,
-          shows the two functionals together give a sharp bound:
+          Talagrand writes results like this as two one-sided inequalities, <em>A</em> &le; <em>LB</em> and
+          <em>B</em> &le; <em>LA</em>, with <em>A</em> = &Eopf; sup<sub>t</sub> <em>X<sub>t</sub></em> and
+          <em>B</em> = &gamma;<sub>2</sub>(<em>T</em>,<em>d</em>): each side controls the other, so the two
+          quantities are equivalent rather than just one bounding the other.
+        </p>
+        <h4>Fernique's functional</h4>
+        <p>
+          Before &gamma;<sub>2</sub>, Fernique had already proposed a majorizing measure: a probability measure
+          &mu; on <em>T</em> chosen to make
         </p>
         $$
-        \mathbb{E} \sup_{t \in T} X_t \;\asymp\; \gamma_1(T, d_\infty) + \gamma_2(T, d_2)
+        m(T,d) = \inf_{\mu} \; \sup_{t \in T} \; \int_0^{\infty} \sqrt{\log \frac{1}{\mu(B(t,\varepsilon))}} \; d\varepsilon
         $$
+        <p>
+          small, where <em>B</em>(<em>t</em>,&epsilon;) is the <em>d</em>-ball of radius &epsilon; around
+          <em>t</em>. It took Talagrand's work to show <em>m</em>(<em>T</em>,<em>d</em>) and
+          &gamma;<sub>2</sub>(<em>T</em>,<em>d</em>) are equivalent up to universal constants: the discrete,
+          partition-based functional and Fernique's continuous, measure-based one are the same quantity seen two
+          ways.
+        </p>
         <p class="form-hint">
           This is the toolkit I'm extending: to processes that are only &beta;-mixing rather than independent,
           where the chaining argument has to absorb a mixing-rate correction at every scale <em>n</em> instead of
@@ -86,22 +97,22 @@ permalink: /personal/
 
 <div class="entry">
   <div class="entry-head">
-    <h3>Research Assistant &mdash; VU Econometrics and Data Science</h3>
+    <h3>Research Assistant &middot; VU Econometrics and Data Science</h3>
     <span class="entry-date">January 2024 &ndash; June 2024</span>
   </div>
   <ul>
-    <li>Designed scalable likelihood-based estimation algorithms for functional scale models, optimizing computational performance through vectorized computation and parallel processing.</li>
+    <li>Designed likelihood-based estimation algorithms for functional scale models, using vectorized and parallel computation to keep them fast at scale.</li>
     <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using <code>NumPy</code> vectorization and parallel computing.</li>
   </ul>
 </div>
 
 <div class="entry">
   <div class="entry-head">
-    <h3>MSc Thesis &mdash; Functional stationarity testing</h3>
+    <h3>MSc Thesis &middot; Functional stationarity testing</h3>
     <span class="entry-date">2024</span>
   </div>
   <p>
-    Developed a novel functional stationarity test for multidimensional diffusion processes, implementing and
+    Developed a functional stationarity test for multidimensional diffusion processes, implementing and
     packaging the underlying mathematical framework as an open-source library.
   </p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">MultivariateHamrickTaqqu on GitHub</a></div>
@@ -114,7 +125,7 @@ permalink: /personal/
 
 <h2>Padel</h2>
 <p>
-A relatively recent habit that stuck harder than most &mdash; I play regularly, and it's become the sport I
+A relatively recent habit that stuck harder than most. I play regularly now, and it's become the sport I
 default to when I want to actually switch off rather than just move.
 </p>
 
@@ -126,13 +137,13 @@ one of the few things that reliably gets me off a screen in the evening.
 
 <h2>Travel</h2>
 <p>
-Travel is the other thing that gets me to properly close the laptop. I don't have a fixed itinerary style
-&mdash; sometimes it's planned well in advance, sometimes it's decided a week out.
+Travel is the other thing that gets me to properly close the laptop. I don't have a fixed itinerary style;
+sometimes it's planned well in advance, sometimes it's decided a week out.
 </p>
 
 <h2>Sports, more broadly</h2>
 <p>
-Padel is the one that stuck, but staying active in general matters to me &mdash; it's as much a counterweight
+Padel is the one that stuck, but staying active in general matters to me. It's as much a counterweight
 to long stretches at a desk as anything else.
 </p>
 

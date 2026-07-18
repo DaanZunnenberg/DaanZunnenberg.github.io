@@ -5,13 +5,13 @@ permalink: /experience/
 ---
 
 <h1>Experience</h1>
-<p class="tagline">The complete resume &mdash; work, education, and skills.</p>
+<p class="tagline">The complete resume: work, education, and skills.</p>
 
 <h2>Work Experience</h2>
 
 <div class="entry">
   <div class="entry-head">
-    <h3>QuantFi — Quantitative Developer</h3>
+    <h3>QuantFi &middot; Quantitative Developer</h3>
     <span class="entry-date">March 2023 &ndash; August 2024</span>
   </div>
   <div class="entry-org">Schiphol-Rijk, Netherlands</div>
@@ -24,7 +24,7 @@ permalink: /experience/
 
 <div class="entry">
   <div class="entry-head">
-    <h3>QuantFi — Operational Trader</h3>
+    <h3>QuantFi &middot; Operational Trader</h3>
     <span class="entry-date">October 2022 &ndash; March 2023</span>
   </div>
   <div class="entry-org">Schiphol-Rijk, Netherlands</div>
@@ -36,12 +36,12 @@ permalink: /experience/
 
 <div class="entry">
   <div class="entry-head">
-    <h3>VU Econometrics and Data Science — Research Assistant</h3>
+    <h3>VU Econometrics and Data Science &middot; Research Assistant</h3>
     <span class="entry-date">January 2024 &ndash; June 2024</span>
   </div>
   <div class="entry-org">Amsterdam, Netherlands</div>
   <ul>
-    <li>Designed scalable likelihood-based estimation algorithms for functional scale models, optimizing computational performance through vectorized computation and parallel processing.</li>
+    <li>Designed likelihood-based estimation algorithms for functional scale models, using vectorized and parallel computation to keep them fast at scale.</li>
     <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using <code>NumPy</code> vectorization and parallel computing.</li>
   </ul>
 </div>
@@ -68,7 +68,7 @@ permalink: /experience/
   <div class="entry-org">MSc Econometrics and Operations Research &middot; Amsterdam, Netherlands</div>
   <ul>
     <li>Honours Programme, GPA 8.9/10 (magna cum laude).</li>
-    <li>Developed a novel functional stationarity test for multidimensional diffusion processes as a thesis project, packaged as an open-source <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">repository</a>.</li>
+    <li>Developed a functional stationarity test for multidimensional diffusion processes as a thesis project, packaged as an open-source <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">repository</a>.</li>
     <li>Relevant coursework: Measure Theoretic Probability, Quantitative Financial Risk Management, Stochastic Processes, Stochastic Integration.</li>
   </ul>
 </div>

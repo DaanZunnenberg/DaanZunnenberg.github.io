@@ -181,11 +181,18 @@ main::before {
 
 .site-title {
   font-family: var(--mono);
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--ink);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink-soft);
   text-decoration: none;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.03em;
+  opacity: 0.85;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.site-title:hover {
+  color: var(--blue-400);
+  opacity: 1;
 }
 
 .cursor {
