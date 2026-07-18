@@ -170,10 +170,10 @@ main::before {
 /* Header */
 .site-header {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px 20px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
   padding: 44px 0 20px;
   border-bottom: 1px solid var(--line);
   margin-bottom: 0;
@@ -201,21 +201,9 @@ main::before {
   font-family: var(--mono);
   font-size: 13px;
   display: flex;
-  gap: 20px;
-}
-
-/* On the landing page, stack the title above a centered nav row instead of
-   the usual left/right split — reads more like a hub than a subpage. */
-.site-header-home {
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 14px;
-}
-
-.site-header-home .site-nav {
   justify-content: center;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
 .site-nav a {
