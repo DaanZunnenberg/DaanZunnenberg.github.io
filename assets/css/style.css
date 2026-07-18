@@ -741,6 +741,20 @@ pre.code-block code {
   margin-bottom: 24px;
 }
 
+.profile-intro .links {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: start;
+  gap: 8px 22px;
+}
+
+@media (max-width: 560px) {
+  .profile-intro .links {
+    grid-template-columns: 1fr;
+    justify-content: stretch;
+  }
+}
+
 .links a {
   color: var(--ink-soft);
   border-bottom: 1px solid transparent;
