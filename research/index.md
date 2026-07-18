@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Research
+title: Research & Publications
 permalink: /research/
 ---
 
-<h1>Research</h1>
+<h1>Research &amp; Publications</h1>
 <p class="tagline">Probability theory &middot; empirical processes &middot; statistical estimation under dependence.</p>
 
 <p class="lede">
@@ -119,8 +119,59 @@ estimation once the independence assumption is dropped.
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></div>
 </div>
 
+<h2>Publications</h2>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>The Tukey depth under dependence</h3>
+    <span class="entry-date">2026 &middot; forthcoming</span>
+  </div>
+  <div class="entry-org">Zunnenberg, D. &amp; D&uuml;rre, A. &middot; <em>Bernoulli</em></div>
+  <div class="tags">
+    Forthcoming &middot; Bernoulli Society for Mathematical Statistics and Probability
+    &middot; <span class="supplement-note">includes online supplement (proofs &amp; auxiliary results)</span>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>Absolute regularity and maximal moment inequalities</h3>
+    <span class="entry-date">2026 &middot; in preparation</span>
+  </div>
+  <div class="entry-org">Zunnenberg, D. &amp; D&uuml;rre, A. &middot; Unpublished manuscript</div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>Functional location-scale models with robust observation-driven dynamics</h3>
+    <span class="entry-date">2025</span>
+  </div>
+  <div class="entry-org">Lin, Y. &amp; Lucas, A. &middot; Tinbergen Institute Discussion Paper</div>
+  <div class="tags">Research assistantship contribution</div>
+</div>
+
+<h3>Software</h3>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">MultivariateHamrickTaqqu</a></h3>
+    <span class="entry-date">2024</span>
+  </div>
+  <p>Open-source implementation of a functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">github.com/DaanZunnenberg/MultivariateHamrickTaqqu</a></div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale</a></h3>
+    <span class="entry-date">2024 &ndash; present</span>
+  </div>
+  <p>Estimation library for functional GARCH/GAS models of time-varying intraday volatility surfaces, using B-splines and <code>Numba</code> JIT compilation.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">github.com/DaanZunnenberg/FunctionalScale</a></div>
+</div>
+
 <p>
-  See <a href="{{ '/publications/' | relative_url }}">Publications</a> for papers and software, or
-  <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a> for the full, up-to-date list.
+  A full, up-to-date list is also maintained on
+  <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>.
   For collaboration proposals or seminar invitations, <a href="{{ '/contact/research/' | relative_url }}">get in touch</a>.
 </p>
