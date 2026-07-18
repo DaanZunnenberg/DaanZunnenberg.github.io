@@ -239,4 +239,195 @@ weights = recursive_bisection(returns.cov(), order)
   </div>
 </div>
 
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://github.com/DaanZunnenberg/DynamicCluster" target="_blank" rel="noopener noreferrer">Dynamic Clustering with a Score-Driven HMM</a></h3>
+    <span class="entry-date">2026</span>
+  </div>
+  <p>Dynamic clustering of multivariate panel data: a GAS filter drives the time-varying means of an HMM-style mixture model, so cluster membership evolves rather than staying fixed.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/DynamicCluster" target="_blank" rel="noopener noreferrer">DynamicCluster on GitHub</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        Each unit \(i\) belongs to a latent cluster \(s_{i,t} \in \{1,\dots,K\}\), with observations
+        \(y_{i,t} \mid s_{i,t}=k \sim \mathcal{N}(\mu_{k,t}, \Sigma_{k,t})\). Transition probabilities are
+        shared across units and depend on the Mahalanobis distance between cluster means, scaled by a
+        sensitivity parameter \(\gamma\).
+      </p>
+      \[
+      \pi_t^{(j \to k)} = \frac{\exp(-\gamma\, d(\mu_{j,t-1}, \mu_{k,t-1}))}{\sum_{m=1}^K \exp(-\gamma\, d(\mu_{j,t-1}, \mu_{m,t-1}))}
+      \]
+      <p>
+        Cluster means are score-driven rather than static, following a Generalized Autoregressive Score (GAS)
+        recursion built on the gradient of the mixture log-likelihood.
+      </p>
+      \[
+      f_{t+1} = \omega + A s_t + B f_t, \qquad s_t = S_t \cdot \frac{\partial \ln p(y_t \mid f_t)}{\partial f_t}
+      \]
+      <h4>Setup</h4>
+      <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/DynamicCluster.git
+cd DynamicCluster
+pip install -e .
+</code></pre>
+      <h4>Usage</h4>
+      <pre class="code-block" data-lang="bash"><code>python scripts/run_simulation.py
+</code></pre>
+      <p class="form-hint">Simulates panel data under a known dynamic-clustering process, estimates parameters by maximum likelihood, and writes recovered vs. true cluster structure to a <code>.csv</code>.</p>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">Tukey Depth Under Mixing</a></h3>
+    <span class="entry-date">2025</span>
+  </div>
+  <p>Simulating dependent (mixing) time series and estimating Tukey's halfspace depth and its minimal direction, both empirically and analytically, to study convergence as sample size grows.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">FunctionalCurves on GitHub</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        <code>MixingModels.py</code> generates synthetic bivariate paths with a controllable mixing rate
+        \(\rho\), including a linearly-weighted process whose weights decay as \(k^{-\rho}\).
+        <code>Depth.py</code> estimates Tukey depth and its minimal direction empirically from a sample, and
+        gives the closed-form depth for Gaussian and stationary VAR(1) processes to compare against.
+      </p>
+      <h4>Usage</h4>
+      <pre class="code-block" data-lang="python"><code>from Core.MixingModels import MixingLinearModel
+from Core.Depth import Estimator, GaussianDepth
+
+process = MixingLinearModel(mixing_rate=1.5)
+X = process.simulate(n=500)
+
+result = Estimator(X, X0, method="deg")   # or "point_wise"
+depth, direction = result.depth, result.direction
+</code></pre>
+      <p class="form-hint">Illustrative interface. See the notebooks in <code>Core/</code> for the full VAR(1) and mixing-process walkthroughs.</p>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://github.com/DaanZunnenberg/ForeignExchangeData" target="_blank" rel="noopener noreferrer">EUR/USD 2-Minute Bar Dataset</a></h3>
+    <span class="entry-date">2026</span>
+  </div>
+  <p>Free EUR/USD OHLCV data at 2-minute bars for 2025, released as a sandbox for backtests, strategy prototyping, and analysis.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/ForeignExchangeData" target="_blank" rel="noopener noreferrer">ForeignExchangeData on GitHub</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        One CSV per month of 2-minute EUR/USD bars (open, high, low, close, volume, trade count), covering
+        all of 2025. Provided as-is, no rights reserved, for anyone who wants sample FX data to experiment
+        with.
+      </p>
+      <h4>Data tools</h4>
+      <pre class="code-block" data-lang="python"><code>from scripts.data_tools import load_months, load_all, resample
+
+df = load_months(["2025-01", "2025-02"])  # combine specific months
+df = load_all()                           # combine all available months
+hourly = resample(df, "1h")               # resample to any pandas offset alias
+</code></pre>
+      <h4>Visualization</h4>
+      <pre class="code-block" data-lang="bash"><code>pip install -r requirements.txt
+python scripts/visualize.py --all
+python scripts/visualize.py --all --resample 1h
+</code></pre>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://github.com/DaanZunnenberg/TardisDevParser" target="_blank" rel="noopener noreferrer">Tardis.dev Data Fetcher</a></h3>
+    <span class="entry-date">2024</span>
+  </div>
+  <p>A focused client for downloading historical cryptocurrency market data from Tardis.dev: authentication, layered configuration, retries, and resumable downloads.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/TardisDevParser" target="_blank" rel="noopener noreferrer">TardisDevParser on GitHub</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        Scoped to fetching only. <code>FetchOptions</code> merges CLI flags, a config file, and the
+        <code>TARDIS_API_KEY</code> environment variable in that priority order; <code>TardisClient</code>
+        builds Datasets API requests, authenticates, retries transient failures with backoff, and skips files
+        that already exist unless overwriting is requested.
+      </p>
+      <h4>Setup</h4>
+      <pre class="code-block" data-lang="bash"><code>python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+cp .env.example .env   # then edit .env with your real key
+</code></pre>
+      <h4>Usage</h4>
+      <pre class="code-block" data-lang="bash"><code>tardis-inspect check-key
+tardis-inspect exchanges
+tardis-fetch --config config/example.yaml
+</code></pre>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://github.com/DaanZunnenberg/RiskFunctions" target="_blank" rel="noopener noreferrer">RiskFunctions</a></h3>
+    <span class="entry-date">2024</span>
+  </div>
+  <p>A library of risk models organized by family: variance-covariance and historic-simulation VaR/ES, CCC-GARCH, EWMA-FHS, copulas, and factor analysis, packaged as an installable library.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/RiskFunctions" target="_blank" rel="noopener noreferrer">RiskFunctions on GitHub</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        Each model family under <code>src/riskfunctions/models/</code> holds pure estimator/analysis
+        functions operating on DataFrames and arrays, with no I/O or plotting baked in; anything that loads
+        data, wires a model together, or produces output lives in <code>examples/</code> instead.
+      </p>
+      <h4>Installation</h4>
+      <pre class="code-block" data-lang="bash"><code>python -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"          # core + test dependencies
+pip install -e ".[multivariate]" # needed only for copulas / factor analysis
+</code></pre>
+      <h4>Usage</h4>
+      <pre class="code-block" data-lang="bash"><code>python examples/var_covariance_example.py
+python examples/ccc_garch_example.py
+python examples/ewma_fhs_example.py
+</code></pre>
+    </div>
+    </div>
+  </div>
+</div>
+
 <p>More on <a href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
