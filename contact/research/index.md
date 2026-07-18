@@ -36,7 +36,7 @@ process theory and where it meets applied statistics.
     dependent processes, alongside a line of work (with Alexander D&uuml;rre) on the Tukey depth under
     dependence, forthcoming in <em>Bernoulli</em>.
   </p>
-  <div class="tags"><a href="{{ '/research/' | relative_url }}">Full research page &rarr;</a> &middot; <a href="{{ '/publications/' | relative_url }}">Publications &rarr;</a></div>
+  <div class="tags"><a href="{{ '/research/' | relative_url }}">Full research page &amp; publications &rarr;</a></div>
 </div>
 
 <p>

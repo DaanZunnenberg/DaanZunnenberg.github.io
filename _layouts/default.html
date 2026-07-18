@@ -23,10 +23,8 @@
       </button>
       <nav class="site-nav" id="site-nav">
         <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>About</a>
-        <a href="{{ '/experience/' | relative_url }}" {% if page.url contains 'experience' %}class="active"{% endif %}>Experience</a>
-        <a href="{{ '/projects/' | relative_url }}" {% if page.url contains 'projects' %}class="active"{% endif %}>Projects</a>
-        <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' %}class="active"{% endif %}>Research</a>
-        <a href="{{ '/publications/' | relative_url }}" {% if page.url contains 'publications' %}class="active"{% endif %}>Publications</a>
+        <a href="{{ '/experience/' | relative_url }}" {% if page.url contains 'experience' %}class="active"{% endif %}>Experience &amp; Projects</a>
+        <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' %}class="active"{% endif %}>Research &amp; Publications</a>
         <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
         <a href="{{ '/contact/' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}>Contact</a>
       </nav>
@@ -39,10 +37,8 @@
     <footer class="site-footer">
       <nav class="footer-nav">
         <a href="{{ '/' | relative_url }}">About</a>
-        <a href="{{ '/research/' | relative_url }}">Research</a>
-        <a href="{{ '/experience/' | relative_url }}">Experience</a>
-        <a href="{{ '/projects/' | relative_url }}">Projects</a>
-        <a href="{{ '/publications/' | relative_url }}">Publications</a>
+        <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a>
+        <a href="{{ '/research/' | relative_url }}">Research &amp; Publications</a>
         <a href="{{ '/personal/' | relative_url }}">Personal</a>
         <a href="{{ '/contact/' | relative_url }}">Contact</a>
       </nav>

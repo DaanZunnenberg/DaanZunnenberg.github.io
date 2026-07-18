@@ -220,7 +220,7 @@ tests/
   <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
 </div>
 
-<p><a href="{{ '/projects/' | relative_url }}">All projects &rarr;</a></p>
+<p><a href="{{ '/experience/' | relative_url }}">All projects &rarr;</a></p>
 
 <h2>Experience</h2>
 

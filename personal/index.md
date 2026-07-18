@@ -33,7 +33,7 @@ permalink: /personal/
 </div>
 
 <p>
-  See <a href="{{ '/research/' | relative_url }}">Research</a> for current and past work, <a href="{{ '/publications/' | relative_url }}">Publications</a> for papers and software, or
+  See <a href="{{ '/research/' | relative_url }}">Research &amp; Publications</a> for current work and the full paper/software list, or
   <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a> for the full, up-to-date list.
 </p>
 
