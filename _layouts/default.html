@@ -23,7 +23,10 @@
   <div class="wrap">
     <header class="site-header">
       <a class="site-title" href="{{ '/' | relative_url }}">Daan&nbsp;Zunnenberg<span class="cursor">_</span></a>
-      <nav class="site-nav">
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
         <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>About</a>
         <a href="{{ '/research/' | relative_url }}" {% if page.url contains 'research' %}class="active"{% endif %}>Research</a>
         <a href="{{ '/publications/' | relative_url }}" {% if page.url contains 'publications' %}class="active"{% endif %}>Publications</a>
@@ -54,6 +57,7 @@
       </div>
     </footer>
   </div>
+  <script src="{{ '/assets/js/nav-toggle.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/console-bar.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/candles.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/external-links.js' | relative_url }}"></script>
