@@ -36,11 +36,11 @@ permalink: /projects/
         kernel across the intraday grid.
       </p>
       <p>
-        In operator form, the functional GARCH(p,q) recursion is
+        In operator form, the functional GARCH(p,q) recursion takes the form
       </p>
-      $$
+      \[
       \sigma_t^2 = \omega + \sum_{i=1}^{p} \mathcal{A}_i\!\left(r_{t-i}^2\right) + \sum_{j=1}^{q} \mathcal{B}_j\!\left(\sigma_{t-j}^2\right)
-      $$
+      \]
       <p>
         where &omega;, and the integral operators &Ascr;<sub>i</sub>, &Bscr;<sub>j</sub> acting on <em>L</em><sup>2</sup>[0,1],
         are all represented in the non-negative Bernstein basis. That's why positivity of the surface reduces to a finite,
@@ -117,10 +117,10 @@ result = minimize(
         asymptotically Gaussian under stationarity (via &beta;-mixing), and the test rejects when the running
         maximum of that difference exceeds a Gumbel-type critical bound (Pickands/Berman).
       </p>
-      <p>The running test statistic compares the two smoothers directly:</p>
-      $$
+      <p>The running test statistic compares the two smoothers directly, taking the form</p>
+      \[
       T_n = \max_{1 \le k \le n} \; \sqrt{k}\,\bigl\| \hat{\Sigma}^{\text{time}}_k - \hat{\Sigma}^{\text{state}}_k \bigr\|
-      $$
+      \]
       <p>
         with critical values from the Gumbel-type limit law of Pickands and Berman for the running maximum of a
         stationary Gaussian sequence.
