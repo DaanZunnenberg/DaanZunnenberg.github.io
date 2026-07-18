@@ -314,7 +314,7 @@ main::before {
 .profile-cover img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 340px;
   object-fit: cover;
 }
 
@@ -330,6 +330,7 @@ main::before {
 
 @media (max-width: 640px) {
   .profile-cover { margin: 12px -16px 20px; }
+  .profile-cover img { height: 320px; }
 }
 
 /* Typography */
