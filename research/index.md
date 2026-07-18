@@ -116,7 +116,7 @@ estimation once the independence assumption is dropped.
     Developed a functional stationarity test for multidimensional diffusion processes, implementing and
     packaging the underlying mathematical framework as an open-source library.
   </p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">MultivariateHamrickTaqqu on GitHub</a></div>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></div>
 </div>
 
 <p>
