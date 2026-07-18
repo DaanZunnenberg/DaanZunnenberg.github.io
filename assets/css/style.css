@@ -52,7 +52,7 @@ body {
     0 0 20px rgba(0, 0, 0, 0.6);
 }
 
-/* Full-page trading-floor backdrop: live BTC/ETH options chain + grid, fixed behind all content */
+/* Full-page trading-floor backdrop: BTC/ETH/SOL options chains (ThinkOrSwim-inspired) + grid, fixed behind all content */
 #market-table {
   position: fixed;
   inset: 0;
