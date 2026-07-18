@@ -70,19 +70,20 @@ estimation once the independence assumption is dropped.
           \(A = \mathbb{E}\sup_t X_t\) and \(B = \gamma_2(T,d)\). Each side controls the other, so the two
           quantities are equivalent rather than just one bounding the other.
         </p>
-        <h4>Fernique's functional</h4>
+        <h4>Why \(\gamma_2\) is canonical</h4>
         <p>
-          Before \(\gamma_2\), Fernique had already proposed a majorizing measure, a probability measure
-          \(\mu\) on \(T\) chosen to make the quantity below small, where \(B(t,\varepsilon)\) is the \(d\)-ball
-          of radius \(\varepsilon\) around \(t\).
+          The lower bound above means \(\gamma_2(T,d)\) isn't just an artifact of the particular admissible
+          sequence used to build it — it can be recovered directly from the geometry of \((T,d)\), through
+          separated sets rather than partitions. Call \(A \subset T\) \((a,r)\)-separated if \(d(s,t) \ge r\)
+          for all distinct \(s,t \in A\) and \(\operatorname{card}(A) \ge \exp(a^2)\), and let \(F(T,d)\) be the
+          largest value of \(\sum_n 2^{n/2} r_n\) achievable over a nested chain of \((2^n, r_n)\)-separated
+          sets \(A_0 \subset A_1 \subset \cdots \subset T\).
         </p>
-        \[
-        m(T,d) = \inf_{\mu} \; \sup_{t \in T} \; \int_0^{\infty} \sqrt{\log \frac{1}{\mu(B(t,\varepsilon))}} \; d\varepsilon
-        \]
         <p>
-          It took Talagrand's work to show \(m(T,d)\) and \(\gamma_2(T,d)\) are equivalent up to universal
-          constants. The discrete, partition-based functional and Fernique's continuous, measure-based one turn
-          out to be the same quantity seen two ways.
+          Talagrand's growth-functional argument shows \(F(T,d)\) and \(\gamma_2(T,d)\) agree up to a universal
+          constant. So \(\gamma_2\) is pinned down entirely by how many far-apart points \(T\) contains at every
+          scale, a property of the metric space itself rather than of any chaining construction, which is what
+          makes it canonical.
         </p>
         <p>
           This is the toolkit I'm extending, to processes that are only \(\beta\)-mixing rather than
@@ -105,14 +106,29 @@ estimation once the independence assumption is dropped.
     <li>Designed likelihood-based estimation algorithms for functional scale models, using vectorized and parallel computation to keep them fast at scale.</li>
     <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using <code>NumPy</code> vectorization and parallel computing.</li>
   </ul>
-  <p>
-    TODO items left on the estimation script, kept as a plain comment block rather than an issue tracker since it's a
-    one-person research codebase:
-  </p>
-  <pre class="code-block" data-lang="python"><code># TODO:
-#     1. Generalise oracle basis to take arbitrary shapes
-#     2. Use real data and compare
+  <pre class="code-block" data-lang="python"><code>def bernstein_basis(u, M, k):
+    return comb(M - 1, k - 1) * u ** (k - 1) * (1 - u) ** (M - k)
+
+def functional_operator(grid, coefs, M):
+    phi = np.stack([bernstein_basis(grid, M, k) for k in range(1, M + 1)])
+    return sum(c * np.outer(phi[i], phi[j]) for c, (i, j) in zip(coefs, product(range(M), repeat=2)))
+
+def qmle_filter(returns, theta, M):
+    delta, alpha, beta = theta[:M], theta[M:M + M**2], theta[M + M**2:]
+    grid = np.linspace(0, 1, returns.shape[0])
+    A, B = functional_operator(grid, alpha, M), functional_operator(grid, beta, M)
+    d = sum(c * bernstein_basis(grid, M, k) for k, c in enumerate(delta, 1))
+
+    sigma2 = np.ones(returns.shape[0])
+    surface = np.zeros_like(returns)
+    for t in range(1, returns.shape[1]):
+        sigma2 = d + (A @ returns[:, t - 1] ** 2 + B @ sigma2) / returns.shape[0]
+        surface[:, t] = sigma2
+    return surface
+
+theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method='SLSQP').x
 </code></pre>
+  <p class="form-hint">Non-negative Bernstein coefficients guarantee a positive volatility surface directly, without constrained optimization over the full operator.</p>
   <p>
     The MATLAB estimation script itself (<a href="https://github.com/DaanZunnenberg/FunctionalScaleMod/tree/main/MATLAB_YC" target="_blank" rel="noopener noreferrer">MATLAB_YC on GitHub</a>)
     fits the GAS recursion by reparameterized maximum likelihood, using a B-spline basis for the volatility surface

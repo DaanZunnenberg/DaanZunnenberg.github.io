@@ -41,26 +41,24 @@ Abstract probability by day, quant by heart. <a href="{{ '/personal/' | relative
       <div class="readme">
       <h4>Overview</h4>
       <p>
-        Treats intraday log-return curves as functional observations in <em>L</em><sup>2</sup>[0,1] and extends
-        classical GARCH/GAS dynamics to function space. The functional GARCH(p,q) model represents the
-        intercept and lag operators in a non-negative Bernstein-polynomial basis, so the infinite-dimensional
-        positivity constraint on the conditional-variance operators reduces to non-negativity of a finite
-        coefficient matrix, estimated by quasi-maximum likelihood. The GAS-GARCH extension instead represents
-        the log-volatility curve in a cubic B-spline basis and drives its coefficients with a score-based
-        recursion under a multivariate Student-<em>t</em> likelihood with an Ornstein&ndash;Uhlenbeck covariance
-        kernel across the intraday grid.
-      </p>
-      <p>
-        In operator form, the functional GARCH(p,q) recursion takes the form
-      </p>
-      \[
-      \sigma_t^2 = \omega + \sum_{i=1}^{p} \mathcal{A}_i\!\left(r_{t-i}^2\right) + \sum_{j=1}^{q} \mathcal{B}_j\!\left(\sigma_{t-j}^2\right)
-      \]
-      <p>
-        where &omega;, and the integral operators &Ascr;<sub>i</sub>, &Bscr;<sub>j</sub> acting on <em>L</em><sup>2</sup>[0,1],
-        are all represented in the non-negative Bernstein basis. That's why positivity of the surface reduces to a finite,
-        tractable coefficient constraint instead of an infinite-dimensional one.
-      </p>
+          Treats continuous intraday log-return paths as functional data objects \(y_t(u)\) over the trading day \(u \in [0,1]\). The <strong>Functional GARCH(p,q)</strong> model generalizes classical volatility dynamics to an infinite-dimensional Hilbert space, capturing how shocks at any point of the day impact the entire upcoming volatility surface.
+        </p>
+
+        <h4>Model Definition</h4>
+        <p>
+          The functional scale model decomposes returns using a time-varying conditional variance curve \(\sigma_t^2(u)\), so we look at
+          \[y_t(u) = \sigma_t(u)\eta_t(u)\]
+          driven by the recursion
+          \[\sigma_t^2 = \delta + \sum_{i=1}^{q}\alpha_i\left(y_{t-i}^2\right) + \sum_{j=1}^{p}\beta_j\left(\sigma_{t-j}^2\right)\]
+        </p>
+        <p>
+          where \(\delta\) is a strictly positive baseline intercept curve, and \(\alpha_i, \beta_j\) are non-negative integral kernel operators mapping past squared return curves and past volatility curves into today's volatility surface.
+        </p>
+
+        <h4>Estimation</h4>
+        <p>
+          Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using <strong>Functional Quasi-Maximum Likelihood Estimation (QMLE)</strong>. Intuitively, the continuous process is projected onto a finite set of non-negative instrumental functions (such as Bernstein polynomials or shifted functional principal components). This maps the functional constraints into a tractable, finite-dimensional multivariate GARCH structure that can be optimized efficiently.
+        </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/FunctionalScale.git
 cd FunctionalScale
