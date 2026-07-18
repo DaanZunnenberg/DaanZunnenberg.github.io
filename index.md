@@ -28,40 +28,10 @@ title: About
   </div>
 </section>
 
-<p>
-I'm a PhD candidate in Mathematics at Leiden University, researching decomposition theorems, generic chaining,
-majorizing measures, weak convergence, and Donsker&ndash;Skorokhod theory for stochastic processes satisfying
-absolute regularity. Before starting the PhD, I worked as a quantitative developer building algorithmic
-market-making and smart order routing systems, and completed an MSc in Econometrics and Operations Research
-(cum laude) at Vrije Universiteit Amsterdam. <a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
+<p class="lede">
+Proving convergence results for stochastic processes, then building the estimation and execution systems that
+put those ideas into production. <a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
 </p>
-
-<h2>Experience</h2>
-
-<div class="entry">
-  <div class="entry-head">
-    <h3>QuantFi &mdash; Quantitative Developer</h3>
-    <span class="entry-date">2023 &ndash; 2024</span>
-  </div>
-  <ul>
-    <li>Algorithmic market-making: volatility/skew estimation, order-flow modelling, queue-aware execution, market impact.</li>
-    <li>Smart order routing with dynamic liquidity allocation, cutting slippage and transaction costs by 5.8%.</li>
-  </ul>
-  <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>Numba</code> &middot; <code>CCXT</code></div>
-</div>
-
-<div class="entry">
-  <div class="entry-head">
-    <h3>Skills</h3>
-  </div>
-  <div class="tags">
-    <code>Python</code> &middot; <code>Pandas</code> &middot; <code>NumPy</code> &middot; <code>Numba</code> &middot; <code>asyncio</code> &middot;
-    <code>SciPy</code> &middot; <code>CVXPY</code> &middot; <code>statsmodels</code> &middot; <code>scikit-learn</code> &middot; <code>TensorFlow</code> &middot;
-    <code>Java</code> &middot; <code>Docker</code> &middot; <code>Git</code>
-  </div>
-</div>
-
-<p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
 
 <h2>Selected Projects</h2>
 
@@ -73,7 +43,7 @@ market-making and smart order routing systems, and completed an MSc in Econometr
   <p>Extending functional GARCH to a GAS model for time-varying intraday volatility surfaces, estimated with B-splines and <code>Numba</code> JIT.</p>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale on GitHub</a></div>
 
-  <details>
+  <details open>
     <summary><span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span></summary>
     <div class="readme">
       <h4>Overview</h4>
@@ -234,3 +204,30 @@ tests/
 </div>
 
 <p><a href="{{ '/projects/' | relative_url }}">All projects &rarr;</a></p>
+
+<h2>Experience</h2>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>QuantFi &mdash; Quantitative Developer</h3>
+    <span class="entry-date">2023 &ndash; 2024</span>
+  </div>
+  <ul>
+    <li>Algorithmic market-making: volatility/skew estimation, order-flow modelling, queue-aware execution, market impact.</li>
+    <li>Smart order routing with dynamic liquidity allocation, cutting slippage and transaction costs by 5.8%.</li>
+  </ul>
+  <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>Numba</code> &middot; <code>CCXT</code></div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>Skills</h3>
+  </div>
+  <div class="tags">
+    <code>Python</code> &middot; <code>Pandas</code> &middot; <code>NumPy</code> &middot; <code>Numba</code> &middot; <code>asyncio</code> &middot;
+    <code>SciPy</code> &middot; <code>CVXPY</code> &middot; <code>statsmodels</code> &middot; <code>scikit-learn</code> &middot; <code>TensorFlow</code> &middot;
+    <code>Java</code> &middot; <code>Docker</code> &middot; <code>Git</code>
+  </div>
+</div>
+
+<p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
