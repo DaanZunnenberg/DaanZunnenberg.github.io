@@ -52,8 +52,8 @@ body {
     0 0 20px rgba(0, 0, 0, 0.6);
 }
 
-/* Full-page trading-floor backdrop: live candlestick feed + grid, fixed behind all content */
-#candles {
+/* Full-page trading-floor backdrop: live BTC/ETH options chain + grid, fixed behind all content */
+#market-table {
   position: fixed;
   inset: 0;
   width: 100%;
@@ -90,12 +90,20 @@ body::after {
   z-index: 1;
 }
 
-/* Live chart status badge */
-.live-badge {
+/* Live spot-price status badges */
+.live-badge-stack {
   position: fixed;
   right: 18px;
   bottom: 18px;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.live-badge {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -143,8 +151,9 @@ body::after {
 }
 
 @media (max-width: 520px) {
-  .live-badge { right: 12px; bottom: 12px; padding: 6px 10px; font-size: 10px; }
-  .site-footer { padding-bottom: 84px; }
+  .live-badge-stack { right: 12px; bottom: 12px; }
+  .live-badge { padding: 6px 10px; font-size: 10px; }
+  .site-footer { padding-bottom: 96px; }
 }
 
 /* Console bar: a terminal-style header line that types out a rotating
