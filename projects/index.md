@@ -9,7 +9,7 @@ permalink: /projects/
 
 <div class="entry">
   <div class="entry-head">
-    <h3>Functional Volatility Surface Modelling</h3>
+    <h3><a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">Functional Volatility Surface Modelling</a></h3>
     <span class="entry-date">September 2024 &ndash; present</span>
   </div>
   <ul>
@@ -80,7 +80,7 @@ result = minimize(
 
 <div class="entry">
   <div class="entry-head">
-    <h3>HRP Portfolio Allocation</h3>
+    <h3><a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">HRP Portfolio Allocation</a></h3>
     <span class="entry-date">October 2023 &ndash; August 2024</span>
   </div>
   <ul>
@@ -120,7 +120,7 @@ weights = recursive_bisection(returns.cov(), order)
 
 <div class="entry">
   <div class="entry-head">
-    <h3>Functional Stationarity Test</h3>
+    <h3><a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Functional Stationarity Test</a></h3>
     <span class="entry-date">2024</span>
   </div>
   <p>A novel functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis and released as an open-source library.</p>
