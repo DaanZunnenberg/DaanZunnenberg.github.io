@@ -26,7 +26,8 @@
       var startHeight = el.offsetHeight + "px";
       var endHeight = summary.offsetHeight + "px";
       if (animation) animation.cancel();
-      animation = el.animate({ height: [startHeight, endHeight] }, { duration: 260, easing: "ease-out" });
+      animation = el.animate({ height: [startHeight, endHeight] }, { duration: 420, easing: "cubic-bezier(0.4, 0, 0.2, 1)" });
+      content.animate({ opacity: [1, 0] }, { duration: 200, easing: "ease-out" });
       animation.onfinish = function () { onFinish(false); };
       animation.oncancel = function () { isClosing = false; };
     }
@@ -42,7 +43,8 @@
       var startHeight = el.offsetHeight + "px";
       var endHeight = summary.offsetHeight + content.offsetHeight + "px";
       if (animation) animation.cancel();
-      animation = el.animate({ height: [startHeight, endHeight] }, { duration: 260, easing: "ease-out" });
+      animation = el.animate({ height: [startHeight, endHeight] }, { duration: 420, easing: "cubic-bezier(0.4, 0, 0.2, 1)" });
+      content.animate({ opacity: [0, 1] }, { duration: 320, delay: 80, easing: "ease-in" });
       animation.onfinish = function () { onFinish(true); };
       animation.oncancel = function () { isExpanding = false; };
     }
