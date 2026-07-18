@@ -10,6 +10,7 @@
   var gap = 5;
   var slotPx = candleW + gap;
   var SIM_TICK_MS = 5000; // decorative bar-completion pace for the simulated fallback (real feed uses 1d klines)
+  var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
 
   var candles = [];
   var forming = null;
@@ -38,6 +39,17 @@
   var VP_BINS = 28;
   var VP_MAX_WIDTH = 70;
   var VP_COLOR = "rgba(93, 143, 255, 0.24)";
+  var POC_COLOR = "rgba(255, 200, 87, 0.4)";
+
+  // Bottom volume subpanel (time-based, one bar per candle)
+  var VOL_PANEL_RATIO = 0.12;
+
+  // Order-book depth mini-widget, bottom-left — only populated from the
+  // real Binance feed (never fabricated for the simulated fallback).
+  var OB_LEVELS = 8;
+  var OB_REFRESH_MS = 6000;
+  var orderBook = null;
+  var obTimer = null;
 
   var priceEl = document.getElementById("live-price");
   var labelEl = document.getElementById("live-symbol");
@@ -107,22 +119,85 @@
 
   function drawCandle(c, x, y) {
     var up = c.close >= c.open;
-    var color = up ? "rgba(56, 201, 193, 0.26)" : "rgba(239, 90, 110, 0.24)";
-    var wickColor = up ? "rgba(56, 201, 193, 0.16)" : "rgba(239, 90, 110, 0.15)";
+    var color = up ? "rgba(56, 201, 193, 0.3)" : "rgba(239, 90, 110, 0.28)";
+    var borderColor = up ? "rgba(56, 201, 193, 0.5)" : "rgba(239, 90, 110, 0.48)";
+    var wickColor = up ? "rgba(56, 201, 193, 0.22)" : "rgba(239, 90, 110, 0.2)";
 
     ctx.strokeStyle = wickColor;
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 1.2;
     ctx.beginPath();
     ctx.moveTo(x + candleW / 2, y(c.high));
     ctx.lineTo(x + candleW / 2, y(c.low));
     ctx.stroke();
 
-    ctx.fillStyle = color;
     var yOpen = y(c.open);
     var yClose = y(c.close);
     var top = Math.min(yOpen, yClose);
-    var h = Math.max(Math.abs(yClose - yOpen), 1.2);
+    var h = Math.max(Math.abs(yClose - yOpen), 1.4);
+
+    ctx.fillStyle = color;
     ctx.fillRect(x, top, candleW, h);
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x + 0.5, top + 0.5, candleW - 1, Math.max(h - 1, 0.5));
+  }
+
+  function niceStep(range, targetCount) {
+    var rawStep = range / targetCount;
+    var mag = Math.pow(10, Math.floor(Math.log10(rawStep)));
+    var norm = rawStep / mag;
+    var step = norm < 1.5 ? 1 : norm < 3 ? 2 : norm < 7 ? 5 : 10;
+    return step * mag;
+  }
+
+  function drawGrid(min, max, y) {
+    var step = niceStep(max - min, 5);
+    if (!isFinite(step) || step <= 0) return;
+    var start = Math.ceil(min / step) * step;
+    ctx.font = "10px " + MONO_FONT;
+    ctx.textAlign = "right";
+    for (var v = start; v <= max; v += step) {
+      var yy = y(v);
+      ctx.strokeStyle = "rgba(233, 236, 243, 0.05)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, yy);
+      ctx.lineTo(W, yy);
+      ctx.stroke();
+      var label = v >= 1000 ? (v / 1000).toFixed(1) + "k" : v.toFixed(0);
+      ctx.fillStyle = "rgba(233, 236, 243, 0.24)";
+      ctx.fillText(label, W - 8, yy - 4);
+    }
+  }
+
+  function computePOC(buckets) {
+    var maxVol = -1;
+    var idx = -1;
+    buckets.forEach(function (v, i) {
+      if (v > maxVol) {
+        maxVol = v;
+        idx = i;
+      }
+    });
+    return maxVol > 0 ? idx : -1;
+  }
+
+  function drawPOC(idx, min, max, y) {
+    if (idx < 0) return;
+    var bucketPriceSize = (max - min) / VP_BINS;
+    var yy = y(min + (idx + 0.5) * bucketPriceSize);
+    ctx.strokeStyle = POC_COLOR;
+    ctx.lineWidth = 1;
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    ctx.moveTo(0, yy);
+    ctx.lineTo(W, yy);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.font = "9px " + MONO_FONT;
+    ctx.textAlign = "left";
+    ctx.fillStyle = POC_COLOR;
+    ctx.fillText("POC", 6, yy - 4);
   }
 
   function drawVolumeProfile(buckets, min, max, y) {
@@ -139,6 +214,53 @@
     }
   }
 
+  function drawVolumeBars(visible, panelTop, panelH) {
+    var maxVol = Math.max.apply(null, visible.map(function (c) { return c.vol || 0; }).concat([1e-9]));
+    visible.forEach(function (c, i) {
+      var up = c.close >= c.open;
+      ctx.fillStyle = up ? "rgba(56, 201, 193, 0.3)" : "rgba(239, 90, 110, 0.28)";
+      var h = ((c.vol || 0) / maxVol) * panelH;
+      ctx.fillRect(i * slotPx, panelTop + panelH - h, candleW, h);
+    });
+  }
+
+  function drawOrderBookWidget() {
+    if (!orderBook || W < 900) return;
+    var boxW = 152;
+    var boxH = 208;
+    var x0 = 18;
+    var y0 = H - boxH - 18;
+
+    ctx.fillStyle = "rgba(10, 13, 21, 0.6)";
+    ctx.fillRect(x0, y0, boxW, boxH);
+    ctx.strokeStyle = "rgba(28, 35, 51, 0.9)";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x0 + 0.5, y0 + 0.5, boxW - 1, boxH - 1);
+
+    ctx.font = "9px " + MONO_FONT;
+    ctx.textAlign = "left";
+    ctx.fillStyle = "rgba(166, 175, 194, 0.6)";
+    ctx.fillText("ORDER BOOK · BTCUSDT", x0 + 8, y0 + 15);
+
+    var rows = orderBook.asks.slice().reverse().concat(orderBook.bids);
+    var rowH = (boxH - 24) / rows.length;
+    var maxQty = Math.max.apply(null, rows.map(function (l) { return l[1]; }).concat([1e-9]));
+    var yCursor = y0 + 22;
+
+    rows.forEach(function (level, i) {
+      var isAsk = i < orderBook.asks.length;
+      var barColor = isAsk ? "rgba(239, 90, 110, 0.16)" : "rgba(56, 201, 193, 0.16)";
+      var textColor = isAsk ? "rgba(239, 90, 110, 0.65)" : "rgba(56, 201, 193, 0.65)";
+      var w = (level[1] / maxQty) * (boxW - 16);
+      ctx.fillStyle = barColor;
+      ctx.fillRect(x0 + 8, yCursor, w, rowH - 2);
+      ctx.font = "9px " + MONO_FONT;
+      ctx.fillStyle = textColor;
+      ctx.fillText(level[0].toFixed(1), x0 + boxW - 58, yCursor + rowH - 3);
+      yCursor += rowH;
+    });
+  }
+
   function draw() {
     ctx.clearRect(0, 0, W, H);
     var all = forming ? candles.concat([forming]) : candles;
@@ -146,11 +268,12 @@
 
     var visibleCount = Math.min(all.length, Math.max(slotCount() + 1 - RIGHT_MARGIN_SLOTS, 1));
     var startIdx = all.length - visibleCount;
+    var visible = all.slice(startIdx);
     var closes = all.map(function (c) { return c.close; });
     var maSeries = computeMAs(closes);
 
     var vals = [];
-    all.slice(startIdx).forEach(function (c) {
+    visible.forEach(function (c) {
       vals.push(c.high, c.low);
     });
     maSeries.forEach(function (series) {
@@ -161,16 +284,20 @@
     var max = Math.max.apply(null, vals);
     var min = Math.min.apply(null, vals);
     var range = Math.max(max - min, max * 0.0005, 1e-6);
-    var padTop = H * 0.15;
-    var padBottom = H * 0.15;
+    var padTop = H * 0.12;
+    var volPanelH = H * VOL_PANEL_RATIO;
+    var padBottom = H * 0.12 + volPanelH;
     var chartH = H - padTop - padBottom;
 
     function y(v) {
       return padTop + (1 - (v - min) / range) * chartH;
     }
 
-    var buckets = computeVolumeProfile(all.slice(startIdx), min, max);
+    drawGrid(min, max, y);
+
+    var buckets = computeVolumeProfile(visible, min, max);
     drawVolumeProfile(buckets, min, max, y);
+    drawPOC(computePOC(buckets), min, max, y);
 
     for (var i = startIdx; i < all.length; i++) {
       drawCandle(all[i], (i - startIdx) * slotPx, y);
@@ -198,6 +325,9 @@
       }
       ctx.stroke();
     });
+
+    drawVolumeBars(visible, H - volPanelH - H * 0.02, volPanelH - H * 0.02);
+    drawOrderBookWidget();
   }
 
   // ---- Live BTC/USDT feed via Binance's public REST + WebSocket API (no key required) ----
@@ -244,6 +374,8 @@
       clearTimeout(connectTimeout);
       live = true;
       if (labelEl) labelEl.textContent = "BTC/USDT";
+      fetchOrderBook();
+      if (!obTimer) obTimer = setInterval(fetchOrderBook, OB_REFRESH_MS);
     };
 
     ws.onmessage = function (evt) {
@@ -283,10 +415,32 @@
     };
   }
 
+  function fetchOrderBook() {
+    fetch("https://api.binance.com/api/v3/depth?symbol=BTCUSDT&limit=20")
+      .then(function (res) {
+        if (!res.ok) throw new Error("bad response");
+        return res.json();
+      })
+      .then(function (data) {
+        orderBook = {
+          bids: data.bids.slice(0, OB_LEVELS).map(function (l) { return [+l[0], +l[1]]; }),
+          asks: data.asks.slice(0, OB_LEVELS).map(function (l) { return [+l[0], +l[1]]; })
+        };
+      })
+      .catch(function () {
+        // leave the previous snapshot (if any); never fabricate one
+      });
+  }
+
   // ---- Fallback: deterministic simulated feed, used if Binance is unreachable ----
   function startSimulatedFeed() {
     if (live) return; // already running for real
     live = false;
+    orderBook = null;
+    if (obTimer) {
+      clearInterval(obTimer);
+      obTimer = null;
+    }
     if (labelEl) labelEl.textContent = "SIMULATED";
 
     var SEED = 1337420;
