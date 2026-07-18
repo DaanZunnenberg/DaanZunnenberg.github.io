@@ -679,6 +679,7 @@ pre.code-block code {
 .contact-form button {
   font-family: var(--mono);
   font-size: 13px;
+  font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--bg);
   background: var(--blue-400);
@@ -686,6 +687,7 @@ pre.code-block code {
   border-radius: 4px;
   padding: 11px 22px;
   cursor: pointer;
+  text-shadow: none;
   transition: background 0.2s ease, transform 0.15s ease;
 }
 
@@ -698,6 +700,7 @@ pre.code-block code {
   display: inline-block;
   font-family: var(--mono);
   font-size: 13px;
+  font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--bg);
   background: var(--blue-400);
@@ -705,6 +708,7 @@ pre.code-block code {
   border-radius: 4px;
   padding: 11px 22px;
   text-decoration: none;
+  text-shadow: none;
   transition: background 0.2s ease, transform 0.15s ease;
 }
 
