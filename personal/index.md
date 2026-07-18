@@ -4,18 +4,18 @@ title: Beyond the Desk
 permalink: /personal/
 ---
 
-<div class="profile-header">
-  <img class="profile-photo" src="{{ '/assets/img/daan.jpg' | relative_url }}" alt="Daan Zunnenberg">
-  <div class="profile-intro">
-    <h1>Beyond the Desk</h1>
-    <p class="tagline">The non-professional version of this site.</p>
-  </div>
+<div class="profile-cover">
+  <img src="{{ '/assets/img/daan-cover.jpg' | relative_url }}" alt="Daan Zunnenberg">
 </div>
 
-<p class="lede">
-Outside of proofs and production systems, I split my time between a padel court, a reading list, and planning
-the next trip.
-</p>
+<div class="profile-intro">
+  <h1>Beyond the Desk</h1>
+  <p class="tagline">The non-professional version of this site.</p>
+  <p class="lede">
+    Outside of proofs and production systems, I split my time between a padel court, a reading list, and
+    planning the next trip.
+  </p>
+</div>
 
 <h2>Padel</h2>
 <p>
