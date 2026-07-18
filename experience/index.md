@@ -107,6 +107,77 @@ with Pool(n_workers) as pool:
     theta_hat = pool.map(estimate_one, range(n_sims))
 </code></pre>
   <p class="form-hint">Vectorizing the simulation step and parallelizing across replications cut wall-clock time by 92.3% on average.</p>
+  <p>
+    TODO items left on the estimation script, kept as a plain comment block rather than an issue tracker since it's a
+    one-person research codebase:
+  </p>
+  <pre class="code-block" data-lang="python"><code># TODO:
+#     1. Generalise oracle basis to take arbitrary shapes
+#     2. Use real data and compare
+</code></pre>
+  <p>
+    The MATLAB estimation script itself (<a href="https://github.com/DaanZunnenberg/FunctionalScaleMod/tree/main/MATLAB_YC" target="_blank" rel="noopener noreferrer">MATLAB_YC on GitHub</a>)
+    fits the GAS recursion by reparameterized maximum likelihood, using a B-spline basis for the volatility surface
+    and a multivariate Student-<em>t</em> observation density with an Ornstein&ndash;Uhlenbeck covariance kernel:
+  </p>
+  <pre class="code-block" data-lang="matlab"><code>dK = 7;
+Bsplinebasis = create_bspline_basis([0, 1], dK, 4);  % 7 B-spline basis functions of order 4
+
+% B-spline basis functions: full matrix
+vtau = 0:1/(size(vyTau,1)-1):1; vtau = vtau';
+n = length(vtau);
+mBsplinesSparseMat = eval_basis(vtau, Bsplinebasis);
+
+%---------- FunGAS: update principal component scores ----------%
+vb0 = ones(dK+1,1);                                                        % initial principal component scores
+vtheta0 = [2.1; 0.001; ones(dK+1,1); -0.5*ones(dK+1,1); 0.1*ones(dK+1,1)]; % initial parameters
+LB = [1.05; 0.00001; -5*ones(dK+1,1); -2*ones(dK+1,1); -0.9*ones(dK+1,1)]; % lower bound
+UB = [50; 1; 15*ones(dK+1,1); 2*ones(dK+1,1); 0.9*ones(dK+1,1)];          % upper bound
+
+% vthetaHat contains (in order): degree of freedom, dependence parameter,
+% omega vector, diagonal elements of mB, diagonal elements of mA
+fGAS_likelihood = @(vtheta) -construct_likelihood_repara(vyTau,vb0,dK,n,mBsplinesSparseMat,vtau,vtheta);
+options = optimoptions('fmincon','MaxFunctionEvaluations',1E4);
+vthetaHat = fmincon(fGAS_likelihood,vtheta0,[],[],[],[],LB,UB,[],options);
+</code></pre>
+  <p>
+    The log-likelihood itself recurses the score-driven B-spline coefficients forward and evaluates the
+    Student-<em>t</em> density at each step, using a numerically stable log-determinant (LU-based) rather than
+    <code>log(det(&middot;))</code> directly to avoid overflow on the covariance kernel:
+  </p>
+  <pre class="code-block" data-lang="matlab"><code>function likelihood = construct_likelihood_repara(mY,vb1,dK,n,mBsplinesSparseMat,vtau,vtheta)
+T = size(mY,2);
+dnu = vtheta(1);     % degree of freedom parameter
+ddelta = vtheta(2);  % dependence parameter
+vomega = vtheta(3:dK+3);   % level parameter
+mB = vtheta(dK+4:2*dK+4);  % scale parameter
+mA = vtheta(end-dK:end);   % score parameter
+mLambdaOU_delta = exp(-pdist2(vtau,vtau,'fasteuclidean')/ddelta); % OU covariance kernel
+
+mBsplinesMat = full(mBsplinesSparseMat);
+mBsplinesMat = [ones(n,1) mBsplinesMat];
+
+likelihood = 0;
+vb_now = vb1;
+vy_now = mY(:,1);
+Temp1 = (dnu + n)/(2*dnu);
+for id = 2:T
+    vsigma_now = mBsplinesMat*vb_now;
+
+    Temp2 = mLambdaOU_delta\(vy_now./exp(vsigma_now/2));
+    Temp3 = vy_now.*mBsplinesMat./exp(vsigma_now/2);
+    Temp4 = 1 + (vy_now./exp(vsigma_now/2))'*Temp2/dnu;
+
+    likelihood = likelihood + (-0.5*logdet(exp(vsigma_now).*mLambdaOU_delta) ...
+        - (dnu+n)/2*log(Temp4));
+
+    density_score = -0.5*sum(mBsplinesMat,1)' + Temp1*Temp4^(-1)*Temp3'*Temp2;
+    vb_now = vomega + mB.*vb_now + mA.*density_score;
+    vy_now = mY(:,id);
+end
+likelihood = likelihood + T*(gammaln((dnu+n)/2) - gammaln(dnu/2) - n/2*log(pi*dnu));
+end
+</code></pre>
 </div>
 
 <h2>Projects</h2>
@@ -130,26 +201,23 @@ with Pool(n_workers) as pool:
       <div class="readme">
       <h4>Overview</h4>
       <p>
-        Treats intraday log-return curves as functional observations in <em>L</em><sup>2</sup>[0,1] and extends
-        classical GARCH/GAS dynamics to function space. The functional GARCH(p,q) model represents the
-        intercept and lag operators in a non-negative Bernstein-polynomial basis, so the infinite-dimensional
-        positivity constraint on the conditional-variance operators reduces to non-negativity of a finite
-        coefficient matrix, estimated by quasi-maximum likelihood. The GAS-GARCH extension instead represents
-        the log-volatility curve in a cubic B-spline basis and drives its coefficients with a score-based
-        recursion under a multivariate Student-<em>t</em> likelihood with an Ornstein&ndash;Uhlenbeck covariance
-        kernel across the intraday grid.
-      </p>
-      <p>
-        In operator form, the functional GARCH(p,q) recursion takes the form
-      </p>
-      \[
-      \sigma_t^2 = \omega + \sum_{i=1}^{p} \mathcal{A}_i\!\left(r_{t-i}^2\right) + \sum_{j=1}^{q} \mathcal{B}_j\!\left(\sigma_{t-j}^2\right)
-      \]
-      <p>
-        where &omega;, and the integral operators &Ascr;<sub>i</sub>, &Bscr;<sub>j</sub> acting on <em>L</em><sup>2</sup>[0,1],
-        are all represented in the non-negative Bernstein basis. That's why positivity of the surface reduces to a finite,
-        tractable coefficient constraint instead of an infinite-dimensional one.
-      </p>
+          Treats continuous intraday log-return paths as functional data objects \(y_t(u)\) over the trading day \(u \in [0,1]\). The <strong>Functional GARCH(p,q)</strong> model generalizes classical volatility dynamics to an infinite-dimensional Hilbert space, capturing how shocks at any point of the day impact the entire upcoming volatility surface.
+        </p>
+
+        <h4>Model Definition</h4>
+        <p>
+          The functional scale model decomposes returns using a time-varying conditional variance curve \(\sigma_t^2(u)\):
+        </p>
+        \[y_t(u) = \sigma_t(u)\eta_t(u)\]
+        \[\sigma_t^2 = \delta + \sum_{i=1}^{q}\alpha_i\left(y_{t-i}^2\right) + \sum_{j=1}^{p}\beta_j\left(\sigma_{t-j}^2\right)\]
+        <p>
+          where \(\delta\) is a strictly positive baseline intercept curve, and \(\alpha_i, \beta_j\) are non-negative integral kernel operators mapping past squared return curves and past volatility curves into today's volatility surface.
+        </p>
+
+        <h4>Estimation</h4>
+        <p>
+          Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using <strong>Functional Quasi-Maximum Likelihood Estimation (QMLE)</strong>. Intuitively, the continuous process is projected onto a finite set of non-negative instrumental functions (such as Bernstein polynomials or shifted functional principal components). This maps the functional constraints into a tractable, finite-dimensional multivariate GARCH structure that can be optimized efficiently.
+        </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/FunctionalScale.git
 cd FunctionalScale

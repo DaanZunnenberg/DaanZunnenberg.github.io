@@ -217,7 +217,7 @@
     }
 
     var margin = 0;
-    var gap = 6;
+    var gap = 0;
     var panelH = (H - margin * 2 - gap) / 2;
     SYMBOLS.forEach(function (sym, i) {
       drawPanel(sym, { x: margin, y: margin + i * (panelH + gap), w: W - margin * 2, h: panelH }, now);
