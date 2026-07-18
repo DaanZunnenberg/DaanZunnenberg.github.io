@@ -28,25 +28,23 @@
   ];
   var maLookback = Math.max.apply(null, MA_PERIODS) - 1;
 
-  // Bollinger Bands: rolling mean +/- k * rolling std of closes — a
-  // standard volatility-banding tool from quant research, layered
-  // behind the candles as a soft band around the price.
-  var BOLL_PERIOD = 20;
-  var BOLL_K = 2;
-  var BOLL_LINE_COLOR = "rgba(56, 201, 193, 0.22)";
-  var BOLL_FILL_COLOR = "rgba(56, 201, 193, 0.045)";
-  var bandLookback = Math.max(maLookback, BOLL_PERIOD - 1);
-
   // Leave a few empty slots to the right of the latest bar, as classic
   // charting platforms do, instead of pinning the newest candle to the edge.
   var RIGHT_MARGIN_SLOTS = 5;
+
+  // Volume profile: a horizontal histogram of traded volume by price,
+  // Exocharts-style, drawn in the blank margin to the right of the
+  // latest bar rather than overlapping the candles.
+  var VP_BINS = 28;
+  var VP_MAX_WIDTH = 70;
+  var VP_COLOR = "rgba(93, 143, 255, 0.16)";
 
   var priceEl = document.getElementById("live-price");
   var labelEl = document.getElementById("live-symbol");
   var badge = document.getElementById("live-badge");
 
   function newForming(open) {
-    return { open: open, close: open, high: open, low: open };
+    return { open: open, close: open, high: open, low: open, vol: 0 };
   }
 
   function slotCount() {
@@ -54,7 +52,7 @@
   }
 
   function historyCap() {
-    return slotCount() + bandLookback;
+    return slotCount() + maLookback;
   }
 
   function resize() {
@@ -83,29 +81,16 @@
     });
   }
 
-  function computeBollinger(closes) {
-    var mid = new Array(closes.length).fill(null);
-    var upper = new Array(closes.length).fill(null);
-    var lower = new Array(closes.length).fill(null);
-    var sum = 0;
-    var sumSq = 0;
-    for (var i = 0; i < closes.length; i++) {
-      sum += closes[i];
-      sumSq += closes[i] * closes[i];
-      if (i >= BOLL_PERIOD) {
-        sum -= closes[i - BOLL_PERIOD];
-        sumSq -= closes[i - BOLL_PERIOD] * closes[i - BOLL_PERIOD];
-      }
-      if (i >= BOLL_PERIOD - 1) {
-        var mean = sum / BOLL_PERIOD;
-        var variance = Math.max(sumSq / BOLL_PERIOD - mean * mean, 0);
-        var sd = Math.sqrt(variance);
-        mid[i] = mean;
-        upper[i] = mean + BOLL_K * sd;
-        lower[i] = mean - BOLL_K * sd;
-      }
-    }
-    return { mid: mid, upper: upper, lower: lower };
+  function computeVolumeProfile(visibleCandles, min, max) {
+    var buckets = new Array(VP_BINS).fill(0);
+    var range = max - min;
+    if (range <= 0) return buckets;
+    visibleCandles.forEach(function (c) {
+      var mid = (c.high + c.low) / 2;
+      var idx = Math.min(VP_BINS - 1, Math.max(0, Math.floor(((mid - min) / range) * VP_BINS)));
+      buckets[idx] += c.vol || 0;
+    });
+    return buckets;
   }
 
   function updateBadge() {
@@ -140,37 +125,18 @@
     ctx.fillRect(x, top, candleW, h);
   }
 
-  function drawBollinger(bollinger, startIdx, endIdx, y) {
-    var upperPts = [];
-    var lowerPts = [];
-    for (var j = startIdx; j < endIdx; j++) {
-      var u = bollinger.upper[j];
-      var l = bollinger.lower[j];
-      if (u == null || l == null) continue;
-      var x = (j - startIdx) * slotPx + candleW / 2;
-      upperPts.push([x, y(u)]);
-      lowerPts.push([x, y(l)]);
+  function drawVolumeProfile(buckets, min, max, y) {
+    var maxBucket = Math.max.apply(null, buckets.concat([1e-9]));
+    var bucketPriceSize = (max - min) / buckets.length;
+    ctx.fillStyle = VP_COLOR;
+    for (var i = 0; i < buckets.length; i++) {
+      var v = buckets[i];
+      if (!v) continue;
+      var yTop = y(min + (i + 1) * bucketPriceSize);
+      var yBottom = y(min + i * bucketPriceSize);
+      var w = (v / maxBucket) * VP_MAX_WIDTH;
+      ctx.fillRect(W - w, yTop, w, Math.max(yBottom - yTop, 1));
     }
-    if (!upperPts.length) return;
-
-    ctx.fillStyle = BOLL_FILL_COLOR;
-    ctx.beginPath();
-    ctx.moveTo(upperPts[0][0], upperPts[0][1]);
-    upperPts.forEach(function (p) { ctx.lineTo(p[0], p[1]); });
-    for (var k = lowerPts.length - 1; k >= 0; k--) {
-      ctx.lineTo(lowerPts[k][0], lowerPts[k][1]);
-    }
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.strokeStyle = BOLL_LINE_COLOR;
-    ctx.lineWidth = 1;
-    [upperPts, lowerPts].forEach(function (pts) {
-      ctx.beginPath();
-      ctx.moveTo(pts[0][0], pts[0][1]);
-      pts.forEach(function (p) { ctx.lineTo(p[0], p[1]); });
-      ctx.stroke();
-    });
   }
 
   function draw() {
@@ -182,18 +148,12 @@
     var startIdx = all.length - visibleCount;
     var closes = all.map(function (c) { return c.close; });
     var maSeries = computeMAs(closes);
-    var bollinger = computeBollinger(closes);
 
     var vals = [];
     all.slice(startIdx).forEach(function (c) {
       vals.push(c.high, c.low);
     });
     maSeries.forEach(function (series) {
-      series.slice(startIdx).forEach(function (v) {
-        if (v != null) vals.push(v);
-      });
-    });
-    [bollinger.upper, bollinger.lower].forEach(function (series) {
       series.slice(startIdx).forEach(function (v) {
         if (v != null) vals.push(v);
       });
@@ -209,7 +169,8 @@
       return padTop + (1 - (v - min) / range) * chartH;
     }
 
-    drawBollinger(bollinger, startIdx, all.length, y);
+    var buckets = computeVolumeProfile(all.slice(startIdx), min, max);
+    drawVolumeProfile(buckets, min, max, y);
 
     for (var i = startIdx; i < all.length; i++) {
       drawCandle(all[i], (i - startIdx) * slotPx, y);
@@ -250,7 +211,7 @@
       })
       .then(function (rows) {
         candles = rows.map(function (r) {
-          return { open: +r[1], high: +r[2], low: +r[3], close: +r[4] };
+          return { open: +r[1], high: +r[2], low: +r[3], close: +r[4], vol: +r[5] };
         });
         price = candles.length ? candles[candles.length - 1].close : null;
         forming = null;
@@ -295,7 +256,7 @@
       var k = msg.k;
       if (!k) return;
 
-      var candle = { open: +k.o, high: +k.h, low: +k.l, close: +k.c };
+      var candle = { open: +k.o, high: +k.h, low: +k.l, close: +k.c, vol: +k.v };
       var prevPrice = price;
       price = candle.close;
       lastDirection = prevPrice == null || price >= prevPrice ? 1 : -1;
@@ -349,8 +310,9 @@
       var close = Math.max(20, open + drift);
       var high = Math.max(open, close) + rand() * 1.8;
       var low = Math.min(open, close) - rand() * 1.8;
+      var vol = 50 + rand() * 500;
       price = close;
-      candles.unshift({ open: open, close: close, high: high, low: low });
+      candles.unshift({ open: open, close: close, high: high, low: low, vol: vol });
     }
 
     var elapsed = 0;
@@ -366,6 +328,7 @@
       forming.close = price;
       forming.high = Math.max(forming.high, price);
       forming.low = Math.min(forming.low, price);
+      forming.vol += Math.abs(wobble) * (40 + rand() * 60);
       updateBadge();
 
       elapsed += dt;
