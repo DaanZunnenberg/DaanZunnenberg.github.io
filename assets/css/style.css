@@ -521,10 +521,11 @@ a:hover { color: var(--blue-300); }
 .links {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px 18px;
   font-family: var(--mono);
   font-size: 13px;
-  margin-bottom: 8px;
+  margin-bottom: 24px;
 }
 
 .links a {
