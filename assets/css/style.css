@@ -174,13 +174,13 @@ body::after {
 }
 
 .console-text {
-  color: var(--blue-300);
+  color: var(--up);
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .console-caret {
-  color: var(--blue-400);
+  color: var(--up);
   font-size: 9px;
   animation: blink 1s steps(1) infinite;
   flex: none;
@@ -666,6 +666,7 @@ pre.code-block code {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 10px 18px;
   font-family: var(--mono);
   font-size: 13px;
