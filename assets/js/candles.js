@@ -9,7 +9,7 @@
   var candleW = 9;
   var gap = 5;
   var slotPx = candleW + gap;
-  var periodMs = 1000; // one bar per second, mirroring Binance's 1s klines
+  var periodMs = 60000; // one bar per minute, mirroring Binance's 1m klines
 
   var candles = [];
   var forming = null;
@@ -27,6 +27,10 @@
     { color: "rgba(233, 236, 243, 0.18)", width: 1.4 }
   ];
   var maLookback = Math.max.apply(null, MA_PERIODS) - 1;
+
+  // Leave a few empty slots to the right of the latest bar, as classic
+  // charting platforms do, instead of pinning the newest candle to the edge.
+  var RIGHT_MARGIN_SLOTS = 5;
 
   var priceEl = document.getElementById("live-price");
   var labelEl = document.getElementById("live-symbol");
@@ -107,7 +111,7 @@
     var all = forming ? candles.concat([forming]) : candles;
     if (!all.length) return;
 
-    var visibleCount = Math.min(all.length, slotCount() + 1);
+    var visibleCount = Math.min(all.length, Math.max(slotCount() + 1 - RIGHT_MARGIN_SLOTS, 1));
     var startIdx = all.length - visibleCount;
     var closes = all.map(function (c) { return c.close; });
     var maSeries = computeMAs(closes);
@@ -162,7 +166,7 @@
 
   // ---- Live BTC/USDT feed via Binance's public REST + WebSocket API (no key required) ----
   function startLiveFeed() {
-    var seedUrl = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1s&limit=" + Math.min(historyCap(), 1000);
+    var seedUrl = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=" + Math.min(historyCap(), 1000);
 
     fetch(seedUrl)
       .then(function (res) {
@@ -185,7 +189,7 @@
   function connectSocket() {
     var ws;
     try {
-      ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1s");
+      ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
     } catch (e) {
       startSimulatedFeed();
       return;
