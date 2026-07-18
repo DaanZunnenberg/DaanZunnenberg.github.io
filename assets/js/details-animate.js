@@ -1,61 +1,11 @@
 (function () {
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion || typeof Element.prototype.animate !== "function") return;
+  document.querySelectorAll(".readme-toggle").forEach(function (toggle) {
+    var btn = toggle.querySelector(".readme-summary");
+    if (!btn) return;
 
-  document.querySelectorAll(".entry details").forEach(function (el) {
-    var summary = el.querySelector("summary");
-    var content = el.querySelector(".readme");
-    if (!summary || !content) return;
-
-    var animation = null;
-    var isClosing = false;
-    var isExpanding = false;
-
-    summary.addEventListener("click", function (e) {
-      e.preventDefault();
-      el.style.overflow = "hidden";
-      if (isClosing || !el.open) {
-        open();
-      } else if (isExpanding || el.open) {
-        shrink();
-      }
+    btn.addEventListener("click", function () {
+      var isOpen = toggle.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
-
-    function shrink() {
-      isClosing = true;
-      var startHeight = el.offsetHeight + "px";
-      var endHeight = summary.offsetHeight + "px";
-      if (animation) animation.cancel();
-      animation = el.animate({ height: [startHeight, endHeight] }, { duration: 480, easing: "cubic-bezier(0.65, 0, 0.35, 1)" });
-      content.animate({ opacity: [1, 0] }, { duration: 220, easing: "ease-out" });
-      animation.onfinish = function () { onFinish(false); };
-      animation.oncancel = function () { isClosing = false; };
-    }
-
-    function open() {
-      el.style.height = el.offsetHeight + "px";
-      el.open = true;
-      window.requestAnimationFrame(function () { expand(); });
-    }
-
-    function expand() {
-      isExpanding = true;
-      var startHeight = el.offsetHeight + "px";
-      var endHeight = summary.offsetHeight + content.offsetHeight + "px";
-      if (animation) animation.cancel();
-      animation = el.animate({ height: [startHeight, endHeight] }, { duration: 560, easing: "cubic-bezier(0.16, 1, 0.3, 1)" });
-      content.animate({ opacity: [0, 1] }, { duration: 380, delay: 100, easing: "ease-in" });
-      animation.onfinish = function () { onFinish(true); };
-      animation.oncancel = function () { isExpanding = false; };
-    }
-
-    function onFinish(isOpen) {
-      el.open = isOpen;
-      animation = null;
-      isClosing = false;
-      isExpanding = false;
-      el.style.height = "";
-      el.style.overflow = "";
-    }
   });
 })();

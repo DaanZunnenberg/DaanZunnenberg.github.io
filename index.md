@@ -33,9 +33,12 @@ Abstract probability by day, quant by heart. <a href="{{ '/personal/' | relative
   <p>Extending functional GARCH to a GAS model for time-varying intraday volatility surfaces, estimated with B-splines and <code>Numba</code> JIT.</p>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale on GitHub</a></div>
 
-  <details open>
-    <summary><span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span></summary>
-    <div class="readme">
+  <div class="readme-toggle is-open">
+    <button type="button" class="readme-summary" aria-expanded="true">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
       <h4>Overview</h4>
       <p>
         Treats intraday log-return curves as functional observations in <em>L</em><sup>2</sup>[0,1] and extends
@@ -90,7 +93,8 @@ result = minimize(
 </code></pre>
       <p class="form-hint">Requires Python &ge; 3.9. Full theory, references, and repository layout in the README.</p>
     </div>
-  </details>
+    </div>
+  </div>
 </div>
 
 <div class="entry">
@@ -110,9 +114,12 @@ result = minimize(
   <p>An open-source functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></div>
 
-  <details>
-    <summary><span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span></summary>
-    <div class="readme">
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
       <h4>Overview</h4>
       <p>
         A nonparametric test for stationarity of a multivariate It&ocirc; diffusion, built on a
@@ -190,7 +197,8 @@ tests/
 </code></pre>
       <p class="form-hint">Requires Python &ge; 3.10. Also includes batch KPSS and Leybourne&ndash;McCabe tests for comparison, and BH/BY FDR procedures for simulation studies.</p>
     </div>
-  </details>
+    </div>
+  </div>
 </div>
 
 <p><a href="{{ '/projects/' | relative_url }}">All projects &rarr;</a></p>
