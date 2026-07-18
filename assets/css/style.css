@@ -543,8 +543,9 @@ a:hover { color: var(--blue-300); }
 
 /* GitHub Dark default theme palette, for code blocks specifically */
 pre.code-block {
+  position: relative;
   margin: 6px 0 0;
-  padding: 12px 14px;
+  padding: 20px 14px 12px;
   background: #0d1117;
   border: 1px solid #30363d;
   border-radius: 6px;
@@ -553,6 +554,17 @@ pre.code-block {
   font-size: 12.5px;
   line-height: 1.55;
   text-shadow: none;
+}
+
+pre.code-block[data-lang]::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  font-size: 10px;
+  color: #6e7681;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 pre.code-block code {

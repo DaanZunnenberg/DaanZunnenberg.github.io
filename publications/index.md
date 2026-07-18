@@ -57,11 +57,11 @@ permalink: /publications/
 
 <div class="entry">
   <div class="entry-head">
-    <h3>FunctionalSurface</h3>
+    <h3>FunctionalScale</h3>
     <span class="entry-date">2024 &ndash; present</span>
   </div>
   <p>Estimation library for functional GARCH/GAS models of time-varying intraday volatility surfaces, using B-splines and <code>Numba</code> JIT compilation.</p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalSurface" target="_blank" rel="noopener noreferrer">github.com/DaanZunnenberg/FunctionalSurface</a></div>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">github.com/DaanZunnenberg/FunctionalScale</a></div>
 </div>
 
 <p>A full, up-to-date list is also maintained on <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>.</p>
