@@ -16,36 +16,64 @@ permalink: /projects/
     <li>Extending the functional GARCH framework to a generalized autoregressive score (GAS) model to estimate and capture time-varying intraday volatility surfaces.</li>
     <li>Designed efficient estimation procedures using B-splines, applying <code>Numba</code> JIT compilation to enable scalable modelling of volatility surfaces from granular intraday return data.</li>
   </ul>
-  <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalSurface" target="_blank" rel="noopener noreferrer">FunctionalSurface on GitHub</a></div>
+  <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale on GitHub</a></div>
 
   <details>
     <summary><span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span></summary>
     <div class="readme">
       <h4>Overview</h4>
       <p>
-        Classical functional GARCH treats the volatility surface as a smooth curve evolving through a fixed
-        update rule. This project replaces that update with a generalized autoregressive score (GAS) recursion,
-        letting the surface adapt to the local curvature of the score function rather than a linear rule &mdash;
-        which matters most exactly when intraday vol spikes.
+        Treats intraday log-return curves as functional observations in <em>L</em><sup>2</sup>[0,1] and extends
+        classical GARCH/GAS dynamics to function space. The functional GARCH(p,q) model represents the
+        intercept and lag operators in a non-negative Bernstein-polynomial basis, so the infinite-dimensional
+        positivity constraint on the conditional-variance operators reduces to non-negativity of a finite
+        coefficient matrix, estimated by quasi-maximum likelihood. The GAS-GARCH extension instead represents
+        the log-volatility curve in a cubic B-spline basis and drives its coefficients with a score-based
+        recursion under a multivariate Student-<em>t</em> likelihood with an Ornstein&ndash;Uhlenbeck covariance
+        kernel across the intraday grid.
       </p>
-      <h4>Approach</h4>
-      <p>
-        The surface is represented in a B-spline basis, so estimation reduces to updating a low-dimensional
-        coefficient vector each period. The score recursion and basis evaluation are both JIT-compiled with
-        <code>Numba</code>, which is what makes fitting on tick-level intraday data tractable.
-      </p>
-      <pre class="code-block"><code>from functionalsurface import BSplineBasis, GASRecursion
-
-basis = BSplineBasis(knots=20, degree=3)
-gas = GASRecursion(basis, scoring="fisher")
-
-theta = gas.init_params(returns[:warmup])
-for r in returns[warmup:]:
-    surface = basis.evaluate(theta)      # current vol surface
-    score = gas.score(r, surface)        # GAS update direction
-    theta = gas.step(theta, score)       # JIT-compiled recursion
+      <h4>Setup</h4>
+      <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/FunctionalScale.git
+cd FunctionalScale
+pip install -e .            # editable install, pulls in numpy/scipy/numba/pandas/matplotlib/tqdm
+pip install -e ".[dev]"      # + pytest, jupyter (optional, for tests/notebooks)
 </code></pre>
-      <p class="form-hint">Illustrative interface &mdash; see the repository for the actual API.</p>
+      <h4>Usage &mdash; functional GARCH</h4>
+      <pre class="code-block" data-lang="python"><code>import numpy as np
+from funcgarch import fit, garch_filter
+
+# mY: (N, T) matrix of intraday return curves — N grid points per day, T days
+mY = np.load("returns.npy")
+N, T = mY.shape
+M = 4  # number of Bernstein basis functions
+
+result = fit(mY, n_grid=N, M=M)          # QMLE-style estimation (scipy.optimize)
+vtheta_hat = result.x
+
+sigma2 = garch_filter(mY, n_grid=N, vtheta=vtheta_hat, M=M)  # (N, T) fitted variance surface
+</code></pre>
+      <h4>Usage &mdash; functional GAS-GARCH</h4>
+      <pre class="code-block" data-lang="python"><code>from scipy.optimize import minimize
+from funcgarch import gas_garch_estimator
+
+# vtheta = [nu, ou_scale, omega (M,), vec(B) (M*M,), vec(A) (M*M,)]
+result = minimize(
+    gas_garch_estimator, x0=vtheta_init, args=(mY, N, M),
+    method="SLSQP",
+)
+</code></pre>
+      <h4>Data Flow</h4>
+      <pre class="code-block" data-lang="txt"><code>wrds/*.sas                    scripts/taq_cleaner.py           funcgarch/*.py
+┌────────────────┐            ┌───────────────────┐           ┌─────────────────────┐
+│ WRDS TAQ pull   │  raw CSV  │ DataCleaner.clean()│  mY (N,T) │ fit() / garch_filter │
+│ (data_fetcher,  │ ────────► │  - align to grid   │ ────────► │ gas_garch_estimator  │
+│  taq_cleaner,   │           │  - compute returns │           │ func_garch_estimator │
+│  nbbo/dynamic_  │           │  - reshape to      │           │                      │
+│  taq_minute,    │           │    (N, T) matrix   │           │  -> vtheta_hat,      │
+│  export)        │           │                    │           │     sigma2 surface   │
+└────────────────┘            └───────────────────┘           └─────────────────────┘
+</code></pre>
+      <p class="form-hint">Requires Python &ge; 3.9. Full theory, references, and repository layout in the README.</p>
     </div>
   </details>
 </div>
@@ -103,19 +131,80 @@ weights = recursive_bisection(returns.cov(), order)
     <div class="readme">
       <h4>Overview</h4>
       <p>
-        Extends the univariate Hamrick&ndash;Taqqu stationarity test to multidimensional diffusion processes,
-        testing whether a functional summary of the process (e.g. its local variance) is stable over a
-        rolling window, rather than assuming stationarity outright.
+        A nonparametric test for stationarity of a multivariate It&ocirc; diffusion, built on a
+        Durbin&ndash;Wu&ndash;Hausman-style comparison of two consistent estimators of the diffusion matrix
+        whose convergence rates diverge under nonstationarity: a time-domain smoother (Jacod&ndash;Protter),
+        whose rate is stationarity-invariant, against a state-domain Nadaraya&ndash;Watson smoother, which
+        diverges almost surely once the process is nonstationary. Their standardized difference is
+        asymptotically Gaussian under stationarity (via &beta;-mixing), and the test rejects when the running
+        maximum of that difference exceeds a Gumbel-type critical bound (Pickands/Berman).
       </p>
-      <h4>Usage</h4>
-      <pre class="code-block"><code>from mht import MultivariateStationarityTest
-
-test = MultivariateStationarityTest(window=250, n_bootstrap=1000)
-result = test.run(paths)  # paths: (n_obs, n_dim) array
-
-print(result.statistic, result.p_value)
+      <h4>Setup</h4>
+      <pre class="code-block" data-lang="bash"><code>pip install -e .
 </code></pre>
-      <div class="tags"><a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Full source &amp; README on GitHub &rarr;</a></div>
+      <p>Or install dependencies only:</p>
+      <pre class="code-block" data-lang="bash"><code>pip install -r requirements.txt
+</code></pre>
+      <h4>Quick Start</h4>
+      <pre class="code-block" data-lang="python"><code>import numpy as np
+from mht.models.processes import BivariateOUProcess
+from mht.testing.kernel_test import KernelTest, Kernel, TestPlotter
+
+# Simulate a bivariate OU process
+ou_config = {
+    'T': 365, 'dt': 1/20,
+    'sigma1': np.sqrt(2), 'sigma2': np.sqrt(2),
+    'theta1': 0.2, 'theta2': 0.2,
+    'rho': 0.75,
+}
+process = BivariateOUProcess(**ou_config)
+process.simulate(seed=1)
+X, T, n = process.config()
+
+# Set up the test configuration
+config = {
+    'data': X,
+    'kernel_params': {
+        'bandwidth': np.sqrt(3) * 9 / ((n ** (1/6)) * np.log(n)),
+        'n': n, 'T': T,
+        'kernel': Kernel.BaseKernel,
+    },
+    'time_params': {'bandwidth': 200 * T / n, 'n': n, 'T': T},
+}
+
+# Estimate and test
+test = KernelTest(**config)
+test.time_domain_smoother(lamb=0.99)
+test.state_domain_smoother(dist=True)   # True = use KDE for joint density
+test.gauss()
+
+bound, scalar_gauss = test.transform_1D_gauss()
+
+# Plot
+plotter = TestPlotter(test)
+plotter.plot_running_maximum()
+</code></pre>
+      <h4>Repository Structure</h4>
+      <pre class="code-block" data-lang="txt"><code>src/mht/
+    testing/
+        kernel_test.py        # KernelTest, Simulator, TestPlotter
+        hypothesis.py         # MultipleHypTest, UnitRootTest, LaTeXTable
+        leybourne_mccabe.py   # Leybourne-McCabe test (single canonical copy)
+    models/
+        processes.py          # BivariateOUProcess, BivariateCorrelatedBM, ...
+    io/
+        reader.py             # Reader class for simulation CSV files
+    viz/                      # TestPlotter re-exported here
+    utils/
+        decorators.py
+simulations/                  # Pre-computed CSV simulation results
+notebooks/
+    example.ipynb
+tests/
+    test_processes.py
+    test_kernel_test.py
+</code></pre>
+      <p class="form-hint">Requires Python &ge; 3.10. Also includes batch KPSS and Leybourne&ndash;McCabe tests for comparison, and BH/BY FDR procedures for simulation studies.</p>
     </div>
   </details>
 </div>
