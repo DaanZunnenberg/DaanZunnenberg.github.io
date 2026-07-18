@@ -181,13 +181,13 @@ body::after {
 }
 
 .console-text {
-  color: var(--term-green);
+  color: var(--ink);
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .console-caret {
-  color: var(--term-green);
+  color: var(--ink);
   font-size: 9px;
   animation: blink 1s steps(1) infinite;
   flex: none;
