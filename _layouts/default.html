@@ -26,6 +26,7 @@
       <nav class="site-nav">
         <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>About</a>
         <a href="{{ '/research/' | relative_url }}" {% if page.url contains 'research' %}class="active"{% endif %}>Research</a>
+        <a href="{{ '/publications/' | relative_url }}" {% if page.url contains 'publications' %}class="active"{% endif %}>Publications</a>
         <a href="{{ '/experience/' | relative_url }}" {% if page.url contains 'experience' %}class="active"{% endif %}>Experience</a>
         <a href="{{ '/projects/' | relative_url }}" {% if page.url contains 'projects' %}class="active"{% endif %}>Projects</a>
         <a href="{{ '/contact/' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}>Contact</a>
