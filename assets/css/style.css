@@ -317,6 +317,7 @@ main::before {
    column the same way the hero does, with the name/tagline/intro following
    directly underneath it rather than squeezed alongside. */
 .profile-cover {
+  position: relative;
   margin: 16px -24px 24px;
   border-radius: 10px;
   overflow: hidden;
@@ -329,6 +330,14 @@ main::before {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+}
+
+.profile-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(12, 16, 26, 0.16) 0%, rgba(12, 16, 26, 0.04) 100%);
+  pointer-events: none;
 }
 
 .profile-intro { margin-bottom: 4px; }
