@@ -42,7 +42,10 @@ body {
   line-height: 1.6;
   position: relative;
   isolation: isolate;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75), 0 0 14px rgba(0, 0, 0, 0.45);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 2px 8px rgba(0, 0, 0, 0.85),
+    0 0 20px rgba(0, 0, 0, 0.6);
 }
 
 /* Full-page trading-floor backdrop: live candlestick feed + grid, fixed behind all content */
@@ -212,9 +215,9 @@ main::before {
   bottom: -8px;
   left: -24px;
   right: -24px;
-  background: linear-gradient(180deg, rgba(7, 9, 16, 0.4) 0%, rgba(7, 9, 16, 0.48) 100%);
-  backdrop-filter: blur(26px);
-  -webkit-backdrop-filter: blur(26px);
+  background: linear-gradient(180deg, rgba(7, 9, 16, 0.22) 0%, rgba(7, 9, 16, 0.3) 100%);
+  backdrop-filter: blur(34px);
+  -webkit-backdrop-filter: blur(34px);
   border-radius: 10px;
   border: 1px solid var(--line-soft);
   mask-image: linear-gradient(180deg, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
@@ -399,9 +402,9 @@ a:hover { color: var(--blue-300); }
   border: 1px solid var(--line);
   border-left: 2px solid var(--line);
   border-radius: 4px;
-  background: rgba(16, 20, 31, 0.4);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(16, 20, 31, 0.24);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -494,24 +497,33 @@ a:hover { color: var(--blue-300); }
 
 .readme h4:first-child { margin-top: 0; }
 
+/* GitHub Dark default theme palette, for code blocks specifically */
 pre.code-block {
   margin: 6px 0 0;
   padding: 12px 14px;
-  background: var(--bg-1);
-  border: 1px solid var(--line);
-  border-radius: 4px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
   overflow-x: auto;
-  font-family: var(--mono);
+  font-family: ui-monospace, var(--mono);
   font-size: 12.5px;
   line-height: 1.55;
+  text-shadow: none;
 }
 
 pre.code-block code {
   background: none;
   padding: 0;
-  color: var(--ink-soft);
+  color: #c9d1d9;
   font-size: 1em;
+  text-shadow: none;
 }
+
+.tok-comment { color: #8b949e; }
+.tok-string { color: #a5d6ff; }
+.tok-number { color: #79c0ff; }
+.tok-func { color: #d2a8ff; }
+.tok-keyword { color: #ff7b72; }
 
 /* Contact form */
 .contact-form {
@@ -519,9 +531,9 @@ pre.code-block code {
   border: 1px solid var(--line);
   border-left: 2px solid var(--line);
   border-radius: 6px;
-  background: rgba(13, 17, 27, 0.46);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(13, 17, 27, 0.28);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -713,9 +725,9 @@ pre.code-block code {
   border: 1px solid var(--line);
   border-left: 2px solid var(--line);
   border-radius: 4px;
-  background: rgba(16, 20, 31, 0.4);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(16, 20, 31, 0.24);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
   text-decoration: none;
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
