@@ -753,6 +753,8 @@ pre.code-block code {
   color: rgba(233, 236, 243, 0.72);
 }
 
+.hero-math-prose .hero-math-inline .katex { color: #e7ebf5; }
+
 .hero-math-tex {
   color: #e7ebf5;
   font-size: 14px;
