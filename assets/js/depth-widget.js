@@ -134,6 +134,12 @@
     };
   }
 
+  // Below this per-panel width, the order-book + diff table gets too
+  // cramped to read — drop the last symbol (and keep dropping) until
+  // what's left fits the phone.
+  var MIN_PANEL_W = 190;
+  var activeSymbols = SYMBOLS;
+
   function resize() {
     W = container.clientWidth;
     H = container.clientHeight;
@@ -142,6 +148,8 @@
     canvas.style.width = W + "px";
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var maxPanels = Math.max(1, Math.min(SYMBOLS.length, Math.floor(W / MIN_PANEL_W)));
+    activeSymbols = SYMBOLS.slice(0, maxPanels);
   }
 
   function fmtQty(v) {
@@ -308,8 +316,8 @@
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    var colW = W / SYMBOLS.length;
-    SYMBOLS.forEach(function (sym, i) {
+    var colW = W / activeSymbols.length;
+    activeSymbols.forEach(function (sym, i) {
       drawPanel(sym, { x: i * colW, y: 0, w: colW, h: H });
     });
   }
