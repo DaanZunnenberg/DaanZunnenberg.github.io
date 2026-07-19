@@ -227,10 +227,21 @@
     function diffCell(spotLvl, perpLvl, ry) {
       if (!hasPerp || !perpLvl) return;
       var d = perpLvl[0] - spotLvl[0];
+      var bps = (d / spotLvl[0]) * 10000;
+      var ty = ry + rowH - rowH * 0.3;
+
       ctx.font = fontPx + "px " + MONO_FONT;
       ctx.textAlign = "left";
       ctx.fillStyle = diffColor(d);
-      ctx.fillText(signed(d), tableX0, ry + rowH - rowH * 0.3);
+      ctx.fillText(signed(d), tableX0, ty);
+
+      // bps alongside the raw price gap — the size-independent version of
+      // the same number, so the column reads as a small quote table rather
+      // than a single bare figure.
+      ctx.font = Math.max(7, fontPx - 2) + "px " + MONO_FONT;
+      ctx.textAlign = "right";
+      ctx.fillStyle = "rgba(233, 236, 243, 0.4)";
+      ctx.fillText(bps.toFixed(1) + "bp", x0 + w - 5, ty);
     }
 
     // Asks: highest price first, stacked top-down toward mid.
