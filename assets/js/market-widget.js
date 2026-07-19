@@ -153,10 +153,21 @@
       cursor += c.w * panelW;
     });
 
+    var atmRow = sym.rows.filter(function (r) { return r.atm; })[0];
+
     ctx.font = "10px " + MONO_FONT;
     ctx.textAlign = "left";
     ctx.fillStyle = AMBER;
     ctx.fillText(sym.label.toUpperCase() + " · CALLS / PUTS · " + (live ? "LIVE" : "SIM"), x0 + 6, y0 + 15);
+
+    // ATM implied vol readout, the options-chain analogue of the order-book
+    // header's spot/perp depth comparison — one extra figure that reads as
+    // a genuine market signal rather than decoration.
+    if (atmRow) {
+      ctx.textAlign = "right";
+      ctx.fillStyle = AMBER;
+      ctx.fillText("ATM IV " + (atmRow.iv * 100).toFixed(1) + "%", x0 + panelW - 6, y0 + 15);
+    }
 
     ["Δ", "BID", "ASK", "STRIKE", "BID", "ASK", "Δ"].forEach(function (label, i) {
       ctx.textAlign = cols[i].align;
