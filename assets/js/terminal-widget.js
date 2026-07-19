@@ -97,6 +97,50 @@
       "$ free -h",
       "               total    used    free   shared",
       "Mem:            32Gi    11Gi    14Gi   1.2Gi"
+    ],
+    [
+      "$ git status",
+      "On branch main",
+      "nothing to commit, working tree clean"
+    ],
+    [
+      "$ python -c \"import scipy; print(scipy.__version__)\"",
+      "1.13.0"
+    ],
+    [
+      "$ wc -l funcgarch/*.py",
+      "  312 funcgarch/gas.py",
+      "  289 funcgarch/garch.py",
+      "   94 funcgarch/basis.py",
+      "  695 total"
+    ],
+    [
+      "$ python scripts/taq_cleaner.py --date 2025-06-02",
+      "[INFO] loading raw TAQ CSV (18.4M rows)",
+      "[INFO] filtering to regular trading hours (09:30-16:00)",
+      "[INFO] removing trades flagged as corrected/cancelled",
+      "[INFO] removing trades outside NBBO by > 5 sigma",
+      "[INFO] aligning trades to 25-point intraday grid",
+      "[INFO] computing log-returns per grid point",
+      "  grid point  1/25 done",
+      "  grid point 13/25 done",
+      "  grid point 25/25 done",
+      "[INFO] writing (25, 500) return matrix to returns.npy",
+      "[WARN] 3 trading days had > 10% missing grid points, flagged for review",
+      "[OK] pipeline complete, 497/500 days usable"
+    ],
+    [
+      "$ python scripts/simulation_study.py --reps 500 --n 200",
+      "[INFO] running Monte Carlo simulation study",
+      "  rep   50/500 | rejection rate so far: 0.048",
+      "  rep  100/500 | rejection rate so far: 0.051",
+      "  rep  200/500 | rejection rate so far: 0.049",
+      "  rep  300/500 | rejection rate so far: 0.052",
+      "  rep  400/500 | rejection rate so far: 0.050",
+      "  rep  500/500 | rejection rate so far: 0.049",
+      "[INFO] empirical size at nominal 5%: 0.049 (500 reps)",
+      "[INFO] power under H1 (delta=0.5): 0.812",
+      "[OK] simulation study complete, results written to sim_results.csv"
     ]
   ];
 
