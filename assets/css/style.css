@@ -755,6 +755,14 @@ pre.code-block code {
     linear-gradient(100deg, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
 }
 
+/* Order-book hero: the dark scrim needs to carry further right so the
+   hero copy stays legible over the price-ladder panels, without darkening
+   the far-right edge any more than the default fade already does. */
+.hero-fade.hero-fade-long {
+  background:
+    linear-gradient(100deg, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.78) 40%, rgba(11, 15, 24, 0.4) 58%, rgba(11, 15, 24, 0.02) 72%);
+}
+
 .hero-content {
   position: relative;
   max-width: 460px;

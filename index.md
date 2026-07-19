@@ -4,8 +4,8 @@ title: About
 ---
 
 <section class="hero">
-  <canvas id="market-widget-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain"></canvas>
-  <div class="hero-fade" aria-hidden="true"></div>
+  <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live BTC, XLM and SOL spot order books, each with a spot/perp price-difference table for cash-and-carry arbitrage"></canvas>
+  <div class="hero-fade hero-fade-long" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher &middot; Quant Enthusiast<span class="hero-eyebrow-extra"> &middot; Probabilist</span></div>
     <h1 class="hero-name">Daan Zunnenberg<span class="cursor">_</span></h1>
@@ -123,6 +123,58 @@ result = minimize(
   </div>
   <p>A nonparametric stationarity test for multidimensional diffusions, comparing two smoothers whose convergence rates diverge under nonstationarity. Built for my MSc thesis, released as an open-source library.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        A nonparametric test for stationarity of a multivariate It&ocirc; diffusion, built on a
+        Durbin&ndash;Wu&ndash;Hausman-style comparison of two consistent estimators of the diffusion matrix
+        whose convergence rates diverge under nonstationarity: a time-domain smoother (Jacod&ndash;Protter),
+        whose rate is stationarity-invariant, against a state-domain Nadaraya&ndash;Watson smoother, which
+        diverges almost surely once the process is nonstationary. Their standardized difference is
+        asymptotically Gaussian under stationarity (via &beta;-mixing), and the test rejects when the running
+        maximum of that difference exceeds a Gumbel-type critical bound (Pickands/Berman).
+      </p>
+      <p>The running test statistic compares the two smoothers directly, taking the form</p>
+      \[
+      T_n = \max_{1 \le k \le n} \; \sqrt{k}\,\bigl\| \hat{\Sigma}^{\text{time}}_k - \hat{\Sigma}^{\text{state}}_k \bigr\|
+      \]
+      <p>
+        with critical values from the Gumbel-type limit law of Pickands and Berman for the running maximum of a
+        stationary Gaussian sequence.
+      </p>
+      <h4>Quick Start</h4>
+      <pre class="code-block" data-lang="python"><code>import numpy as np
+from mht.models.processes import BivariateOUProcess
+from mht.testing.kernel_test import KernelTest, Kernel, TestPlotter
+
+# Simulate a bivariate OU process
+ou_config = {
+    'T': 365, 'dt': 1/20,
+    'sigma1': np.sqrt(2), 'sigma2': np.sqrt(2),
+    'theta1': 0.2, 'theta2': 0.2,
+    'rho': 0.75,
+}
+process = BivariateOUProcess(**ou_config)
+process.simulate(seed=1)
+X, T, n = process.config()
+
+# Estimate and test
+test = KernelTest(data=X, kernel_params={'bandwidth': np.sqrt(3) * 9 / ((n ** (1/6)) * np.log(n)), 'n': n, 'T': T, 'kernel': Kernel.BaseKernel}, time_params={'bandwidth': 200 * T / n, 'n': n, 'T': T})
+test.time_domain_smoother(lamb=0.99)
+test.state_domain_smoother(dist=True)
+test.gauss()
+bound, scalar_gauss = test.transform_1D_gauss()
+</code></pre>
+      <p class="form-hint">Requires Python &ge; 3.10. Full setup, repository layout, and batch KPSS/Leybourne&ndash;McCabe comparisons on the <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a> page.</p>
+    </div>
+    </div>
+  </div>
 </div>
 
 <div class="entry">
@@ -132,6 +184,37 @@ result = minimize(
   </div>
   <p>An installable library of risk models by family &mdash; variance-covariance and historic-simulation VaR/ES, CCC-GARCH, EWMA-FHS, copulas, and factor analysis &mdash; kept free of I/O and plotting so the estimators stay composable.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/RiskFunctions" target="_blank" rel="noopener noreferrer">RiskFunctions on GitHub</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        Each model family under <code>src/riskfunctions/models/</code> holds pure estimator/analysis
+        functions operating on DataFrames and arrays, with no I/O or plotting baked in; anything that loads
+        data, wires a model together, or produces output lives in <code>examples/</code> instead. Historic-
+        simulation VaR at level \(\alpha\) is just the empirical quantile of realized P&amp;L,
+      </p>
+      \[
+      \widehat{\mathrm{VaR}}_\alpha = -\inf\{x : \hat F_{\text{PnL}}(x) \ge \alpha\}, \qquad
+      \widehat{\mathrm{ES}}_\alpha = -\mathbb{E}\left[\mathrm{PnL} \mid \mathrm{PnL} \le -\widehat{\mathrm{VaR}}_\alpha\right]
+      \]
+      <h4>Usage</h4>
+      <pre class="code-block" data-lang="bash"><code>python -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"          # core + test dependencies
+pip install -e ".[multivariate]" # needed only for copulas / factor analysis
+
+python examples/var_covariance_example.py
+python examples/ccc_garch_example.py
+</code></pre>
+      <p class="form-hint">Full model list and examples on the <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a> page.</p>
+    </div>
+    </div>
+  </div>
 </div>
 
 <div class="entry">
@@ -141,6 +224,38 @@ result = minimize(
   </div>
   <p>Simulating dependent (mixing) time series and estimating Tukey's halfspace depth and its minimal direction, both empirically and in closed form, to study how the estimate converges as the sample grows.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">FunctionalCurves on GitHub</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        <code>MixingModels.py</code> generates synthetic bivariate paths with a controllable mixing rate
+        \(\rho\), including a linearly-weighted process whose weights decay as \(k^{-\rho}\).
+        <code>Depth.py</code> estimates Tukey depth &mdash; the minimum, over all halfspaces containing a
+        point \(x\), of the probability mass on one side &mdash;
+      </p>
+      \[
+      D(x) = \inf_{u \in S^{d-1}} \; \mathbb{P}\left(u^\top X \le u^\top x\right)
+      \]
+      <p>and its minimal direction empirically from a sample, with closed-form depth for Gaussian and stationary VAR(1) processes to compare against.</p>
+      <h4>Usage</h4>
+      <pre class="code-block" data-lang="python"><code>from Core.MixingModels import MixingLinearModel
+from Core.Depth import Estimator, GaussianDepth
+
+process = MixingLinearModel(mixing_rate=1.5)
+X = process.simulate(n=500)
+
+result = Estimator(X, X0, method="deg")   # or "point_wise"
+depth, direction = result.depth, result.direction
+</code></pre>
+      <p class="form-hint">See the notebooks in <code>Core/</code>, linked from the <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a> page, for the full VAR(1) and mixing-process walkthroughs.</p>
+    </div>
+    </div>
+  </div>
 </div>
 
 <p><a href="{{ '/experience/' | relative_url }}">All projects &rarr;</a></p>

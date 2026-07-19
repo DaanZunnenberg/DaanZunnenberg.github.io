@@ -5,7 +5,7 @@ permalink: /experience/
 ---
 
 <section class="hero">
-  <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live BTC, XLM and SOL spot order books, each with a spot/perp price-difference table for cash-and-carry arbitrage"></canvas>
+  <canvas id="market-widget-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Market Microstructure<span class="hero-eyebrow-extra"> &middot; Spot/Perp Basis Arb</span></div>
