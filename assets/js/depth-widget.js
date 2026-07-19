@@ -308,10 +308,9 @@
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    var gap = 8;
-    var colW = (W - gap * (SYMBOLS.length - 1)) / SYMBOLS.length;
+    var colW = W / SYMBOLS.length;
     SYMBOLS.forEach(function (sym, i) {
-      drawPanel(sym, { x: i * (colW + gap), y: 0, w: colW, h: H });
+      drawPanel(sym, { x: i * colW, y: 0, w: colW, h: H });
     });
   }
 
