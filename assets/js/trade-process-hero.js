@@ -5,40 +5,40 @@
   var ctx = canvas.getContext("2d");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // A live marked point process: each Binance aggTrade is an arrival (time)
-  // with a mark (signed size, from the taker's side). Plotted as a partial-sum
-  // path S_t = sum of marks, this is exactly the object empirical process
-  // theory studies — and its running supremum is displayed live, echoing the
-  // page's own "controlling suprema of stochastic processes" framing. The
-  // buffer is backfilled from REST on load so the path is already full length
-  // before the socket delivers a single live tick.
+  // A live time-and-sales tape: each row is one real Binance BTC/USDT
+  // aggTrade (an arrival with a time, price, quantity and taker side).
+  // Newest trade lands at the top and pushes everything else down, exactly
+  // like a real trading terminal's tape. Backfilled from REST on load so
+  // every row is already populated before the socket delivers a live tick.
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
   var SYMBOL = "btcusdt";
-  var MAX_POINTS = 420;
+  var MAX_ROWS = 200;
+  var FLASH_MS = 900;
 
   // Same ThinkOrSwim-inspired palette as the other live-trade hero sections.
   var AMBER = "rgba(224, 168, 82, 0.75)";
   var UP_TEXT = "rgba(88, 214, 151, 0.9)";
   var DOWN_TEXT = "rgba(235, 110, 110, 0.9)";
-  var UP_LINE = "88, 214, 151";
-  var DOWN_LINE = "235, 110, 110";
+  var UP_BG = "88, 214, 151";
+  var DOWN_BG = "235, 110, 110";
 
-  var points = []; // { s: cumulative sum, dir: +1/-1, qty }
+  var rows = []; // newest first: { time, price, qty, isSellerTaker, bornAt }
   var live = false;
-  var tradeCount = 0;
 
-  function mark(qty, isSellerTaker) {
-    return (isSellerTaker ? -1 : 1) * Math.sqrt(qty);
+  function fmtTime(ms) {
+    var d = new Date(ms);
+    return d.toTimeString().slice(0, 8) + "." + (d.getMilliseconds() + "").padStart(3, "0");
   }
 
-  function pushTrade(qty, isSellerTaker) {
-    var prevS = points.length ? points[points.length - 1].s : 0;
-    var dir = isSellerTaker ? -1 : 1;
-    points.push({ s: prevS + mark(qty, isSellerTaker), dir: dir, qty: qty });
-    if (points.length > MAX_POINTS) points.shift();
-    tradeCount++;
+  function fmtPrice(p) {
+    return p.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function pushTrade(time, price, qty, isSellerTaker, bornAt) {
+    rows.unshift({ time: time, price: price, qty: qty, isSellerTaker: isSellerTaker, bornAt: bornAt });
+    if (rows.length > MAX_ROWS) rows.length = MAX_ROWS;
   }
 
   function resize() {
@@ -53,67 +53,74 @@
 
   function draw(now) {
     ctx.clearRect(0, 0, W, H);
-    if (!points.length) return;
+    if (!rows.length) return;
 
-    var top = H * 0.14, bottom = H * 0.86, midY = (top + bottom) / 2;
-    var maxAbs = 0.0001;
-    points.forEach(function (p) { if (Math.abs(p.s) > maxAbs) maxAbs = Math.abs(p.s); });
-    var scale = (bottom - top) / 2 / maxAbs;
-    var stepX = W / Math.max(1, MAX_POINTS - 1);
-    var offset = MAX_POINTS - points.length;
+    var headerH = 24;
+    var rowH = Math.max(13, Math.min(19, (H - headerH) / Math.min(rows.length, 30)));
+    var visible = Math.min(rows.length, Math.ceil((H - headerH) / rowH));
 
-    // Zero line: the path's natural resting level.
-    ctx.strokeStyle = "rgba(166, 175, 194, 0.18)";
+    ctx.strokeStyle = "rgba(224, 168, 82, 0.16)";
     ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(0, midY);
-    ctx.lineTo(W, midY);
-    ctx.stroke();
+    ctx.strokeRect(0.5, 0.5, W - 1, H - 1);
+    ctx.fillStyle = "rgba(224, 168, 82, 0.07)";
+    ctx.fillRect(0, 0, W, headerH);
 
-    // Running supremum band: sup_{t<=T} |S_t| over the visible window.
-    var sup = 0;
-    points.forEach(function (p) { if (Math.abs(p.s) > sup) sup = Math.abs(p.s); });
-    ctx.strokeStyle = "rgba(224, 168, 82, 0.22)";
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(0, midY - sup * scale);
-    ctx.lineTo(W, midY - sup * scale);
-    ctx.moveTo(0, midY + sup * scale);
-    ctx.lineTo(W, midY + sup * scale);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // The partial-sum path itself, colored per segment by the trade that
-    // produced it — green where the taker bought, red where the taker sold.
-    ctx.lineWidth = 1.4;
-    for (var i = 1; i < points.length; i++) {
-      var x0 = (offset + i - 1) * stepX, y0 = midY - points[i - 1].s * scale;
-      var x1 = (offset + i) * stepX, y1 = midY - points[i].s * scale;
-      ctx.strokeStyle = "rgba(" + (points[i].dir >= 0 ? UP_LINE : DOWN_LINE) + ", 0.55)";
-      ctx.beginPath();
-      ctx.moveTo(x0, y0);
-      ctx.lineTo(x1, y1);
-      ctx.stroke();
-    }
-
-    // Each arrival as a point, sized by trade quantity.
-    points.forEach(function (p, i) {
-      var x = (offset + i) * stepX, y = midY - p.s * scale;
-      var r = Math.max(0.8, Math.min(3.2, Math.sqrt(p.qty) * 6));
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(" + (p.dir >= 0 ? UP_LINE : DOWN_LINE) + ", 0.7)";
-      ctx.fill();
-    });
+    var cols = [
+      { w: 0.30, align: "left" },
+      { w: 0.16, align: "left" },
+      { w: 0.34, align: "right" },
+      { w: 0.20, align: "right" }
+    ];
+    var colX = [];
+    var cursor = 0;
+    cols.forEach(function (c) { colX.push(cursor); cursor += c.w * W; });
 
     ctx.font = "11px " + MONO_FONT;
     ctx.textAlign = "left";
     ctx.fillStyle = AMBER;
-    ctx.fillText(SYMBOL.toUpperCase() + " · AGGTRADE · " + (live ? "LIVE" : "SNAPSHOT"), 10, 20);
+    ctx.fillText(SYMBOL.toUpperCase() + " · TIME & SALES · " + (live ? "LIVE" : "SNAPSHOT"), 8, 16);
 
-    ctx.textAlign = "right";
-    ctx.fillStyle = "rgba(224, 168, 82, 0.65)";
-    ctx.fillText("sup |Sₜ| = " + sup.toFixed(2) + "   (n = " + tradeCount + ")", W - 10, H - 12);
+    ["TIME", "SIDE", "PRICE", "QTY"].forEach(function (label, i) {
+      ctx.textAlign = cols[i].align;
+      var tx = cols[i].align === "right" ? colX[i] + cols[i].w * W - 8 : colX[i] + 8;
+      ctx.font = "9px " + MONO_FONT;
+      ctx.fillStyle = "rgba(166, 175, 194, 0.4)";
+      ctx.fillText(label, tx, headerH - 12);
+    });
+
+    ctx.font = "10px " + MONO_FONT;
+    for (var i = 0; i < visible; i++) {
+      var row = rows[i];
+      var ry = headerH + i * rowH;
+      var up = !row.isSellerTaker;
+      var age = now - row.bornAt;
+      var flashing = row.bornAt && age >= 0 && age < FLASH_MS;
+
+      if (flashing) {
+        var alpha = 1 - age / FLASH_MS;
+        ctx.fillStyle = "rgba(" + (up ? UP_BG : DOWN_BG) + ", " + (0.14 * alpha).toFixed(2) + ")";
+        ctx.fillRect(0, ry, W, rowH);
+      } else if (i % 2 === 0) {
+        ctx.fillStyle = "rgba(233, 236, 243, 0.02)";
+        ctx.fillRect(0, ry, W, rowH);
+      }
+
+      var textColor = flashing ? (up ? UP_TEXT : DOWN_TEXT) : "rgba(233, 236, 243, 0.4)";
+      var sideColor = up ? UP_TEXT : DOWN_TEXT;
+      var baseY = ry + rowH - rowH * 0.28;
+
+      ctx.textAlign = "left";
+      ctx.fillStyle = textColor;
+      ctx.fillText(fmtTime(row.time), colX[0] + 8, baseY);
+
+      ctx.fillStyle = sideColor;
+      ctx.fillText(up ? "BUY" : "SELL", colX[1] + 8, baseY);
+
+      ctx.textAlign = "right";
+      ctx.fillStyle = textColor;
+      ctx.fillText(fmtPrice(row.price), colX[2] + cols[2].w * W - 8, baseY);
+      ctx.fillText(row.qty.toFixed(4), colX[3] + cols[3].w * W - 8, baseY);
+    }
   }
 
   function loop(ts) {
@@ -146,16 +153,18 @@
         return;
       }
       var data = msg.data;
-      if (!data || !data.p || !data.q) return;
-      pushTrade(+data.q, !!data.m);
+      if (!data || !data.p || !data.q || !data.T) return;
+      pushTrade(data.T, +data.p, +data.q, !!data.m, performance.now());
     };
   }
 
   function backfill() {
-    fetch("https://api.binance.com/api/v3/aggTrades?symbol=" + SYMBOL.toUpperCase() + "&limit=" + MAX_POINTS)
+    fetch("https://api.binance.com/api/v3/aggTrades?symbol=" + SYMBOL.toUpperCase() + "&limit=" + MAX_ROWS)
       .then(function (res) { return res.json(); })
       .then(function (trades) {
-        trades.forEach(function (t) { pushTrade(+t.q, !!t.m); });
+        // Oldest first into pushTrade (which prepends), so the tape ends
+        // up newest-first with no flash on the initial snapshot rows.
+        trades.forEach(function (t) { pushTrade(t.T, +t.p, +t.q, !!t.m, 0); });
         connectSocket();
       })
       .catch(function () { connectSocket(); });
