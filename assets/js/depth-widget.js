@@ -144,9 +144,9 @@
   }
 
   function fmtQty(v) {
-    if (v >= 1000) return (v / 1000).toFixed(1) + "k";
-    if (v >= 10) return v.toFixed(1);
-    return v.toFixed(2);
+    if (v >= 1000) return (v / 1000).toFixed(2) + "k";
+    if (v >= 10) return v.toFixed(2);
+    return v.toFixed(3);
   }
   function fmtPrice(v) {
     return v >= 100 ? v.toFixed(1) : v.toFixed(3);
