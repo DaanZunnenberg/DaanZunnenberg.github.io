@@ -46,7 +46,10 @@
 
   // Below this per-panel width, the tape gets too cramped to read — drop
   // the last symbol (and keep dropping) until what's left fits the phone.
-  var MIN_PANEL_W = 190;
+  // The site body caps out around 800px, so 3 panels there is ~266px each;
+  // this threshold has to clear that while still collapsing to a single
+  // panel on a ~375-430px phone instead of squeezing two in.
+  var MIN_PANEL_W = 260;
   var activeSymbols = SYMBOLS;
 
   function resize() {
