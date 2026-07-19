@@ -28,9 +28,12 @@ Abstract probability by day, quant by heart. <a href="{{ '/personal/' | relative
 <div class="entry">
   <div class="entry-head">
     <h3><a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">Functional Volatility Surface Modelling</a></h3>
-    <span class="entry-date">2024 &ndash; present</span>
+    <span class="entry-date">September 2024 &ndash; present</span>
   </div>
-  <p>Extending functional GARCH to a GAS model for time-varying intraday volatility surfaces, estimated with B-splines and <code>Numba</code> JIT.</p>
+  <ul>
+    <li>Extending the functional GARCH framework to a generalized autoregressive score (GAS) model to estimate and capture time-varying intraday volatility surfaces.</li>
+    <li>Designed efficient estimation procedures using B-splines, applying <code>Numba</code> JIT compilation to enable scalable modelling of volatility surfaces from granular intraday return data.</li>
+  </ul>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale on GitHub</a></div>
 
   <div class="readme-toggle is-open">
@@ -89,6 +92,13 @@ result = minimize(
     method="SLSQP",
 )
 </code></pre>
+      <p>
+        Because the score-driven update adapts its B-spline coefficients every day rather than fitting one
+        static operator to the whole sample, the GAS-GARCH fit tracks the true surface considerably more
+        tightly than the plain functional GARCH fit above:
+      </p>
+      <img src="{{ '/assets/img/gas_vol_surface.png' | relative_url }}" alt="True versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
+      <p class="form-hint">Same simulated data and seed as the functional GARCH comparison; estimated via <code>gas_garch_estimator</code> with a Student-<em>t</em> observation density and an Ornstein&ndash;Uhlenbeck covariance kernel.</p>
       <h4>Data Flow</h4>
       <pre class="code-block" data-lang="txt"><code>wrds/*.sas                    scripts/taq_cleaner.py           funcgarch/*.py
 ┌────────────────┐            ┌───────────────────┐           ┌─────────────────────┐
@@ -111,111 +121,26 @@ result = minimize(
     <h3><a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Functional Stationarity Test</a></h3>
     <span class="entry-date">2024</span>
   </div>
-  <p>An open-source functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis.</p>
+  <p>A nonparametric stationarity test for multidimensional diffusions, comparing two smoothers whose convergence rates diverge under nonstationarity. Built for my MSc thesis, released as an open-source library.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></div>
-
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-      <h4>Overview</h4>
-      <p>
-        A nonparametric test for stationarity of a multivariate It&ocirc; diffusion, built on a
-        Durbin&ndash;Wu&ndash;Hausman-style comparison of two consistent estimators of the diffusion matrix
-        whose convergence rates diverge under nonstationarity: a time-domain smoother (Jacod&ndash;Protter),
-        whose rate is stationarity-invariant, against a state-domain Nadaraya&ndash;Watson smoother, which
-        diverges almost surely once the process is nonstationary. Their standardized difference is
-        asymptotically Gaussian under stationarity (via &beta;-mixing), and the test rejects when the running
-        maximum of that difference exceeds a Gumbel-type critical bound (Pickands/Berman).
-      </p>
-      <p>The running test statistic compares the two smoothers directly, taking the form</p>
-      \[
-      T_n = \max_{1 \le k \le n} \; \sqrt{k}\,\bigl\| \hat{\Sigma}^{\text{time}}_k - \hat{\Sigma}^{\text{state}}_k \bigr\|
-      \]
-      <p>
-        with critical values from the Gumbel-type limit law of Pickands and Berman for the running maximum of a
-        stationary Gaussian sequence.
-      </p>
-      <h4>Setup</h4>
-      <pre class="code-block" data-lang="bash"><code>pip install -e .
-</code></pre>
-      <p>Or install dependencies only:</p>
-      <pre class="code-block" data-lang="bash"><code>pip install -r requirements.txt
-</code></pre>
-      <h4>Quick Start</h4>
-      <pre class="code-block" data-lang="python"><code>import numpy as np
-from mht.models.processes import BivariateOUProcess
-from mht.testing.kernel_test import KernelTest, Kernel, TestPlotter
-
-# Simulate a bivariate OU process
-ou_config = {
-    'T': 365, 'dt': 1/20,
-    'sigma1': np.sqrt(2), 'sigma2': np.sqrt(2),
-    'theta1': 0.2, 'theta2': 0.2,
-    'rho': 0.75,
-}
-process = BivariateOUProcess(**ou_config)
-process.simulate(seed=1)
-X, T, n = process.config()
-
-# Set up the test configuration
-config = {
-    'data': X,
-    'kernel_params': {
-        'bandwidth': np.sqrt(3) * 9 / ((n ** (1/6)) * np.log(n)),
-        'n': n, 'T': T,
-        'kernel': Kernel.BaseKernel,
-    },
-    'time_params': {'bandwidth': 200 * T / n, 'n': n, 'T': T},
-}
-
-# Estimate and test
-test = KernelTest(**config)
-test.time_domain_smoother(lamb=0.99)
-test.state_domain_smoother(dist=True)   # True = use KDE for joint density
-test.gauss()
-
-bound, scalar_gauss = test.transform_1D_gauss()
-
-# Plot
-plotter = TestPlotter(test)
-plotter.plot_running_maximum()
-</code></pre>
-      <h4>Repository Structure</h4>
-      <pre class="code-block" data-lang="txt"><code>src/mht/
-    testing/
-        kernel_test.py        # KernelTest, Simulator, TestPlotter
-        hypothesis.py         # MultipleHypTest, UnitRootTest, LaTeXTable
-        leybourne_mccabe.py   # Leybourne-McCabe test (single canonical copy)
-    models/
-        processes.py          # BivariateOUProcess, BivariateCorrelatedBM, ...
-    io/
-        reader.py             # Reader class for simulation CSV files
-    viz/                      # TestPlotter re-exported here
-    utils/
-        decorators.py
-simulations/                  # Pre-computed CSV simulation results
-notebooks/
-    example.ipynb
-tests/
-    test_processes.py
-    test_kernel_test.py
-</code></pre>
-      <p class="form-hint">Requires Python &ge; 3.10. Also includes batch KPSS and Leybourne&ndash;McCabe tests for comparison, and BH/BY FDR procedures for simulation studies.</p>
-    </div>
-    </div>
-  </div>
 </div>
 
 <div class="entry">
   <div class="entry-head">
-    <h3><a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">HRP Portfolio Allocation</a></h3>
-    <span class="entry-date">2023 &ndash; 2024</span>
+    <h3><a href="https://github.com/DaanZunnenberg/RiskFunctions" target="_blank" rel="noopener noreferrer">RiskFunctions</a></h3>
+    <span class="entry-date">2024</span>
   </div>
-  <p>Hierarchical Risk Parity via tree clustering, generating a mean alpha premium of 3.9% above benchmark in a look-ahead-free backtest.</p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
+  <p>An installable library of risk models by family &mdash; variance-covariance and historic-simulation VaR/ES, CCC-GARCH, EWMA-FHS, copulas, and factor analysis &mdash; kept free of I/O and plotting so the estimators stay composable.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/RiskFunctions" target="_blank" rel="noopener noreferrer">RiskFunctions on GitHub</a></div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">Tukey Depth Under Mixing</a></h3>
+    <span class="entry-date">2025</span>
+  </div>
+  <p>Simulating dependent (mixing) time series and estimating Tukey's halfspace depth and its minimal direction, both empirically and in closed form, to study how the estimate converges as the sample grows.</p>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">FunctionalCurves on GitHub</a></div>
 </div>
 
 <p><a href="{{ '/experience/' | relative_url }}">All projects &rarr;</a></p>
@@ -225,13 +150,37 @@ tests/
 <div class="entry">
   <div class="entry-head">
     <h3>QuantFi &middot; Quantitative Developer</h3>
-    <span class="entry-date">2023 &ndash; 2024</span>
+    <span class="entry-date">March 2023 &ndash; August 2024</span>
   </div>
   <ul>
-    <li>Algorithmic market-making: volatility/skew estimation, order-flow modelling, queue-aware execution, market impact.</li>
-    <li>Smart order routing with dynamic liquidity allocation, cutting slippage and transaction costs by 5.8%.</li>
+    <li>Ran algorithmic market-making in crypto derivatives: volatility/skew estimation, order-flow modelling, queue-aware execution.</li>
+    <li>Built a smart order router with dynamic liquidity allocation across fragmented order books, cutting slippage and transaction costs by 5.8% on average.</li>
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>Numba</code> &middot; <code>CCXT</code></div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>QuantFi &middot; Operational Trader</h3>
+    <span class="entry-date">October 2022 &ndash; March 2023</span>
+  </div>
+  <ul>
+    <li>Managed live risk on production market-making algorithms through high-volatility sessions.</li>
+    <li>Built the desk's real-time position/order terminal, with Tardis.dev-backed fill reconstruction for post-session audits.</li>
+  </ul>
+  <div class="tags"><code>Python</code> &middot; <code>CCXT</code> &middot; <code>Tardis.dev</code></div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>VU Econometrics and Data Science &middot; Research Assistant</h3>
+    <span class="entry-date">January 2024 &ndash; June 2024</span>
+  </div>
+  <ul>
+    <li>Built likelihood-based estimation for functional location-scale models, contributing to Lin &amp; Lucas's work on robust observation-driven dynamics.</li>
+    <li>Projected the conditional-variance operator onto a Bernstein-polynomial basis, turning an infinite-dimensional, positivity-constrained QMLE problem into one numerical optimization can actually solve.</li>
+  </ul>
+  <div class="tags"><code>Python</code></div>
 </div>
 
 <p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>

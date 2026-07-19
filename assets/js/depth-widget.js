@@ -11,12 +11,13 @@
   var STREAM_DEPTH = 20; // Binance partial-depth stream size (must be 5, 10, or 20)
   var ROWS_HALF = 12;    // price levels shown above / below mid (sliced from STREAM_DEPTH)
 
-  var ASK_HEAT = "60, 25, 30";   // deep red base
-  var ASK_HOT  = "255, 91, 77";  // bright red for the biggest asks
-  var BID_HEAT = "18, 46, 36";   // deep green base
-  var BID_HOT  = "60, 255, 94";  // bright green for the biggest bids
+  // Same muted red/green as the ThinkOrSwim-style options-chain widget
+  // (market-widget.js), rather than a neon heat scale.
+  var ASK_HEAT = "35, 22, 24";    // dark, desaturated base
+  var ASK_HOT  = "235, 110, 110"; // muted red for the biggest asks
+  var BID_HEAT = "18, 30, 27";    // dark, desaturated base
+  var BID_HOT  = "88, 214, 151";  // muted green for the biggest bids
   var MID_LINE = "rgba(233, 236, 243, 0.35)";
-  var PERP_LINE = "rgba(224, 168, 82, 0.85)"; // amber outline for the overlaid perp book
 
   var SYMBOLS = [
     { key: "xrpusdt", label: "XRP/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
@@ -164,7 +165,7 @@
   function drawPanel(sym, rect) {
     var x0 = rect.x, y0 = rect.y, w = rect.w, h = rect.h;
     var headerH = 18;
-    var footerH = 30;
+    var footerH = 44;
 
     ctx.strokeStyle = "rgba(224, 168, 82, 0.14)";
     ctx.lineWidth = 1;
@@ -175,7 +176,7 @@
     ctx.font = "10px " + MONO_FONT;
     ctx.textAlign = "left";
     ctx.fillStyle = "rgba(224, 168, 82, 0.8)";
-    ctx.fillText(sym.label + " · fill spot/line perp · " + ((live && perpLive) ? "LIVE" : "SIM"), x0 + 6, y0 + 13);
+    ctx.fillText(sym.label + " · spot book · " + ((live && perpLive) ? "LIVE" : "SIM"), x0 + 6, y0 + 13);
 
     if (!sym.bids.length || !sym.asks.length) return;
 
@@ -184,19 +185,8 @@
     var rowH = rows / (ROWS_HALF * 2);
     var fontPx = rowH < 11 ? 8 : 10;
     var hasPerp = sym.perpBids.length > 0 && sym.perpAsks.length > 0;
-    var allQty = sym.bids.concat(sym.asks).map(function (l) { return l[1]; });
-    if (hasPerp) allQty = allQty.concat(sym.perpBids.concat(sym.perpAsks).map(function (l) { return l[1]; }));
-    var maxQty = Math.max.apply(null, allQty);
+    var maxQty = Math.max.apply(null, sym.bids.concat(sym.asks).map(function (l) { return l[1]; }));
     if (maxQty === 0) return;
-
-    function overlayBar(levels, i, ry, rowH) {
-      if (!hasPerp || i >= levels.length) return;
-      var t = levels[i][1] / maxQty;
-      var barW = Math.max(4, t * w);
-      ctx.strokeStyle = PERP_LINE;
-      ctx.lineWidth = 1;
-      ctx.strokeRect(x0 + 0.5, ry + 0.5, barW - 1, rowH - 1.6);
-    }
 
     // Asks: highest price first, stacked top-down toward mid.
     var asksTop = sym.asks.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
@@ -209,7 +199,6 @@
       ctx.globalAlpha = 0.85;
       ctx.fillRect(x0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
-      overlayBar(perpAsksTop, i, ry, rowH);
 
       ctx.font = fontPx + "px " + MONO_FONT;
       ctx.textAlign = "left";
@@ -239,7 +228,6 @@
       ctx.globalAlpha = 0.85;
       ctx.fillRect(x0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
-      overlayBar(perpBidsTop, i, ry, rowH);
 
       ctx.font = fontPx + "px " + MONO_FONT;
       ctx.textAlign = "left";
@@ -272,9 +260,9 @@
 
     var barY = footerY + 3, barH = 4;
     var bidW = bidShare * w;
-    ctx.fillStyle = "rgba(60, 255, 94, 0.55)";
+    ctx.fillStyle = "rgba(88, 214, 151, 0.55)";
     ctx.fillRect(x0, barY, bidW, barH);
-    ctx.fillStyle = "rgba(255, 91, 77, 0.55)";
+    ctx.fillStyle = "rgba(235, 110, 110, 0.55)";
     ctx.fillRect(x0 + bidW, barY, w - bidW, barH);
 
     ctx.font = "9px " + MONO_FONT;
@@ -285,25 +273,37 @@
     ctx.fillStyle = "rgba(233, 236, 243, 0.6)";
     ctx.fillText((bidShare * 100).toFixed(0) + "% bid", x0 + w - 5, footerY + 13);
 
-    // Spot/perp basis: the arbitrage signal between this spot book's mid
-    // and the same symbol's USDⓈ-M perpetual mid. Positive = perp trades
-    // above spot (contango; cash-and-carry shorts the perp against spot).
+    // Spot/perp diff table: best-bid and best-ask gaps to the same symbol's
+    // USDⓈ-M perpetual book, plus the resulting mid basis — the numbers a
+    // cash-and-carry (long spot, short perp) or reverse trade is priced on.
     if (hasPerp) {
+      var perpBestBid = perpBidsTop[0][0];
+      var perpBestAsk = perpAsksTop[perpAsksTop.length - 1][0];
+      var bidDiff = perpBestBid - bestBid;
+      var askDiff = perpBestAsk - bestAsk;
       var spotMid = (bestBid + bestAsk) / 2;
-      var perpMid = (perpBidsTop[0][0] + perpAsksTop[perpAsksTop.length - 1][0]) / 2;
-      var basis = perpMid - spotMid;
+      var basis = (perpBestBid + perpBestAsk) / 2 - spotMid;
       var basisBps = (basis / spotMid) * 10000;
-      var carryLabel = basis >= 0 ? "cash-carry" : "reverse-carry";
+
+      function diffColor(v) {
+        return v >= 0 ? "rgba(88, 214, 151, 0.9)" : "rgba(235, 110, 110, 0.9)";
+      }
+      function signed(v) {
+        return (v >= 0 ? "+" : "") + fmtPrice(v);
+      }
+
       ctx.font = "9px " + MONO_FONT;
       ctx.textAlign = "left";
-      ctx.fillStyle = basis >= 0 ? "rgba(60, 255, 94, 0.85)" : "rgba(255, 91, 77, 0.85)";
-      ctx.fillText(
-        "perp " + (basis >= 0 ? "+" : "") + fmtPrice(basis) + " (" + basisBps.toFixed(1) + "bps)",
-        x0 + 5, footerY + footerH - 3
-      );
-      ctx.textAlign = "right";
       ctx.fillStyle = "rgba(233, 236, 243, 0.45)";
-      ctx.fillText(carryLabel, x0 + w - 5, footerY + footerH - 3);
+      ctx.fillText("perp−spot", x0 + 5, footerY + 25);
+      ctx.fillStyle = diffColor(bidDiff);
+      ctx.fillText("bid " + signed(bidDiff), x0 + w * 0.42, footerY + 25);
+      ctx.fillStyle = diffColor(askDiff);
+      ctx.fillText("ask " + signed(askDiff), x0 + w * 0.71, footerY + 25);
+
+      ctx.textAlign = "right";
+      ctx.fillStyle = diffColor(basis);
+      ctx.fillText("mid " + signed(basis) + " (" + basisBps.toFixed(1) + "bps)", x0 + w - 5, footerY + 38);
     }
   }
 
