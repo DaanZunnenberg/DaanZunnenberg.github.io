@@ -677,18 +677,23 @@ pre.code-block code {
    markup is ever parsed from the line content. */
 .hero-terminal {
   position: absolute;
-  inset: 0;
+  inset: 0 0 0 44%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 16px 18px;
+  padding: 16px 20px;
   background: #0b0f18;
+  border-left: 1px solid rgba(35, 45, 71, 0.6);
   font-family: var(--mono);
   font-size: 12px;
   line-height: 1.6;
   -webkit-mask-image: linear-gradient(to top, black 82%, transparent 100%);
   mask-image: linear-gradient(to top, black 82%, transparent 100%);
+}
+
+@media (max-width: 640px) {
+  .hero-terminal { inset: 0; opacity: 0.4; border-left: 0; }
 }
 
 .hero-terminal-line {
@@ -697,6 +702,12 @@ pre.code-block code {
   opacity: 0;
   transform: translateY(4px);
   animation: term-line-in 320ms ease forwards;
+}
+
+.hero-terminal-line.term-typing {
+  opacity: 1;
+  transform: none;
+  animation: none;
 }
 
 @keyframes term-line-in {
@@ -708,8 +719,18 @@ pre.code-block code {
 .hero-terminal-line.term-info { color: rgba(233, 236, 243, 0.55); }
 .hero-terminal-line.term-dim { color: rgba(143, 154, 179, 0.6); }
 
+.hero-terminal-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 12px;
+  margin-left: 1px;
+  background: var(--term-green);
+  animation: blink 1.1s steps(1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-terminal-line { animation: none; opacity: 1; transform: none; }
+  .hero-terminal-cursor { animation: none; }
 }
 
 .hero-fade {
