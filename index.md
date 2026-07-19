@@ -101,14 +101,14 @@ result = minimize(
       <p class="form-hint">Same simulated data and seed as the functional GARCH comparison; estimated via <code>gas_garch_estimator</code> with a Student-<em>t</em> observation density and an Ornstein&ndash;Uhlenbeck covariance kernel.</p>
       <h4>Data Flow</h4>
       <pre class="code-block" data-lang="txt"><code>wrds/*.sas                    scripts/taq_cleaner.py           funcgarch/*.py
-┌────────────────┐            ┌───────────────────┐           ┌─────────────────────┐
+┌─────────────────┐           ┌────────────────────┐           ┌──────────────────────┐
 │ WRDS TAQ pull   │  raw CSV  │ DataCleaner.clean()│  mY (N,T) │ fit() / garch_filter │
 │ (data_fetcher,  │ ────────► │  - align to grid   │ ────────► │ gas_garch_estimator  │
 │  taq_cleaner,   │           │  - compute returns │           │ func_garch_estimator │
 │  nbbo/dynamic_  │           │  - reshape to      │           │                      │
 │  taq_minute,    │           │    (N, T) matrix   │           │  -> vtheta_hat,      │
 │  export)        │           │                    │           │     sigma2 surface   │
-└────────────────┘            └───────────────────┘           └─────────────────────┘
+└─────────────────┘           └────────────────────┘           └──────────────────────┘
 </code></pre>
       <p class="form-hint">Requires Python &ge; 3.9. Full theory, references, and repository layout in the README.</p>
     </div>

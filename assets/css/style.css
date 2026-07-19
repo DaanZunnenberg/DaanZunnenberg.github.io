@@ -777,7 +777,6 @@ pre.code-block code {
   text-align: right;
 }
 
-.hero-content-right .hero-eyebrow { text-overflow: clip; }
 .hero-content-right .hero-links { justify-content: flex-end; }
 
 @media (max-width: 640px) {

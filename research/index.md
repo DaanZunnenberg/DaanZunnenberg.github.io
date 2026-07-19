@@ -8,7 +8,7 @@ permalink: /research/
   <div class="hero-terminal" id="research-terminal" aria-hidden="true"></div>
   <div class="hero-fade hero-fade-flip" aria-hidden="true"></div>
   <div class="hero-content hero-content-right">
-    <div class="hero-eyebrow">Probability &middot; Empirical Processes<span class="hero-eyebrow-extra"> &middot; Statistical Estimation</span></div>
+    <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
     <h1 class="hero-name">Research &amp; Publications<span class="cursor">_</span></h1>
     <p class="hero-lede">Generic chaining, majorizing measures, and weak convergence for dependent processes.</p>
   </div>
