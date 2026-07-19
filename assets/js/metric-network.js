@@ -8,34 +8,107 @@
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
 
-  // A random geometric graph: points drifting through a metric space,
-  // joined by an edge whenever two sit within a fixed radius of each other
-  // (a Vietoris-Rips-style proximity graph). Whenever three points are
-  // all mutually within reach, the triangle between them is filled in as
-  // a 2-simplex. From that live complex we track V - E + F, the Euler
-  // characteristic, updating continuously as the graph reconfigures.
-  var LINK_DIST = 130;
+  // Two independent random geometric graphs, side by side, each a small
+  // Vietoris-Rips-style complex: points drifting within their own half of
+  // the hero, edges when two points are within reach, triangles filled in
+  // as 2-simplices whenever three points are all mutually close. Each
+  // tracks its own live Euler characteristic V - E + F.
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
   var NODE_COLOR = "rgba(233, 236, 243, 0.6)";
-  var EDGE_COLOR = "77, 210, 255";
-  var FACE_COLOR = "150, 190, 130";
 
-  var nodes = [];
+  function lerp(a, b, t) { return a + (b - a) * t; }
 
-  function seedNodes() {
-    nodes = [];
-    var n = Math.max(30, Math.floor((W * H) / 13000));
-    for (var i = 0; i < n; i++) {
-      nodes.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.16,
-        vy: (Math.random() - 0.5) * 0.16,
-        r: 1 + Math.random() * 2.2,
-        phase: Math.random() * Math.PI * 2
+  function createSystem(opts) {
+    var sys = {
+      linkDist: opts.linkDist,
+      edgeColor: opts.edgeColor,
+      faceColor: opts.faceColor,
+      labelColor: opts.labelColor,
+      nodes: [],
+      edgeAlpha: {} // "i-j" -> smoothed alpha, so links fade in/out instead of snapping
+    };
+
+    sys.seed = function (x0, x1, y0, y1) {
+      sys.x0 = x0; sys.x1 = x1; sys.y0 = y0; sys.y1 = y1;
+      var area = (x1 - x0) * (y1 - y0);
+      var n = Math.max(16, Math.floor(area / 13000));
+      sys.nodes = [];
+      for (var i = 0; i < n; i++) {
+        sys.nodes.push({
+          x: x0 + Math.random() * (x1 - x0),
+          y: y0 + Math.random() * (y1 - y0),
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: (Math.random() - 0.5) * 0.15,
+          r: 1 + Math.random() * 2.2,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+      sys.edgeAlpha = {};
+    };
+
+    sys.step = function () {
+      sys.nodes.forEach(function (n) {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < sys.x0 || n.x > sys.x1) n.vx *= -1;
+        if (n.y < sys.y0 || n.y > sys.y1) n.vy *= -1;
       });
-    }
+    };
+
+    // Builds the graph for this frame, smoothing each possible edge's
+    // alpha toward 0 or 1 (in reach / not) rather than snapping, so
+    // connections fade in and out over a few hundred ms instead of
+    // popping instantly as points cross the link radius.
+    sys.buildComplex = function () {
+      var nodes = sys.nodes, n = nodes.length;
+      var adj = new Array(n);
+      for (var i = 0; i < n; i++) adj[i] = [];
+      var edges = [];
+      var seen = {};
+
+      for (i = 0; i < n; i++) {
+        for (var j = i + 1; j < n; j++) {
+          var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          var key = i + "-" + j;
+          var target = dist < sys.linkDist ? (1 - dist / sys.linkDist) : 0;
+          var current = sys.edgeAlpha[key] || 0;
+          current = lerp(current, target, 0.08);
+          if (current < 0.003) { delete sys.edgeAlpha[key]; continue; }
+          sys.edgeAlpha[key] = current;
+          seen[key] = true;
+          edges.push({ i: i, j: j, alpha: current });
+          if (dist < sys.linkDist) { adj[i].push(j); adj[j].push(i); }
+        }
+      }
+      // keep fading out edges whose pair is no longer even iterated over
+      // (can't happen here since we always iterate all pairs, but guards
+      // against stale keys if node count ever changes mid-cycle)
+      Object.keys(sys.edgeAlpha).forEach(function (k) { if (!seen[k]) delete sys.edgeAlpha[k]; });
+
+      var faces = [];
+      for (i = 0; i < n; i++) {
+        var ai = adj[i];
+        for (var a = 0; a < ai.length; a++) {
+          var j = ai[a];
+          if (j <= i) continue;
+          var aj = adj[j];
+          for (var b = 0; b < aj.length; b++) {
+            var k = aj[b];
+            if (k <= j) continue;
+            if (adj[i].indexOf(k) !== -1) faces.push([i, j, k]);
+          }
+        }
+      }
+
+      return { edges: edges, faces: faces };
+    };
+
+    return sys;
   }
+
+  var left = createSystem({ linkDist: 110, edgeColor: "77, 210, 255", faceColor: "150, 190, 130", labelColor: "224, 168, 82" });
+  var right = createSystem({ linkDist: 110, edgeColor: "200, 140, 190", faceColor: "224, 168, 82", labelColor: "77, 210, 255" });
 
   function resize() {
     W = container.clientWidth;
@@ -45,76 +118,35 @@
     canvas.style.width = W + "px";
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    seedNodes();
+
+    var gap = W * 0.03;
+    left.seed(W * 0.02, W * 0.49 - gap / 2, H * 0.08, H * 0.92);
+    right.seed(W * 0.51 + gap / 2, W * 0.98, H * 0.08, H * 0.92);
   }
 
-  function step() {
-    nodes.forEach(function (n) {
-      n.x += n.vx;
-      n.y += n.vy;
-      if (n.x < 0 || n.x > W) n.vx *= -1;
-      if (n.y < 0 || n.y > H) n.vy *= -1;
-    });
-  }
-
-  // Build the proximity graph for this frame, then find its triangles by
-  // walking edges through a per-node adjacency list rather than checking
-  // every triple of points, which keeps this cheap enough for 60fps.
-  function buildComplex() {
-    var n = nodes.length;
-    var adj = new Array(n);
-    for (var i = 0; i < n; i++) adj[i] = [];
-    var edges = [];
-
-    for (i = 0; i < n; i++) {
-      for (var j = i + 1; j < n; j++) {
-        var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist >= LINK_DIST) continue;
-        edges.push({ i: i, j: j, t: 1 - dist / LINK_DIST });
-        adj[i].push(j);
-        adj[j].push(i);
-      }
-    }
-
-    var faces = [];
-    edges.forEach(function (e) {
-      var neighborsI = adj[e.i], neighborsJ = adj[e.j];
-      for (var a = 0; a < neighborsI.length; a++) {
-        var k = neighborsI[a];
-        if (k <= e.j) continue; // k > j keeps each triangle counted once
-        if (neighborsJ.indexOf(k) !== -1) faces.push([e.i, e.j, k]);
-      }
-    });
-
-    return { edges: edges, faces: faces };
-  }
-
-  function draw(now, complex) {
-    ctx.clearRect(0, 0, W, H);
-
+  function drawSystem(sys, now, complex, labelAlign) {
     complex.faces.forEach(function (f) {
-      var a = nodes[f[0]], b = nodes[f[1]], c = nodes[f[2]];
+      var a = sys.nodes[f[0]], b = sys.nodes[f[1]], c = sys.nodes[f[2]];
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
       ctx.lineTo(c.x, c.y);
       ctx.closePath();
-      ctx.fillStyle = "rgba(" + FACE_COLOR + ", 0.07)";
+      ctx.fillStyle = "rgba(" + sys.faceColor + ", 0.07)";
       ctx.fill();
     });
 
     complex.edges.forEach(function (e) {
-      var a = nodes[e.i], b = nodes[e.j];
+      var a = sys.nodes[e.i], b = sys.nodes[e.j];
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
-      ctx.strokeStyle = "rgba(" + EDGE_COLOR + ", " + (0.05 + 0.22 * e.t * e.t) + ")";
+      ctx.strokeStyle = "rgba(" + sys.edgeColor + ", " + (0.05 + 0.24 * e.alpha * e.alpha).toFixed(3) + ")";
       ctx.lineWidth = 1;
       ctx.stroke();
     });
 
-    nodes.forEach(function (n) {
+    sys.nodes.forEach(function (n) {
       var twinkle = 0.75 + 0.25 * Math.sin(now / 1600 + n.phase);
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
@@ -124,29 +156,35 @@
       ctx.globalAlpha = 1;
     });
 
-    var V = nodes.length, E = complex.edges.length, F = complex.faces.length;
+    var V = sys.nodes.length, E = complex.edges.filter(function (e) { return e.alpha > 0.4; }).length, F = complex.faces.length;
     var chi = V - E + F;
     ctx.font = "11px " + MONO_FONT;
-    ctx.textAlign = "left";
-    ctx.fillStyle = "rgba(224, 168, 82, 0.6)";
-    ctx.fillText(
-      "χ = V − E + F = " + V + " − " + E + " + " + F + " = " + chi,
-      12, H - 14
-    );
+    ctx.textAlign = labelAlign;
+    ctx.fillStyle = "rgba(" + sys.labelColor + ", 0.65)";
+    var tx = labelAlign === "left" ? sys.x0 : sys.x1;
+    ctx.fillText("χ = V − E + F = " + chi, tx, H - 16);
   }
 
-  function loop(ts) {
-    step();
-    draw(ts || performance.now(), buildComplex());
-    if (!reduceMotion) requestAnimationFrame(loop);
+  function frame(now) {
+    left.step();
+    right.step();
+    ctx.clearRect(0, 0, W, H);
+    // Labels anchored toward the inner edge of each half (near the gap
+    // between the two systems) — away from the hero copy on the far left
+    // and the outer canvas edge on the far right.
+    drawSystem(left, now, left.buildComplex(), "right");
+    drawSystem(right, now, right.buildComplex(), "left");
+    if (!reduceMotion) requestAnimationFrame(frame);
   }
 
   window.addEventListener("resize", resize);
   resize();
 
   if (!reduceMotion) {
-    requestAnimationFrame(loop);
+    requestAnimationFrame(frame);
   } else {
-    draw(0, buildComplex());
+    ctx.clearRect(0, 0, W, H);
+    drawSystem(left, 0, left.buildComplex(), "right");
+    drawSystem(right, 0, right.buildComplex(), "left");
   }
 })();
