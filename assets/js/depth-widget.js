@@ -11,12 +11,13 @@
   var STREAM_DEPTH = 20; // Binance partial-depth stream size (must be 5, 10, or 20)
   var ROWS_HALF = 12;    // price levels shown above / below mid (sliced from STREAM_DEPTH)
 
-  // Same muted red/green as the ThinkOrSwim-style options-chain widget
-  // (market-widget.js), rather than a neon heat scale.
+  // Darkened toward the same restrained red/green the options-chain widget
+  // (market-widget.js) uses for its own flash highlights, rather than a
+  // bright, fully-saturated heat scale.
   var ASK_HEAT = "35, 22, 24";    // dark, desaturated base
-  var ASK_HOT  = "235, 110, 110"; // muted red for the biggest asks
+  var ASK_HOT  = "168, 82, 82";   // dark muted red for the biggest asks
   var BID_HEAT = "18, 30, 27";    // dark, desaturated base
-  var BID_HOT  = "88, 214, 151";  // muted green for the biggest bids
+  var BID_HOT  = "64, 150, 108";  // dark muted green for the biggest bids
   var MID_LINE = "rgba(233, 236, 243, 0.35)";
 
   var SYMBOLS = [
@@ -258,7 +259,7 @@
       var t = lvl[1] / maxQty;
       var barW = Math.max(6, t * bookW);
       ctx.fillStyle = heatColor(ASK_HEAT, ASK_HOT, t);
-      ctx.globalAlpha = 0.85;
+      ctx.globalAlpha = 0.62;
       ctx.fillRect(bookX0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
 
@@ -289,7 +290,7 @@
       var t = lvl[1] / maxQty;
       var barW = Math.max(6, t * bookW);
       ctx.fillStyle = heatColor(BID_HEAT, BID_HOT, t);
-      ctx.globalAlpha = 0.85;
+      ctx.globalAlpha = 0.62;
       ctx.fillRect(bookX0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
 
