@@ -139,6 +139,14 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
 </code></pre>
   <p class="form-hint">Non-negative Bernstein coefficients guarantee a positive volatility surface directly, without constrained optimization over the full operator.</p>
   <p>
+    Fitting the functional GARCH(1,1) recursion above (Bernstein-basis QMLE, projected onto <em>M</em> = 3 basis
+    functions) to simulated intraday data recovers the shape of the true volatility surface, though with visibly
+    more day-to-day roughness than the true process &mdash; several of the fitted operator coefficients sit at
+    their box constraint, which a richer basis or a longer sample would relax:
+  </p>
+  <img src="{{ '/assets/img/garch_vol_surface.png' | relative_url }}" alt="True versus functional GARCH-estimated volatility surface, side by side" class="entry-figure">
+  <p class="form-hint">Simulated 25-point intraday grid over 500 trading days; estimated surface via <code>funcgarch.garch.fit</code> + <code>garch_filter</code>.</p>
+  <p>
     The MATLAB estimation script itself (<a href="https://github.com/DaanZunnenberg/FunctionalScaleMod/tree/main/MATLAB_YC" target="_blank" rel="noopener noreferrer">MATLAB_YC on GitHub</a>)
     fits the GAS recursion by reparameterized maximum likelihood, using a B-spline basis for the volatility surface
     and a multivariate Student-<em>t</em> observation density with an Ornstein&ndash;Uhlenbeck covariance kernel:
