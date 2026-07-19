@@ -5,7 +5,7 @@ permalink: /research/
 ---
 
 <section class="hero">
-  <canvas id="trade-process-canvas" class="hero-canvas" aria-label="Two live scrolling time-and-sales tables, one for Binance BTC/USDT and one for SOL/USDT trades, each row showing time, side, price with tick change, quantity with notional, spot-perp basis, quoted spread, microprice deviation, and order-book impact" aria-hidden="true"></canvas>
+  <canvas id="trade-process-canvas" class="hero-canvas" aria-label="Three live scrolling time-and-sales tables side by side, for Binance ETH/USDT, BTC/USDT, and SOL/USDT spot trades, each row showing price, trade amount in the coin's own units, and trade time" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
