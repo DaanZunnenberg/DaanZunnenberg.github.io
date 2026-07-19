@@ -9,7 +9,8 @@
   var W, H;
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
   var STREAM_DEPTH = 20; // Binance partial-depth stream size (must be 5, 10, or 20)
-  var ROWS_HALF = 14;    // price levels shown above / below mid (sliced from STREAM_DEPTH)
+  var ROWS_HALF = 12;    // price levels shown above / below mid (sliced from STREAM_DEPTH)
+  var PERP_POLL_MS = 1500;
 
   var ASK_HEAT = "60, 25, 30";   // deep red base
   var ASK_HOT  = "255, 91, 77";  // bright red for the biggest asks
@@ -18,9 +19,10 @@
   var MID_LINE = "rgba(233, 236, 243, 0.35)";
 
   var SYMBOLS = [
-    { key: "btcusdt", label: "BTC/USDT", bids: [], asks: [] },
-    { key: "ethusdt", label: "ETH/USDT", bids: [], asks: [] },
-    { key: "solusdt", label: "SOL/USDT", bids: [], asks: [] }
+    { key: "btcusdt", label: "BTC/USDT", bids: [], asks: [], perpBid: null, perpAsk: null },
+    { key: "ethusdt", label: "ETH/USDT", bids: [], asks: [], perpBid: null, perpAsk: null },
+    { key: "solusdt", label: "SOL/USDT", bids: [], asks: [], perpBid: null, perpAsk: null },
+    { key: "xrpusdt", label: "XRP/USDT", bids: [], asks: [], perpBid: null, perpAsk: null }
   ];
 
   var live = false;
@@ -38,6 +40,22 @@
         return res.json();
       })
       .then(function (data) { updateBook(sym, data); })
+      .catch(function () {});
+  }
+
+  function pollPerp(sym) {
+    // Same symbol on Binance's USDⓈ-M perpetual futures book (fapi), used
+    // to show the spot/perp basis — the gap arbitrageurs trade via a
+    // cash-and-carry (long spot, short perp) or reverse position.
+    fetch("https://fapi.binance.com/fapi/v1/ticker/bookTicker?symbol=" + sym.key.toUpperCase())
+      .then(function (res) {
+        if (!res.ok) throw new Error("bad response");
+        return res.json();
+      })
+      .then(function (data) {
+        sym.perpBid = +data.bidPrice;
+        sym.perpAsk = +data.askPrice;
+      })
       .catch(function () {});
   }
 
@@ -105,7 +123,7 @@
   function drawPanel(sym, rect) {
     var x0 = rect.x, y0 = rect.y, w = rect.w, h = rect.h;
     var headerH = 18;
-    var footerH = 16;
+    var footerH = 30;
 
     ctx.strokeStyle = "rgba(224, 168, 82, 0.14)";
     ctx.lineWidth = 1;
@@ -198,10 +216,31 @@
     ctx.font = "9px " + MONO_FONT;
     ctx.textAlign = "left";
     ctx.fillStyle = "rgba(233, 236, 243, 0.6)";
-    ctx.fillText("spread " + fmtPrice(spread) + " (" + spreadBps.toFixed(1) + "bps)", x0 + 5, footerY + footerH - 3);
+    ctx.fillText("spread " + fmtPrice(spread) + " (" + spreadBps.toFixed(1) + "bps)", x0 + 5, footerY + 13);
     ctx.textAlign = "right";
     ctx.fillStyle = "rgba(233, 236, 243, 0.6)";
-    ctx.fillText((bidShare * 100).toFixed(0) + "% bid", x0 + w - 5, footerY + footerH - 3);
+    ctx.fillText((bidShare * 100).toFixed(0) + "% bid", x0 + w - 5, footerY + 13);
+
+    // Spot/perp basis: the arbitrage signal between this spot book's mid
+    // and the same symbol's USDⓈ-M perpetual mid. Positive = perp trades
+    // above spot (contango; cash-and-carry shorts the perp against spot).
+    if (sym.perpBid != null && sym.perpAsk != null) {
+      var spotMid = (bestBid + bestAsk) / 2;
+      var perpMid = (sym.perpBid + sym.perpAsk) / 2;
+      var basis = perpMid - spotMid;
+      var basisBps = (basis / spotMid) * 10000;
+      var carryLabel = basis >= 0 ? "cash-carry" : "reverse-carry";
+      ctx.font = "9px " + MONO_FONT;
+      ctx.textAlign = "left";
+      ctx.fillStyle = basis >= 0 ? "rgba(60, 255, 94, 0.85)" : "rgba(255, 91, 77, 0.85)";
+      ctx.fillText(
+        "perp " + (basis >= 0 ? "+" : "") + fmtPrice(basis) + " (" + basisBps.toFixed(1) + "bps)",
+        x0 + 5, footerY + footerH - 3
+      );
+      ctx.textAlign = "right";
+      ctx.fillStyle = "rgba(233, 236, 243, 0.45)";
+      ctx.fillText(carryLabel, x0 + w - 5, footerY + footerH - 3);
+    }
   }
 
   function draw() {
@@ -221,6 +260,8 @@
   window.addEventListener("resize", resize);
   resize();
   SYMBOLS.forEach(seedSnapshot);
+  SYMBOLS.forEach(pollPerp);
+  setInterval(function () { SYMBOLS.forEach(pollPerp); }, PERP_POLL_MS);
   connectSocket();
 
   if (!reduceMotion) requestAnimationFrame(loop);
