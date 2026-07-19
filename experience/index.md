@@ -5,10 +5,10 @@ permalink: /experience/
 ---
 
 <section class="hero">
-  <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live BTC/USDT and ETH/USDT order book depth"></canvas>
+  <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live BTC, ETH, SOL and XRP spot order books, with spot/perp basis for cash-and-carry arbitrage"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">Market Microstructure<span class="hero-eyebrow-extra"> &middot; Order Book Depth</span></div>
+    <div class="hero-eyebrow">Market Microstructure<span class="hero-eyebrow-extra"> &middot; Spot/Perp Basis Arb</span></div>
     <h1 class="hero-name">Experience &amp; Projects<span class="cursor">_</span></h1>
     <p class="hero-lede">Roles and side projects at the intersection of statistics, execution, and market-making.</p>
   </div>
