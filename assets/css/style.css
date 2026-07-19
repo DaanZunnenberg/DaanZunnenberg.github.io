@@ -725,12 +725,14 @@ pre.code-block code {
 }
 
 /* Kali-shell restraint: color is reserved for prompt identity and for
-   warnings/errors, not sprinkled across ordinary output. */
+   warnings/errors, not sprinkled across ordinary output. Darker, more
+   traditional terminal tones here rather than the site's bright cyan/
+   green accents, plus a muted purple for the INFO/OK tag. */
 .hero-terminal-line { color: rgba(233, 236, 243, 0.6); }
-.hero-terminal-line .term-box { color: var(--term-blue); }
-.hero-terminal-line .term-user { color: var(--term-green); }
+.hero-terminal-line .term-box { color: #3a6ea5; }
+.hero-terminal-line .term-user { color: #4a8f5c; }
 .hero-terminal-line .term-time { color: rgba(143, 154, 179, 0.55); }
-.hero-terminal-line .term-tag { color: rgba(143, 154, 179, 0.7); }
+.hero-terminal-line .term-tag { color: #9077b3; }
 .hero-terminal-line .term-warn { color: #e0a852; }
 .hero-terminal-line .term-err { color: #ff5b4d; }
 
@@ -739,7 +741,7 @@ pre.code-block code {
   width: 6px;
   height: 12px;
   margin-left: 1px;
-  background: var(--term-green);
+  background: #4a8f5c;
   animation: blink 1.1s steps(1) infinite;
 }
 
