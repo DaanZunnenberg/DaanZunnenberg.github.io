@@ -687,68 +687,6 @@ pre.code-block code {
   }
 }
 
-/* Research hero: a scrolling, terminal-style transcript instead of a
-   static image. Plain text nodes only (see terminal-widget.js) — no
-   markup is ever parsed from the line content. */
-.hero-terminal {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 16px 20px;
-  background: #0b0f18;
-  font-family: var(--mono);
-  font-size: 12px;
-  line-height: 1.6;
-  -webkit-mask-image: linear-gradient(to top, black 82%, transparent 100%);
-  mask-image: linear-gradient(to top, black 82%, transparent 100%);
-}
-
-.hero-terminal-line {
-  white-space: pre-wrap;
-  word-break: break-word;
-  opacity: 0;
-  transform: translateY(4px);
-  animation: term-line-in 320ms ease forwards;
-}
-
-.hero-terminal-line.term-typing {
-  opacity: 1;
-  transform: none;
-  animation: none;
-}
-
-@keyframes term-line-in {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Kali-shell restraint: color is reserved for prompt identity and for
-   warnings/errors, not sprinkled across ordinary output. Darker, more
-   traditional terminal tones here rather than the site's bright cyan/
-   green accents, plus a muted purple for the INFO/OK tag. */
-.hero-terminal-line { color: rgba(233, 236, 243, 0.6); }
-.hero-terminal-line .term-box { color: #3a6ea5; }
-.hero-terminal-line .term-user { color: #4a8f5c; }
-.hero-terminal-line .term-time { color: rgba(143, 154, 179, 0.55); }
-.hero-terminal-line .term-tag { color: #9077b3; }
-.hero-terminal-line .term-warn { color: #e0a852; }
-.hero-terminal-line .term-err { color: #ff5b4d; }
-
-.hero-terminal-cursor {
-  display: inline-block;
-  width: 6px;
-  height: 12px;
-  margin-left: 1px;
-  background: #4a8f5c;
-  animation: blink 1.1s steps(1) infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-terminal-line { animation: none; opacity: 1; transform: none; }
-  .hero-terminal-cursor { animation: none; }
-}
 
 .hero-fade {
   position: absolute;
