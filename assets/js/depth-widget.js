@@ -10,27 +10,37 @@
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
   var STREAM_DEPTH = 20; // Binance partial-depth stream size (must be 5, 10, or 20)
   var ROWS_HALF = 12;    // price levels shown above / below mid (sliced from STREAM_DEPTH)
-  var PERP_POLL_MS = 1500;
 
   var ASK_HEAT = "60, 25, 30";   // deep red base
   var ASK_HOT  = "255, 91, 77";  // bright red for the biggest asks
   var BID_HEAT = "18, 46, 36";   // deep green base
   var BID_HOT  = "60, 255, 94";  // bright green for the biggest bids
   var MID_LINE = "rgba(233, 236, 243, 0.35)";
+  var PERP_LINE = "rgba(224, 168, 82, 0.85)"; // amber outline for the overlaid perp book
 
   var SYMBOLS = [
-    { key: "xrpusdt", label: "XRP/USDT", bids: [], asks: [], perpBid: null, perpAsk: null },
-    { key: "ethusdt", label: "ETH/USDT", bids: [], asks: [], perpBid: null, perpAsk: null },
-    { key: "solusdt", label: "SOL/USDT", bids: [], asks: [], perpBid: null, perpAsk: null },
-    { key: "btcusdt", label: "BTC/USDT", bids: [], asks: [], perpBid: null, perpAsk: null }
+    { key: "xrpusdt", label: "XRP/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
+    { key: "ethusdt", label: "ETH/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
+    { key: "solusdt", label: "SOL/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
+    { key: "btcusdt", label: "BTC/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] }
   ];
 
   var live = false;
+  var perpLive = false;
+
+  function parseLevels(data, key) {
+    return data[key].slice(0, ROWS_HALF).map(function (l) { return [+l[0], +l[1]]; });
+  }
 
   function updateBook(sym, data) {
     // Binance depth20 levels arrive best-first: bids descending, asks ascending.
-    sym.bids = data.bids.slice(0, ROWS_HALF).map(function (l) { return [+l[0], +l[1]]; });
-    sym.asks = data.asks.slice(0, ROWS_HALF).map(function (l) { return [+l[0], +l[1]]; });
+    sym.bids = parseLevels(data, "bids");
+    sym.asks = parseLevels(data, "asks");
+  }
+
+  function updatePerpBook(sym, data) {
+    sym.perpBids = parseLevels(data, "bids");
+    sym.perpAsks = parseLevels(data, "asks");
   }
 
   function seedSnapshot(sym) {
@@ -43,19 +53,16 @@
       .catch(function () {});
   }
 
-  function pollPerp(sym) {
-    // Same symbol on Binance's USDⓈ-M perpetual futures book (fapi), used
-    // to show the spot/perp basis — the gap arbitrageurs trade via a
-    // cash-and-carry (long spot, short perp) or reverse position.
-    fetch("https://fapi.binance.com/fapi/v1/ticker/bookTicker?symbol=" + sym.key.toUpperCase())
+  function seedPerpSnapshot(sym) {
+    // Same symbol on Binance's USDⓈ-M perpetual futures book (fapi), overlaid
+    // on the spot book below so the two can be compared level-by-level —
+    // the gap between them is the cash-and-carry arb signal.
+    fetch("https://fapi.binance.com/fapi/v1/depth?symbol=" + sym.key.toUpperCase() + "&limit=" + STREAM_DEPTH)
       .then(function (res) {
         if (!res.ok) throw new Error("bad response");
         return res.json();
       })
-      .then(function (data) {
-        sym.perpBid = +data.bidPrice;
-        sym.perpAsk = +data.askPrice;
-      })
+      .then(function (data) { updatePerpBook(sym, data); })
       .catch(function () {});
   }
 
@@ -89,6 +96,40 @@
       var sym = SYMBOLS.filter(function (s) { return s.key === streamSymbol; })[0];
       if (!sym) return;
       updateBook(sym, msg.data);
+    };
+  }
+
+  function connectPerpSocket() {
+    var streams = SYMBOLS.map(function (s) { return s.key + "@depth" + STREAM_DEPTH + "@100ms"; }).join("/");
+    var ws;
+    try {
+      ws = new WebSocket("wss://fstream.binance.com/stream?streams=" + streams);
+    } catch (e) {
+      return;
+    }
+
+    var connectTimeout = setTimeout(function () {
+      try { ws.close(); } catch (e) {}
+    }, 5000);
+
+    ws.onopen = function () {
+      clearTimeout(connectTimeout);
+      perpLive = true;
+    };
+
+    ws.onmessage = function (evt) {
+      var msg;
+      try {
+        msg = JSON.parse(evt.data);
+      } catch (e) {
+        return;
+      }
+      if (!msg.data || !msg.data.b || !msg.data.a) return;
+      var streamSymbol = (msg.stream || "").split("@")[0];
+      var sym = SYMBOLS.filter(function (s) { return s.key === streamSymbol; })[0];
+      if (!sym) return;
+      // futures depth diff/snapshot stream uses short keys b/a instead of bids/asks
+      updatePerpBook(sym, { bids: msg.data.b, asks: msg.data.a });
     };
   }
 
@@ -134,7 +175,7 @@
     ctx.font = "10px " + MONO_FONT;
     ctx.textAlign = "left";
     ctx.fillStyle = "rgba(224, 168, 82, 0.8)";
-    ctx.fillText(sym.label + (live ? "  ·  LIVE" : "  ·  SIM"), x0 + 6, y0 + 13);
+    ctx.fillText(sym.label + " · fill spot/line perp · " + ((live && perpLive) ? "LIVE" : "SIM"), x0 + 6, y0 + 13);
 
     if (!sym.bids.length || !sym.asks.length) return;
 
@@ -142,11 +183,24 @@
     var rows = h - headerH - footerH - rowsGap;
     var rowH = rows / (ROWS_HALF * 2);
     var fontPx = rowH < 11 ? 8 : 10;
-    var maxQty = Math.max.apply(null, sym.bids.concat(sym.asks).map(function (l) { return l[1]; }));
+    var hasPerp = sym.perpBids.length > 0 && sym.perpAsks.length > 0;
+    var allQty = sym.bids.concat(sym.asks).map(function (l) { return l[1]; });
+    if (hasPerp) allQty = allQty.concat(sym.perpBids.concat(sym.perpAsks).map(function (l) { return l[1]; }));
+    var maxQty = Math.max.apply(null, allQty);
     if (maxQty === 0) return;
+
+    function overlayBar(levels, i, ry, rowH) {
+      if (!hasPerp || i >= levels.length) return;
+      var t = levels[i][1] / maxQty;
+      var barW = Math.max(4, t * w);
+      ctx.strokeStyle = PERP_LINE;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x0 + 0.5, ry + 0.5, barW - 1, rowH - 1.6);
+    }
 
     // Asks: highest price first, stacked top-down toward mid.
     var asksTop = sym.asks.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
+    var perpAsksTop = sym.perpAsks.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
     asksTop.forEach(function (lvl, i) {
       var ry = y0 + headerH + i * rowH;
       var t = lvl[1] / maxQty;
@@ -155,6 +209,7 @@
       ctx.globalAlpha = 0.85;
       ctx.fillRect(x0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
+      overlayBar(perpAsksTop, i, ry, rowH);
 
       ctx.font = fontPx + "px " + MONO_FONT;
       ctx.textAlign = "left";
@@ -175,6 +230,7 @@
 
     // Bids: highest price first (closest to mid), stacked downward.
     var bidsTop = sym.bids.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
+    var perpBidsTop = sym.perpBids.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
     bidsTop.forEach(function (lvl, i) {
       var ry = midY + i * rowH;
       var t = lvl[1] / maxQty;
@@ -183,6 +239,7 @@
       ctx.globalAlpha = 0.85;
       ctx.fillRect(x0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
+      overlayBar(perpBidsTop, i, ry, rowH);
 
       ctx.font = fontPx + "px " + MONO_FONT;
       ctx.textAlign = "left";
@@ -231,9 +288,9 @@
     // Spot/perp basis: the arbitrage signal between this spot book's mid
     // and the same symbol's USDⓈ-M perpetual mid. Positive = perp trades
     // above spot (contango; cash-and-carry shorts the perp against spot).
-    if (sym.perpBid != null && sym.perpAsk != null) {
+    if (hasPerp) {
       var spotMid = (bestBid + bestAsk) / 2;
-      var perpMid = (sym.perpBid + sym.perpAsk) / 2;
+      var perpMid = (perpBidsTop[0][0] + perpAsksTop[perpAsksTop.length - 1][0]) / 2;
       var basis = perpMid - spotMid;
       var basisBps = (basis / spotMid) * 10000;
       var carryLabel = basis >= 0 ? "cash-carry" : "reverse-carry";
@@ -267,9 +324,9 @@
   window.addEventListener("resize", resize);
   resize();
   SYMBOLS.forEach(seedSnapshot);
-  SYMBOLS.forEach(pollPerp);
-  setInterval(function () { SYMBOLS.forEach(pollPerp); }, PERP_POLL_MS);
+  SYMBOLS.forEach(seedPerpSnapshot);
   connectSocket();
+  connectPerpSocket();
 
   if (!reduceMotion) requestAnimationFrame(loop);
   else setInterval(draw, 500);
