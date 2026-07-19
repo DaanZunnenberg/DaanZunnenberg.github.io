@@ -31,15 +31,15 @@
     sys.seed = function (x0, x1, y0, y1) {
       sys.x0 = x0; sys.x1 = x1; sys.y0 = y0; sys.y1 = y1;
       var area = (x1 - x0) * (y1 - y0);
-      var n = Math.max(16, Math.floor(area / 13000));
+      var n = Math.max(24, Math.floor(area / 7500)); // denser than before -> richer, more intricate complex
       sys.nodes = [];
       for (var i = 0; i < n; i++) {
         sys.nodes.push({
           x: x0 + Math.random() * (x1 - x0),
           y: y0 + Math.random() * (y1 - y0),
-          vx: (Math.random() - 0.5) * 0.15,
-          vy: (Math.random() - 0.5) * 0.15,
-          r: 1 + Math.random() * 2.2,
+          vx: (Math.random() - 0.5) * 0.14,
+          vy: (Math.random() - 0.5) * 0.14,
+          r: 0.8 + Math.random() * 2.6,
           phase: Math.random() * Math.PI * 2
         });
       }
@@ -107,8 +107,8 @@
     return sys;
   }
 
-  var left = createSystem({ linkDist: 110, edgeColor: "77, 210, 255", faceColor: "150, 190, 130", labelColor: "224, 168, 82" });
-  var right = createSystem({ linkDist: 110, edgeColor: "200, 140, 190", faceColor: "224, 168, 82", labelColor: "77, 210, 255" });
+  var left = createSystem({ linkDist: 128, edgeColor: "77, 210, 255", faceColor: "150, 190, 130", labelColor: "224, 168, 82" });
+  var right = createSystem({ linkDist: 128, edgeColor: "200, 140, 190", faceColor: "224, 168, 82", labelColor: "77, 210, 255" });
 
   function resize() {
     W = container.clientWidth;
@@ -127,12 +127,17 @@
   function drawSystem(sys, now, complex, labelAlign) {
     complex.faces.forEach(function (f) {
       var a = sys.nodes[f[0]], b = sys.nodes[f[1]], c = sys.nodes[f[2]];
+      // Smaller, tighter triangles read as denser local structure, so give
+      // them a touch more fill than large, loose ones — adds depth without
+      // a uniform flat wash across every face.
+      var area = Math.abs((b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y)) / 2;
+      var fillT = Math.max(0.04, Math.min(0.12, 900 / (area + 900) * 0.12));
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
       ctx.lineTo(c.x, c.y);
       ctx.closePath();
-      ctx.fillStyle = "rgba(" + sys.faceColor + ", 0.07)";
+      ctx.fillStyle = "rgba(" + sys.faceColor + ", " + fillT.toFixed(3) + ")";
       ctx.fill();
     });
 
