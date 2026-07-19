@@ -9,13 +9,16 @@
   var W, H;
   var NODE_COUNT = 26;
   var LINK_DIST = 150;
-  var PULSE_MS = 2100;
+  var TRAVELER_COUNT = 3;
+  var PULSE_PX_PER_MS = 0.075; // constant on-screen speed, independent of hop length
 
   var NODE_COLOR = "rgba(233, 236, 243, 0.55)";
   var LINK_COLOR = "rgba(77, 210, 255, 0.16)";
   var PULSE_COLOR = "rgba(60, 255, 94, 0.9)";
 
   var nodes = [];
+  var travelers = [];
+  var lastTs = null;
 
   function resize() {
     W = container.clientWidth;
@@ -53,7 +56,32 @@
     }
   }
 
+  function neighborsOf(node, exclude) {
+    var out = [];
+    links.forEach(function (l) {
+      if (l.a === node && l.b !== exclude) out.push(l.b);
+      else if (l.b === node && l.a !== exclude) out.push(l.a);
+    });
+    return out;
+  }
+
+  function spawnTraveler() {
+    var start = nodes[(Math.random() * nodes.length) | 0];
+    var options = neighborsOf(start, null);
+    if (!options.length) return null;
+    var next = options[(Math.random() * options.length) | 0];
+    return {
+      from: start,
+      to: next,
+      t: 0,
+      hopsRemaining: 2 + ((Math.random() * 3) | 0) // 2–4 hops before despawning
+    };
+  }
+
   function step(now) {
+    var dt = lastTs == null ? 16 : Math.min(now - lastTs, 64);
+    lastTs = now;
+
     nodes.forEach(function (n) {
       n.x += n.vx;
       n.y += n.vy;
@@ -61,6 +89,35 @@
       if (n.y < 0 || n.y > H) n.vy *= -1;
     });
     rebuildLinks();
+
+    while (travelers.length < TRAVELER_COUNT) {
+      var t = spawnTraveler();
+      if (!t) break;
+      travelers.push(t);
+    }
+
+    travelers.forEach(function (tr) {
+      var dx = tr.to.x - tr.from.x, dy = tr.to.y - tr.from.y;
+      var hopDist = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+      tr.t += (PULSE_PX_PER_MS * dt) / hopDist;
+      if (tr.t >= 1) {
+        tr.hopsRemaining -= 1;
+        if (tr.hopsRemaining <= 0) {
+          tr.dead = true;
+          return;
+        }
+        var options = neighborsOf(tr.to, tr.from);
+        if (!options.length) options = neighborsOf(tr.to, null);
+        if (!options.length) {
+          tr.dead = true;
+          return;
+        }
+        tr.from = tr.to;
+        tr.to = options[(Math.random() * options.length) | 0];
+        tr.t = 0;
+      }
+    });
+    travelers = travelers.filter(function (tr) { return !tr.dead; });
 
     ctx.clearRect(0, 0, W, H);
 
@@ -73,18 +130,14 @@
       ctx.stroke();
     });
 
-    if (links.length) {
-      var phase = (now % PULSE_MS) / PULSE_MS;
-      var link = links[Math.floor((now / PULSE_MS) % links.length)];
-      if (link) {
-        var px = link.a.x + (link.b.x - link.a.x) * phase;
-        var py = link.a.y + (link.b.y - link.a.y) * phase;
-        ctx.fillStyle = PULSE_COLOR;
-        ctx.beginPath();
-        ctx.arc(px, py, 2.2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
+    travelers.forEach(function (tr) {
+      var px = tr.from.x + (tr.to.x - tr.from.x) * tr.t;
+      var py = tr.from.y + (tr.to.y - tr.from.y) * tr.t;
+      ctx.fillStyle = PULSE_COLOR;
+      ctx.beginPath();
+      ctx.arc(px, py, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+    });
 
     nodes.forEach(function (n) {
       var twinkle = 0.85 + 0.15 * Math.sin(now / 1100 + n.phase);
@@ -105,6 +158,7 @@
   window.addEventListener("resize", function () {
     resize();
     seedNodes();
+    travelers = [];
   });
   resize();
   seedNodes();

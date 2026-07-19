@@ -5,8 +5,8 @@ permalink: /research/
 ---
 
 <section class="hero">
-  <img class="hero-img" src="{{ '/images/Math.png' | relative_url }}" alt="" aria-hidden="true">
-  <div class="hero-fade hero-fade-soft" aria-hidden="true"></div>
+  <div class="hero-terminal" id="research-terminal" aria-hidden="true"></div>
+  <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes<span class="hero-eyebrow-extra"> &middot; Statistical Estimation</span></div>
     <h1 class="hero-name">Research &amp; Publications<span class="cursor">_</span></h1>
