@@ -725,12 +725,15 @@ pre.code-block code {
 }
 
 .hero-math-float {
-  animation: hero-math-bob 7s ease-in-out infinite;
+  animation: hero-math-bob 9s ease-in-out infinite;
 }
 
 @keyframes hero-math-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-7px); }
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(4px, -6px); }
+  50%  { transform: translate(0, -9px); }
+  75%  { transform: translate(-4px, -4px); }
+  100% { transform: translate(0, 0); }
 }
 
 .hero-math-kind {
