@@ -77,6 +77,12 @@
         var a = Math.random() * Math.PI * 2;
         var r = Math.sqrt(Math.random()) * 0.9; // biased slightly inward of the boundary
         var w = fromShapeSpace(field.shape, Math.cos(a) * r, Math.sin(a) * r);
+        // Hue is drawn from the node's initial angular position around the
+        // domain (plus a little scatter at the wedge edges), not purely at
+        // random, so each stop forms its own visible patch rather than a
+        // fine, evenly-mixed speckle.
+        var sector = Math.floor(((a + rand(-0.4, 0.4)) / (Math.PI * 2)) * HUE_STOPS.length);
+        sector = ((sector % HUE_STOPS.length) + HUE_STOPS.length) % HUE_STOPS.length;
         field.nodes.push({
           x: w.x,
           y: w.y,
@@ -84,7 +90,7 @@
           vy: (Math.random() - 0.5) * 0.16,
           r: 0.8 + Math.random() * 2.6,
           phase: Math.random() * Math.PI * 2,
-          color: HUE_STOPS[Math.floor(Math.random() * HUE_STOPS.length)]
+          color: HUE_STOPS[sector]
         });
       }
       field.edgeAlpha = {};
@@ -215,7 +221,7 @@
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    field.seed(W * 0.04, W * 0.96, H * 0.1, H * 0.9);
+    field.seed(W * 0.01, W * 0.99, H * 0.03, H * 0.97);
   }
 
   function draw(now, complex) {
@@ -263,7 +269,7 @@
     ctx.font = "11px " + MONO_FONT;
     ctx.textAlign = "right";
     ctx.fillStyle = "rgba(" + LABEL_COLOR + ", 0.65)";
-    ctx.fillText("χ = V − E + F = " + chi, field.x1, field.y1 + H * 0.055);
+    ctx.fillText("χ = V − E + F = " + chi, field.x1, H - 16);
   }
 
   function frame(now) {
