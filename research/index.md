@@ -4,7 +4,16 @@ title: Research & Publications
 permalink: /research/
 ---
 
-<h1>Research &amp; Publications</h1>
+<section class="hero">
+  <img class="hero-img" src="{{ '/images/Math.png' | relative_url }}" alt="" aria-hidden="true">
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Probability &middot; Empirical Processes<span class="hero-eyebrow-extra"> &middot; Statistical Estimation</span></div>
+    <h1 class="hero-name">Research &amp; Publications<span class="cursor">_</span></h1>
+    <p class="hero-lede">Generic chaining, majorizing measures, and weak convergence for dependent processes.</p>
+  </div>
+</section>
+
 <p class="tagline">Probability theory &middot; empirical processes &middot; statistical estimation under dependence.</p>
 
 <p class="lede">
