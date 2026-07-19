@@ -149,7 +149,7 @@
     return v.toFixed(3);
   }
   function fmtPrice(v) {
-    return v >= 100 ? v.toFixed(1) : v.toFixed(3);
+    return v >= 100 ? v.toFixed(2) : v.toFixed(4);
   }
 
   function heatColor(base, hot, t) {
