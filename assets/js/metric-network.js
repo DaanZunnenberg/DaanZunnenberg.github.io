@@ -8,15 +8,57 @@
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
 
-  // Two independent random geometric graphs, side by side, each a small
-  // Vietoris-Rips-style complex: points drifting within their own half of
-  // the hero, edges when two points are within reach, triangles filled in
-  // as 2-simplices whenever three points are all mutually close. Each
-  // tracks its own live Euler characteristic V - E + F.
+  // Two random geometric graphs whose domains overlap slightly at the
+  // seam, each a small Vietoris-Rips-style complex: points drifting within
+  // their own (interlocking) half of the hero, edges when two points are
+  // within reach, triangles filled in as 2-simplices whenever three points
+  // are all mutually close. Each system's convex hull is drawn as a sharp
+  // polygon and tracks its own live Euler characteristic V - E + F and
+  // isoperimetric ratio P^2 / 4*pi*A (planar Brunn-Minkowski).
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
   var NODE_COLOR = "rgba(233, 236, 243, 0.6)";
 
   function lerp(a, b, t) { return a + (b - a) * t; }
+
+  // Andrew's monotone chain: convex hull of a point set, used to draw each
+  // system as a sharp faceted polygon (rather than the loose triangle
+  // cloud alone) and to compute the isoperimetric ratio below.
+  function convexHull(points) {
+    var pts = points.slice().sort(function (a, b) { return a.x - b.x || a.y - b.y; });
+    var n = pts.length;
+    if (n < 3) return pts;
+    function cross(o, a, b) { return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x); }
+    var lower = [];
+    for (var i = 0; i < n; i++) {
+      while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], pts[i]) <= 0) lower.pop();
+      lower.push(pts[i]);
+    }
+    var upper = [];
+    for (i = n - 1; i >= 0; i--) {
+      while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], pts[i]) <= 0) upper.pop();
+      upper.push(pts[i]);
+    }
+    lower.pop(); upper.pop();
+    return lower.concat(upper);
+  }
+
+  function polygonPerimeter(hull) {
+    var p = 0;
+    for (var i = 0; i < hull.length; i++) {
+      var a = hull[i], b = hull[(i + 1) % hull.length];
+      p += Math.hypot(b.x - a.x, b.y - a.y);
+    }
+    return p;
+  }
+
+  function polygonArea(hull) {
+    var a = 0;
+    for (var i = 0; i < hull.length; i++) {
+      var p = hull[i], q = hull[(i + 1) % hull.length];
+      a += p.x * q.y - q.x * p.y;
+    }
+    return Math.abs(a) / 2;
+  }
 
   function createSystem(opts) {
     var sys = {
@@ -119,12 +161,25 @@
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    var gap = W * 0.03;
-    left.seed(W * 0.02, W * 0.49 - gap / 2, H * 0.08, H * 0.92);
-    right.seed(W * 0.51 + gap / 2, W * 0.98, H * 0.08, H * 0.92);
+    // The two halves overlap slightly at the seam so their convex hulls can
+    // interlock in the middle rather than sitting as two separate blobs.
+    var overlap = W * 0.05;
+    left.seed(W * 0.02, W * 0.51 + overlap / 2, H * 0.08, H * 0.92);
+    right.seed(W * 0.49 - overlap / 2, W * 0.98, H * 0.08, H * 0.92);
   }
 
   function drawSystem(sys, now, complex, labelAlign) {
+    var hull = convexHull(sys.nodes);
+    if (hull.length >= 3) {
+      ctx.beginPath();
+      ctx.moveTo(hull[0].x, hull[0].y);
+      for (var h = 1; h < hull.length; h++) ctx.lineTo(hull[h].x, hull[h].y);
+      ctx.closePath();
+      ctx.strokeStyle = "rgba(" + sys.faceColor + ", 0.4)";
+      ctx.lineWidth = 1.1;
+      ctx.stroke();
+    }
+
     complex.faces.forEach(function (f) {
       var a = sys.nodes[f[0]], b = sys.nodes[f[1]], c = sys.nodes[f[2]];
       // Smaller, tighter triangles read as denser local structure, so give
@@ -163,11 +218,16 @@
 
     var V = sys.nodes.length, E = complex.edges.filter(function (e) { return e.alpha > 0.4; }).length, F = complex.faces.length;
     var chi = V - E + F;
+    var P = polygonPerimeter(hull), A = polygonArea(hull);
+    // Isoperimetric inequality P^2 >= 4*pi*A (the planar case of Brunn-Minkowski);
+    // the quotient is 1 only for a circle and grows as the hull gets more jagged.
+    var isoq = A > 0 ? (P * P) / (4 * Math.PI * A) : 0;
     ctx.font = "11px " + MONO_FONT;
     ctx.textAlign = labelAlign;
     ctx.fillStyle = "rgba(" + sys.labelColor + ", 0.65)";
     var tx = labelAlign === "left" ? sys.x0 : sys.x1;
-    ctx.fillText("χ = V − E + F = " + chi, tx, H - 16);
+    ctx.fillText("χ = V − E + F = " + chi, tx, H - 30);
+    ctx.fillText("P² ⁄ 4πA = " + isoq.toFixed(2) + "  (≥ 1)", tx, H - 16);
   }
 
   function frame(now) {
