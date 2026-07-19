@@ -8,7 +8,8 @@
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
-  var ROWS_HALF = 5; // price levels shown above / below mid — must be a valid Binance partial-depth size (5, 10, 20)
+  var STREAM_DEPTH = 20; // Binance partial-depth stream size (must be 5, 10, or 20)
+  var ROWS_HALF = 14;    // price levels shown above / below mid (sliced from STREAM_DEPTH)
 
   var ASK_HEAT = "60, 25, 30";   // deep red base
   var ASK_HOT  = "255, 91, 77";  // bright red for the biggest asks
@@ -31,7 +32,7 @@
   }
 
   function seedSnapshot(sym) {
-    fetch("https://api.binance.com/api/v3/depth?symbol=" + sym.key.toUpperCase() + "&limit=" + ROWS_HALF)
+    fetch("https://api.binance.com/api/v3/depth?symbol=" + sym.key.toUpperCase() + "&limit=" + STREAM_DEPTH)
       .then(function (res) {
         if (!res.ok) throw new Error("bad response");
         return res.json();
@@ -41,7 +42,7 @@
   }
 
   function connectSocket() {
-    var streams = SYMBOLS.map(function (s) { return s.key + "@depth" + ROWS_HALF + "@100ms"; }).join("/");
+    var streams = SYMBOLS.map(function (s) { return s.key + "@depth" + STREAM_DEPTH + "@100ms"; }).join("/");
     var ws;
     try {
       ws = new WebSocket("wss://stream.binance.com:9443/stream?streams=" + streams);
@@ -103,7 +104,8 @@
 
   function drawPanel(sym, rect) {
     var x0 = rect.x, y0 = rect.y, w = rect.w, h = rect.h;
-    var headerH = 20;
+    var headerH = 18;
+    var footerH = 16;
 
     ctx.strokeStyle = "rgba(224, 168, 82, 0.14)";
     ctx.lineWidth = 1;
@@ -114,33 +116,34 @@
     ctx.font = "10px " + MONO_FONT;
     ctx.textAlign = "left";
     ctx.fillStyle = "rgba(224, 168, 82, 0.8)";
-    ctx.fillText(sym.label + (live ? "  ·  LIVE" : "  ·  SIM"), x0 + 6, y0 + 14);
+    ctx.fillText(sym.label + (live ? "  ·  LIVE" : "  ·  SIM"), x0 + 6, y0 + 13);
 
     if (!sym.bids.length || !sym.asks.length) return;
 
-    var rows = h - headerH;
+    var rows = h - headerH - footerH;
     var rowH = rows / (ROWS_HALF * 2);
+    var fontPx = rowH < 11 ? 8 : 10;
     var maxQty = Math.max.apply(null, sym.bids.concat(sym.asks).map(function (l) { return l[1]; }));
     if (maxQty === 0) return;
 
     // Asks: highest price first, stacked top-down toward mid.
-    var asksTop = sym.asks.slice().sort(function (a, b) { return b[0] - a[0]; });
+    var asksTop = sym.asks.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
     asksTop.forEach(function (lvl, i) {
       var ry = y0 + headerH + i * rowH;
       var t = lvl[1] / maxQty;
       var barW = Math.max(6, t * w);
       ctx.fillStyle = heatColor(ASK_HEAT, ASK_HOT, t);
       ctx.globalAlpha = 0.85;
-      ctx.fillRect(x0, ry, barW, rowH - 1);
+      ctx.fillRect(x0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
 
-      ctx.font = "10px " + MONO_FONT;
+      ctx.font = fontPx + "px " + MONO_FONT;
       ctx.textAlign = "left";
       ctx.fillStyle = "rgba(255, 200, 195, 0.9)";
-      ctx.fillText(fmtPrice(lvl[0]), x0 + 5, ry + rowH - rowH * 0.32);
+      ctx.fillText(fmtPrice(lvl[0]), x0 + 5, ry + rowH - rowH * 0.3);
       ctx.textAlign = "right";
       ctx.fillStyle = "rgba(233, 236, 243, 0.75)";
-      ctx.fillText(fmtQty(lvl[1]), x0 + w - 5, ry + rowH - rowH * 0.32);
+      ctx.fillText(fmtQty(lvl[1]), x0 + w - 5, ry + rowH - rowH * 0.3);
     });
 
     var midY = y0 + headerH + ROWS_HALF * rowH;
@@ -152,24 +155,53 @@
     ctx.stroke();
 
     // Bids: highest price first (closest to mid), stacked downward.
-    var bidsTop = sym.bids.slice().sort(function (a, b) { return b[0] - a[0]; });
+    var bidsTop = sym.bids.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
     bidsTop.forEach(function (lvl, i) {
       var ry = midY + i * rowH;
       var t = lvl[1] / maxQty;
       var barW = Math.max(6, t * w);
       ctx.fillStyle = heatColor(BID_HEAT, BID_HOT, t);
       ctx.globalAlpha = 0.85;
-      ctx.fillRect(x0, ry, barW, rowH - 1);
+      ctx.fillRect(x0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
 
-      ctx.font = "10px " + MONO_FONT;
+      ctx.font = fontPx + "px " + MONO_FONT;
       ctx.textAlign = "left";
       ctx.fillStyle = "rgba(195, 255, 205, 0.9)";
-      ctx.fillText(fmtPrice(lvl[0]), x0 + 5, ry + rowH - rowH * 0.32);
+      ctx.fillText(fmtPrice(lvl[0]), x0 + 5, ry + rowH - rowH * 0.3);
       ctx.textAlign = "right";
       ctx.fillStyle = "rgba(233, 236, 243, 0.75)";
-      ctx.fillText(fmtQty(lvl[1]), x0 + w - 5, ry + rowH - rowH * 0.32);
+      ctx.fillText(fmtQty(lvl[1]), x0 + w - 5, ry + rowH - rowH * 0.3);
     });
+
+    // Footer: best bid/ask spread and a bid/ask size-imbalance bar across
+    // the visible window, so the panel reads as more than just a price list.
+    var footerY = y0 + h - footerH;
+    var bestBid = bidsTop[0][0], bestAsk = asksTop[asksTop.length - 1][0];
+    var spread = bestAsk - bestBid;
+    var spreadBps = (spread / ((bestAsk + bestBid) / 2)) * 10000;
+
+    ctx.fillStyle = "rgba(11, 15, 24, 0.5)";
+    ctx.fillRect(x0, footerY, w, footerH);
+
+    var totalBid = sym.bids.slice(0, ROWS_HALF).reduce(function (s, l) { return s + l[1]; }, 0);
+    var totalAsk = sym.asks.slice(0, ROWS_HALF).reduce(function (s, l) { return s + l[1]; }, 0);
+    var bidShare = totalBid / (totalBid + totalAsk || 1);
+
+    var barY = footerY + 3, barH = 4;
+    var bidW = bidShare * w;
+    ctx.fillStyle = "rgba(60, 255, 94, 0.55)";
+    ctx.fillRect(x0, barY, bidW, barH);
+    ctx.fillStyle = "rgba(255, 91, 77, 0.55)";
+    ctx.fillRect(x0 + bidW, barY, w - bidW, barH);
+
+    ctx.font = "9px " + MONO_FONT;
+    ctx.textAlign = "left";
+    ctx.fillStyle = "rgba(233, 236, 243, 0.6)";
+    ctx.fillText("spread " + fmtPrice(spread) + " (" + spreadBps.toFixed(1) + "bps)", x0 + 5, footerY + footerH - 3);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "rgba(233, 236, 243, 0.6)";
+    ctx.fillText((bidShare * 100).toFixed(0) + "% bid", x0 + w - 5, footerY + footerH - 3);
   }
 
   function draw() {
