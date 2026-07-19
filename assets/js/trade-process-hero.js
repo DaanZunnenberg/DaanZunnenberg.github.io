@@ -65,10 +65,10 @@
   }
 
   var COLS = [
-    { key: "price", label: "PRICE", w: 0.22, align: "right" },
-    { key: "amount", label: "AMOUNT", w: 0.19, align: "right" },
-    { key: "usd", label: "AMOUNT ($)", w: 0.30, align: "right" },
-    { key: "time", label: "TIME", w: 0.29, align: "right" }
+    { key: "price", label: "PRICE", w: 0.26, align: "right" },
+    { key: "amount", label: "AMOUNT", w: 0.18, align: "right" },
+    { key: "usd", label: "AMOUNT ($)", w: 0.29, align: "right" },
+    { key: "time", label: "TIME", w: 0.27, align: "right" }
   ];
 
   function drawPanel(sym, rect, now) {
@@ -77,6 +77,14 @@
     var colHeadH = 13;
     var rowH = Math.max(11, Math.min(16, (panelH - headerH - colHeadH) / Math.min(sym.rows.length || 1, 24)));
     var visible = Math.min(sym.rows.length, Math.floor((panelH - headerH - colHeadH) / rowH));
+
+    // Clip strictly to this panel's own rect — a too-long price/amount
+    // string is right-aligned and grows leftward, so without a clip it can
+    // bleed into whichever panel sits to its left.
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(x0, y0, panelW, panelH);
+    ctx.clip();
 
     ctx.fillStyle = "rgba(10, 12, 18, 0.35)";
     ctx.fillRect(x0, y0, panelW, panelH);
@@ -179,6 +187,8 @@
       cell(2, "$" + usdValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
       cell(3, fmtTime(row.time), DIM_TEXT);
     }
+
+    ctx.restore();
   }
 
   function draw(now) {
