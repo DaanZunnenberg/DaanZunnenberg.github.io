@@ -131,11 +131,13 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
 </code></pre>
   <p class="form-hint">Non-negative Bernstein coefficients guarantee a positive volatility surface directly, without constrained optimization over the full operator.</p>
   <p>
-    Fitting the GAS recursion (reparameterized maximum likelihood, B-spline basis for the volatility surface,
-    multivariate Student-<em>t</em> observation density with an Ornstein&ndash;Uhlenbeck covariance kernel) to
-    simulated data recovers the true intraday volatility surface closely:
+    Fitting the functional GARCH(1,1) recursion above (Bernstein-basis QMLE, projected onto <em>M</em> = 3 basis
+    functions) to simulated intraday data recovers the shape of the true volatility surface, though with visibly
+    more day-to-day roughness than the true process &mdash; several of the fitted operator coefficients sit at
+    their box constraint, which a richer basis or a longer sample would relax:
   </p>
-  <img src="{{ '/assets/img/garch_vol_surface.png' | relative_url }}" alt="True versus GARCH-estimated volatility surface, side by side" class="entry-figure">
+  <img src="{{ '/assets/img/garch_vol_surface.png' | relative_url }}" alt="True versus functional GARCH-estimated volatility surface, side by side" class="entry-figure">
+  <p class="form-hint">Simulated 25-point intraday grid over 500 trading days; estimated surface via <code>funcgarch.garch.fit</code> + <code>garch_filter</code>.</p>
 </div>
 
 <h2>Projects</h2>
@@ -207,6 +209,13 @@ result = minimize(
     method="SLSQP",
 )
 </code></pre>
+      <p>
+        Because the score-driven update adapts its B-spline coefficients every day rather than fitting one
+        static operator to the whole sample, the GAS-GARCH fit tracks the true surface considerably more
+        tightly than the plain functional GARCH fit above:
+      </p>
+      <img src="{{ '/assets/img/gas_vol_surface.png' | relative_url }}" alt="True versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
+      <p class="form-hint">Same simulated data and seed as the functional GARCH comparison; estimated via <code>gas_garch_estimator</code> with a Student-<em>t</em> observation density and an Ornstein&ndash;Uhlenbeck covariance kernel.</p>
       <h4>Data Flow</h4>
       <pre class="code-block" data-lang="txt"><code>wrds/*.sas                    scripts/taq_cleaner.py           funcgarch/*.py
 ┌────────────────┐            ┌───────────────────┐           ┌─────────────────────┐
