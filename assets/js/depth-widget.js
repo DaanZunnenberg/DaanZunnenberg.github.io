@@ -183,10 +183,19 @@
 
     var hasPerp = sym.perpBids.length > 0 && sym.perpAsks.length > 0;
 
+    var isLive = live && perpLive;
     ctx.font = "10px " + MONO_FONT;
     ctx.textAlign = "left";
     ctx.fillStyle = "rgba(224, 168, 82, 0.8)";
-    ctx.fillText(sym.label + " · " + ((live && perpLive) ? "LIVE" : "SIM"), x0 + 6, y0 + 13);
+    ctx.fillText(sym.label, x0 + 6, y0 + 13);
+
+    // Small status dot instead of a "LIVE"/"SIM" label — keeps the header
+    // short enough that it doesn't collide with the volume figure on the
+    // right, even on the narrower of the three panels.
+    ctx.fillStyle = isLive ? "rgba(88, 214, 151, 0.85)" : "rgba(233, 236, 243, 0.3)";
+    ctx.beginPath();
+    ctx.arc(x0 + 6 + ctx.measureText(sym.label).width + 8, y0 + 9, 2.2, 0, Math.PI * 2);
+    ctx.fill();
 
     // Depth-visible liquidity, spot vs. perp: not the diff table's per-row
     // price gap, but whether one book is simply carrying more size right
@@ -199,14 +208,11 @@
       var volLabel = "—";
       if (spotVol > 0 && perpVol > 0) {
         volLabel = spotVol >= perpVol
-          ? "spot " + (spotVol / perpVol).toFixed(1) + "x deeper"
-          : "perp " + (perpVol / spotVol).toFixed(1) + "x deeper";
+          ? "spot " + (spotVol / perpVol).toFixed(1) + "x"
+          : "perp " + (perpVol / spotVol).toFixed(1) + "x";
       }
       ctx.fillStyle = "rgba(224, 168, 82, 0.8)";
-      ctx.fillText("perp−spot · " + volLabel, x0 + w - 5, y0 + 13);
-    } else {
-      ctx.fillStyle = "rgba(233, 236, 243, 0.45)";
-      ctx.fillText("perp−spot", x0 + w - 5, y0 + 13);
+      ctx.fillText(volLabel, x0 + w - 5, y0 + 13);
     }
 
     if (!sym.bids.length || !sym.asks.length) return;
