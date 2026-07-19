@@ -305,3 +305,13 @@ depth, direction = result.depth, result.direction
 </div>
 
 <p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
+
+<h2>About the Banner</h2>
+<p>
+  The backdrop behind the name at the top of this page isn't a static graphic. It's three real spot order
+  books &mdash; BTC, XLM, and SOL &mdash; streamed live from Binance's public market-data API over a
+  websocket, redrawn about ten times a second as the book actually updates. Each panel also polls the same
+  symbol's USD&#9398;-M perpetual futures book and shows the live spot/perp price difference alongside it,
+  the same gap a cash-and-carry trade is priced on. Nothing here is simulated to look busy: if the market is
+  quiet, the banner is quiet too.
+</p>
