@@ -16,19 +16,17 @@
   // are all mutually close, and the system tracks its own live Euler
   // characteristic V - E + F. Occasionally (rarely) the domain's harmonics
   // jump to a new random configuration all at once — a sudden pulse in the
-  // silhouette — before settling back into the usual smooth drift. Each
-  // node carries a fixed magma-palette hue, unrelated to any of this
-  // motion, dealt once at seed time.
+  // silhouette — before settling back into the usual smooth drift. A
+  // handful of smaller companion blobs (up to three at once) also spawn at
+  // random spots, evolve the same way, and fade out and disappear once
+  // their lifespan runs out.
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
   var LABEL_COLOR = "224, 168, 82";
 
-  // Same magma-style palette as the functional volatility surface figures,
-  // as a handful of fixed, discrete stops (not a continuous gradient).
-  // Each node is dealt one stop at random when the field is seeded and
-  // keeps it for life — hue is a fixed identity, unrelated to motion — and
-  // because neighbors are assigned independently, the result is a fine
-  // patchwork rather than a couple of large purple or yellow regions.
-  var HUE_STOPS = ["152, 32, 140", "199, 55, 100", "230, 111, 60", "248, 172, 60"];
+  // Single fixed hue for the whole graph: the same cyan-blue accent used by
+  // the site's other hero canvases (signal-widget's link color) and a tint
+  // of the cobalt brand hue the rest of the site is built from.
+  var GRAPH_COLOR = "77, 210, 255";
 
   function lerp(a, b, t) { return a + (b - a) * t; }
   function rand(lo, hi) { return lo + Math.random() * (hi - lo); }
@@ -62,7 +60,7 @@
       pulseAt: performance.now() + rand(9000, 16000)
     };
 
-    field.seed = function (x0, x1, y0, y1) {
+    field.seed = function (x0, x1, y0, y1, maxNodes) {
       field.x0 = x0; field.x1 = x1; field.y0 = y0; field.y1 = y1;
       field.shape.cx = (x0 + x1) / 2;
       field.shape.cy = (y0 + y1) / 2;
@@ -72,25 +70,19 @@
 
       var area = (x1 - x0) * (y1 - y0);
       var n = Math.max(28, Math.floor(area / 6200));
+      if (maxNodes) n = Math.min(n, maxNodes);
       field.nodes = [];
       for (var i = 0; i < n; i++) {
         var a = Math.random() * Math.PI * 2;
         var r = Math.sqrt(Math.random()) * 0.9; // biased slightly inward of the boundary
         var w = fromShapeSpace(field.shape, Math.cos(a) * r, Math.sin(a) * r);
-        // Hue is drawn from the node's initial angular position around the
-        // domain (plus a little scatter at the wedge edges), not purely at
-        // random, so each stop forms its own visible patch rather than a
-        // fine, evenly-mixed speckle.
-        var sector = Math.floor(((a + rand(-0.4, 0.4)) / (Math.PI * 2)) * HUE_STOPS.length);
-        sector = ((sector % HUE_STOPS.length) + HUE_STOPS.length) % HUE_STOPS.length;
         field.nodes.push({
           x: w.x,
           y: w.y,
           vx: (Math.random() - 0.5) * 0.16,
           vy: (Math.random() - 0.5) * 0.16,
           r: 0.8 + Math.random() * 2.6,
-          phase: Math.random() * Math.PI * 2,
-          color: HUE_STOPS[sector]
+          phase: Math.random() * Math.PI * 2
         });
       }
       field.edgeAlpha = {};
@@ -224,58 +216,93 @@
     field.seed(W * 0.01, W * 0.99, H * 0.03, H * 0.97);
   }
 
-  function draw(now, complex) {
+  function draw(fld, now, complex, fade, showLabel) {
     complex.faces.forEach(function (f) {
-      var a = field.nodes[f[0]], b = field.nodes[f[1]], c = field.nodes[f[2]];
+      var a = fld.nodes[f[0]], b = fld.nodes[f[1]], c = fld.nodes[f[2]];
       // Smaller, tighter triangles read as denser local structure, so give
       // them a touch more fill than large, loose ones — adds depth without
       // a uniform flat wash across every face.
       var area = Math.abs((b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y)) / 2;
-      var fillT = Math.max(0.04, Math.min(0.12, 900 / (area + 900) * 0.12));
-      // Committing each face to its first vertex's fixed hue (rather than
-      // averaging all three) keeps stops crisp instead of blending into a
-      // smooth wash across the whole complex.
+      var fillT = Math.max(0.04, Math.min(0.12, 900 / (area + 900) * 0.12)) * fade;
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
       ctx.lineTo(c.x, c.y);
       ctx.closePath();
-      ctx.fillStyle = "rgba(" + a.color + ", " + fillT.toFixed(3) + ")";
+      ctx.fillStyle = "rgba(" + GRAPH_COLOR + ", " + fillT.toFixed(3) + ")";
       ctx.fill();
     });
 
     complex.edges.forEach(function (e) {
-      var a = field.nodes[e.i], b = field.nodes[e.j];
+      var a = fld.nodes[e.i], b = fld.nodes[e.j];
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
-      ctx.strokeStyle = "rgba(" + a.color + ", " + (0.05 + 0.24 * e.alpha * e.alpha).toFixed(3) + ")";
+      ctx.strokeStyle = "rgba(" + GRAPH_COLOR + ", " + ((0.05 + 0.24 * e.alpha * e.alpha) * fade).toFixed(3) + ")";
       ctx.lineWidth = 1;
       ctx.stroke();
     });
 
-    field.nodes.forEach(function (n) {
+    fld.nodes.forEach(function (n) {
       var twinkle = 0.75 + 0.25 * Math.sin(now / 1600 + n.phase);
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(" + n.color + ", 0.6)";
+      ctx.fillStyle = "rgba(" + GRAPH_COLOR + ", " + (0.6 * fade).toFixed(3) + ")";
       ctx.globalAlpha = twinkle;
       ctx.fill();
       ctx.globalAlpha = 1;
     });
 
-    var V = field.nodes.length, E = complex.edges.filter(function (e) { return e.alpha > 0.4; }).length, F = complex.faces.length;
-    var chi = V - E + F;
-    ctx.font = "11px " + MONO_FONT;
-    ctx.textAlign = "right";
-    ctx.fillStyle = "rgba(" + LABEL_COLOR + ", 0.65)";
-    ctx.fillText("χ = V − E + F = " + chi, field.x1, H - 16);
+    if (showLabel) {
+      var V = fld.nodes.length, E = complex.edges.filter(function (e) { return e.alpha > 0.4; }).length, F = complex.faces.length;
+      var chi = V - E + F;
+      ctx.font = "11px " + MONO_FONT;
+      ctx.textAlign = "right";
+      ctx.fillStyle = "rgba(" + LABEL_COLOR + ", 0.65)";
+      ctx.fillText("χ = V − E + F = " + chi, fld.x1, H - 16);
+    }
+  }
+
+  // One, two, or three small companion blobs that spawn at random spots,
+  // live for a while evolving just like the main field, then fade out and
+  // are removed — never more than MAX_SATELLITES at once.
+  var MAX_SATELLITES = 3;
+  var satellites = [];
+  var nextSatelliteAt = performance.now() + rand(2500, 6000);
+  var SATELLITE_FADE_IN = 1400;
+  var SATELLITE_FADE_OUT = 2200;
+
+  function spawnSatellite(now) {
+    var side = Math.min(W, H) * rand(0.09, 0.17);
+    var cx = rand(side, W - side);
+    var cy = rand(side, H - side);
+    var sat = createField();
+    sat.seed(cx - side * rand(0.7, 1), cx + side * rand(0.7, 1), cy - side * rand(0.5, 0.8), cy + side * rand(0.5, 0.8), 9 + Math.floor(Math.random() * 6));
+    sat.bornAt = now;
+    sat.lifespan = rand(10000, 19000);
+    satellites.push(sat);
   }
 
   function frame(now) {
     field.step(now);
     ctx.clearRect(0, 0, W, H);
-    draw(now, field.buildComplex());
+    draw(field, now, field.buildComplex(), 1, true);
+
+    if (now >= nextSatelliteAt && satellites.length < MAX_SATELLITES) {
+      spawnSatellite(now);
+      nextSatelliteAt = now + rand(6000, 15000);
+    }
+
+    for (var i = satellites.length - 1; i >= 0; i--) {
+      var sat = satellites[i];
+      var age = now - sat.bornAt;
+      if (age >= sat.lifespan) { satellites.splice(i, 1); continue; }
+      var fade = age < SATELLITE_FADE_IN ? age / SATELLITE_FADE_IN
+        : (sat.lifespan - age < SATELLITE_FADE_OUT ? (sat.lifespan - age) / SATELLITE_FADE_OUT : 1);
+      sat.step(now);
+      draw(sat, now, sat.buildComplex(), fade * 0.8, false);
+    }
+
     if (!reduceMotion) requestAnimationFrame(frame);
   }
 
@@ -286,6 +313,6 @@
     requestAnimationFrame(frame);
   } else {
     ctx.clearRect(0, 0, W, H);
-    draw(0, field.buildComplex());
+    draw(field, 0, field.buildComplex(), 1, true);
   }
 })();
