@@ -25,8 +25,8 @@
 
   var SYMBOLS = [
     { key: "ethusdt", label: "ETH/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false, openPrice: null },
-    { key: "btcusdt", label: "BTC/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false, openPrice: null },
-    { key: "solusdt", label: "SOL/USDT", priceDigits: 3, amountDigits: 3, rows: [], live: false, openPrice: null }
+    { key: "solusdt", label: "SOL/USDT", priceDigits: 3, amountDigits: 3, rows: [], live: false, openPrice: null },
+    { key: "btcusdt", label: "BTC/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false, openPrice: null }
   ];
 
   function fmtTime(ms) {
