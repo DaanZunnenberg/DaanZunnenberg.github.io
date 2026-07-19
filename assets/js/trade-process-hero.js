@@ -5,19 +5,10 @@
   var ctx = canvas.getContext("2d");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Two live time-and-sales tapes (BTC and SOL), one stacked above the
-  // other. Each row is one real Binance spot trade, enriched at the exact
-  // instant it happens with a handful of microstructure quantities — all
-  // point-in-time differences/impacts against the current book, never a
-  // smoothed or rolling-window statistic:
-  //   PRICE (Δ)     tick-to-tick price change, in bps
-  //   QTY ($)       trade quantity, with its dollar notional
-  //   BASIS bp      perp mid minus spot mid, in bps (cash-and-carry signal)
-  //   SPREAD bp     the live quoted spread at that instant
-  //   MICRO Δ       trade price minus the size-weighted microprice
-  //   IMPACT %      trade qty as a percentage of the book's top-of-level size
-  // Each tape is backfilled from REST on load, so both are fully populated
-  // before either socket delivers a single live tick.
+  // Three live time-and-sales tapes (ETH, BTC, SOL), side by side. Each row
+  // is one real Binance spot trade: price, trade amount in the coin's own
+  // units, and the time it printed. Tapes advance independently — whichever
+  // symbol is trading fastest fills in first.
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
@@ -33,8 +24,9 @@
   var DIM_TEXT = "rgba(233, 236, 243, 0.4)";
 
   var SYMBOLS = [
-    { key: "btcusdt", label: "BTC/USDT", rows: [], lastPrice: null, book: {}, perpMid: null, live: false },
-    { key: "solusdt", label: "SOL/USDT", rows: [], lastPrice: null, book: {}, perpMid: null, live: false }
+    { key: "ethusdt", label: "ETH/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false },
+    { key: "btcusdt", label: "BTC/USDT", priceDigits: 2, amountDigits: 5, rows: [], live: false },
+    { key: "solusdt", label: "SOL/USDT", priceDigits: 3, amountDigits: 3, rows: [], live: false }
   ];
 
   function fmtTime(ms) {
@@ -42,44 +34,12 @@
     return d.toTimeString().slice(0, 8) + "." + (d.getMilliseconds() + "").padStart(3, "0");
   }
 
-  function fmtPrice(p) {
-    return p.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-
-  function signed(v, digits) {
-    if (v == null || !isFinite(v)) return "—";
-    return (v >= 0 ? "+" : "") + v.toFixed(digits);
-  }
-
-  // Every derived field is computed once, at push time, from the book/price
-  // state as it stands at that instant — a snapshot, not a running average.
-  function computeMetrics(sym, price, qty, isSellerTaker) {
-    var prevPrice = sym.lastPrice != null ? sym.lastPrice : price;
-    var tickBps = prevPrice ? ((price - prevPrice) / prevPrice) * 10000 : 0;
-    var notional = price * qty;
-
-    var bid = sym.book.bid, ask = sym.book.ask, bidQty = sym.book.bidQty, askQty = sym.book.askQty;
-    var haveBook = bid != null && ask != null;
-    var mid = haveBook ? (bid + ask) / 2 : price;
-    var spreadBps = haveBook && mid ? ((ask - bid) / mid) * 10000 : null;
-    var micro = haveBook && (bidQty + askQty) > 0 ? (bid * askQty + ask * bidQty) / (bidQty + askQty) : null;
-    var microDev = micro != null ? price - micro : null;
-    var basisBps = sym.perpMid != null && mid ? ((sym.perpMid - mid) / mid) * 10000 : null;
-
-    var topQty = isSellerTaker ? bidQty : askQty;
-    var impactPct = topQty ? Math.min(999, (qty / topQty) * 100) : null;
-
-    sym.lastPrice = price;
-    return { tickBps: tickBps, notional: notional, spreadBps: spreadBps, microDev: microDev, basisBps: basisBps, impactPct: impactPct };
+  function fmtPrice(p, digits) {
+    return p.toLocaleString(undefined, { minimumFractionDigits: digits, maximumFractionDigits: digits });
   }
 
   function pushTrade(sym, time, price, qty, isSellerTaker, bornAt) {
-    var m = computeMetrics(sym, price, qty, isSellerTaker);
-    sym.rows.unshift({
-      time: time, price: price, qty: qty, isSellerTaker: isSellerTaker, bornAt: bornAt,
-      tickBps: m.tickBps, notional: m.notional, spreadBps: m.spreadBps,
-      microDev: m.microDev, basisBps: m.basisBps, impactPct: m.impactPct
-    });
+    sym.rows.unshift({ time: time, price: price, qty: qty, isSellerTaker: isSellerTaker, bornAt: bornAt });
     if (sym.rows.length > MAX_ROWS) sym.rows.length = MAX_ROWS;
   }
 
@@ -94,14 +54,9 @@
   }
 
   var COLS = [
-    { key: "time", label: "TIME", w: 0.11, align: "left" },
-    { key: "side", label: "SIDE", w: 0.07, align: "left" },
-    { key: "price", label: "PRICE (Δbp)", w: 0.17, align: "right" },
-    { key: "qty", label: "QTY ($)", w: 0.16, align: "right" },
-    { key: "basis", label: "BASIS bp", w: 0.13, align: "right" },
-    { key: "spread", label: "SPREAD bp", w: 0.12, align: "right" },
-    { key: "micro", label: "MICRO Δ", w: 0.12, align: "right" },
-    { key: "impact", label: "IMPACT %", w: 0.12, align: "right" }
+    { key: "price", label: "PRICE", w: 0.4, align: "right" },
+    { key: "amount", label: "AMOUNT", w: 0.32, align: "right" },
+    { key: "time", label: "TIME", w: 0.28, align: "right" }
   ];
 
   function drawPanel(sym, rect, now) {
@@ -161,22 +116,18 @@
         ctx.fillText(text, tx, baseY);
       }
 
-      cell(0, fmtTime(row.time));
-      cell(1, up ? "BUY" : "SELL", up ? UP_TEXT : DOWN_TEXT);
-      cell(2, fmtPrice(row.price) + " (" + signed(row.tickBps, 1) + ")");
-      cell(3, row.qty.toFixed(3) + " ($" + Math.round(row.notional).toLocaleString() + ")");
-      cell(4, row.basisBps != null ? signed(row.basisBps, 1) : "—");
-      cell(5, row.spreadBps != null ? row.spreadBps.toFixed(1) : "—");
-      cell(6, row.microDev != null ? signed(row.microDev, 2) : "—");
-      cell(7, row.impactPct != null ? row.impactPct.toFixed(0) + "%" : "—");
+      var textColorUp = up ? UP_TEXT : DOWN_TEXT;
+      cell(0, fmtPrice(row.price, sym.priceDigits), textColorUp);
+      cell(1, row.qty.toFixed(sym.amountDigits));
+      cell(2, fmtTime(row.time));
     }
   }
 
   function draw(now) {
     ctx.clearRect(0, 0, W, H);
-    var panelH = H / SYMBOLS.length;
+    var panelW = W / SYMBOLS.length;
     SYMBOLS.forEach(function (sym, i) {
-      drawPanel(sym, { x: 0, y: i * panelH, w: W, h: panelH }, now);
+      drawPanel(sym, { x: i * panelW, y: 0, w: panelW, h: H }, now);
     });
   }
 
@@ -186,11 +137,7 @@
   }
 
   function connectSpotSocket() {
-    var streams = [];
-    SYMBOLS.forEach(function (s) {
-      streams.push(s.key + "@aggTrade");
-      streams.push(s.key + "@bookTicker");
-    });
+    var streams = SYMBOLS.map(function (s) { return s.key + "@aggTrade"; });
 
     var ws;
     try {
@@ -218,57 +165,20 @@
       if (stream.indexOf("@aggTrade") !== -1) {
         if (!data.p || !data.q || !data.T) return;
         pushTrade(sym, data.T, +data.p, +data.q, !!data.m, performance.now());
-      } else if (stream.indexOf("@bookTicker") !== -1) {
-        sym.book = { bid: +data.b, bidQty: +data.B, ask: +data.a, askQty: +data.A };
       }
-    };
-  }
-
-  function connectPerpSocket() {
-    var streams = SYMBOLS.map(function (s) { return s.key + "@bookTicker"; });
-    var ws;
-    try {
-      ws = new WebSocket("wss://fstream.binance.com/stream?streams=" + streams.join("/"));
-    } catch (e) {
-      return;
-    }
-
-    ws.onmessage = function (evt) {
-      var msg;
-      try { msg = JSON.parse(evt.data); } catch (e) { return; }
-      var stream = msg.stream || "", data = msg.data;
-      if (!data || !data.b || !data.a) return;
-      var key = stream.split("@")[0];
-      var sym = SYMBOLS.filter(function (s) { return s.key === key; })[0];
-      if (!sym) return;
-      sym.perpMid = (+data.b + +data.a) / 2;
     };
   }
 
   function backfillSymbol(sym) {
     var upper = sym.key.toUpperCase();
-    return fetch("https://api.binance.com/api/v3/ticker/bookTicker?symbol=" + upper)
+    return fetch("https://api.binance.com/api/v3/aggTrades?symbol=" + upper + "&limit=" + MAX_ROWS)
       .then(function (res) { return res.json(); })
-      .then(function (bt) {
-        sym.book = { bid: +bt.bidPrice, bidQty: +bt.bidQty, ask: +bt.askPrice, askQty: +bt.askQty };
+      .then(function (trades) {
+        // Oldest first into pushTrade (which prepends), so the tape ends
+        // up newest-first with no flash on the initial snapshot rows.
+        trades.forEach(function (t) { pushTrade(sym, t.T, +t.p, +t.q, !!t.m, 0); });
       })
-      .catch(function () {})
-      .then(function () {
-        return fetch("https://fapi.binance.com/fapi/v1/ticker/bookTicker?symbol=" + upper)
-          .then(function (res) { return res.json(); })
-          .then(function (bt) { sym.perpMid = (+bt.bidPrice + +bt.askPrice) / 2; })
-          .catch(function () {});
-      })
-      .then(function () {
-        return fetch("https://api.binance.com/api/v3/aggTrades?symbol=" + upper + "&limit=" + MAX_ROWS)
-          .then(function (res) { return res.json(); })
-          .then(function (trades) {
-            // Oldest first into pushTrade (which prepends), so the tape ends
-            // up newest-first with no flash on the initial snapshot rows.
-            trades.forEach(function (t) { pushTrade(sym, t.T, +t.p, +t.q, !!t.m, 0); });
-          })
-          .catch(function () {});
-      });
+      .catch(function () {});
   }
 
   window.addEventListener("resize", resize);
@@ -276,7 +186,6 @@
 
   Promise.all(SYMBOLS.map(backfillSymbol)).then(function () {
     connectSpotSocket();
-    connectPerpSocket();
   });
 
   if (!reduceMotion) requestAnimationFrame(loop);
