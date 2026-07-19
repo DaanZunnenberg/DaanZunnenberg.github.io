@@ -74,49 +74,12 @@
       "  iter 12 | delta=0.00184 | loglik=-611.02",
       "[OK] converged | delta_hat=0.00180 | se=0.00021"
     ],
-    // Read-only network diagnostics — nmcli/iwconfig/ping style output only,
-    // no capture/injection/cracking tooling. SSIDs, signal levels and the
-    // AP identifier below are fabricated placeholders, not real scan data.
     [
-      "$ nmcli device wifi list",
-      "IN-USE  SSID         MODE   CHAN  RATE       SIGNAL  BARS",
-      "*       eduroam      Infra  44    866 Mbit/s  78      ▂▄▆_",
-      "        campus-guest Infra  6     130 Mbit/s  52      ▂▄__",
-      "        office-5G    Infra  100   780 Mbit/s  61      ▂▄__",
-      "[OK] 3 networks visible"
-    ],
-    [
-      "$ iwconfig wlan0",
-      "wlan0  IEEE 802.11  ESSID:\"eduroam\"",
-      "       Mode:Managed  Frequency:5.22 GHz  Access Point: 00:00:00:00:00:00",
-      "       Bit Rate=866 Mb/s  Tx-Power=20 dBm",
-      "       Link Quality=68/70  Signal level=-42 dBm",
-      "       Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0"
-    ],
-    [
-      "$ python analyze_spectrum.py --iface wlan0 --band 5GHz",
-      "[INFO] scanning channels 36-165 (5 GHz UNII bands)",
-      "[INFO] channel  44: -42 dBm avg, 3 overlapping BSS",
-      "[INFO] channel 100: -58 dBm avg, 1 overlapping BSS",
-      "[INFO] channel 149: -61 dBm avg, 0 overlapping BSS",
-      "[OK] recommended channel: 149 (lowest co-channel interference)"
-    ],
-    [
-      "$ ping -c 5 8.8.8.8",
-      "64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=11.2 ms",
-      "64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=10.8 ms",
-      "64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=12.1 ms",
-      "64 bytes from 8.8.8.8: icmp_seq=4 ttl=117 time=10.9 ms",
-      "64 bytes from 8.8.8.8: icmp_seq=5 ttl=117 time=11.5 ms",
-      "[OK] 0% packet loss, avg rtt 11.3 ms"
-    ],
-    [
-      "$ htop --batch -n 1",
-      "CPU  [||||||||            ] 38%",
-      "MEM  [|||||||||||||       ] 61%  9.8G/16.0G",
-      "SWAP [                    ]  0%",
-      "Load average: 1.42 0.98 0.77",
-      "[OK] 214 processes, 3 running"
+      "$ python check_moment_bounds.py --process fbm --hurst 0.35",
+      "[INFO] simulating fractional Brownian motion, H=0.35, n=2000 paths",
+      "[INFO] estimating E[sup_t |X_t|^p] via empirical maxima",
+      "[INFO] comparing against Dudley entropy integral bound",
+      "[OK] empirical/bound ratio = 0.812 (bound not tight, as expected)"
     ]
   ];
 
