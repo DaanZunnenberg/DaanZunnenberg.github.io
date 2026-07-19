@@ -7,15 +7,18 @@
 
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
-  var NODE_COUNT = 26;
-  var LINK_DIST = 150;
-  var PULSE_MS = 2600;
+  var NODE_COUNT = 30;
+  var LINK_DIST = 160;
+  var SPAWN_CHANCE = 0.045; // per link, per frame — keeps several pulses in flight at once
+  var PULSE_SPEED = 0.00042; // fraction of link traveled per ms
 
   var NODE_COLOR = "rgba(233, 236, 243, 0.55)";
-  var LINK_COLOR = "rgba(77, 210, 255, 0.16)";
-  var PULSE_COLOR = "rgba(60, 255, 94, 0.9)";
+  var LINK_COLOR = "rgba(77, 210, 255, 0.18)";
+  var PULSE_COLORS = ["rgba(60, 255, 94, 0.95)", "rgba(77, 210, 255, 0.95)"];
 
   var nodes = [];
+  var pulses = [];
+  var lastTs = null;
 
   function resize() {
     W = container.clientWidth;
@@ -33,9 +36,10 @@
       nodes.push({
         x: Math.random() * W,
         y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: (Math.random() - 0.5) * 0.15,
-        r: 1.4 + Math.random() * 1.6
+        vx: (Math.random() - 0.5) * 0.28,
+        vy: (Math.random() - 0.5) * 0.28,
+        r: 1.4 + Math.random() * 1.6,
+        phase: Math.random() * Math.PI * 2
       });
     }
   }
@@ -53,13 +57,29 @@
   }
 
   function step(now) {
+    var dt = lastTs == null ? 16 : Math.min(now - lastTs, 64);
+    lastTs = now;
+
     nodes.forEach(function (n) {
-      n.x += n.vx;
-      n.y += n.vy;
+      n.x += n.vx * (dt / 16);
+      n.y += n.vy * (dt / 16);
       if (n.x < 0 || n.x > W) n.vx *= -1;
       if (n.y < 0 || n.y > H) n.vy *= -1;
     });
     rebuildLinks();
+
+    links.forEach(function (l) {
+      if (Math.random() < SPAWN_CHANCE) {
+        pulses.push({
+          link: l,
+          t: 0,
+          color: PULSE_COLORS[(Math.random() * PULSE_COLORS.length) | 0],
+          reverse: Math.random() < 0.5
+        });
+      }
+    });
+    pulses = pulses.filter(function (p) { return p.t < 1; });
+    pulses.forEach(function (p) { p.t += PULSE_SPEED * dt; });
 
     ctx.clearRect(0, 0, W, H);
 
@@ -72,24 +92,27 @@
       ctx.stroke();
     });
 
-    if (links.length) {
-      var phase = (now % PULSE_MS) / PULSE_MS;
-      var link = links[Math.floor((now / PULSE_MS) % links.length)];
-      if (link) {
-        var px = link.a.x + (link.b.x - link.a.x) * phase;
-        var py = link.a.y + (link.b.y - link.a.y) * phase;
-        ctx.fillStyle = PULSE_COLOR;
-        ctx.beginPath();
-        ctx.arc(px, py, 2.2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
+    pulses.forEach(function (p) {
+      var t = p.reverse ? 1 - p.t : p.t;
+      var px = p.link.a.x + (p.link.b.x - p.link.a.x) * t;
+      var py = p.link.a.y + (p.link.b.y - p.link.a.y) * t;
+      var fade = p.t < 0.5 ? 1 : (1 - p.t) * 2;
+      ctx.globalAlpha = Math.max(fade, 0);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(px, py, 2.4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    });
 
     nodes.forEach(function (n) {
+      var twinkle = 0.7 + 0.3 * Math.sin(now / 900 + n.phase);
       ctx.fillStyle = NODE_COLOR;
+      ctx.globalAlpha = twinkle;
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
       ctx.fill();
+      ctx.globalAlpha = 1;
     });
   }
 
