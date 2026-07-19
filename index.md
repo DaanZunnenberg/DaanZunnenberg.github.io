@@ -306,12 +306,11 @@ depth, direction = result.depth, result.direction
 
 <p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
 
-<h2>About the Banner</h2>
+<h2>A Small Confession About the Banner</h2>
 <p>
-  The backdrop behind the name at the top of this page isn't a static graphic. It's three real spot order
-  books &mdash; BTC, XLM, and SOL &mdash; streamed live from Binance's public market-data API over a
-  websocket, redrawn about ten times a second as the book actually updates. Each panel also polls the same
-  symbol's USD&#9398;-M perpetual futures book and shows the live spot/perp price difference alongside it,
-  the same gap a cash-and-carry trade is priced on. Nothing here is simulated to look busy: if the market is
-  quiet, the banner is quiet too.
+  That flickering panel behind my name up top isn't decoration. It's a real, currently-live order book,
+  quietly doing its job in the background while you read a page about probability theory. Old habits: even
+  here, on a page about myself, I couldn't resist leaving a market open in the corner. If it looks unusually
+  calm right now, that's not a design choice &mdash; that's just what the market is doing at this exact
+  moment, for better or worse.
 </p>
