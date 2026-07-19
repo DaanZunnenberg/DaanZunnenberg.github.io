@@ -672,28 +672,35 @@ pre.code-block code {
     linear-gradient(100deg, rgba(11, 15, 24, 0.6) 0%, rgba(11, 15, 24, 0.42) 28%, rgba(11, 15, 24, 0.16) 52%, rgba(11, 15, 24, 0.04) 72%);
 }
 
+.hero-fade-flip {
+  background:
+    linear-gradient(260deg, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
+}
+
+@media (max-width: 640px) {
+  .hero-fade-flip {
+    background:
+      linear-gradient(100deg, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
+  }
+}
+
 /* Research hero: a scrolling, terminal-style transcript instead of a
    static image. Plain text nodes only (see terminal-widget.js) — no
    markup is ever parsed from the line content. */
 .hero-terminal {
   position: absolute;
-  inset: 0 0 0 44%;
+  inset: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 16px 20px;
   background: #0b0f18;
-  border-left: 1px solid rgba(35, 45, 71, 0.6);
   font-family: var(--mono);
   font-size: 12px;
   line-height: 1.6;
   -webkit-mask-image: linear-gradient(to top, black 82%, transparent 100%);
   mask-image: linear-gradient(to top, black 82%, transparent 100%);
-}
-
-@media (max-width: 640px) {
-  .hero-terminal { inset: 0; opacity: 0.4; border-left: 0; }
 }
 
 .hero-terminal-line {
@@ -745,6 +752,19 @@ pre.code-block code {
   max-width: 460px;
   padding: 32px 40px;
   animation: hero-fade-in 900ms ease both;
+}
+
+.hero-content-right {
+  margin-left: auto;
+  text-align: right;
+}
+
+.hero-content-right .hero-eyebrow { text-overflow: clip; }
+.hero-content-right .hero-links { justify-content: flex-end; }
+
+@media (max-width: 640px) {
+  .hero-content-right { margin-left: 0; text-align: left; }
+  .hero-content-right .hero-links { justify-content: flex-start; }
 }
 
 @keyframes hero-fade-in {
