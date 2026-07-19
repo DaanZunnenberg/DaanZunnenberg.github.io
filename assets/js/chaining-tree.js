@@ -11,16 +11,19 @@
   // A generic-chaining-flavored visual: a growing tree of nested pieces
   // (an admissible sequence A_0, A_1, ... refining down to leaves), drawn
   // over a loose scatter of points standing in for the underlying metric
-  // space T. The tree regrows with a new random shape on each cycle,
-  // rather than a fixed diagram, so it stays visibly alive.
-  var LEVEL_BRANCH = [3, 3, 2, 2]; // children per node at each depth
+  // space T. Every cycle regenerates a genuinely different tree — root
+  // position, depth, branch counts, and angles are all randomized, rather
+  // than one fixed shape replaying with cosmetic jitter.
   var LEVEL_COLOR = [
     "rgba(77, 210, 255, 0.8)",
     "rgba(96, 200, 220, 0.7)",
     "rgba(120, 190, 170, 0.6)",
     "rgba(150, 190, 130, 0.55)",
-    "rgba(224, 168, 82, 0.55)"
+    "rgba(224, 168, 82, 0.55)",
+    "rgba(200, 140, 190, 0.5)"
   ];
+  var REGION_FILL = ["rgba(77, 210, 255, 0.05)", "rgba(150, 190, 130, 0.05)", "rgba(224, 168, 82, 0.05)"];
+  var REGION_STROKE = ["rgba(77, 210, 255, 0.22)", "rgba(150, 190, 130, 0.22)", "rgba(224, 168, 82, 0.22)"];
 
   var dots = [];
   function seedDots() {
@@ -36,53 +39,42 @@
     }
   }
 
-  // Organic, radial branching (angle + shrinking edge length) rather than
-  // a fixed row grid, so the tree fans out in multiple directions like an
-  // actual branching structure instead of only growing downward. Positions
-  // are softly clamped to a bounding box so it stays readable next to the
-  // hero copy rather than drifting off-canvas.
+  // Organic, radial branching: each node picks its own child count and
+  // scatters their angles unevenly within a wide arc (rather than an
+  // evenly-spaced fan), so no two subtrees look alike.
   function buildTree() {
     var idCounter = 0;
     var marginX0 = W * 0.03, marginX1 = W * 0.58;
     var marginY0 = H * 0.1, marginY1 = H * 0.9;
-    var baseLen = Math.min(W, H) * 0.16;
+    var baseLen = Math.min(W, H) * 0.17;
+    var maxDepth = 3 + ((Math.random() * 3) | 0); // 3, 4, or 5 levels deep
 
     function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
     function makeNode(depth, x, y, angle) {
       var node = { id: idCounter++, depth: depth, x: x, y: y, children: [] };
-      if (depth < LEVEL_BRANCH.length) {
-        var branch = LEVEL_BRANCH[depth];
-        // Wide fan near the root (multi-directional growth), narrowing at
-        // deeper levels so leaves don't scatter completely at random.
-        var spread = depth === 0 ? Math.PI * 1.7 : Math.PI * 0.8 - depth * 0.12;
-        var len = baseLen * Math.pow(0.72, depth) * (0.85 + Math.random() * 0.3);
+      if (depth < maxDepth) {
+        var branch = 2 + ((Math.random() * 3) | 0); // 2-4 children, per node
+        var spread = depth === 0 ? Math.PI * (1.3 + Math.random() * 0.6) : Math.PI * (0.55 + Math.random() * 0.4) - depth * 0.06;
+        var len = baseLen * Math.pow(0.7, depth);
         for (var i = 0; i < branch; i++) {
-          var frac = branch === 1 ? 0.5 : i / (branch - 1);
-          var childAngle = angle + (frac - 0.5) * spread + (Math.random() - 0.5) * 0.35;
-          var cx = clamp(x + Math.cos(childAngle) * len, marginX0, marginX1);
-          var cy = clamp(y + Math.sin(childAngle) * len, marginY0, marginY1);
+          // Fully random placement within the arc rather than evenly
+          // spaced fractions — avoids the symmetric fan-blade look.
+          var childAngle = angle + (Math.random() - 0.5) * spread;
+          var childLen = len * (0.7 + Math.random() * 0.55);
+          var cx = clamp(x + Math.cos(childAngle) * childLen, marginX0, marginX1);
+          var cy = clamp(y + Math.sin(childAngle) * childLen, marginY0, marginY1);
           node.children.push(makeNode(depth + 1, cx, cy, childAngle));
         }
       }
       return node;
     }
 
-    var rootAngle = -Math.PI / 2 + (Math.random() - 0.5) * 0.6;
-    var root = makeNode(0, W * 0.3, H * 0.5, rootAngle);
-    return root;
-  }
-
-  // Ball radius for a node: the farthest any of its descendants sits from
-  // it — the covering-ball geometry generic chaining is named for.
-  function coveringRadius(node) {
-    var max = 0;
-    (function walk(n) {
-      var dx = n.x - node.x, dy = n.y - node.y;
-      max = Math.max(max, Math.sqrt(dx * dx + dy * dy));
-      n.children.forEach(walk);
-    })(node);
-    return max;
+    var rootX = marginX0 + Math.random() * (marginX1 - marginX0) * 0.75;
+    var rootY = marginY0 + Math.random() * (marginY1 - marginY0);
+    var rootAngle = Math.random() * Math.PI * 2;
+    var root = makeNode(0, rootX, rootY, rootAngle);
+    return { root: root, maxDepth: maxDepth };
   }
 
   function flatten(root) {
@@ -97,6 +89,35 @@
     return { nodes: nodes, edges: edges };
   }
 
+  // Andrew's monotone-chain convex hull: turns a cluster's leaf positions
+  // into an irregular polygon "region" — a piece of the partition, not a
+  // uniform ball — which reads as noticeably more geometric than a circle.
+  function convexHull(pts) {
+    var points = pts.slice().sort(function (a, b) { return a.x - b.x || a.y - b.y; });
+    if (points.length < 3) return points;
+    function cross(o, a, b) { return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x); }
+    var lower = [];
+    for (var i = 0; i < points.length; i++) {
+      while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], points[i]) <= 0) lower.pop();
+      lower.push(points[i]);
+    }
+    var upper = [];
+    for (var j = points.length - 1; j >= 0; j--) {
+      while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], points[j]) <= 0) upper.pop();
+      upper.push(points[j]);
+    }
+    lower.pop(); upper.pop();
+    return lower.concat(upper);
+  }
+
+  function leafDescendants(node) {
+    var out = [];
+    (function walk(n) {
+      if (!n.children.length) out.push(n); else n.children.forEach(walk);
+    })(node);
+    return out;
+  }
+
   function resize() {
     W = container.clientWidth;
     H = container.clientHeight;
@@ -109,10 +130,12 @@
   }
 
   var GROW_MS = 2800, HOLD_MS = 2600, FADE_MS = 1000;
-  var phase, phaseStart, tree, flat;
+  var phase, phaseStart, tree, flat, maxDepth;
 
   function startCycle(now) {
-    tree = buildTree();
+    var built = buildTree();
+    tree = built.root;
+    maxDepth = built.maxDepth;
     flat = flatten(tree);
     phase = "growing";
     phaseStart = now;
@@ -130,38 +153,42 @@
     });
   }
 
-  // Faint covering balls (B(t, radius)) around the depth-1 pieces, plus one
-  // loosely around the whole tree — the "covering" side of generic
-  // chaining, not just the tree side. Only fades in once growth is mostly
-  // done, and only at two levels, to keep it from getting busy.
-  function drawCoveringBalls(growT, globalAlpha) {
-    if (growT < 0.7) return;
-    var ballAlpha = Math.min(1, (growT - 0.7) / 0.3) * globalAlpha;
-    ctx.globalAlpha = ballAlpha;
+  // Faceted regions: a convex-hull polygon over each depth-1 subtree's
+  // leaves, filled and dashed-outlined — the "covering piece" side of
+  // generic chaining, drawn as an actual irregular region instead of a
+  // uniform circle. Only fades in once growth is mostly done.
+  function drawRegions(growT, globalAlpha) {
+    if (growT < 0.65 || !tree.children.length) return;
+    var regionAlpha = Math.min(1, (growT - 0.65) / 0.35) * globalAlpha;
+    ctx.globalAlpha = regionAlpha;
+    ctx.setLineDash([4, 4]);
 
-    ctx.beginPath();
-    ctx.arc(tree.x, tree.y, coveringRadius(tree), 0, Math.PI * 2);
-    ctx.strokeStyle = "rgba(77, 210, 255, 0.14)";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    tree.children.forEach(function (child) {
+    tree.children.forEach(function (child, i) {
+      var leaves = leafDescendants(child);
+      var pts = leaves.length >= 3 ? leaves : leaves.concat([child]);
+      var hull = convexHull(pts);
+      if (hull.length < 3) return;
       ctx.beginPath();
-      ctx.arc(child.x, child.y, coveringRadius(child), 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(150, 190, 130, 0.16)";
+      ctx.moveTo(hull[0].x, hull[0].y);
+      for (var k = 1; k < hull.length; k++) ctx.lineTo(hull[k].x, hull[k].y);
+      ctx.closePath();
+      ctx.fillStyle = REGION_FILL[i % REGION_FILL.length];
+      ctx.fill();
+      ctx.strokeStyle = REGION_STROKE[i % REGION_STROKE.length];
       ctx.lineWidth = 1;
       ctx.stroke();
     });
+
+    ctx.setLineDash([]);
     ctx.globalAlpha = 1;
   }
 
   // Reveal the tree level by level: edges draw as growing line segments
   // from parent to child, nodes pop in once their edge completes.
   function drawTree(growT, globalAlpha) {
-    var maxDepth = LEVEL_BRANCH.length;
     var perLevel = 1 / (maxDepth + 1);
 
-    drawCoveringBalls(growT, globalAlpha);
+    drawRegions(growT, globalAlpha);
 
     flat.edges.forEach(function (edge) {
       var parent = edge[0], child = edge[1];
@@ -189,7 +216,7 @@
 
         // faint line from each leaf down toward the scattered metric-space
         // points, suggesting the tree organizes those points.
-        if (child.depth === maxDepth) {
+        if (!child.children.length) {
           var nearest = null, best = Infinity;
           for (var i = 0; i < dots.length; i++) {
             var dx = dots[i].x - child.x, dy = dots[i].y - child.y;
