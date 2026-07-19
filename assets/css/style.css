@@ -674,7 +674,7 @@ pre.code-block code {
 
 .hero-fade-flip {
   background:
-    linear-gradient(260deg, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
+    linear-gradient(to left, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
 }
 
 @media (max-width: 640px) {
