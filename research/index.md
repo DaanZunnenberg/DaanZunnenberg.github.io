@@ -5,7 +5,7 @@ permalink: /research/
 ---
 
 <section class="hero">
-  <div class="hero-math" id="math-hero" aria-label="Cycling results from generic chaining theory (Talagrand)" aria-hidden="true"></div>
+  <canvas id="chaining-tree-canvas" class="hero-canvas" aria-label="An animated tree visualizing generic chaining's admissible sequences over a scatter of metric-space points" aria-hidden="true"></canvas>
   <div class="hero-fade hero-fade-flip" aria-hidden="true"></div>
   <div class="hero-content hero-content-right">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
