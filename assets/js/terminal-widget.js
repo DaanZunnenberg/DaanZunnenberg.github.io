@@ -101,23 +101,76 @@
     return "term-dim";
   }
 
-  function appendLine(text) {
-    var el = document.createElement("div");
-    el.className = "hero-terminal-line " + classify(text);
-    el.textContent = text; // never innerHTML — plain text node, no markup parsing
-    root.appendChild(el);
+  function prune() {
     while (root.children.length > MAX_LINES) {
       root.removeChild(root.firstChild);
     }
   }
 
+  function appendLine(text) {
+    var el = document.createElement("div");
+    el.className = "hero-terminal-line " + classify(text);
+    el.textContent = text; // never innerHTML — plain text node, no markup parsing
+    root.appendChild(el);
+    prune();
+  }
+
+  // Command lines are "typed" character by character, like someone actually
+  // driving the shell, rather than just fading in with the rest of the
+  // output — the one bit of extra flourish, kept to just the "$ " lines.
+  function typeLine(text, cb) {
+    var el = document.createElement("div");
+    el.className = "hero-terminal-line term-typing term-prompt";
+    var textNode = document.createTextNode("");
+    el.appendChild(textNode);
+    var cursor = document.createElement("span");
+    cursor.className = "hero-terminal-cursor";
+    el.appendChild(cursor);
+    root.appendChild(el);
+    prune();
+
+    var i = 0;
+    (function tick() {
+      if (i < text.length) {
+        textNode.data += text.charAt(i);
+        i += 1;
+        setTimeout(tick, 16 + Math.random() * 28);
+      } else {
+        cursor.remove();
+        if (cb) cb();
+      }
+    })();
+  }
+
+  function idlePrompt(cb) {
+    var el = document.createElement("div");
+    el.className = "hero-terminal-line term-prompt term-typing";
+    el.textContent = "$ ";
+    var cursor = document.createElement("span");
+    cursor.className = "hero-terminal-cursor";
+    el.appendChild(cursor);
+    root.appendChild(el);
+    prune();
+    setTimeout(function () {
+      el.remove();
+      cb();
+    }, 900 + Math.random() * 700);
+  }
+
   function playSession(lines, i) {
     if (i >= lines.length) {
-      setTimeout(function () { playSession(nextSession(), 0); }, 900 + Math.random() * 700);
+      idlePrompt(function () { playSession(nextSession(), 0); });
       return;
     }
-    appendLine(lines[i]);
-    var delay = lines[i].indexOf("  ") === 0 ? 55 + Math.random() * 70 : 220 + Math.random() * 260;
+    var text = lines[i];
+    if (text.indexOf("$ ") === 0) {
+      typeLine(text, function () {
+        setTimeout(function () { playSession(lines, i + 1); }, 180 + Math.random() * 160);
+      });
+      return;
+    }
+    appendLine(text);
+    var delay = text.indexOf("  ") === 0 ? 55 + Math.random() * 70 : 220 + Math.random() * 260;
     setTimeout(function () { playSession(lines, i + 1); }, delay);
   }
 

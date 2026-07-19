@@ -19,10 +19,10 @@
   var MID_LINE = "rgba(233, 236, 243, 0.35)";
 
   var SYMBOLS = [
-    { key: "btcusdt", label: "BTC/USDT", bids: [], asks: [], perpBid: null, perpAsk: null },
+    { key: "xrpusdt", label: "XRP/USDT", bids: [], asks: [], perpBid: null, perpAsk: null },
     { key: "ethusdt", label: "ETH/USDT", bids: [], asks: [], perpBid: null, perpAsk: null },
     { key: "solusdt", label: "SOL/USDT", bids: [], asks: [], perpBid: null, perpAsk: null },
-    { key: "xrpusdt", label: "XRP/USDT", bids: [], asks: [], perpBid: null, perpAsk: null }
+    { key: "btcusdt", label: "BTC/USDT", bids: [], asks: [], perpBid: null, perpAsk: null }
   ];
 
   var live = false;
@@ -138,7 +138,8 @@
 
     if (!sym.bids.length || !sym.asks.length) return;
 
-    var rows = h - headerH - footerH;
+    var rowsGap = 3; // breathing room between the last price row and the footer
+    var rows = h - headerH - footerH - rowsGap;
     var rowH = rows / (ROWS_HALF * 2);
     var fontPx = rowH < 11 ? 8 : 10;
     var maxQty = Math.max.apply(null, sym.bids.concat(sym.asks).map(function (l) { return l[1]; }));
@@ -199,8 +200,14 @@
     var spread = bestAsk - bestBid;
     var spreadBps = (spread / ((bestAsk + bestBid) / 2)) * 10000;
 
-    ctx.fillStyle = "rgba(11, 15, 24, 0.5)";
+    ctx.fillStyle = "rgba(11, 15, 24, 0.7)";
     ctx.fillRect(x0, footerY, w, footerH);
+    ctx.strokeStyle = "rgba(224, 168, 82, 0.14)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x0, footerY + 0.5);
+    ctx.lineTo(x0 + w, footerY + 0.5);
+    ctx.stroke();
 
     var totalBid = sym.bids.slice(0, ROWS_HALF).reduce(function (s, l) { return s + l[1]; }, 0);
     var totalAsk = sym.asks.slice(0, ROWS_HALF).reduce(function (s, l) { return s + l[1]; }, 0);
