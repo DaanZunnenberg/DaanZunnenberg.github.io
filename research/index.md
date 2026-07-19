@@ -5,7 +5,7 @@ permalink: /research/
 ---
 
 <section class="hero">
-  <canvas id="metric-network-canvas" class="hero-canvas" aria-label="Two live random geometric graphs with filled triangular faces, each with its own running Euler characteristic" aria-hidden="true"></canvas>
+  <canvas id="metric-network-canvas" class="hero-canvas" aria-label="Two interlocking live random geometric graphs, each drawn as a sharp convex-hull polygon with filled triangular faces, running Euler characteristic, and isoperimetric ratio" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
