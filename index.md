@@ -276,18 +276,6 @@ depth, direction = result.depth, result.direction
 
 <div class="entry">
   <div class="entry-head">
-    <h3>QuantFi &middot; Operational Trader</h3>
-    <span class="entry-date">October 2022 &ndash; March 2023</span>
-  </div>
-  <ul>
-    <li>Managed live risk on production market-making algorithms through high-volatility sessions.</li>
-    <li>Built the desk's real-time position/order terminal, with Tardis.dev-backed fill reconstruction for post-session audits.</li>
-  </ul>
-  <div class="tags"><code>Python</code> &middot; <code>CCXT</code> &middot; <code>Tardis.dev</code></div>
-</div>
-
-<div class="entry">
-  <div class="entry-head">
     <h3>VU Econometrics and Data Science &middot; Research Assistant</h3>
     <span class="entry-date">January 2024 &ndash; June 2024</span>
   </div>
@@ -296,6 +284,18 @@ depth, direction = result.depth, result.direction
     <li>Projected the conditional-variance operator onto a Bernstein-polynomial basis, turning an infinite-dimensional, positivity-constrained QMLE problem into one numerical optimization can actually solve.</li>
   </ul>
   <div class="tags"><code>Python</code></div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>QuantFi &middot; Operational Trader</h3>
+    <span class="entry-date">October 2022 &ndash; March 2023</span>
+  </div>
+  <ul>
+    <li>Managed live risk on production market-making algorithms through high-volatility sessions.</li>
+    <li>Built the desk's real-time position/order terminal, with Tardis.dev-backed fill reconstruction for post-session audits.</li>
+  </ul>
+  <div class="tags"><code>Python</code> &middot; <code>CCXT</code> &middot; <code>Tardis.dev</code></div>
 </div>
 
 <p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
