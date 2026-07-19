@@ -5,9 +5,9 @@ permalink: /research/
 ---
 
 <section class="hero">
-  <canvas id="chaining-tree-canvas" class="hero-canvas" aria-label="An animated tree visualizing generic chaining's admissible sequences over a scatter of metric-space points" aria-hidden="true"></canvas>
-  <div class="hero-fade hero-fade-flip" aria-hidden="true"></div>
-  <div class="hero-content hero-content-right">
+  <canvas id="metric-network-canvas" class="hero-canvas" aria-label="A live network of drifting points, connecting and disconnecting as they move" aria-hidden="true"></canvas>
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
     <h1 class="hero-name">Research &amp; Publications<span class="cursor">_</span></h1>
     <p class="hero-lede">Generic chaining, majorizing measures, and weak convergence for dependent processes.</p>
