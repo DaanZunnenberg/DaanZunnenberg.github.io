@@ -5,7 +5,7 @@ permalink: /research/
 ---
 
 <section class="hero">
-  <canvas id="metric-network-canvas" class="hero-canvas" aria-label="A live random geometric graph drifting within an irregular, occasionally shifting silhouette, with filled triangular faces and a running Euler characteristic" aria-hidden="true"></canvas>
+  <canvas id="metric-network-canvas" class="hero-canvas" aria-label="A live random geometric graph drifting within an irregular, occasionally shifting silhouette, colored purple where stable and yellow where recently changing, with filled triangular faces and a running Euler characteristic" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
