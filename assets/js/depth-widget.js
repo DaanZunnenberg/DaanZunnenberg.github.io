@@ -21,9 +21,9 @@
   var MID_LINE = "rgba(233, 236, 243, 0.35)";
 
   var SYMBOLS = [
-    { key: "ethusdt", label: "ETH/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
-    { key: "solusdt", label: "SOL/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
-    { key: "btcusdt", label: "BTC/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] }
+    { key: "btcusdt", label: "BTC/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
+    { key: "xlmusdt", label: "XLM/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
+    { key: "solusdt", label: "SOL/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] }
   ];
 
   var live = false;

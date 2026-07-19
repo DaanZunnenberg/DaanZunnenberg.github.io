@@ -724,10 +724,15 @@ pre.code-block code {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.hero-terminal-line.term-prompt { color: var(--term-blue); }
-.hero-terminal-line.term-ok { color: var(--term-green); }
-.hero-terminal-line.term-info { color: rgba(233, 236, 243, 0.55); }
-.hero-terminal-line.term-dim { color: rgba(143, 154, 179, 0.6); }
+/* Kali-shell restraint: color is reserved for prompt identity and for
+   warnings/errors, not sprinkled across ordinary output. */
+.hero-terminal-line { color: rgba(233, 236, 243, 0.6); }
+.hero-terminal-line .term-box { color: var(--term-blue); }
+.hero-terminal-line .term-user { color: var(--term-green); }
+.hero-terminal-line .term-time { color: rgba(143, 154, 179, 0.55); }
+.hero-terminal-line .term-tag { color: rgba(143, 154, 179, 0.7); }
+.hero-terminal-line .term-warn { color: #e0a852; }
+.hero-terminal-line .term-err { color: #ff5b4d; }
 
 .hero-terminal-cursor {
   display: inline-block;

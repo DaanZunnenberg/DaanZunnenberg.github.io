@@ -3,24 +3,31 @@
   if (!root) return;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var MAX_LINES = 40; // DOM nodes kept around; older ones are pruned, not just hidden
+  var MAX_LINES = 44; // DOM nodes kept around; older ones are pruned, not just hidden
+  var HOST = "research";
+  var USER = "daan";
 
   // Static, hardcoded transcript fragments — never derived from user input,
-  // never parsed as HTML. Every line is written with textContent, so there
-  // is no injection surface even though the text looks like shell output.
+  // never parsed as HTML. Every fragment is written with textContent onto
+  // plain <span> elements, so there is no injection surface even though the
+  // text looks like shell/log output.
+  //
+  // Kali-shell style: a two-line prompt (box-drawing + user@host), and
+  // otherwise mostly monochrome output — color is reserved for warnings
+  // and errors, not sprinkled across ordinary lines.
   var SESSIONS = [
     [
       "$ pip install -e .",
-      "Obtaining file:///Users/daan/FunctionalScale",
+      "Obtaining file:///home/daan/FunctionalScale",
       "Collecting numpy>=1.24",
-      "  Using cached numpy-1.26.4-cp311-cp311-macosx.whl (14.0 MB)",
+      "  Using cached numpy-1.26.4-cp311-cp311-linux_x86_64.whl (14.0 MB)",
       "Collecting scipy>=1.11",
-      "  Downloading scipy-1.13.0-cp311-cp311-macosx.whl (30.3 MB)",
+      "  Downloading scipy-1.13.0-cp311-cp311-linux_x86_64.whl (30.3 MB)",
       "Collecting numba>=0.59",
-      "  Downloading numba-0.59.1-cp311-cp311-macosx.whl (2.7 MB)",
+      "  Downloading numba-0.59.1-cp311-cp311-linux_x86_64.whl (2.7 MB)",
       "Building wheel for funcgarch (pyproject.toml): started",
       "Building wheel for funcgarch (pyproject.toml): finished with status 'done'",
-      "Successfully installed funcgarch-0.3.0 numba-0.59.1 numpy-1.26.4 scipy-1.13.0"
+      "[OK] installed funcgarch-0.3.0 numba-0.59.1 numpy-1.26.4 scipy-1.13.0"
     ],
     [
       "$ python scripts/gas_vol_surface_container.py",
@@ -56,6 +63,7 @@
       "Latexmk: applying rule 'pdflatex'",
       "Rule 'pdflatex': the auxiliary file has been updated",
       "[INFO] 41 pages, 128 references resolved",
+      "[WARN] 2 undefined citations, rerun after updating bibliography",
       "Latexmk: All targets (generic_chaining.pdf) are up-to-date"
     ],
     [
@@ -79,7 +87,16 @@
       "[INFO] simulating fractional Brownian motion, H=0.35, n=2000 paths",
       "[INFO] estimating E[sup_t |X_t|^p] via empirical maxima",
       "[INFO] comparing against Dudley entropy integral bound",
-      "[OK] empirical/bound ratio = 0.812 (bound not tight, as expected)"
+      "[WARN] empirical/bound ratio 0.81 — bound not tight at this sample size",
+      "[OK] moment check complete"
+    ],
+    [
+      "$ df -h ~/data",
+      "Filesystem       Size  Used Avail Use%",
+      "/dev/nvme0n1p2   238G  142G   84G  63%",
+      "$ free -h",
+      "               total    used    free   shared",
+      "Mem:            32Gi    11Gi    14Gi   1.2Gi"
     ]
   ];
 
@@ -101,11 +118,14 @@
     return SESSIONS[idx];
   }
 
-  function classify(line) {
-    if (line.indexOf("$ ") === 0) return "term-prompt";
-    if (line.indexOf("[OK]") === 0 || line.indexOf("Successfully") === 0) return "term-ok";
-    if (line.indexOf("[INFO]") === 0) return "term-info";
-    return "term-dim";
+  // A fake but steadily-advancing clock, journalctl-style, rather than a
+  // real timestamp — purely decorative.
+  var clockMs = Date.now();
+  function tick() {
+    clockMs += 1200 + Math.random() * 2800;
+    var d = new Date(clockMs);
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+    return pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
   }
 
   function prune() {
@@ -114,34 +134,59 @@
     }
   }
 
-  function appendLine(text) {
-    var el = document.createElement("div");
-    el.className = "hero-terminal-line " + classify(text);
+  function span(text, cls) {
+    var el = document.createElement("span");
+    if (cls) el.className = cls;
     el.textContent = text; // never innerHTML — plain text node, no markup parsing
-    root.appendChild(el);
-    prune();
+    return el;
   }
 
-  // Command lines are "typed" character by character, like someone actually
-  // driving the shell, rather than just fading in with the rest of the
-  // output — the one bit of extra flourish, kept to just the "$ " lines.
-  function typeLine(text, cb) {
+  function appendRow(children, extraCls) {
     var el = document.createElement("div");
-    el.className = "hero-terminal-line term-typing term-prompt";
-    var textNode = document.createTextNode("");
-    el.appendChild(textNode);
-    var cursor = document.createElement("span");
-    cursor.className = "hero-terminal-cursor";
-    el.appendChild(cursor);
+    el.className = "hero-terminal-line" + (extraCls ? " " + extraCls : "");
+    children.forEach(function (c) { el.appendChild(c); });
     root.appendChild(el);
     prune();
+    return el;
+  }
+
+  // Ordinary output line: gray timestamp, then an optional [TAG] (colored
+  // only for WARN/ERR), then the message in the default muted color.
+  function appendOutputLine(text) {
+    var tagMatch = text.match(/^\[(INFO|OK|WARN|ERR)\]\s*/);
+    var children = [span(tick() + "  ", "term-time")];
+    if (tagMatch) {
+      var level = tagMatch[1];
+      var tagCls = level === "WARN" ? "term-warn" : level === "ERR" ? "term-err" : "term-tag";
+      children.push(span("[" + level + "] ", tagCls));
+      text = text.slice(tagMatch[0].length);
+    }
+    children.push(span(text));
+    appendRow(children);
+  }
+
+  // Two-line Kali-style prompt. First line is the box/user/host frame,
+  // second line types out the command character by character.
+  function typePrompt(cmd, cb) {
+    appendRow([
+      span("┌──(", "term-box"),
+      span(USER, "term-user"),
+      span("㉿" + HOST + ")-[~]", "term-box")
+    ]);
+
+    var textNode = document.createTextNode("");
+    var cursor = document.createElement("span");
+    cursor.className = "hero-terminal-cursor";
+    var el = appendRow([span("└─$ ", "term-box")], "term-typing");
+    el.appendChild(textNode);
+    el.appendChild(cursor);
 
     var i = 0;
-    (function tick() {
-      if (i < text.length) {
-        textNode.data += text.charAt(i);
+    (function step() {
+      if (i < cmd.length) {
+        textNode.data += cmd.charAt(i);
         i += 1;
-        setTimeout(tick, 16 + Math.random() * 28);
+        setTimeout(step, 16 + Math.random() * 28);
       } else {
         cursor.remove();
         if (cb) cb();
@@ -150,15 +195,17 @@
   }
 
   function idlePrompt(cb) {
-    var el = document.createElement("div");
-    el.className = "hero-terminal-line term-prompt term-typing";
-    el.textContent = "$ ";
+    appendRow([
+      span("┌──(", "term-box"),
+      span(USER, "term-user"),
+      span("㉿" + HOST + ")-[~]", "term-box")
+    ]);
+    var el = appendRow([span("└─$ ", "term-box")], "term-typing");
     var cursor = document.createElement("span");
     cursor.className = "hero-terminal-cursor";
     el.appendChild(cursor);
-    root.appendChild(el);
-    prune();
     setTimeout(function () {
+      el.previousSibling && el.previousSibling.remove();
       el.remove();
       cb();
     }, 900 + Math.random() * 700);
@@ -171,19 +218,26 @@
     }
     var text = lines[i];
     if (text.indexOf("$ ") === 0) {
-      typeLine(text, function () {
+      typePrompt(text.slice(2), function () {
         setTimeout(function () { playSession(lines, i + 1); }, 180 + Math.random() * 160);
       });
       return;
     }
-    appendLine(text);
+    appendOutputLine(text);
     var delay = text.indexOf("  ") === 0 ? 55 + Math.random() * 70 : 220 + Math.random() * 260;
     setTimeout(function () { playSession(lines, i + 1); }, delay);
   }
 
   if (reduceMotion) {
     var session = nextSession();
-    session.slice(0, 6).forEach(appendLine);
+    session.slice(0, 6).forEach(function (line) {
+      if (line.indexOf("$ ") === 0) {
+        appendRow([span("┌──(", "term-box"), span(USER, "term-user"), span("㉿" + HOST + ")-[~]", "term-box")]);
+        appendRow([span("└─$ ", "term-box"), span(line.slice(2))]);
+      } else {
+        appendOutputLine(line);
+      }
+    });
     return;
   }
 
