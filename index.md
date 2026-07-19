@@ -99,6 +99,12 @@ result = minimize(
       </p>
       <img src="{{ '/assets/img/gas_vol_surface.png' | relative_url }}" alt="True versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
       <p class="form-hint">Same simulated data and seed as the functional GARCH comparison; estimated via <code>gas_garch_estimator</code> with a Student-<em>t</em> observation density and an Ornstein&ndash;Uhlenbeck covariance kernel.</p>
+      <p>
+        Placing the two estimators' fitted surfaces directly next to each other, rather than each against the
+        true surface separately, makes the score-driven adaptation's smoothing effect easier to see:
+      </p>
+      <img src="{{ '/assets/img/garch_vs_gas_vol_surface.png' | relative_url }}" alt="Functional GARCH-estimated versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
+      <p class="form-hint">Same simulated data and seed as both comparisons above.</p>
       <h4>Data Flow</h4>
       <pre class="code-block" data-lang="txt"><code>wrds/*.sas                    scripts/taq_cleaner.py           funcgarch/*.py
 ┌─────────────────┐           ┌────────────────────┐           ┌──────────────────────┐
