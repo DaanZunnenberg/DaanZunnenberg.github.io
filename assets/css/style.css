@@ -319,6 +319,22 @@ main::before {
   object-position: 50% calc(50% + 40px);
 }
 
+.profile-cover img.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.profile-cover img.slide:first-child {
+  position: relative;
+}
+
+.profile-cover img.slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
 .profile-cover::after {
   content: "";
   position: absolute;

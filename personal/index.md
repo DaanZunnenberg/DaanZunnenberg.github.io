@@ -4,8 +4,15 @@ title: Personal
 permalink: /personal/
 ---
 
-<div class="profile-cover">
-  <img src="{{ '/assets/img/daan-cover.jpg' | relative_url }}" alt="Daan Zunnenberg">
+<div class="profile-cover" id="profile-slideshow">
+  {%- assign personal_photos = site.static_files | where_exp: "f", "f.path contains '/assets/img/personal/'" | sort: "path" -%}
+  {%- if personal_photos.size > 0 -%}
+    {%- for photo in personal_photos -%}
+      <img src="{{ photo.path | relative_url }}" alt="Daan Zunnenberg" class="slide{% if forloop.first %} is-active{% endif %}">
+    {%- endfor -%}
+  {%- else -%}
+    <img src="{{ '/assets/img/daan-cover.jpg' | relative_url }}" alt="Daan Zunnenberg" class="slide is-active">
+  {%- endif -%}
 </div>
 
 <div class="profile-intro">
