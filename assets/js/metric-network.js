@@ -8,19 +8,23 @@
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
 
-  // A live particle network: points drifting through a metric space,
-  // connected by faint lines whenever two happen to sit within reach of
-  // each other. Purely continuous — no growth/fade cycle, no reset, just
-  // an ever-reconfiguring web as the points move.
+  // A random geometric graph: points drifting through a metric space,
+  // joined by an edge whenever two sit within a fixed radius of each other
+  // (a Vietoris-Rips-style proximity graph). Whenever three points are
+  // all mutually within reach, the triangle between them is filled in as
+  // a 2-simplex. From that live complex we track V - E + F, the Euler
+  // characteristic, updating continuously as the graph reconfigures.
   var LINK_DIST = 130;
+  var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
   var NODE_COLOR = "rgba(233, 236, 243, 0.6)";
-  var LINK_COLOR = "77, 210, 255";
+  var EDGE_COLOR = "77, 210, 255";
+  var FACE_COLOR = "150, 190, 130";
 
   var nodes = [];
 
   function seedNodes() {
     nodes = [];
-    var n = Math.max(36, Math.floor((W * H) / 11000));
+    var n = Math.max(30, Math.floor((W * H) / 13000));
     for (var i = 0; i < n; i++) {
       nodes.push({
         x: Math.random() * W,
@@ -53,24 +57,62 @@
     });
   }
 
-  function draw(now) {
-    ctx.clearRect(0, 0, W, H);
+  // Build the proximity graph for this frame, then find its triangles by
+  // walking edges through a per-node adjacency list rather than checking
+  // every triple of points, which keeps this cheap enough for 60fps.
+  function buildComplex() {
+    var n = nodes.length;
+    var adj = new Array(n);
+    for (var i = 0; i < n; i++) adj[i] = [];
+    var edges = [];
 
-    for (var i = 0; i < nodes.length; i++) {
-      for (var j = i + 1; j < nodes.length; j++) {
-        var a = nodes[i], b = nodes[j];
-        var dx = a.x - b.x, dy = a.y - b.y;
+    for (i = 0; i < n; i++) {
+      for (var j = i + 1; j < n; j++) {
+        var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
         var dist = Math.sqrt(dx * dx + dy * dy);
         if (dist >= LINK_DIST) continue;
-        var t = 1 - dist / LINK_DIST;
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = "rgba(" + LINK_COLOR + ", " + (0.05 + 0.22 * t * t) + ")";
-        ctx.lineWidth = 1;
-        ctx.stroke();
+        edges.push({ i: i, j: j, t: 1 - dist / LINK_DIST });
+        adj[i].push(j);
+        adj[j].push(i);
       }
     }
+
+    var faces = [];
+    edges.forEach(function (e) {
+      var neighborsI = adj[e.i], neighborsJ = adj[e.j];
+      for (var a = 0; a < neighborsI.length; a++) {
+        var k = neighborsI[a];
+        if (k <= e.j) continue; // k > j keeps each triangle counted once
+        if (neighborsJ.indexOf(k) !== -1) faces.push([e.i, e.j, k]);
+      }
+    });
+
+    return { edges: edges, faces: faces };
+  }
+
+  function draw(now, complex) {
+    ctx.clearRect(0, 0, W, H);
+
+    complex.faces.forEach(function (f) {
+      var a = nodes[f[0]], b = nodes[f[1]], c = nodes[f[2]];
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.lineTo(c.x, c.y);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(" + FACE_COLOR + ", 0.07)";
+      ctx.fill();
+    });
+
+    complex.edges.forEach(function (e) {
+      var a = nodes[e.i], b = nodes[e.j];
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = "rgba(" + EDGE_COLOR + ", " + (0.05 + 0.22 * e.t * e.t) + ")";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
 
     nodes.forEach(function (n) {
       var twinkle = 0.75 + 0.25 * Math.sin(now / 1600 + n.phase);
@@ -81,11 +123,21 @@
       ctx.fill();
       ctx.globalAlpha = 1;
     });
+
+    var V = nodes.length, E = complex.edges.length, F = complex.faces.length;
+    var chi = V - E + F;
+    ctx.font = "11px " + MONO_FONT;
+    ctx.textAlign = "left";
+    ctx.fillStyle = "rgba(224, 168, 82, 0.6)";
+    ctx.fillText(
+      "χ = V − E + F = " + V + " − " + E + " + " + F + " = " + chi,
+      12, H - 14
+    );
   }
 
   function loop(ts) {
     step();
-    draw(ts || performance.now());
+    draw(ts || performance.now(), buildComplex());
     if (!reduceMotion) requestAnimationFrame(loop);
   }
 
@@ -95,6 +147,6 @@
   if (!reduceMotion) {
     requestAnimationFrame(loop);
   } else {
-    draw(0);
+    draw(0, buildComplex());
   }
 })();
