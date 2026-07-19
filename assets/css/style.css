@@ -672,6 +672,46 @@ pre.code-block code {
     linear-gradient(100deg, rgba(11, 15, 24, 0.6) 0%, rgba(11, 15, 24, 0.42) 28%, rgba(11, 15, 24, 0.16) 52%, rgba(11, 15, 24, 0.04) 72%);
 }
 
+/* Research hero: a scrolling, terminal-style transcript instead of a
+   static image. Plain text nodes only (see terminal-widget.js) — no
+   markup is ever parsed from the line content. */
+.hero-terminal {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px 18px;
+  background: #0b0f18;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+  -webkit-mask-image: linear-gradient(to top, black 82%, transparent 100%);
+  mask-image: linear-gradient(to top, black 82%, transparent 100%);
+}
+
+.hero-terminal-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: term-line-in 320ms ease forwards;
+}
+
+@keyframes term-line-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-terminal-line.term-prompt { color: var(--term-blue); }
+.hero-terminal-line.term-ok { color: var(--term-green); }
+.hero-terminal-line.term-info { color: rgba(233, 236, 243, 0.55); }
+.hero-terminal-line.term-dim { color: rgba(143, 154, 179, 0.6); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-terminal-line { animation: none; opacity: 1; transform: none; }
+}
+
 .hero-fade {
   position: absolute;
   inset: 0;
