@@ -43,6 +43,11 @@
     if (sym.rows.length > MAX_ROWS) sym.rows.length = MAX_ROWS;
   }
 
+  // Below this per-panel width, the tape gets too cramped to read — drop
+  // the last symbol (and keep dropping) until what's left fits the phone.
+  var MIN_PANEL_W = 190;
+  var activeSymbols = SYMBOLS;
+
   function resize() {
     W = container.clientWidth;
     H = container.clientHeight;
@@ -51,12 +56,15 @@
     canvas.style.width = W + "px";
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var maxPanels = Math.max(1, Math.min(SYMBOLS.length, Math.floor(W / MIN_PANEL_W)));
+    activeSymbols = SYMBOLS.slice(0, maxPanels);
   }
 
   var COLS = [
-    { key: "price", label: "PRICE", w: 0.4, align: "right" },
-    { key: "amount", label: "AMOUNT", w: 0.32, align: "right" },
-    { key: "time", label: "TIME", w: 0.28, align: "right" }
+    { key: "price", label: "PRICE", w: 0.27, align: "right" },
+    { key: "amount", label: "AMOUNT", w: 0.24, align: "right" },
+    { key: "usd", label: "AMOUNT ($)", w: 0.27, align: "right" },
+    { key: "time", label: "TIME", w: 0.22, align: "right" }
   ];
 
   function drawPanel(sym, rect, now) {
@@ -82,7 +90,7 @@
 
     COLS.forEach(function (c, i) {
       ctx.textAlign = c.align;
-      var tx = c.align === "right" ? colX[i] + c.w * panelW - 6 : colX[i] + 6;
+      var tx = c.align === "right" ? colX[i] + c.w * panelW - 4 : colX[i] + 4;
       ctx.font = "8px " + MONO_FONT;
       ctx.fillStyle = "rgba(166, 175, 194, 0.4)";
       ctx.fillText(c.label, tx, y0 + headerH - 5);
@@ -110,23 +118,25 @@
 
       function cell(idx, text, color) {
         var c = COLS[idx];
-        var tx = c.align === "right" ? colX[idx] + c.w * panelW - 6 : colX[idx] + 6;
+        var tx = c.align === "right" ? colX[idx] + c.w * panelW - 4 : colX[idx] + 4;
         ctx.textAlign = c.align;
         ctx.fillStyle = color || textColor;
         ctx.fillText(text, tx, baseY);
       }
 
       var textColorUp = up ? UP_TEXT : DOWN_TEXT;
+      var usdValue = row.price * row.qty;
       cell(0, fmtPrice(row.price, sym.priceDigits), textColorUp);
       cell(1, row.qty.toFixed(sym.amountDigits));
-      cell(2, fmtTime(row.time));
+      cell(2, "$" + usdValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+      cell(3, fmtTime(row.time), DIM_TEXT);
     }
   }
 
   function draw(now) {
     ctx.clearRect(0, 0, W, H);
-    var panelW = W / SYMBOLS.length;
-    SYMBOLS.forEach(function (sym, i) {
+    var panelW = W / activeSymbols.length;
+    activeSymbols.forEach(function (sym, i) {
       drawPanel(sym, { x: i * panelW, y: 0, w: panelW, h: H }, now);
     });
   }
