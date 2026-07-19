@@ -20,7 +20,6 @@
   var MID_LINE = "rgba(233, 236, 243, 0.35)";
 
   var SYMBOLS = [
-    { key: "xrpusdt", label: "XRP/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
     { key: "ethusdt", label: "ETH/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
     { key: "solusdt", label: "SOL/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
     { key: "btcusdt", label: "BTC/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] }
@@ -162,10 +161,19 @@
     return "rgb(" + (r | 0) + "," + (g | 0) + "," + (bl | 0) + ")";
   }
 
+  function diffColor(v) {
+    return v >= 0 ? "rgba(88, 214, 151, 0.9)" : "rgba(235, 110, 110, 0.9)";
+  }
+  function signed(v) {
+    return (v >= 0 ? "+" : "") + fmtPrice(v);
+  }
+
   function drawPanel(sym, rect) {
     var x0 = rect.x, y0 = rect.y, w = rect.w, h = rect.h;
     var headerH = 18;
-    var footerH = 44;
+    var tableW = Math.max(64, w * 0.32);
+    var bookX0 = x0, bookW = w - tableW - 6;
+    var tableX0 = x0 + bookW + 6;
 
     ctx.strokeStyle = "rgba(224, 168, 82, 0.14)";
     ctx.lineWidth = 1;
@@ -176,17 +184,35 @@
     ctx.font = "10px " + MONO_FONT;
     ctx.textAlign = "left";
     ctx.fillStyle = "rgba(224, 168, 82, 0.8)";
-    ctx.fillText(sym.label + " · spot book · " + ((live && perpLive) ? "LIVE" : "SIM"), x0 + 6, y0 + 13);
+    ctx.fillText(sym.label + " · " + ((live && perpLive) ? "LIVE" : "SIM"), x0 + 6, y0 + 13);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "rgba(233, 236, 243, 0.45)";
+    ctx.fillText("perp−spot", x0 + w - 5, y0 + 13);
 
     if (!sym.bids.length || !sym.asks.length) return;
 
-    var rowsGap = 3; // breathing room between the last price row and the footer
-    var rows = h - headerH - footerH - rowsGap;
+    var rows = h - headerH;
     var rowH = rows / (ROWS_HALF * 2);
     var fontPx = rowH < 11 ? 8 : 10;
     var hasPerp = sym.perpBids.length > 0 && sym.perpAsks.length > 0;
     var maxQty = Math.max.apply(null, sym.bids.concat(sym.asks).map(function (l) { return l[1]; }));
     if (maxQty === 0) return;
+
+    ctx.strokeStyle = "rgba(224, 168, 82, 0.14)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(tableX0 - 3, y0 + headerH);
+    ctx.lineTo(tableX0 - 3, y0 + h);
+    ctx.stroke();
+
+    function diffCell(spotLvl, perpLvl, ry) {
+      if (!hasPerp || !perpLvl) return;
+      var d = perpLvl[0] - spotLvl[0];
+      ctx.font = fontPx + "px " + MONO_FONT;
+      ctx.textAlign = "left";
+      ctx.fillStyle = diffColor(d);
+      ctx.fillText(signed(d), tableX0, ry + rowH - rowH * 0.3);
+    }
 
     // Asks: highest price first, stacked top-down toward mid.
     var asksTop = sym.asks.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
@@ -194,27 +220,29 @@
     asksTop.forEach(function (lvl, i) {
       var ry = y0 + headerH + i * rowH;
       var t = lvl[1] / maxQty;
-      var barW = Math.max(6, t * w);
+      var barW = Math.max(6, t * bookW);
       ctx.fillStyle = heatColor(ASK_HEAT, ASK_HOT, t);
       ctx.globalAlpha = 0.85;
-      ctx.fillRect(x0, ry, barW, rowH - 0.6);
+      ctx.fillRect(bookX0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
 
       ctx.font = fontPx + "px " + MONO_FONT;
       ctx.textAlign = "left";
       ctx.fillStyle = "rgba(255, 200, 195, 0.9)";
-      ctx.fillText(fmtPrice(lvl[0]), x0 + 5, ry + rowH - rowH * 0.3);
+      ctx.fillText(fmtPrice(lvl[0]), bookX0 + 5, ry + rowH - rowH * 0.3);
       ctx.textAlign = "right";
       ctx.fillStyle = "rgba(233, 236, 243, 0.75)";
-      ctx.fillText(fmtQty(lvl[1]), x0 + w - 5, ry + rowH - rowH * 0.3);
+      ctx.fillText(fmtQty(lvl[1]), bookX0 + bookW - 5, ry + rowH - rowH * 0.3);
+
+      diffCell(lvl, perpAsksTop[i], ry);
     });
 
     var midY = y0 + headerH + ROWS_HALF * rowH;
     ctx.strokeStyle = MID_LINE;
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(x0, midY);
-    ctx.lineTo(x0 + w, midY);
+    ctx.moveTo(bookX0, midY);
+    ctx.lineTo(bookX0 + bookW, midY);
     ctx.stroke();
 
     // Bids: highest price first (closest to mid), stacked downward.
@@ -223,88 +251,22 @@
     bidsTop.forEach(function (lvl, i) {
       var ry = midY + i * rowH;
       var t = lvl[1] / maxQty;
-      var barW = Math.max(6, t * w);
+      var barW = Math.max(6, t * bookW);
       ctx.fillStyle = heatColor(BID_HEAT, BID_HOT, t);
       ctx.globalAlpha = 0.85;
-      ctx.fillRect(x0, ry, barW, rowH - 0.6);
+      ctx.fillRect(bookX0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
 
       ctx.font = fontPx + "px " + MONO_FONT;
       ctx.textAlign = "left";
       ctx.fillStyle = "rgba(195, 255, 205, 0.9)";
-      ctx.fillText(fmtPrice(lvl[0]), x0 + 5, ry + rowH - rowH * 0.3);
+      ctx.fillText(fmtPrice(lvl[0]), bookX0 + 5, ry + rowH - rowH * 0.3);
       ctx.textAlign = "right";
       ctx.fillStyle = "rgba(233, 236, 243, 0.75)";
-      ctx.fillText(fmtQty(lvl[1]), x0 + w - 5, ry + rowH - rowH * 0.3);
+      ctx.fillText(fmtQty(lvl[1]), bookX0 + bookW - 5, ry + rowH - rowH * 0.3);
+
+      diffCell(lvl, perpBidsTop[i], ry);
     });
-
-    // Footer: best bid/ask spread and a bid/ask size-imbalance bar across
-    // the visible window, so the panel reads as more than just a price list.
-    var footerY = y0 + h - footerH;
-    var bestBid = bidsTop[0][0], bestAsk = asksTop[asksTop.length - 1][0];
-    var spread = bestAsk - bestBid;
-    var spreadBps = (spread / ((bestAsk + bestBid) / 2)) * 10000;
-
-    ctx.fillStyle = "rgba(11, 15, 24, 0.7)";
-    ctx.fillRect(x0, footerY, w, footerH);
-    ctx.strokeStyle = "rgba(224, 168, 82, 0.14)";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(x0, footerY + 0.5);
-    ctx.lineTo(x0 + w, footerY + 0.5);
-    ctx.stroke();
-
-    var totalBid = sym.bids.slice(0, ROWS_HALF).reduce(function (s, l) { return s + l[1]; }, 0);
-    var totalAsk = sym.asks.slice(0, ROWS_HALF).reduce(function (s, l) { return s + l[1]; }, 0);
-    var bidShare = totalBid / (totalBid + totalAsk || 1);
-
-    var barY = footerY + 3, barH = 4;
-    var bidW = bidShare * w;
-    ctx.fillStyle = "rgba(88, 214, 151, 0.55)";
-    ctx.fillRect(x0, barY, bidW, barH);
-    ctx.fillStyle = "rgba(235, 110, 110, 0.55)";
-    ctx.fillRect(x0 + bidW, barY, w - bidW, barH);
-
-    ctx.font = "9px " + MONO_FONT;
-    ctx.textAlign = "left";
-    ctx.fillStyle = "rgba(233, 236, 243, 0.6)";
-    ctx.fillText("spread " + fmtPrice(spread) + " (" + spreadBps.toFixed(1) + "bps)", x0 + 5, footerY + 13);
-    ctx.textAlign = "right";
-    ctx.fillStyle = "rgba(233, 236, 243, 0.6)";
-    ctx.fillText((bidShare * 100).toFixed(0) + "% bid", x0 + w - 5, footerY + 13);
-
-    // Spot/perp diff table: best-bid and best-ask gaps to the same symbol's
-    // USDⓈ-M perpetual book, plus the resulting mid basis — the numbers a
-    // cash-and-carry (long spot, short perp) or reverse trade is priced on.
-    if (hasPerp) {
-      var perpBestBid = perpBidsTop[0][0];
-      var perpBestAsk = perpAsksTop[perpAsksTop.length - 1][0];
-      var bidDiff = perpBestBid - bestBid;
-      var askDiff = perpBestAsk - bestAsk;
-      var spotMid = (bestBid + bestAsk) / 2;
-      var basis = (perpBestBid + perpBestAsk) / 2 - spotMid;
-      var basisBps = (basis / spotMid) * 10000;
-
-      function diffColor(v) {
-        return v >= 0 ? "rgba(88, 214, 151, 0.9)" : "rgba(235, 110, 110, 0.9)";
-      }
-      function signed(v) {
-        return (v >= 0 ? "+" : "") + fmtPrice(v);
-      }
-
-      ctx.font = "9px " + MONO_FONT;
-      ctx.textAlign = "left";
-      ctx.fillStyle = "rgba(233, 236, 243, 0.45)";
-      ctx.fillText("perp−spot", x0 + 5, footerY + 25);
-      ctx.fillStyle = diffColor(bidDiff);
-      ctx.fillText("bid " + signed(bidDiff), x0 + w * 0.42, footerY + 25);
-      ctx.fillStyle = diffColor(askDiff);
-      ctx.fillText("ask " + signed(askDiff), x0 + w * 0.71, footerY + 25);
-
-      ctx.textAlign = "right";
-      ctx.fillStyle = diffColor(basis);
-      ctx.fillText("mid " + signed(basis) + " (" + basisBps.toFixed(1) + "bps)", x0 + w - 5, footerY + 38);
-    }
   }
 
   function draw() {
