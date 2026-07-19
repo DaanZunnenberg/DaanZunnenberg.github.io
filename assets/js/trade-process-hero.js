@@ -182,7 +182,14 @@
 
       var textColorUp = up ? UP_TEXT : DOWN_TEXT;
       var usdValue = row.price * row.qty;
-      cell(0, (up ? "▲ " : "▼ ") + fmtPrice(row.price, sym.priceDigits), textColorUp);
+      // Arrow is drawn as its own left-anchored glyph rather than prefixed
+      // onto the (right-aligned) price string — a long price with a comma
+      // thousands separator would otherwise push the arrow, as the string's
+      // leading character, off the panel's left edge and get clipped.
+      ctx.textAlign = "left";
+      ctx.fillStyle = textColorUp;
+      ctx.fillText(up ? "▲" : "▼", colX[0] + 3, baseY);
+      cell(0, fmtPrice(row.price, sym.priceDigits), textColorUp);
       cell(1, row.qty.toFixed(sym.amountDigits));
       cell(2, "$" + usdValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
       cell(3, fmtTime(row.time), DIM_TEXT);
