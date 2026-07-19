@@ -81,22 +81,6 @@ permalink: /experience/
 
 <div class="entry">
   <div class="entry-head">
-    <h3>QuantFi &middot; Operational Trader</h3>
-    <span class="entry-date">October 2022 &ndash; March 2023</span>
-  </div>
-  <div class="entry-org">Schiphol-Rijk, Netherlands</div>
-  <p>
-    Monitored production market-making algorithms, managing real-time risk parameters and system health to
-    limit inventory exposure through high-volatility periods. Designed and deployed a live trading terminal on
-    <code>CCXT</code> and native exchange APIs for real-time position and order tracking, integrating
-    <code>Tardis.dev</code> to reconstruct historical positions from raw fills when a session needed to be
-    audited after the fact.
-  </p>
-  <div class="tags"><code>Python</code> &middot; <code>CCXT</code> &middot; <code>Tardis.dev</code></div>
-</div>
-
-<div class="entry">
-  <div class="entry-head">
     <h3>VU Econometrics and Data Science &middot; Research Assistant</h3>
     <span class="entry-date">January 2024 &ndash; June 2024</span>
   </div>
@@ -138,6 +122,22 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
   </p>
   <img src="{{ '/assets/img/garch_vol_surface.png' | relative_url }}" alt="True versus functional GARCH-estimated volatility surface, side by side" class="entry-figure">
   <p class="form-hint">Simulated 25-point intraday grid over 500 trading days; estimated surface via <code>funcgarch.garch.fit</code> + <code>garch_filter</code>.</p>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>QuantFi &middot; Operational Trader</h3>
+    <span class="entry-date">October 2022 &ndash; March 2023</span>
+  </div>
+  <div class="entry-org">Schiphol-Rijk, Netherlands</div>
+  <p>
+    Monitored production market-making algorithms, managing real-time risk parameters and system health to
+    limit inventory exposure through high-volatility periods. Designed and deployed a live trading terminal on
+    <code>CCXT</code> and native exchange APIs for real-time position and order tracking, integrating
+    <code>Tardis.dev</code> to reconstruct historical positions from raw fills when a session needed to be
+    audited after the fact.
+  </p>
+  <div class="tags"><code>Python</code> &middot; <code>CCXT</code> &middot; <code>Tardis.dev</code></div>
 </div>
 
 <h2>Projects</h2>
