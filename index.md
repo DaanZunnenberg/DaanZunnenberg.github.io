@@ -32,7 +32,7 @@ Abstract probability by day, quant by heart. <a href="{{ '/personal/' | relative
   </div>
   <ul>
     <li>Extending the functional GARCH framework to a generalized autoregressive score (GAS) model to estimate and capture time-varying intraday volatility surfaces.</li>
-    <li>Designed efficient estimation procedures using B-splines, applying <code>Numba</code> JIT compilation to enable scalable modelling of volatility surfaces from granular intraday return data.</li>
+    <li>Designed efficient estimation procedures using B-splines, applying <code>numba</code> JIT compilation to enable scalable modelling of volatility surfaces from granular intraday return data.</li>
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale on GitHub</a></div>
 
@@ -277,7 +277,7 @@ depth, direction = result.depth, result.direction
     <li>Ran algorithmic market-making in crypto derivatives: volatility/skew estimation, order-flow modelling, queue-aware execution.</li>
     <li>Built a smart order router with dynamic liquidity allocation across fragmented order books, cutting slippage and transaction costs by 5.8% on average.</li>
   </ul>
-  <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>Numba</code> &middot; <code>CCXT</code></div>
+  <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>numba</code> &middot; <code>ccxt</code></div>
 </div>
 
 <div class="entry">
@@ -301,7 +301,7 @@ depth, direction = result.depth, result.direction
     <li>Managed live risk on production market-making algorithms through high-volatility sessions.</li>
     <li>Built the desk's real-time position/order terminal, with Tardis.dev-backed fill reconstruction for post-session audits.</li>
   </ul>
-  <div class="tags"><code>Python</code> &middot; <code>CCXT</code> &middot; <code>Tardis.dev</code></div>
+  <div class="tags"><code>Python</code> &middot; <code>ccxt</code> &middot; <code>Tardis.dev</code></div>
 </div>
 
 <p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
