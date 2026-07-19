@@ -886,8 +886,7 @@ pre.code-block code {
 }
 
 .form-hint {
-  font-family: var(--mono);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--ink-faint);
 }
 
