@@ -153,8 +153,8 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale on GitHub</a></div>
 
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
+  <div class="readme-toggle is-open">
+    <button type="button" class="readme-summary" aria-expanded="true">
       <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
     </button>
     <div class="readme-collapse">
