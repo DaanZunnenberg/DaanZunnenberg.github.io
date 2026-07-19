@@ -35,7 +35,7 @@ market making, estimation under uncertainty, or production trading systems.
     <li>Built and deployed algorithmic market-making strategies incorporating volatility and skew estimation, order flow modelling, and queue-aware execution.</li>
     <li>Built a dynamic liquidity allocation model for smart order routing, reducing slippage and transaction costs by an average of 5.8%.</li>
   </ul>
-  <div class="tags"><code>Python</code> &middot; <code>Numba</code> &middot; <code>CCXT</code> &middot; <a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></div>
+  <div class="tags"><code>Python</code> &middot; <code>numba</code> &middot; <code>ccxt</code> &middot; <a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></div>
 </div>
 
 <p>

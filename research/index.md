@@ -5,7 +5,7 @@ permalink: /research/
 ---
 
 <section class="hero">
-  <canvas id="metric-network-canvas" class="hero-canvas" aria-label="Two interlocking live random geometric graphs, each drawn as a sharp convex-hull polygon with filled triangular faces, running Euler characteristic, and isoperimetric ratio" aria-hidden="true"></canvas>
+  <canvas id="metric-network-canvas" class="hero-canvas" aria-label="A live random geometric graph drifting within an irregular, occasionally shifting silhouette, with filled triangular faces and a running Euler characteristic" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
@@ -113,7 +113,7 @@ estimation once the independence assumption is dropped.
   </div>
   <ul>
     <li>Designed likelihood-based estimation algorithms for functional scale models, using vectorized and parallel computation to keep them fast at scale.</li>
-    <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using <code>NumPy</code> vectorization and parallel computing.</li>
+    <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using <code>numpy</code> vectorization and parallel computing.</li>
   </ul>
   <pre class="code-block" data-lang="python"><code>def bernstein_basis(u, M, k):
     return comb(M - 1, k - 1) * u ** (k - 1) * (1 - u) ** (M - k)
@@ -262,7 +262,7 @@ end
     <h3><a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale</a></h3>
     <span class="entry-date">2024 &ndash; present</span>
   </div>
-  <p>Estimation library for functional GARCH/GAS models of time-varying intraday volatility surfaces, using B-splines and <code>Numba</code> JIT compilation.</p>
+  <p>Estimation library for functional GARCH/GAS models of time-varying intraday volatility surfaces, using B-splines and <code>numba</code> JIT compilation.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">github.com/DaanZunnenberg/FunctionalScale</a></div>
 </div>
 

@@ -8,92 +8,115 @@
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
 
-  // Two random geometric graphs whose domains overlap slightly at the
-  // seam, each a small Vietoris-Rips-style complex: points drifting within
-  // their own (interlocking) half of the hero, edges when two points are
-  // within reach, triangles filled in as 2-simplices whenever three points
-  // are all mutually close. Each system's convex hull is drawn as a sharp
-  // polygon and tracks its own live Euler characteristic V - E + F and
-  // isoperimetric ratio P^2 / 4*pi*A (planar Brunn-Minkowski).
+  // A single random geometric graph, a small Vietoris-Rips-style complex:
+  // points drift within a star-shaped (not circular) domain whose harmonics
+  // slowly rotate and wobble, so the silhouette reads as an irregular,
+  // faceted region rather than a ball. Edges appear when two points are
+  // within reach, triangles fill in as 2-simplices whenever three points
+  // are all mutually close, and the system tracks its own live Euler
+  // characteristic V - E + F. Occasionally (rarely) the domain's harmonics
+  // jump to a new random configuration all at once — a sudden pulse in the
+  // silhouette — before settling back into the usual smooth drift.
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
   var NODE_COLOR = "rgba(233, 236, 243, 0.6)";
+  var FACE_COLOR = "150, 190, 130";
+  var EDGE_COLOR = "77, 210, 255";
+  var LABEL_COLOR = "224, 168, 82";
 
   function lerp(a, b, t) { return a + (b - a) * t; }
+  function rand(lo, hi) { return lo + Math.random() * (hi - lo); }
 
-  // Andrew's monotone chain: convex hull of a point set, used to draw each
-  // system as a sharp faceted polygon (rather than the loose triangle
-  // cloud alone) and to compute the isoperimetric ratio below.
-  function convexHull(points) {
-    var pts = points.slice().sort(function (a, b) { return a.x - b.x || a.y - b.y; });
-    var n = pts.length;
-    if (n < 3) return pts;
-    function cross(o, a, b) { return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x); }
-    var lower = [];
-    for (var i = 0; i < n; i++) {
-      while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], pts[i]) <= 0) lower.pop();
-      lower.push(pts[i]);
+  // Domain: an anisotropic, multi-lobed star shape. radiusMultiplier(theta)
+  // gives the normalized boundary distance at angle theta in the shape's
+  // own (unrotated, unstretched) frame; 1.0 is the base radius.
+  function randomLobes() {
+    var count = 2 + Math.floor(Math.random() * 2); // 2-3 harmonics
+    var lobes = [];
+    for (var i = 0; i < count; i++) {
+      lobes.push({
+        amp: rand(0.14, 0.34),
+        freq: 2 + Math.floor(Math.random() * 4), // 2-5 lobes per harmonic
+        phase: rand(0, Math.PI * 2)
+      });
     }
-    var upper = [];
-    for (i = n - 1; i >= 0; i--) {
-      while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], pts[i]) <= 0) upper.pop();
-      upper.push(pts[i]);
-    }
-    lower.pop(); upper.pop();
-    return lower.concat(upper);
+    return lobes;
   }
 
-  function polygonPerimeter(hull) {
-    var p = 0;
-    for (var i = 0; i < hull.length; i++) {
-      var a = hull[i], b = hull[(i + 1) % hull.length];
-      p += Math.hypot(b.x - a.x, b.y - a.y);
-    }
-    return p;
-  }
-
-  function polygonArea(hull) {
-    var a = 0;
-    for (var i = 0; i < hull.length; i++) {
-      var p = hull[i], q = hull[(i + 1) % hull.length];
-      a += p.x * q.y - q.x * p.y;
-    }
-    return Math.abs(a) / 2;
-  }
-
-  function createSystem(opts) {
-    var sys = {
-      linkDist: opts.linkDist,
-      edgeColor: opts.edgeColor,
-      faceColor: opts.faceColor,
-      labelColor: opts.labelColor,
+  function createField() {
+    var field = {
       nodes: [],
-      edgeAlpha: {} // "i-j" -> smoothed alpha, so links fade in/out instead of snapping
+      edgeAlpha: {}, // "i-j" -> smoothed alpha, so links fade in/out instead of snapping
+      shape: {
+        cx: 0, cy: 0, baseR: 0,
+        aspectX: 1, aspectY: 0.7,
+        rot: 0, rotSpeed: rand(0.00006, 0.00014),
+        lobes: randomLobes()
+      },
+      pulseAt: performance.now() + rand(9000, 16000)
     };
 
-    sys.seed = function (x0, x1, y0, y1) {
-      sys.x0 = x0; sys.x1 = x1; sys.y0 = y0; sys.y1 = y1;
+    field.seed = function (x0, x1, y0, y1) {
+      field.x0 = x0; field.x1 = x1; field.y0 = y0; field.y1 = y1;
+      field.shape.cx = (x0 + x1) / 2;
+      field.shape.cy = (y0 + y1) / 2;
+      field.shape.baseR = Math.min(x1 - x0, y1 - y0) * 0.46;
+      field.shape.aspectX = (x1 - x0) / Math.min(x1 - x0, y1 - y0);
+      field.shape.aspectY = (y1 - y0) / Math.min(x1 - x0, y1 - y0) * rand(0.55, 0.8);
+
       var area = (x1 - x0) * (y1 - y0);
-      var n = Math.max(24, Math.floor(area / 7500)); // denser than before -> richer, more intricate complex
-      sys.nodes = [];
+      var n = Math.max(28, Math.floor(area / 6200));
+      field.nodes = [];
       for (var i = 0; i < n; i++) {
-        sys.nodes.push({
-          x: x0 + Math.random() * (x1 - x0),
-          y: y0 + Math.random() * (y1 - y0),
-          vx: (Math.random() - 0.5) * 0.14,
-          vy: (Math.random() - 0.5) * 0.14,
+        var a = Math.random() * Math.PI * 2;
+        var r = Math.sqrt(Math.random()) * 0.9; // biased slightly inward of the boundary
+        var w = fromShapeSpace(field.shape, Math.cos(a) * r, Math.sin(a) * r);
+        field.nodes.push({
+          x: w.x,
+          y: w.y,
+          vx: (Math.random() - 0.5) * 0.16,
+          vy: (Math.random() - 0.5) * 0.16,
           r: 0.8 + Math.random() * 2.6,
           phase: Math.random() * Math.PI * 2
         });
       }
-      sys.edgeAlpha = {};
+      field.edgeAlpha = {};
     };
 
-    sys.step = function () {
-      sys.nodes.forEach(function (n) {
+    field.radiusAt = function (theta) {
+      var r = 1;
+      field.shape.lobes.forEach(function (l) {
+        r *= (1 + l.amp * Math.cos(l.freq * theta + l.phase));
+      });
+      return r;
+    };
+
+    field.step = function (now) {
+      var shape = field.shape;
+      shape.rot += shape.rotSpeed;
+
+      if (now >= field.pulseAt) {
+        // Sudden reshape: new harmonics and aspect land instantly, then the
+        // usual smooth drift/rotation resumes on top of the new silhouette.
+        shape.lobes = randomLobes();
+        shape.aspectY = shape.aspectX * rand(0.55, 0.85);
+        shape.rotSpeed = rand(-0.00014, 0.00014) || 0.00008;
+        field.pulseAt = now + rand(14000, 30000);
+      }
+
+      field.nodes.forEach(function (n) {
         n.x += n.vx;
         n.y += n.vy;
-        if (n.x < sys.x0 || n.x > sys.x1) n.vx *= -1;
-        if (n.y < sys.y0 || n.y > sys.y1) n.vy *= -1;
+
+        var s = toShapeSpace(shape, n.x, n.y);
+        var theta = Math.atan2(s.uy, s.ux);
+        var rho = Math.hypot(s.ux, s.uy);
+        var limit = field.radiusAt(theta);
+        if (rho > limit) {
+          var scale = limit / rho;
+          var w = fromShapeSpace(shape, s.ux * scale, s.uy * scale);
+          n.x = w.x; n.y = w.y;
+          n.vx *= -1; n.vy *= -1;
+        }
       });
     };
 
@@ -101,32 +124,30 @@
     // alpha toward 0 or 1 (in reach / not) rather than snapping, so
     // connections fade in and out over a few hundred ms instead of
     // popping instantly as points cross the link radius.
-    sys.buildComplex = function () {
-      var nodes = sys.nodes, n = nodes.length;
+    field.buildComplex = function () {
+      var nodes = field.nodes, n = nodes.length;
       var adj = new Array(n);
       for (var i = 0; i < n; i++) adj[i] = [];
       var edges = [];
       var seen = {};
+      var linkDist = 128;
 
       for (i = 0; i < n; i++) {
         for (var j = i + 1; j < n; j++) {
           var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
           var dist = Math.sqrt(dx * dx + dy * dy);
           var key = i + "-" + j;
-          var target = dist < sys.linkDist ? (1 - dist / sys.linkDist) : 0;
-          var current = sys.edgeAlpha[key] || 0;
+          var target = dist < linkDist ? (1 - dist / linkDist) : 0;
+          var current = field.edgeAlpha[key] || 0;
           current = lerp(current, target, 0.08);
-          if (current < 0.003) { delete sys.edgeAlpha[key]; continue; }
-          sys.edgeAlpha[key] = current;
+          if (current < 0.003) { delete field.edgeAlpha[key]; continue; }
+          field.edgeAlpha[key] = current;
           seen[key] = true;
           edges.push({ i: i, j: j, alpha: current });
-          if (dist < sys.linkDist) { adj[i].push(j); adj[j].push(i); }
+          if (dist < linkDist) { adj[i].push(j); adj[j].push(i); }
         }
       }
-      // keep fading out edges whose pair is no longer even iterated over
-      // (can't happen here since we always iterate all pairs, but guards
-      // against stale keys if node count ever changes mid-cycle)
-      Object.keys(sys.edgeAlpha).forEach(function (k) { if (!seen[k]) delete sys.edgeAlpha[k]; });
+      Object.keys(field.edgeAlpha).forEach(function (k) { if (!seen[k]) delete field.edgeAlpha[k]; });
 
       var faces = [];
       for (i = 0; i < n; i++) {
@@ -146,11 +167,23 @@
       return { edges: edges, faces: faces };
     };
 
-    return sys;
+    return field;
   }
 
-  var left = createSystem({ linkDist: 128, edgeColor: "77, 210, 255", faceColor: "150, 190, 130", labelColor: "224, 168, 82" });
-  var right = createSystem({ linkDist: 128, edgeColor: "200, 140, 190", faceColor: "224, 168, 82", labelColor: "77, 210, 255" });
+  function toShapeSpace(shape, x, y) {
+    var dx = x - shape.cx, dy = y - shape.cy;
+    var cos = Math.cos(-shape.rot), sin = Math.sin(-shape.rot);
+    var rx = dx * cos - dy * sin, ry = dx * sin + dy * cos;
+    return { ux: rx / (shape.baseR * shape.aspectX), uy: ry / (shape.baseR * shape.aspectY) };
+  }
+
+  function fromShapeSpace(shape, ux, uy) {
+    var rx = ux * shape.baseR * shape.aspectX, ry = uy * shape.baseR * shape.aspectY;
+    var cos = Math.cos(shape.rot), sin = Math.sin(shape.rot);
+    return { x: shape.cx + (rx * cos - ry * sin), y: shape.cy + (rx * sin + ry * cos) };
+  }
+
+  var field = createField();
 
   function resize() {
     W = container.clientWidth;
@@ -161,27 +194,12 @@
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    // The two halves overlap slightly at the seam so their convex hulls can
-    // interlock in the middle rather than sitting as two separate blobs.
-    var overlap = W * 0.05;
-    left.seed(W * 0.02, W * 0.51 + overlap / 2, H * 0.08, H * 0.92);
-    right.seed(W * 0.49 - overlap / 2, W * 0.98, H * 0.08, H * 0.92);
+    field.seed(W * 0.04, W * 0.96, H * 0.1, H * 0.9);
   }
 
-  function drawSystem(sys, now, complex, labelAlign) {
-    var hull = convexHull(sys.nodes);
-    if (hull.length >= 3) {
-      ctx.beginPath();
-      ctx.moveTo(hull[0].x, hull[0].y);
-      for (var h = 1; h < hull.length; h++) ctx.lineTo(hull[h].x, hull[h].y);
-      ctx.closePath();
-      ctx.strokeStyle = "rgba(" + sys.faceColor + ", 0.4)";
-      ctx.lineWidth = 1.1;
-      ctx.stroke();
-    }
-
+  function draw(now, complex) {
     complex.faces.forEach(function (f) {
-      var a = sys.nodes[f[0]], b = sys.nodes[f[1]], c = sys.nodes[f[2]];
+      var a = field.nodes[f[0]], b = field.nodes[f[1]], c = field.nodes[f[2]];
       // Smaller, tighter triangles read as denser local structure, so give
       // them a touch more fill than large, loose ones — adds depth without
       // a uniform flat wash across every face.
@@ -192,21 +210,21 @@
       ctx.lineTo(b.x, b.y);
       ctx.lineTo(c.x, c.y);
       ctx.closePath();
-      ctx.fillStyle = "rgba(" + sys.faceColor + ", " + fillT.toFixed(3) + ")";
+      ctx.fillStyle = "rgba(" + FACE_COLOR + ", " + fillT.toFixed(3) + ")";
       ctx.fill();
     });
 
     complex.edges.forEach(function (e) {
-      var a = sys.nodes[e.i], b = sys.nodes[e.j];
+      var a = field.nodes[e.i], b = field.nodes[e.j];
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
-      ctx.strokeStyle = "rgba(" + sys.edgeColor + ", " + (0.05 + 0.24 * e.alpha * e.alpha).toFixed(3) + ")";
+      ctx.strokeStyle = "rgba(" + EDGE_COLOR + ", " + (0.05 + 0.24 * e.alpha * e.alpha).toFixed(3) + ")";
       ctx.lineWidth = 1;
       ctx.stroke();
     });
 
-    sys.nodes.forEach(function (n) {
+    field.nodes.forEach(function (n) {
       var twinkle = 0.75 + 0.25 * Math.sin(now / 1600 + n.phase);
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
@@ -216,29 +234,18 @@
       ctx.globalAlpha = 1;
     });
 
-    var V = sys.nodes.length, E = complex.edges.filter(function (e) { return e.alpha > 0.4; }).length, F = complex.faces.length;
+    var V = field.nodes.length, E = complex.edges.filter(function (e) { return e.alpha > 0.4; }).length, F = complex.faces.length;
     var chi = V - E + F;
-    var P = polygonPerimeter(hull), A = polygonArea(hull);
-    // Isoperimetric inequality P^2 >= 4*pi*A (the planar case of Brunn-Minkowski);
-    // the quotient is 1 only for a circle and grows as the hull gets more jagged.
-    var isoq = A > 0 ? (P * P) / (4 * Math.PI * A) : 0;
     ctx.font = "11px " + MONO_FONT;
-    ctx.textAlign = labelAlign;
-    ctx.fillStyle = "rgba(" + sys.labelColor + ", 0.65)";
-    var tx = labelAlign === "left" ? sys.x0 : sys.x1;
-    ctx.fillText("χ = V − E + F = " + chi, tx, H - 30);
-    ctx.fillText("P² ⁄ 4πA = " + isoq.toFixed(2) + "  (≥ 1)", tx, H - 16);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "rgba(" + LABEL_COLOR + ", 0.65)";
+    ctx.fillText("χ = V − E + F = " + chi, field.x1, field.y1 + H * 0.055);
   }
 
   function frame(now) {
-    left.step();
-    right.step();
+    field.step(now);
     ctx.clearRect(0, 0, W, H);
-    // Labels anchored toward the inner edge of each half (near the gap
-    // between the two systems) — away from the hero copy on the far left
-    // and the outer canvas edge on the far right.
-    drawSystem(left, now, left.buildComplex(), "right");
-    drawSystem(right, now, right.buildComplex(), "left");
+    draw(now, field.buildComplex());
     if (!reduceMotion) requestAnimationFrame(frame);
   }
 
@@ -249,7 +256,6 @@
     requestAnimationFrame(frame);
   } else {
     ctx.clearRect(0, 0, W, H);
-    drawSystem(left, 0, left.buildComplex(), "right");
-    drawSystem(right, 0, right.buildComplex(), "left");
+    draw(0, field.buildComplex());
   }
 })();

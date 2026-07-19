@@ -31,7 +31,7 @@ permalink: /experience/
     costs by an average of 5.8%, and cross-exchange rebalancing methods that time inventory transfers under
     latency, funding-rate, and liquidity constraints.
   </p>
-  <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>Numba</code> &middot; <code>CCXT</code></div>
+  <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>numba</code> &middot; <code>ccxt</code></div>
 
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
@@ -133,11 +133,11 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
   <p>
     Monitored production market-making algorithms, managing real-time risk parameters and system health to
     limit inventory exposure through high-volatility periods. Designed and deployed a live trading terminal on
-    <code>CCXT</code> and native exchange APIs for real-time position and order tracking, integrating
+    <code>ccxt</code> and native exchange APIs for real-time position and order tracking, integrating
     <code>Tardis.dev</code> to reconstruct historical positions from raw fills when a session needed to be
     audited after the fact.
   </p>
-  <div class="tags"><code>Python</code> &middot; <code>CCXT</code> &middot; <code>Tardis.dev</code></div>
+  <div class="tags"><code>Python</code> &middot; <code>ccxt</code> &middot; <code>Tardis.dev</code></div>
 </div>
 
 <h2>Projects</h2>
@@ -149,7 +149,7 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
   </div>
   <ul>
     <li>Extending the functional GARCH framework to a generalized autoregressive score (GAS) model to estimate and capture time-varying intraday volatility surfaces.</li>
-    <li>Designed efficient estimation procedures using B-splines, applying <code>Numba</code> JIT compilation to enable scalable modelling of volatility surfaces from granular intraday return data.</li>
+    <li>Designed efficient estimation procedures using B-splines, applying <code>numba</code> JIT compilation to enable scalable modelling of volatility surfaces from granular intraday return data.</li>
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale on GitHub</a></div>
 
@@ -671,8 +671,8 @@ python scripts/run_tde.py
 
 <div class="entry">
   <ul>
-    <li><strong>Languages &amp; tools:</strong> <code>Python</code> (<code>Pandas</code>, <code>NumPy</code>, <code>asyncio</code>, <code>Numba</code>), <code>Java</code>, <code>Git</code>, <code>Docker</code>, <code>Bash</code></li>
-    <li><strong>Machine learning:</strong> <code>SciPy</code>, <code>CVXPY</code>, <code>statsmodels</code>, <code>scikit-learn</code>, <code>TensorFlow</code></li>
+    <li><strong>Languages &amp; tools:</strong> <code>Python</code> (<code>pandas</code>, <code>numpy</code>, <code>asyncio</code>, <code>numba</code>), <code>Java</code>, <code>Git</code>, <code>Docker</code>, <code>Bash</code></li>
+    <li><strong>Machine learning:</strong> <code>scipy</code>, <code>cvxpy</code>, <code>statsmodels</code>, <code>sklearn</code>, <code>tensorflow</code></li>
     <li><strong>Statistical foundations:</strong> time series analysis, econometrics, inference theory</li>
   </ul>
 </div>
