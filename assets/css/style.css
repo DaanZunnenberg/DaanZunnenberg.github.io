@@ -595,6 +595,14 @@ pre.code-block code {
   text-shadow: none;
 }
 
+.entry-figure {
+  display: block;
+  width: 100%;
+  margin: 10px 0 0;
+  border: 1px solid #232d47;
+  border-radius: 8px;
+}
+
 .tok-comment { color: #8b949e; }
 .tok-string { color: #a5d6ff; }
 .tok-number { color: #79c0ff; }

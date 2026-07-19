@@ -131,68 +131,11 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
 </code></pre>
   <p class="form-hint">Non-negative Bernstein coefficients guarantee a positive volatility surface directly, without constrained optimization over the full operator.</p>
   <p>
-    The MATLAB estimation script itself (<a href="https://github.com/DaanZunnenberg/FunctionalScaleMod/tree/main/MATLAB_YC" target="_blank" rel="noopener noreferrer">MATLAB_YC on GitHub</a>)
-    fits the GAS recursion by reparameterized maximum likelihood, using a B-spline basis for the volatility surface
-    and a multivariate Student-<em>t</em> observation density with an Ornstein&ndash;Uhlenbeck covariance kernel:
+    Fitting the GAS recursion (reparameterized maximum likelihood, B-spline basis for the volatility surface,
+    multivariate Student-<em>t</em> observation density with an Ornstein&ndash;Uhlenbeck covariance kernel) to
+    simulated data recovers the true intraday volatility surface closely:
   </p>
-  <pre class="code-block" data-lang="matlab"><code>dK = 7;
-Bsplinebasis = create_bspline_basis([0, 1], dK, 4);  % 7 B-spline basis functions of order 4
-
-% B-spline basis functions: full matrix
-vtau = 0:1/(size(vyTau,1)-1):1; vtau = vtau';
-n = length(vtau);
-mBsplinesSparseMat = eval_basis(vtau, Bsplinebasis);
-
-%---------- FunGAS: update principal component scores ----------%
-vb0 = ones(dK+1,1);                                                        % initial principal component scores
-vtheta0 = [2.1; 0.001; ones(dK+1,1); -0.5*ones(dK+1,1); 0.1*ones(dK+1,1)]; % initial parameters
-LB = [1.05; 0.00001; -5*ones(dK+1,1); -2*ones(dK+1,1); -0.9*ones(dK+1,1)]; % lower bound
-UB = [50; 1; 15*ones(dK+1,1); 2*ones(dK+1,1); 0.9*ones(dK+1,1)];          % upper bound
-
-% vthetaHat contains (in order): degree of freedom, dependence parameter,
-% omega vector, diagonal elements of mB, diagonal elements of mA
-fGAS_likelihood = @(vtheta) -construct_likelihood_repara(vyTau,vb0,dK,n,mBsplinesSparseMat,vtau,vtheta);
-options = optimoptions('fmincon','MaxFunctionEvaluations',1E4);
-vthetaHat = fmincon(fGAS_likelihood,vtheta0,[],[],[],[],LB,UB,[],options);
-</code></pre>
-  <p>
-    The log-likelihood itself recurses the score-driven B-spline coefficients forward and evaluates the
-    Student-<em>t</em> density at each step, using a numerically stable log-determinant (LU-based) rather than
-    <code>log(det(&middot;))</code> directly to avoid overflow on the covariance kernel:
-  </p>
-  <pre class="code-block" data-lang="matlab"><code>function likelihood = construct_likelihood_repara(mY,vb1,dK,n,mBsplinesSparseMat,vtau,vtheta)
-T = size(mY,2);
-dnu = vtheta(1);     % degree of freedom parameter
-ddelta = vtheta(2);  % dependence parameter
-vomega = vtheta(3:dK+3);   % level parameter
-mB = vtheta(dK+4:2*dK+4);  % scale parameter
-mA = vtheta(end-dK:end);   % score parameter
-mLambdaOU_delta = exp(-pdist2(vtau,vtau,'fasteuclidean')/ddelta); % OU covariance kernel
-
-mBsplinesMat = full(mBsplinesSparseMat);
-mBsplinesMat = [ones(n,1) mBsplinesMat];
-
-likelihood = 0;
-vb_now = vb1;
-vy_now = mY(:,1);
-Temp1 = (dnu + n)/(2*dnu);
-for id = 2:T
-    vsigma_now = mBsplinesMat*vb_now;
-
-    Temp2 = mLambdaOU_delta\(vy_now./exp(vsigma_now/2));
-    Temp3 = vy_now.*mBsplinesMat./exp(vsigma_now/2);
-    Temp4 = 1 + (vy_now./exp(vsigma_now/2))'*Temp2/dnu;
-
-    likelihood = likelihood + (-0.5*logdet(exp(vsigma_now).*mLambdaOU_delta) ...
-        - (dnu+n)/2*log(Temp4));
-
-    density_score = -0.5*sum(mBsplinesMat,1)' + Temp1*Temp4^(-1)*Temp3'*Temp2;
-    vb_now = vomega + mB.*vb_now + mA.*density_score;
-    vy_now = mY(:,id);
-end
-likelihood = likelihood + T*(gammaln((dnu+n)/2) - gammaln(dnu/2) - n/2*log(pi*dnu));
-end
-</code></pre>
+  <img src="{{ '/assets/img/garch_vol_surface.png' | relative_url }}" alt="True versus GARCH-estimated volatility surface, side by side" class="entry-figure">
 </div>
 
 <h2>Projects</h2>
