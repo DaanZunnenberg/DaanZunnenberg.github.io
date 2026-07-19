@@ -21,11 +21,11 @@
   var LABEL_COLOR = "224, 168, 82";
 
   // Same magma-style palette as the functional volatility surface figures:
-  // dark purple for stable/low-activity elements, shifting to warm yellow
-  // wherever a node has just changed direction (a boundary bounce or the
-  // reshape pulse), fading back to purple as it settles.
-  var STABLE_RGB = [96, 40, 120];
-  var CHANGE_RGB = [240, 205, 90];
+  // warm yellow for stable/low-activity elements, shifting to purple
+  // wherever a node has just changed direction (a boundary bounce, a local
+  // jitter, or the reshape pulse), fading back to yellow as it settles.
+  var STABLE_RGB = [240, 205, 90];
+  var CHANGE_RGB = [96, 40, 120];
 
   function lerp(a, b, t) { return a + (b - a) * t; }
   function rand(lo, hi) { return lo + Math.random() * (hi - lo); }
@@ -135,9 +135,18 @@
           n.vx *= -1; n.vy *= -1;
         }
 
+        // Small, frequent local jitters — independent of the shared domain
+        // shape — so individual nodes flicker "changing" often even while
+        // the silhouette as a whole sits still between pulses.
+        if (Math.random() < 0.02) {
+          n.vx = Math.max(-0.22, Math.min(0.22, n.vx + (Math.random() - 0.5) * 0.16));
+          n.vy = Math.max(-0.22, Math.min(0.22, n.vy + (Math.random() - 0.5) * 0.16));
+        }
+
         // Activity flashes to 1 the instant a node's velocity changes (a
-        // bounce, or a pulse reshaping the domain out from under it), then
-        // decays back toward stable purple as it resumes drifting steadily.
+        // bounce, a local jitter, or a pulse reshaping the domain out from
+        // under it), then decays back toward stable yellow as it resumes
+        // drifting steadily.
         var changed = Math.hypot(n.vx - n.prevVx, n.vy - n.prevVy) > 0.05;
         n.activity = lerp(n.activity, changed ? 1 : 0, changed ? 0.6 : 0.02);
         n.prevVx = n.vx; n.prevVy = n.vy;
