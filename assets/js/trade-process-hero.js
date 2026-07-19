@@ -24,9 +24,9 @@
   var DIM_TEXT = "rgba(233, 236, 243, 0.4)";
 
   var SYMBOLS = [
-    { key: "ethusdt", label: "ETH/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false },
-    { key: "btcusdt", label: "BTC/USDT", priceDigits: 2, amountDigits: 5, rows: [], live: false },
-    { key: "solusdt", label: "SOL/USDT", priceDigits: 3, amountDigits: 3, rows: [], live: false }
+    { key: "ethusdt", label: "ETH/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false, openPrice: null },
+    { key: "btcusdt", label: "BTC/USDT", priceDigits: 2, amountDigits: 5, rows: [], live: false, openPrice: null },
+    { key: "solusdt", label: "SOL/USDT", priceDigits: 3, amountDigits: 3, rows: [], live: false, openPrice: null }
   ];
 
   function fmtTime(ms) {
@@ -39,6 +39,7 @@
   }
 
   function pushTrade(sym, time, price, qty, isSellerTaker, bornAt) {
+    if (sym.openPrice == null) sym.openPrice = price;
     sym.rows.unshift({ time: time, price: price, qty: qty, isSellerTaker: isSellerTaker, bornAt: bornAt });
     if (sym.rows.length > MAX_ROWS) sym.rows.length = MAX_ROWS;
   }
@@ -69,47 +70,91 @@
 
   function drawPanel(sym, rect, now) {
     var x0 = rect.x, y0 = rect.y, panelW = rect.w, panelH = rect.h;
-    var headerH = 22;
-    var rowH = Math.max(11, Math.min(16, (panelH - headerH) / Math.min(sym.rows.length || 1, 24)));
-    var visible = Math.min(sym.rows.length, Math.floor((panelH - headerH) / rowH));
+    var headerH = 30;
+    var colHeadH = 13;
+    var rowH = Math.max(11, Math.min(16, (panelH - headerH - colHeadH) / Math.min(sym.rows.length || 1, 24)));
+    var visible = Math.min(sym.rows.length, Math.floor((panelH - headerH - colHeadH) / rowH));
 
+    ctx.fillStyle = "rgba(10, 12, 18, 0.35)";
+    ctx.fillRect(x0, y0, panelW, panelH);
     ctx.strokeStyle = "rgba(224, 168, 82, 0.16)";
     ctx.lineWidth = 1;
     ctx.strokeRect(x0 + 0.5, y0 + 0.5, panelW - 1, panelH - 1);
-    ctx.fillStyle = "rgba(224, 168, 82, 0.07)";
+
+    // Ticker strip: symbol, last print, and session change — like a
+    // quote header on a desk monitor, not just a table caption.
+    ctx.fillStyle = "rgba(224, 168, 82, 0.09)";
     ctx.fillRect(x0, y0, panelW, headerH);
+    ctx.fillStyle = AMBER;
+    ctx.fillRect(x0, y0, 2, headerH);
+
+    var last = sym.rows[0];
+    var chgPct = last && sym.openPrice ? ((last.price - sym.openPrice) / sym.openPrice) * 100 : null;
+    var chgUp = chgPct != null && chgPct >= 0;
+
+    ctx.textAlign = "left";
+    ctx.font = "bold 11px " + MONO_FONT;
+    ctx.fillStyle = "rgba(233, 236, 243, 0.85)";
+    ctx.fillText(sym.label, x0 + 8, y0 + 13);
+    ctx.font = "9px " + MONO_FONT;
+    ctx.fillStyle = "rgba(166, 175, 194, 0.55)";
+    ctx.fillText("TIME & SALES", x0 + 8, y0 + 25);
+
+    ctx.textAlign = "right";
+    if (last) {
+      ctx.font = "bold 11px " + MONO_FONT;
+      ctx.fillStyle = chgUp ? UP_TEXT : DOWN_TEXT;
+      ctx.fillText(fmtPrice(last.price, sym.priceDigits), x0 + panelW - 8, y0 + 13);
+      ctx.font = "9px " + MONO_FONT;
+      ctx.fillText((chgUp ? "▲ +" : "▼ ") + Math.abs(chgPct).toFixed(2) + "%", x0 + panelW - 8, y0 + 25);
+    }
+    ctx.textAlign = "left";
+    ctx.font = "8px " + MONO_FONT;
+    ctx.fillStyle = sym.live ? UP_TEXT : "rgba(166, 175, 194, 0.5)";
+    ctx.fillText(sym.live ? "● LIVE" : "○ SNAPSHOT", x0 + 8, y0 + headerH + colHeadH - 4);
 
     var colX = [];
     var cursor = x0;
     COLS.forEach(function (c) { colX.push(cursor); cursor += c.w * panelW; });
 
-    ctx.font = "11px " + MONO_FONT;
-    ctx.textAlign = "left";
-    ctx.fillStyle = AMBER;
-    ctx.fillText(sym.label + " · TIME & SALES · " + (sym.live ? "LIVE" : "SNAPSHOT"), x0 + 6, y0 + 14);
-
+    ctx.font = "8px " + MONO_FONT;
     COLS.forEach(function (c, i) {
+      if (i === 0) return;
       ctx.textAlign = c.align;
       var tx = c.align === "right" ? colX[i] + c.w * panelW - 4 : colX[i] + 4;
-      ctx.font = "8px " + MONO_FONT;
       ctx.fillStyle = "rgba(166, 175, 194, 0.4)";
-      ctx.fillText(c.label, tx, y0 + headerH - 5);
+      ctx.fillText(c.label, tx, y0 + headerH + colHeadH - 4);
     });
+
+    // Vertical rules between columns, like a real quote-board grid.
+    ctx.strokeStyle = "rgba(224, 168, 82, 0.1)";
+    ctx.lineWidth = 1;
+    for (var g = 1; g < colX.length; g++) {
+      ctx.beginPath();
+      ctx.moveTo(colX[g] + 0.5, y0 + headerH);
+      ctx.lineTo(colX[g] + 0.5, y0 + panelH);
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.moveTo(x0, y0 + headerH + colHeadH + 0.5);
+    ctx.lineTo(x0 + panelW, y0 + headerH + colHeadH + 0.5);
+    ctx.strokeStyle = "rgba(224, 168, 82, 0.16)";
+    ctx.stroke();
 
     ctx.font = "10px " + MONO_FONT;
     for (var i = 0; i < visible; i++) {
       var row = sym.rows[i];
-      var ry = y0 + headerH + i * rowH;
+      var ry = y0 + headerH + colHeadH + i * rowH;
       var up = !row.isSellerTaker;
       var age = now - row.bornAt;
       var flashing = row.bornAt && age >= 0 && age < FLASH_MS;
 
       if (flashing) {
         var alpha = 1 - age / FLASH_MS;
-        ctx.fillStyle = "rgba(" + (up ? UP_BG : DOWN_BG) + ", " + (0.14 * alpha).toFixed(2) + ")";
+        ctx.fillStyle = "rgba(" + (up ? UP_BG : DOWN_BG) + ", " + (0.16 * alpha).toFixed(2) + ")";
         ctx.fillRect(x0, ry, panelW, rowH);
       } else if (i % 2 === 0) {
-        ctx.fillStyle = "rgba(233, 236, 243, 0.02)";
+        ctx.fillStyle = "rgba(233, 236, 243, 0.025)";
         ctx.fillRect(x0, ry, panelW, rowH);
       }
 
@@ -126,7 +171,7 @@
 
       var textColorUp = up ? UP_TEXT : DOWN_TEXT;
       var usdValue = row.price * row.qty;
-      cell(0, fmtPrice(row.price, sym.priceDigits), textColorUp);
+      cell(0, (up ? "▲ " : "▼ ") + fmtPrice(row.price, sym.priceDigits), textColorUp);
       cell(1, row.qty.toFixed(sym.amountDigits));
       cell(2, "$" + usdValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
       cell(3, fmtTime(row.time), DIM_TEXT);
