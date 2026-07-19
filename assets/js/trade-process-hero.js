@@ -25,7 +25,7 @@
 
   var SYMBOLS = [
     { key: "ethusdt", label: "ETH/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false, openPrice: null },
-    { key: "btcusdt", label: "BTC/USDT", priceDigits: 2, amountDigits: 5, rows: [], live: false, openPrice: null },
+    { key: "btcusdt", label: "BTC/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false, openPrice: null },
     { key: "solusdt", label: "SOL/USDT", priceDigits: 3, amountDigits: 3, rows: [], live: false, openPrice: null }
   ];
 
@@ -62,10 +62,10 @@
   }
 
   var COLS = [
-    { key: "price", label: "PRICE", w: 0.27, align: "right" },
-    { key: "amount", label: "AMOUNT", w: 0.24, align: "right" },
-    { key: "usd", label: "AMOUNT ($)", w: 0.27, align: "right" },
-    { key: "time", label: "TIME", w: 0.22, align: "right" }
+    { key: "price", label: "PRICE", w: 0.22, align: "right" },
+    { key: "amount", label: "AMOUNT", w: 0.19, align: "right" },
+    { key: "usd", label: "AMOUNT ($)", w: 0.30, align: "right" },
+    { key: "time", label: "TIME", w: 0.29, align: "right" }
   ];
 
   function drawPanel(sym, rect, now) {
