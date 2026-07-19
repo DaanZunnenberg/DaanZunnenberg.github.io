@@ -667,18 +667,20 @@ pre.code-block code {
   filter: brightness(1.55) contrast(1.05);
 }
 
-.hero-fade-soft {
+.hero-fade.hero-fade-soft {
   background:
     linear-gradient(100deg, rgba(11, 15, 24, 0.6) 0%, rgba(11, 15, 24, 0.42) 28%, rgba(11, 15, 24, 0.16) 52%, rgba(11, 15, 24, 0.04) 72%);
 }
 
-.hero-fade-flip {
+/* Higher-specificity (.hero-fade.hero-fade-flip) so this reliably beats the
+   base .hero-fade rule regardless of the two rules' order in this file. */
+.hero-fade.hero-fade-flip {
   background:
     linear-gradient(to left, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
 }
 
 @media (max-width: 640px) {
-  .hero-fade-flip {
+  .hero-fade.hero-fade-flip {
     background:
       linear-gradient(100deg, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
   }
