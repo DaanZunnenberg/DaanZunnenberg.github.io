@@ -181,20 +181,39 @@
     ctx.fillStyle = "rgba(224, 168, 82, 0.07)";
     ctx.fillRect(x0, y0, w, headerH);
 
+    var hasPerp = sym.perpBids.length > 0 && sym.perpAsks.length > 0;
+
     ctx.font = "10px " + MONO_FONT;
     ctx.textAlign = "left";
     ctx.fillStyle = "rgba(224, 168, 82, 0.8)";
     ctx.fillText(sym.label + " · " + ((live && perpLive) ? "LIVE" : "SIM"), x0 + 6, y0 + 13);
+
+    // Depth-visible liquidity, spot vs. perp: not the diff table's per-row
+    // price gap, but whether one book is simply carrying more size right
+    // now — a thin perp book next to a deep spot book (or vice versa) is
+    // itself a signal, independent of where the price sits.
     ctx.textAlign = "right";
-    ctx.fillStyle = "rgba(233, 236, 243, 0.45)";
-    ctx.fillText("perp−spot", x0 + w - 5, y0 + 13);
+    if (hasPerp) {
+      var spotVol = sym.bids.concat(sym.asks).reduce(function (s, l) { return s + l[1]; }, 0);
+      var perpVol = sym.perpBids.concat(sym.perpAsks).reduce(function (s, l) { return s + l[1]; }, 0);
+      var volLabel = "—";
+      if (spotVol > 0 && perpVol > 0) {
+        volLabel = spotVol >= perpVol
+          ? "spot " + (spotVol / perpVol).toFixed(1) + "x deeper"
+          : "perp " + (perpVol / spotVol).toFixed(1) + "x deeper";
+      }
+      ctx.fillStyle = "rgba(224, 168, 82, 0.8)";
+      ctx.fillText("perp−spot · " + volLabel, x0 + w - 5, y0 + 13);
+    } else {
+      ctx.fillStyle = "rgba(233, 236, 243, 0.45)";
+      ctx.fillText("perp−spot", x0 + w - 5, y0 + 13);
+    }
 
     if (!sym.bids.length || !sym.asks.length) return;
 
     var rows = h - headerH;
     var rowH = rows / (ROWS_HALF * 2);
     var fontPx = rowH < 11 ? 8 : 10;
-    var hasPerp = sym.perpBids.length > 0 && sym.perpAsks.length > 0;
     var maxQty = Math.max.apply(null, sym.bids.concat(sym.asks).map(function (l) { return l[1]; }));
     if (maxQty === 0) return;
 
