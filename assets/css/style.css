@@ -701,44 +701,72 @@ pre.code-block code {
   padding-left: 5%;
 }
 
+/* Outer wrapper: handles the enter/leave drift (translate + fade). Inner
+   .hero-math-float: a slow, continuous bob via keyframes, so a resting
+   slide keeps gently floating rather than sitting perfectly still. The
+   two transforms live on separate elements so they compose instead of
+   one overriding the other. */
 .hero-math-eq {
   position: absolute;
-  max-width: 52%;
-  text-align: center;
+  max-width: 58%;
   opacity: 0;
-  transform: scale(0.96);
-  transition: opacity 900ms ease, transform 900ms ease;
+  transform: translateY(26px);
+  transition: opacity 1100ms ease, transform 1100ms ease;
 }
 
 .hero-math-eq.is-active {
   opacity: 1;
-  transform: scale(1);
+  transform: translateY(0);
 }
 
-.hero-math-tex {
-  color: #e7ebf5;
-  font-size: 15px;
+.hero-math-eq.is-leaving {
+  opacity: 0;
+  transform: translateY(-26px);
 }
 
-.hero-math-tex .katex { font-size: 1.15em; }
+.hero-math-float {
+  animation: hero-math-bob 7s ease-in-out infinite;
+}
 
-.hero-math-label {
-  margin-top: 14px;
+@keyframes hero-math-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+.hero-math-kind {
   font-family: var(--mono);
   font-size: 10.5px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(77, 210, 255, 0.55);
+  color: rgba(77, 210, 255, 0.65);
+  margin-bottom: 8px;
 }
 
+.hero-math-prose {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(233, 236, 243, 0.72);
+}
+
+.hero-math-tex {
+  color: #e7ebf5;
+  font-size: 14px;
+}
+
+.hero-math-tex .katex { font-size: 1.05em; }
+
 @media (max-width: 640px) {
-  .hero-math { justify-content: center; padding-left: 0; }
-  .hero-math-eq { max-width: 94%; }
-  .hero-math-tex { font-size: 12px; }
+  .hero-math { justify-content: center; padding-left: 0; padding: 0 20px; }
+  .hero-math-eq { max-width: 100%; }
+  .hero-math-prose { font-size: 12.5px; }
+  .hero-math-tex { font-size: 11.5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-math-eq { transition: none; }
+  .hero-math-float { animation: none; }
 }
 
 .hero-fade {
