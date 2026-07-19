@@ -5,7 +5,7 @@ permalink: /research/
 ---
 
 <section class="hero">
-  <div class="hero-terminal" id="research-terminal" aria-hidden="true"></div>
+  <canvas id="math-hero-canvas" class="hero-canvas" aria-label="Animated dependent Ornstein-Uhlenbeck sample paths with a generic-chaining covering net" aria-hidden="true"></canvas>
   <div class="hero-fade hero-fade-flip" aria-hidden="true"></div>
   <div class="hero-content hero-content-right">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
