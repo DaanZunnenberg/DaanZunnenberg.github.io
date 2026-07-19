@@ -687,6 +687,59 @@ pre.code-block code {
   }
 }
 
+/* Research hero: real, cycling results from generic chaining theory
+   (Talagrand), rendered with KaTeX (see math-equations.js) rather than a
+   decorative animation. */
+.hero-math {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0b0f18;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 5%;
+}
+
+.hero-math-eq {
+  position: absolute;
+  max-width: 52%;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 900ms ease, transform 900ms ease;
+}
+
+.hero-math-eq.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hero-math-tex {
+  color: #e7ebf5;
+  font-size: 15px;
+}
+
+.hero-math-tex .katex { font-size: 1.15em; }
+
+.hero-math-label {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(77, 210, 255, 0.55);
+}
+
+@media (max-width: 640px) {
+  .hero-math { justify-content: center; padding-left: 0; }
+  .hero-math-eq { max-width: 94%; }
+  .hero-math-tex { font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-math-eq { transition: none; }
+}
 
 .hero-fade {
   position: absolute;
