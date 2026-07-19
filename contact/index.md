@@ -4,7 +4,16 @@ title: Contact
 permalink: /contact/
 ---
 
-<h1>Contact</h1>
+<section class="hero">
+  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Let&rsquo;s Connect<span class="hero-eyebrow-extra"> &middot; Research &amp; Industry</span></div>
+    <h1 class="hero-name">Contact<span class="cursor">_</span></h1>
+    <p class="hero-lede">Research collaborations, roles, or an idea worth starting.</p>
+  </div>
+</section>
+
 <p class="tagline">Research collaborations, roles, or an idea worth starting. Get in touch.</p>
 
 <div class="links">

@@ -4,7 +4,16 @@ title: Experience & Projects
 permalink: /experience/
 ---
 
-<h1>Experience &amp; Projects</h1>
+<section class="hero">
+  <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live BTC/USDT and ETH/USDT order book depth"></canvas>
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Market Microstructure<span class="hero-eyebrow-extra"> &middot; Order Book Depth</span></div>
+    <h1 class="hero-name">Experience &amp; Projects<span class="cursor">_</span></h1>
+    <p class="hero-lede">Roles and side projects at the intersection of statistics, execution, and market-making.</p>
+  </div>
+</section>
+
 <p class="tagline">The complete resume, plus the projects behind it. Expand any project for an overview and a code sketch.</p>
 
 <h2>Work Experience</h2>
