@@ -5,7 +5,7 @@ permalink: /research/
 ---
 
 <section class="hero">
-  <canvas id="metric-network-canvas" class="hero-canvas" aria-label="A live random geometric graph drifting within an irregular, occasionally shifting silhouette, with filled triangular faces, a running Euler characteristic, and smaller companion blobs that spawn and fade" aria-hidden="true"></canvas>
+  <canvas id="trade-process-canvas" class="hero-canvas" aria-label="A live partial-sum path built from Binance BTC/USDT trade arrivals, colored green for buy-side and red for sell-side ticks, with a running supremum readout" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
