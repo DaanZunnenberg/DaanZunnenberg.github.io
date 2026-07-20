@@ -43,20 +43,22 @@ update between those bigger posts.
 
 <h4>Talks</h4>
 
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
+    <span class="label-open">+ Show talks</span><span class="label-close">&minus; Hide talks</span>
+  </button>
+  <div class="readme-collapse">
+    <div class="readme">
+
 <div class="entry">
   <div class="entry-head">
     <h3><a href="https://www.tudelft.nl/evenementen/2026/ewi/diam/stochastics-meeting-lunteren-2026" target="_blank" rel="noopener noreferrer">54th Annual Meeting of the Dutch Probability and Statistics Community</a></h3>
     <span class="entry-date">November 2026</span>
   </div>
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-        <p>STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</p>
-        <p>Attending as a poster presenter.</p>
-      </div>
+  <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
+  <p>Attending as a poster presenter.</p>
+</div>
+
     </div>
   </div>
 </div>
@@ -65,22 +67,20 @@ update between those bigger posts.
 
 <h4>Talks</h4>
 
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
+    <span class="label-open">+ Show talks</span><span class="label-close">&minus; Hide talks</span>
+  </button>
+  <div class="readme-collapse">
+    <div class="readme">
+
 <div class="entry">
   <div class="entry-head">
     <h3>Statistics Seminar &middot; Mathematical Institute, Leiden University</h3>
     <span class="entry-date">May 2026</span>
   </div>
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-        <p>Leiden, Netherlands</p>
-        <p>Gave a talk titled &ldquo;Maximal and concentration inequalities for mixing empirical measures and their application.&rdquo;</p>
-      </div>
-    </div>
-  </div>
+  <div class="entry-org">Leiden, Netherlands</div>
+  <p>Gave a talk titled &ldquo;Maximal and concentration inequalities for mixing empirical measures and their application.&rdquo;</p>
 </div>
 
 <div class="entry">
@@ -88,17 +88,8 @@ update between those bigger posts.
     <h3><a href="https://www.tudelft.nl/evenementen/2025/ewi/diam/stochastics-meeting-lunteren-2025" target="_blank" rel="noopener noreferrer">53rd Annual Meeting of the Dutch Probability and Statistics Community</a> &middot; The Tukey Depth Under Short Range Dependence</h3>
     <span class="entry-date">November 2025</span>
   </div>
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-        <p>STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</p>
-        <p>Presented a poster on joint work with Dr. A.M. D&uuml;rre studying the Tukey depth under short-range dependence.</p>
-      </div>
-    </div>
-  </div>
+  <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
+  <p>Presented a poster on joint work with Dr. A.M. D&uuml;rre studying the Tukey depth under short-range dependence.</p>
 </div>
 
 <div class="entry">
@@ -106,40 +97,48 @@ update between those bigger posts.
     <h3><a href="https://www.tudelft.nl/evenementen/2024/ewi/diam/stochastics-meeting-lunteren-2024" target="_blank" rel="noopener noreferrer">52nd Annual Meeting of the Dutch Probability and Statistics Community</a> &middot; Maximal Inequalities and Concentration of Measure with Absolute Regularity</h3>
     <span class="entry-date">November 2024</span>
   </div>
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-        <p>STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</p>
-        <p>Presented a poster on maximal inequalities and concentration of measure with absolute regularity.</p>
-      </div>
+  <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
+  <p>Presented a poster on maximal inequalities and concentration of measure with absolute regularity.</p>
+</div>
+
     </div>
   </div>
 </div>
 
 <h4>Summer &amp; Winter Schools</h4>
 
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
+    <span class="label-open">+ Show summer &amp; winter schools</span><span class="label-close">&minus; Hide summer &amp; winter schools</span>
+  </button>
+  <div class="readme-collapse">
+    <div class="readme">
+
 <div class="entry">
   <p>None yet.</p>
 </div>
 
+    </div>
+  </div>
+</div>
+
 <h4>Workshops</h4>
+
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
+    <span class="label-open">+ Show workshops</span><span class="label-close">&minus; Hide workshops</span>
+  </button>
+  <div class="readme-collapse">
+    <div class="readme">
 
 <div class="entry">
   <div class="entry-head">
     <h3><a href="https://www.swi-wiskunde.nl/swi2026/" target="_blank" rel="noopener noreferrer">Studygroup Mathematics with Industry 2026</a> &middot; Super-Resolution Time Delay Estimation: Models, Methods, and Complexity</h3>
     <span class="entry-date">January 2026</span>
   </div>
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-        <p>Collaborative project with TNO</p>
-      </div>
+  <div class="entry-org">Collaborative project with TNO</div>
+</div>
+
     </div>
   </div>
 </div>
