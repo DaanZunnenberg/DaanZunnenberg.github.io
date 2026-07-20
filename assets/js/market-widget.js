@@ -127,7 +127,7 @@
 
   function drawPanel(sym, rect, now) {
     var x0 = rect.x, y0 = rect.y, panelW = rect.w, panelH = rect.h;
-    var headerH = 24;
+    var headerH = 28;
     var rowCount = sym.rows.length;
     var rowH = Math.max(14, Math.min(24, (panelH - headerH) / rowCount));
 
@@ -158,15 +158,18 @@
     ctx.font = "10px " + MONO_FONT;
     ctx.textAlign = "left";
     ctx.fillStyle = AMBER;
-    ctx.fillText(sym.label.toUpperCase() + " · CALLS / PUTS · " + (live ? "LIVE" : "SIM"), x0 + 6, y0 + 15);
+    ctx.fillText(sym.label.toUpperCase() + " · CALLS / PUTS · " + (live ? "LIVE" : "SIM"), x0 + 6, y0 + 13);
 
     // ATM implied vol readout, the options-chain analogue of the order-book
     // header's spot/perp depth comparison — one extra figure that reads as
-    // a genuine market signal rather than decoration.
+    // a genuine market signal rather than decoration. Kept on the same
+    // baseline as the title above (not the column-header row below, which
+    // has its own "Δ" label sitting in the narrow rightmost column and
+    // would otherwise sit right underneath this text).
     if (atmRow) {
       ctx.textAlign = "right";
       ctx.fillStyle = AMBER;
-      ctx.fillText("ATM IV " + (atmRow.iv * 100).toFixed(1) + "%", x0 + panelW - 6, y0 + 15);
+      ctx.fillText("ATM IV " + (atmRow.iv * 100).toFixed(1) + "%", x0 + panelW - 6, y0 + 13);
     }
 
     ["Δ", "BID", "ASK", "STRIKE", "BID", "ASK", "Δ"].forEach(function (label, i) {
