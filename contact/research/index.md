@@ -26,8 +26,8 @@ process theory and where it meets applied statistics.
 
 <div class="entry">
   <ul>
-    <li>Generic chaining theory, geometric functional analysis, and majorizing measures for controlling suprema of stochastic processes.</li>
-    <li>Empirical process theory, weak convergence, and Donsker&ndash;Skorokhod type results.</li>
+    <li>Generic chaining theory, geometric functional analysis, maximal inequalities, and majorizing measures for controlling suprema of stochastic processes.</li>
+    <li>Empirical process theory, weak convergence, Glivenko&ndash;Cantelli theorems, and Donsker&ndash;Skorokhod type results.</li>
     <li>Stochastic integration, martingale theory, stochastic differential equations, and stochastic optimal control.</li>
     <li>Quantitative finance, including optimal market making, statistical arbitrage, and algorithmic trading.</li>
   </ul>
