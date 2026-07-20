@@ -26,10 +26,10 @@ process theory and where it meets applied statistics.
 
 <div class="entry">
   <ul>
-    <li>Decomposition theorems, generic chaining, and majorizing measures for controlling suprema of stochastic processes.</li>
-    <li>Weak convergence and Donsker&ndash;Skorokhod-type results for processes satisfying absolute regularity (&beta;-mixing).</li>
-    <li>Depth functions and robust statistics under dependence, e.g. the Tukey depth for time-dependent data.</li>
-    <li>Functional time series: stationarity testing and functional GARCH/GAS models for volatility surfaces.</li>
+    <li>Generic chaining theory, geometric functional analysis, and majorizing measures for controlling suprema of stochastic processes.</li>
+    <li>Empirical process theory, weak convergence, and Donsker&ndash;Skorokhod type results.</li>
+    <li>Stochastic integration, martingale theory, stochastic differential equations, and stochastic optimal control.</li>
+    <li>Quantitative finance, including optimal market making, statistical arbitrage, and algorithmic trading.</li>
   </ul>
 </div>
 
