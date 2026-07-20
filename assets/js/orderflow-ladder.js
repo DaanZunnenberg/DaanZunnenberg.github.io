@@ -172,7 +172,7 @@
   // Panels are never dropped — all three assets are the point of the
   // ladder. On mobile the hero scrolls horizontally instead (`.hero-scroll`
   // in style.css), same mechanism as the research trade tape.
-  var MIN_PANEL_W = 3 * 190;
+  var MIN_PANEL_W = 3 * 230;
 
   function resize() {
     var containerW = container.clientWidth;
@@ -187,10 +187,11 @@
   }
 
   var COLS = [
-    { key: "flow", w: 0.30, align: "center" },
-    { key: "bid", w: 0.22, align: "right" },
-    { key: "price", w: 0.20, align: "center" },
-    { key: "ask", w: 0.28, align: "left" }
+    { key: "flow", w: 0.22, align: "center" },
+    { key: "bid", w: 0.18, align: "right" },
+    { key: "price", w: 0.16, align: "center" },
+    { key: "ask", w: 0.22, align: "left" },
+    { key: "cvd", w: 0.22, align: "center" }
   ];
 
   function drawPanel(sym, rect) {
@@ -242,7 +243,7 @@
     var cursor = x0;
     COLS.forEach(function (c) { colX.push(cursor); cursor += c.w * panelW; });
 
-    ["FLOW Δ", "BID", "PRICE", "ASK"].forEach(function (label, i) {
+    ["FLOW Δ", "BID", "PRICE", "ASK", "CVD"].forEach(function (label, i) {
       ctx.font = "8px " + MONO_FONT;
       ctx.textAlign = COLS[i].align === "left" ? "left" : COLS[i].align === "right" ? "right" : "center";
       var tx = COLS[i].align === "right" ? colX[i] + COLS[i].w * panelW - 4
@@ -269,6 +270,21 @@
       if (book0) { if (book0.bid > maxBook) maxBook = book0.bid; if (book0.ask > maxBook) maxBook = book0.ask; }
       var t0 = sym.tradesByTick[lvl0];
       if (t0) { var d0 = Math.abs(t0.buy - t0.sell); if (d0 > maxFlow) maxFlow = d0; }
+    }
+
+    // Delta ladder: running total of the flow delta as you scan down the
+    // visible price levels from the top row, not the all-time scalar in
+    // the header — this is where buy/sell pressure has actually built up
+    // across the levels currently on screen.
+    var cvdByOffset = {};
+    var runningCvd = 0;
+    var maxAbsCvd = 1e-9;
+    for (var iC = -ROWS_HALF; iC <= ROWS_HALF; iC++) {
+      var lvlC = centerTick + iC * sym.tick;
+      var tC = sym.tradesByTick[lvlC];
+      runningCvd += tC ? tC.buy - tC.sell : 0;
+      cvdByOffset[iC] = runningCvd;
+      if (Math.abs(runningCvd) > maxAbsCvd) maxAbsCvd = Math.abs(runningCvd);
     }
 
     for (var i = -ROWS_HALF; i <= ROWS_HALF; i++) {
@@ -336,6 +352,19 @@
         ctx.lineWidth = 1.25;
         ctx.strokeRect(colX[2] + 2, ry + 1.5, COLS[2].w * panelW - 4, rowH - 4);
       }
+
+      // Delta ladder column: cumulative flow delta from the top row down
+      // to this one, so the run of green/red intensity down the column
+      // shows where buy or sell pressure has been accumulating across the
+      // visible book, not just at a single level.
+      var cvd = cvdByOffset[i];
+      var cvdT = Math.min(1, Math.abs(cvd) / maxAbsCvd);
+      ctx.fillStyle = cvd >= 0 ? heatColor(BID_HEAT, BID_HOT, cvdT * 0.6) : heatColor(ASK_HEAT, ASK_HOT, cvdT * 0.6);
+      ctx.fillRect(colX[4] + 2, ry + 1, COLS[4].w * panelW - 4, rowH - 3);
+      ctx.font = fontPx + "px " + MONO_FONT;
+      ctx.textAlign = "center";
+      ctx.fillStyle = cvd >= 0 ? UP_TEXT : DOWN_TEXT;
+      ctx.fillText((cvd >= 0 ? "+" : "") + fmtQty(cvd), colX[4] + (COLS[4].w * panelW) / 2, ry + rowH - rowH * 0.3);
     }
 
     // Mid line and ruled row separators, so the ladder reads as a table
@@ -355,7 +384,7 @@
       ctx.lineTo(x0 + panelW, ly + 0.5);
       ctx.stroke();
     }
-    [1, 2, 3].forEach(function (i) {
+    [1, 2, 3, 4].forEach(function (i) {
       ctx.beginPath();
       ctx.moveTo(colX[i] + 0.5, rowsTop);
       ctx.lineTo(colX[i] + 0.5, rowsTop + rowCount * rowH);
