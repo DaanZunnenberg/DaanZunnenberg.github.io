@@ -22,7 +22,7 @@
   }
   * { box-sizing: border-box; }
   html, body {
-    margin: 0; padding: 0; height: 100%;
+    margin: 0; padding: 0; min-height: 100%;
     background: var(--bg);
     font-family: 'JetBrains Mono', ui-monospace, monospace;
   }
@@ -31,6 +31,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    min-height: 100vh;
   }
 
   #network {
@@ -202,18 +203,19 @@
     .frame {
       width: 92vw;
       aspect-ratio: auto;
-      height: min(620px, 88vh);
+      height: min(560px, 82vh);
       background: linear-gradient(150deg, rgba(224,168,82,0.55), rgba(224,168,82,0.2) 10%, rgba(0,0,0,0) 22%);
     }
-    .scrim { background: none; }
+    .scrim { background: rgba(10, 14, 20, 0.4); }
     .content {
       position: absolute;
       top: 0; left: 0; right: 0;
+      min-height: 58%;
       height: auto;
       justify-content: flex-start;
       max-width: 100%;
       padding: clamp(20px, 6vw, 32px);
-      background: linear-gradient(180deg, var(--card-bg) 0%, var(--card-bg) 82%, rgba(10,14,20,0) 100%);
+      background: linear-gradient(180deg, var(--card-bg) 0%, var(--card-bg) 88%, rgba(10,14,20,0) 100%);
     }
     h1 {
       white-space: normal;
@@ -587,7 +589,7 @@
   var MOBILE_QUERY = window.matchMedia('(max-width: 640px), (max-aspect-ratio: 3/4)');
   function computeLayout() {
     var candidates = MOBILE_QUERY.matches
-      ? [{ orientation: "col", count: 1 }]
+      ? [{ orientation: "col", count: 2 }]
       : [
           { orientation: "row", count: 4 },
           { orientation: "row", count: 3 },
