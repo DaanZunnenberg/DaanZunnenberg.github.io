@@ -37,8 +37,16 @@ update between those bigger posts.
   </p>
 </div>
 
-<h2>Upcoming Events</h2>
+<h2>Conferences, Talks &amp; Presentations</h2>
+
+<h3>Upcoming</h3>
 
 <div class="entry">
   <p>Nothing on the public calendar right now &mdash; check back soon, or see the weekly seminar mentioned on the <a href="{{ '/research/' | relative_url }}">Research</a> page.</p>
+</div>
+
+<h3>Past</h3>
+
+<div class="entry">
+  <p>No talks listed yet.</p>
 </div>
