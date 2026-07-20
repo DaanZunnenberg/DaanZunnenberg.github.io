@@ -43,7 +43,7 @@ update between those bigger posts.
 
 <div class="entry">
   <div class="entry-head">
-    <h3>54th Annual Meeting of the Dutch Probability and Statistics Community</h3>
+    <h3><a href="https://www.tudelft.nl/evenementen/2026/ewi/diam/stochastics-meeting-lunteren-2026" target="_blank" rel="noopener noreferrer">54th Annual Meeting of the Dutch Probability and Statistics Community</a></h3>
     <span class="entry-date">November 2026</span>
   </div>
   <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
@@ -54,7 +54,7 @@ update between those bigger posts.
 
 <div class="entry">
   <div class="entry-head">
-    <h3>Studygroup Mathematics with Industry 2026 &middot; Super-Resolution Time Delay Estimation: Models, Methods, and Complexity</h3>
+    <h3><a href="https://www.swi-wiskunde.nl/swi2026/" target="_blank" rel="noopener noreferrer">Studygroup Mathematics with Industry 2026</a> &middot; Super-Resolution Time Delay Estimation: Models, Methods, and Complexity</h3>
     <span class="entry-date">January 2026</span>
   </div>
   <div class="entry-org">Collaborative project with TNO</div>
@@ -62,7 +62,7 @@ update between those bigger posts.
 
 <div class="entry">
   <div class="entry-head">
-    <h3>53rd Annual Meeting of the Dutch Probability and Statistics Community &middot; The Tukey Depth Under Short Range Dependence</h3>
+    <h3><a href="https://www.tudelft.nl/evenementen/2025/ewi/diam/stochastics-meeting-lunteren-2025" target="_blank" rel="noopener noreferrer">53rd Annual Meeting of the Dutch Probability and Statistics Community</a> &middot; The Tukey Depth Under Short Range Dependence</h3>
     <span class="entry-date">November 2025</span>
   </div>
   <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
@@ -71,7 +71,7 @@ update between those bigger posts.
 
 <div class="entry">
   <div class="entry-head">
-    <h3>52nd Annual Meeting of the Dutch Probability and Statistics Community &middot; Maximal Inequalities and Concentration of Measure with Absolute Regularity</h3>
+    <h3><a href="https://www.tudelft.nl/evenementen/2024/ewi/diam/stochastics-meeting-lunteren-2024" target="_blank" rel="noopener noreferrer">52nd Annual Meeting of the Dutch Probability and Statistics Community</a> &middot; Maximal Inequalities and Concentration of Measure with Absolute Regularity</h3>
     <span class="entry-date">November 2024</span>
   </div>
   <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
