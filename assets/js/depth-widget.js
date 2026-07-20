@@ -21,9 +21,9 @@
   var MID_LINE = "rgba(233, 236, 243, 0.35)";
 
   var SYMBOLS = [
-    { key: "btcusdt", label: "BTC/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
     { key: "xlmusdt", label: "XLM/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
-    { key: "solusdt", label: "SOL/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] }
+    { key: "solusdt", label: "SOL/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] },
+    { key: "xrpusdt", label: "XRP/USDT", bids: [], asks: [], perpBids: [], perpAsks: [] }
   ];
 
   var live = false;
@@ -135,7 +135,8 @@
   }
 
   // Below this per-panel width, the order-book + diff table gets too
-  // cramped to read — drop the last symbol (and keep dropping) until
+  // cramped to read — drop the leading symbol (XLM first, then SOL, since
+  // SYMBOLS is ordered XLM/SOL/XRP and the last one is always kept) until
   // what's left fits the phone. The site body caps out around 800px, so
   // 3 panels there is ~266px each; this threshold has to clear that while
   // still collapsing to a single panel on a ~375-430px phone instead of
@@ -152,7 +153,7 @@
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     var maxPanels = Math.max(1, Math.min(SYMBOLS.length, Math.floor(W / MIN_PANEL_W)));
-    activeSymbols = SYMBOLS.slice(0, maxPanels);
+    activeSymbols = SYMBOLS.slice(SYMBOLS.length - maxPanels);
   }
 
   function fmtQty(v) {

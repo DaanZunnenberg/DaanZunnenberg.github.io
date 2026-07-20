@@ -4,8 +4,8 @@ title: Research & Publications
 permalink: /research/
 ---
 
-<section class="hero">
-  <canvas id="trade-process-canvas" class="hero-canvas" aria-label="Live scrolling time-and-sales tables side by side, for Binance ETH/USDT, SOL/USDT, and BTC/USDT spot trades (fewer symbols shown on narrow screens), each row showing price, trade amount in the coin's own units, trade amount in USD, and trade time" aria-hidden="true"></canvas>
+<section class="hero hero-scroll">
+  <canvas id="trade-process-canvas" class="hero-canvas" aria-label="Live scrolling time-and-sales tables side by side, for Binance XLM/USDT, SOL/USDT, and XRP/USDT perpetual futures trades (scroll horizontally on narrow screens to see all three), each row showing price, trade amount in the coin's own units, trade amount in USD, and trade time" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
@@ -45,6 +45,12 @@ estimation once the independence assumption is dropped.
     this, I work with Alexander D&uuml;rre on the Tukey depth under dependence, forthcoming in <em>Bernoulli</em>.
   </p>
   <p>I organize and lead a weekly graduate seminar on weak convergence and empirical process theory.</p>
+  <p>
+    In short: I study how to bound the supremum of a stochastic process from its geometry alone, and how much
+    of that machinery survives once you drop independence. My favorite result in the toolkit is Talagrand's
+    majorizing measure theorem &mdash; <a href="{{ '/research/proof/' | relative_url }}">the full proof is
+    written up here</a>.
+  </p>
 
   <div class="readme-toggle is-open">
     <button type="button" class="readme-summary" aria-expanded="true">
