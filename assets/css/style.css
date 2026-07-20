@@ -64,6 +64,18 @@ body {
   opacity: 0.22;
 }
 
+/* Same constellation network as the digital business card's page background,
+   just far fainter and sparser so it reads as texture, not a focal element. */
+.site-network {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
 body::after {
   content: "";
   position: fixed;
