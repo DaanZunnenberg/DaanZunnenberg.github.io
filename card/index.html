@@ -203,9 +203,11 @@
       aspect-ratio: auto;
       min-height: min(560px, 88vh);
     }
-    #book { display: none; }
-    .scrim { background: rgba(6,9,13,0.97); }
+    .scrim {
+      background: linear-gradient(0deg, rgba(6,9,13,1) 0%, rgba(6,9,13,0.98) 46%, rgba(6,9,13,0.55) 68%, rgba(6,9,13,0.35) 100%);
+    }
     .content {
+      justify-content: flex-end;
       max-width: 100%;
       padding: clamp(20px, 6vw, 32px);
     }
@@ -577,12 +579,15 @@
   }
 
   let W, H;
+  var MOBILE_QUERY = window.matchMedia('(max-width: 640px), (max-aspect-ratio: 3/4)');
   function computeLayout() {
-    var candidates = [
-      { orientation: "row", count: 4 },
-      { orientation: "row", count: 3 },
-      { orientation: "col", count: 3 }
-    ];
+    var candidates = MOBILE_QUERY.matches
+      ? [{ orientation: "col", count: 1 }]
+      : [
+          { orientation: "row", count: 4 },
+          { orientation: "row", count: 3 },
+          { orientation: "col", count: 3 }
+        ];
     for (var i = 0; i < candidates.length; i++) {
       var cand = candidates[i];
       var panelW = cand.orientation === "row" ? W / cand.count : W;
