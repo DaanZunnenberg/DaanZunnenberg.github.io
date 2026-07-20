@@ -301,7 +301,7 @@ main::before {
 @media (max-width: 680px) {
   .nav-has-dropdown {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .nav-dropdown {
