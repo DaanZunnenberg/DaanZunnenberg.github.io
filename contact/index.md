@@ -23,6 +23,8 @@ permalink: /contact/
   <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 8l11 5 9-4.09V17h2V8L12 3zm-7 9.18V16c0 2.21 3.13 4 7 4s7-1.79 7-4v-3.82l-7 3.18-7-3.18z"/></svg>Google Scholar</a>
 </div>
 
+<p class="form-hint">Prefer a digital business card? <a href="{{ '/card/' | relative_url }}">Save my contact card &rarr;</a></p>
+
 <div class="nav-cards">
   <a class="nav-card" href="{{ '/contact/research/' | relative_url }}">
     <span class="nav-card-title">Research &amp; Academic</span>
