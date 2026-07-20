@@ -48,7 +48,7 @@ market making, estimation under uncertainty, or production trading systems.
 </div>
 
 <p>
-  <a class="cta-button" href="mailto:dw.zunnenberg@gmail.com?subject=Role%20or%20opportunity">Email me about opportunities &rarr;</a>
+  <a class="cta-button" data-u="dw.zunnenberg" data-d="gmail.com" data-subject="Role%20or%20opportunity">Email me about opportunities &rarr;</a>
 </p>
 
 <p><a href="{{ '/contact/' | relative_url }}">&larr; Back to Contact</a></p>

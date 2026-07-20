@@ -1,12 +1,13 @@
-// Click-to-copy for any ".copy-email" button (data-copy holds the address),
-// with a small toast in its ".copy-toast" child confirming the copy.
+// Click-to-copy for any ".copy-email" button. The address is split across
+// data-u/data-d (user/domain) so it never appears as a plain string in the
+// page source, then reassembled here at click time.
 (function () {
   var buttons = document.querySelectorAll('.copy-email');
   if (!buttons.length) return;
 
   buttons.forEach(function (button) {
     button.addEventListener('click', async function () {
-      var text = button.dataset.copy;
+      var text = button.dataset.u + '@' + button.dataset.d;
       var toast = button.querySelector('.copy-toast');
       try {
         await navigator.clipboard.writeText(text);

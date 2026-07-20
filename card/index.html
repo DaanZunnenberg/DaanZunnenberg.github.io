@@ -262,7 +262,7 @@
       </a>
 
       <div class="links">
-        <button type="button" class="link" id="email-link" data-copy="dw.zunnenberg@gmail.com">
+        <button type="button" class="link" id="email-link" data-u="dw.zunnenberg" data-d="gmail.com">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
           Email
           <span class="toast" id="toast">Copied</span>
@@ -302,7 +302,7 @@
   const toast = document.getElementById('toast');
   emailLink.addEventListener('click', async (e) => {
     e.preventDefault();
-    const text = emailLink.dataset.copy;
+    const text = emailLink.dataset.u + '@' + emailLink.dataset.d;
     try { await navigator.clipboard.writeText(text); }
     catch (err) {
       const ta = document.createElement('textarea');
