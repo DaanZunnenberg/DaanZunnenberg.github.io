@@ -195,6 +195,28 @@
     font-weight: 600;
   }
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (max-width: 640px), (max-aspect-ratio: 3/4) {
+    body { align-items: center; padding: 24px 0; }
+    .frame {
+      width: 92vw;
+      aspect-ratio: auto;
+      min-height: min(560px, 88vh);
+    }
+    #book { display: none; }
+    .scrim { background: rgba(6,9,13,0.97); }
+    .content {
+      max-width: 100%;
+      padding: clamp(20px, 6vw, 32px);
+    }
+    h1 {
+      white-space: normal;
+      font-size: clamp(24px, 8vw, 34px);
+    }
+    .desc { margin: clamp(10px, 3vw, 16px) 0 clamp(16px, 4vw, 22px); }
+    .links { width: 100%; }
+    .site-link { width: 100% !important; }
+  }
 </style>
 </head>
 <body>
