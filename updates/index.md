@@ -10,11 +10,11 @@ permalink: /updates/
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
     <h1 class="hero-name">Updates &amp; Events<span class="cursor">_</span></h1>
-    <p class="hero-lede">Short-form notes, news, and anything on the calendar &mdash; the more active part of this site.</p>
+    <p class="hero-lede">Short-form notes, news, and anything on the calendar, the more active part of this site.</p>
   </div>
 </section>
 
-<p class="tagline">Probability theory research news &middot; talks &middot; seminars &middot; press</p>
+<p class="tagline">Talks &middot; seminars &middot; press &middot; reading groups</p>
 
 <p class="lede">
 Longer write-ups live on the <a href="{{ '/research/' | relative_url }}">Research</a> and
@@ -42,11 +42,38 @@ update between those bigger posts.
 <h3>Upcoming</h3>
 
 <div class="entry">
-  <p>Nothing on the public calendar right now &mdash; check back soon, or see the weekly seminar mentioned on the <a href="{{ '/research/' | relative_url }}">Research</a> page.</p>
+  <div class="entry-head">
+    <h3>54th Annual Meeting of the Dutch Probability and Statistics Community</h3>
+    <span class="entry-date">November 2026</span>
+  </div>
+  <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
+  <p>Attending as a poster presenter.</p>
 </div>
 
 <h3>Past</h3>
 
 <div class="entry">
-  <p>No talks listed yet.</p>
+  <div class="entry-head">
+    <h3>Studygroup Mathematics with Industry 2026 &middot; Super-Resolution Time Delay Estimation: Models, Methods, and Complexity</h3>
+    <span class="entry-date">January 2026</span>
+  </div>
+  <div class="entry-org">Collaborative project with TNO</div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>53rd Annual Meeting of the Dutch Probability and Statistics Community &middot; The Tukey Depth Under Short Range Dependence</h3>
+    <span class="entry-date">November 2025</span>
+  </div>
+  <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
+  <p>Presented a poster on joint work with Dr. A.M. D&uuml;rre studying the Tukey depth under short-range dependence.</p>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>52nd Annual Meeting of the Dutch Probability and Statistics Community &middot; Maximal Inequalities and Concentration of Measure with Absolute Regularity</h3>
+    <span class="entry-date">November 2024</span>
+  </div>
+  <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
+  <p>Presented a poster on maximal inequalities and concentration of measure with absolute regularity.</p>
 </div>

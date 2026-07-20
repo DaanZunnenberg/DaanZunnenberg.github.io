@@ -14,21 +14,22 @@ permalink: /research/
   </div>
 </section>
 
-<p class="tagline">Probability theory &middot; empirical processes &middot; statistical estimation under dependence.</p>
+<p class="tagline">Probability theory &middot; empirical processes &middot; maximal inequalities.</p>
 
 <p class="lede">
-I'm a PhD researcher in mathematics at Leiden University. Broadly, I work in empirical process theory: the
-machinery used to control suprema of stochastic processes, and how it extends to weak convergence and
-estimation once the independence assumption is dropped.
+I'm a PhD researcher in mathematics at Leiden University. Broadly, I work in empirical process theory, which
+uses tools such as generic chaining to control suprema of stochastic processes, and study how these
+techniques extend to weak convergence and statistical estimation when the independence assumption is
+relaxed.
 </p>
 
 <h2>Research Interests</h2>
 <div class="entry">
   <ul>
-    <li>Decomposition theorems, generic chaining, and majorizing measures for controlling suprema of stochastic processes.</li>
-    <li>Weak convergence and Donsker&ndash;Skorokhod-type results for processes satisfying absolute regularity (&beta;-mixing).</li>
-    <li>Depth functions and robust statistics under dependence, e.g. the Tukey depth for time-dependent data.</li>
-    <li>Functional time series: stationarity testing and functional GARCH/GAS models for volatility surfaces.</li>
+    <li>Generic chaining theory, geometric functional analysis, and majorizing measures for controlling suprema of stochastic processes.</li>
+    <li>Empirical process theory, weak convergence, and Donsker&ndash;Skorokhod type results.</li>
+    <li>Stochastic integration, martingale theory, stochastic differential equations, and stochastic optimal control.</li>
+    <li>Quantitative finance, including optimal market making, statistical arbitrage, and algorithmic trading.</li>
   </ul>
 </div>
 
@@ -41,8 +42,8 @@ estimation once the independence assumption is dropped.
   <p>
     My current research concerns decomposition theorems, generic chaining, and majorizing measures as tools
     for controlling suprema of stochastic processes, applied to weak convergence and
-    Donsker&ndash;Skorokhod-type results for processes satisfying absolute regularity (&beta;-mixing). Alongside
-    this, I work with Alexander D&uuml;rre on the Tukey depth under dependence, forthcoming in <em>Bernoulli</em>.
+    Donsker&ndash;Skorokhod-type results for processes satisfying absolute regularity. My supervisor is
+    dr. A.M. D&uuml;rre.
   </p>
   <p>I organize and lead a weekly graduate seminar on weak convergence and empirical process theory.</p>
   <p>
@@ -60,45 +61,38 @@ estimation once the independence assumption is dropped.
       <div class="readme">
         <h4>Admissible sequences and the \(\gamma_2\) functional</h4>
         <p>
-          Generic chaining, in Talagrand's formulation, works with partitions rather than nested sets. An
-          admissible sequence is a sequence of partitions \((A_n)_{n \ge 0}\) of \(T\), each refining the one
-          before, with \(\operatorname{card}(A_0) = 1\) and \(\operatorname{card}(A_n) \le N_n = 2^{2^n}\) for
-          \(n \ge 1\). Write \(A_n(t)\) for the piece of \(A_n\) containing \(t\), and \(\mathit{\Delta}(\cdot)\)
-          for diameter under \(d\). The \(\gamma_2\) functional is the best such sequence can do.
+          Generic chaining is a method for controlling the supremum of a stochastic process by approximating
+          its index set through a sequence of increasingly fine finite nets. Let \((T,d)\) be a metric space
+          and let \((X_t)_{t \in T}\) be a stochastic process whose increments are controlled by the metric
+          \(d\). Following Talagrand's notation, define
+          \[N_n = 2^{2^n}, \qquad n \ge 0,\]
+          and consider admissible subsets \(T_n \subset T\) satisfying
+          \[\operatorname{card}(T_n) \le N_n.\]
+          The sequence \((T_n)_{n \ge 0}\) is called an admissible sequence. For every \(t \in T\), let
+          \(\pi_n(t) \in T_n\) be an approximation of \(t\) at level \(n\). The chaining decomposition is
+          \[X_t - X_{t_0} = \sum_{n \ge 0} \left(X_{\pi_{n+1}(t)} - X_{\pi_n(t)}\right),\]
+          which expresses the process as a sum of increments across successive scales.
         </p>
-        \[
-        \gamma_2(T,d) = \inf_{(A_n)} \; \sup_{t \in T} \; \sum_{n=0}^{\infty} 2^{n/2}\, \mathit{\Delta}(A_n(t))
-        \]
+        <p>
+          The complexity of an admissible sequence is quantified by Talagrand's functional
+          \[\gamma_2(T,d) = \inf_{(T_n)} \sup_{t \in T} \sum_{n \ge 0} 2^{n/2} d(t,T_n),\]
+          where
+          \[d(t,T_n) = \inf_{s \in T_n} d(t,s),\]
+          and the infimum is taken over all admissible sequences. The functional \(\gamma_2(T,d)\) measures
+          the optimal cost of approximating the whole index set at all scales simultaneously.
+        </p>
         <h4>The majorizing measure theorem</h4>
         <p>
-          For a centered Gaussian process \((X_t)_{t \in T}\) under its canonical metric
-          \(d(s,t) = (\mathbb{E}|X_s - X_t|^2)^{1/2}\), the chaining construction only ever gives an upper bound
-          on the expected supremum, which is Dudley's entropy bound in disguise. Talagrand's majorizing measure
-          theorem is the surprise: \(\gamma_2\) is also a lower bound, so it pins down \(\mathbb{E}\sup_t X_t\)
-          exactly, up to a universal constant \(L\) that depends on neither \(T\) nor \(d\).
-        </p>
-        \[
-        \frac{1}{L}\,\gamma_2(T,d) \;\le\; \mathbb{E} \sup_{t \in T} X_t \;\le\; L\,\gamma_2(T,d)
-        \]
-        <p>
-          Talagrand writes results like this as two one-sided inequalities, \(A \le LB\) and \(B \le LA\), with
-          \(A = \mathbb{E}\sup_t X_t\) and \(B = \gamma_2(T,d)\). Each side controls the other, so the two
-          quantities are equivalent rather than just one bounding the other.
-        </p>
-        <h4>Why \(\gamma_2\) is canonical</h4>
-        <p>
-          The lower bound above means \(\gamma_2(T,d)\) isn't just an artifact of the particular admissible
-          sequence used to build it — it can be recovered directly from the geometry of \((T,d)\), through
-          separated sets rather than partitions. Call \(A \subset T\) \((a,r)\)-separated if \(d(s,t) \ge r\)
-          for all distinct \(s,t \in A\) and \(\operatorname{card}(A) \ge \exp(a^2)\), and let \(F(T,d)\) be the
-          largest value of \(\sum_n 2^{n/2} r_n\) achievable over a nested chain of \((2^n, r_n)\)-separated
-          sets \(A_0 \subset A_1 \subset \cdots \subset T\).
+          For a centered Gaussian process with canonical metric
+          \[d(s,t) = \left(\mathsf{E}(X_s - X_t)^2\right)^{1/2},\]
+          the majorizing measure theorem states that there exists a universal constant \(L \ge 1\) such that
+          \[\frac{1}{L}\gamma_2(T,d) \le \mathsf{E} \sup_{t \in T} X_t \le L\gamma_2(T,d).\]
         </p>
         <p>
-          Talagrand's growth-functional argument shows \(F(T,d)\) and \(\gamma_2(T,d)\) agree up to a universal
-          constant. So \(\gamma_2\) is pinned down entirely by how many far-apart points \(T\) contains at every
-          scale, a property of the metric space itself rather than of any chaining construction, which is what
-          makes it canonical.
+          Thus generic chaining identifies the exact geometric quantity governing the expected supremum of a
+          Gaussian process. The choice \(N_n = 2^{2^n}\) gives the correct multiscale balance between the
+          cardinality of the approximating sets and the size of the increments, leading to sharp bounds that
+          improve upon classical entropy estimates based on a single covering scale.
         </p>
         <p>
           This is the toolkit I'm extending, to processes that are only \(\beta\)-mixing rather than
@@ -118,8 +112,11 @@ estimation once the independence assumption is dropped.
     <span class="entry-date">January 2024 &ndash; June 2024</span>
   </div>
   <ul>
-    <li>Designed likelihood-based estimation algorithms for functional scale models, using vectorized and parallel computation to keep them fast at scale.</li>
-    <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using <code>numpy</code> vectorization and parallel computing.</li>
+    <li>Developed likelihood-based estimation procedures for functional scale models, with vectorized and parallel implementations to improve computational efficiency.</li>
+    <li>Reduced the runtime of large-scale Monte Carlo simulations by 92.3% on average through <code>numpy</code> vectorization and parallel computation.</li>
+    <li>Implemented the main Python components: <code>bernstein_basis</code>, <code>functional_operator</code>, and <code>qmle_filter</code>, including a QMLE filter for the functional GARCH(1,1) model.</li>
+    <li>Used non-negative Bernstein coefficients to ensure a positive volatility surface by construction, avoiding constrained optimization over the entire operator.</li>
+    <li>Estimated a functional GARCH(1,1) model using a Bernstein-basis QMLE approach with three basis functions on simulated intraday data. The fitted model captures the main structure of the true volatility surface, while introducing additional day-to-day variation. Several operator coefficients reach their imposed bounds, indicating that the model is operating near the edge of the parameter space. The results are illustrated through comparisons of the true and fitted GARCH surfaces, as well as the GARCH and GAS-GARCH volatility surfaces.</li>
   </ul>
   <pre class="code-block" data-lang="python"><code>def bernstein_basis(u, M, k):
     return comb(M - 1, k - 1) * u ** (k - 1) * (1 - u) ** (M - k)
@@ -144,77 +141,10 @@ def qmle_filter(returns, theta, M):
 theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method='SLSQP').x
 </code></pre>
   <p class="form-hint">Non-negative Bernstein coefficients guarantee a positive volatility surface directly, without constrained optimization over the full operator.</p>
-  <p>
-    Fitting the functional GARCH(1,1) recursion above (Bernstein-basis QMLE, projected onto <em>M</em> = 3 basis
-    functions) to simulated intraday data recovers the shape of the true volatility surface, though with visibly
-    more day-to-day roughness than the true process &mdash; several of the fitted operator coefficients sit at
-    their box constraint, which a richer basis or a longer sample would relax:
-  </p>
   <img src="{{ '/assets/img/garch_vol_surface.png' | relative_url }}" alt="True versus functional GARCH-estimated volatility surface, side by side" class="entry-figure">
-  <p class="form-hint">Simulated 25-point intraday grid over 500 trading days; estimated surface via <code>funcgarch.garch.fit</code> + <code>garch_filter</code>.</p>
-  <p>
-    The MATLAB estimation script itself (<a href="https://github.com/DaanZunnenberg/FunctionalScaleMod/tree/main/MATLAB_YC" target="_blank" rel="noopener noreferrer">MATLAB_YC on GitHub</a>)
-    fits the GAS recursion by reparameterized maximum likelihood, using a B-spline basis for the volatility surface
-    and a multivariate Student-<em>t</em> observation density with an Ornstein&ndash;Uhlenbeck covariance kernel:
-  </p>
-  <pre class="code-block" data-lang="matlab"><code>dK = 7;
-Bsplinebasis = create_bspline_basis([0, 1], dK, 4);  % 7 B-spline basis functions of order 4
-
-% B-spline basis functions: full matrix
-vtau = 0:1/(size(vyTau,1)-1):1; vtau = vtau';
-n = length(vtau);
-mBsplinesSparseMat = eval_basis(vtau, Bsplinebasis);
-
-%---------- FunGAS: update principal component scores ----------%
-vb0 = ones(dK+1,1);                                                        % initial principal component scores
-vtheta0 = [2.1; 0.001; ones(dK+1,1); -0.5*ones(dK+1,1); 0.1*ones(dK+1,1)]; % initial parameters
-LB = [1.05; 0.00001; -5*ones(dK+1,1); -2*ones(dK+1,1); -0.9*ones(dK+1,1)]; % lower bound
-UB = [50; 1; 15*ones(dK+1,1); 2*ones(dK+1,1); 0.9*ones(dK+1,1)];          % upper bound
-
-% vthetaHat contains (in order): degree of freedom, dependence parameter,
-% omega vector, diagonal elements of mB, diagonal elements of mA
-fGAS_likelihood = @(vtheta) -construct_likelihood_repara(vyTau,vb0,dK,n,mBsplinesSparseMat,vtau,vtheta);
-options = optimoptions('fmincon','MaxFunctionEvaluations',1E4);
-vthetaHat = fmincon(fGAS_likelihood,vtheta0,[],[],[],[],LB,UB,[],options);
-</code></pre>
-  <p>
-    The log-likelihood itself recurses the score-driven B-spline coefficients forward and evaluates the
-    Student-<em>t</em> density at each step, using a numerically stable log-determinant (LU-based) rather than
-    <code>log(det(&middot;))</code> directly to avoid overflow on the covariance kernel:
-  </p>
-  <pre class="code-block" data-lang="matlab"><code>function likelihood = construct_likelihood_repara(mY,vb1,dK,n,mBsplinesSparseMat,vtau,vtheta)
-T = size(mY,2);
-dnu = vtheta(1);     % degree of freedom parameter
-ddelta = vtheta(2);  % dependence parameter
-vomega = vtheta(3:dK+3);   % level parameter
-mB = vtheta(dK+4:2*dK+4);  % scale parameter
-mA = vtheta(end-dK:end);   % score parameter
-mLambdaOU_delta = exp(-pdist2(vtau,vtau,'fasteuclidean')/ddelta); % OU covariance kernel
-
-mBsplinesMat = full(mBsplinesSparseMat);
-mBsplinesMat = [ones(n,1) mBsplinesMat];
-
-likelihood = 0;
-vb_now = vb1;
-vy_now = mY(:,1);
-Temp1 = (dnu + n)/(2*dnu);
-for id = 2:T
-    vsigma_now = mBsplinesMat*vb_now;
-
-    Temp2 = mLambdaOU_delta\(vy_now./exp(vsigma_now/2));
-    Temp3 = vy_now.*mBsplinesMat./exp(vsigma_now/2);
-    Temp4 = 1 + (vy_now./exp(vsigma_now/2))'*Temp2/dnu;
-
-    likelihood = likelihood + (-0.5*logdet(exp(vsigma_now).*mLambdaOU_delta) ...
-        - (dnu+n)/2*log(Temp4));
-
-    density_score = -0.5*sum(mBsplinesMat,1)' + Temp1*Temp4^(-1)*Temp3'*Temp2;
-    vb_now = vomega + mB.*vb_now + mA.*density_score;
-    vy_now = mY(:,id);
-end
-likelihood = likelihood + T*(gammaln((dnu+n)/2) - gammaln(dnu/2) - n/2*log(pi*dnu));
-end
-</code></pre>
+  <p class="form-hint">The first comparison figure shows the estimated GAS-GARCH volatility surface against the true volatility surface to assess the model&rsquo;s ability to recover the underlying dynamics.</p>
+  <img src="{{ '/assets/img/garch_vs_gas_vol_surface.png' | relative_url }}" alt="Functional GARCH-estimated versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
+  <p class="form-hint">The second comparison figure compares the functional GARCH and GAS-GARCH volatility surfaces, demonstrating the increased flexibility of the GAS-GARCH specification relative to the traditional functional GARCH model.</p>
 </div>
 
 <div class="entry">
