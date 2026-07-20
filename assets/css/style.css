@@ -794,6 +794,12 @@ pre.code-block code {
     background:
       linear-gradient(180deg, rgba(11, 15, 24, 0.92) 0%, rgba(11, 15, 24, 0.78) 50%, rgba(11, 15, 24, 0.35) 100%);
   }
+
+  /* Research hero: instead of dropping trade-tape panels on narrow
+     screens, let the hero itself scroll horizontally so all three tables
+     stay reachable. hero-content is pinned to the left edge as it scrolls. */
+  .hero-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .hero-scroll .hero-content { position: sticky; left: 0; z-index: 2; }
 }
 
 /* Contact form */

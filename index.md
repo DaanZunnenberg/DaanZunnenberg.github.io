@@ -4,7 +4,7 @@ title: About
 ---
 
 <section class="hero">
-  <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live BTC, XLM and SOL spot order books, each with a spot/perp price-difference table for cash-and-carry arbitrage"></canvas>
+  <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live XLM, SOL and XRP spot order books, each with a spot/perp price-difference table for cash-and-carry arbitrage"></canvas>
   <div class="hero-fade hero-fade-long" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher &middot; Quant Enthusiast<span class="hero-eyebrow-extra"> &middot; Probabilist</span></div>

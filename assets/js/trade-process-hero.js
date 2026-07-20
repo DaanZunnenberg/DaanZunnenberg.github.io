@@ -5,10 +5,10 @@
   var ctx = canvas.getContext("2d");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Three live time-and-sales tapes (ETH, BTC, SOL), side by side. Each row
-  // is one real Binance spot trade: price, trade amount in the coin's own
-  // units, and the time it printed. Tapes advance independently — whichever
-  // symbol is trading fastest fills in first.
+  // Three live time-and-sales tapes (XLM, SOL, XRP), side by side. Each row
+  // is one real Binance USDⓈ-M perpetual futures trade: price, trade amount
+  // in the coin's own units, and the time it printed. Tapes advance
+  // independently — whichever symbol is trading fastest fills in first.
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
@@ -24,9 +24,9 @@
   var DIM_TEXT = "rgba(233, 236, 243, 0.4)";
 
   var SYMBOLS = [
-    { key: "ethusdt", label: "ETH/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false, openPrice: null },
+    { key: "xlmusdt", label: "XLM/USDT", priceDigits: 4, amountDigits: 1, rows: [], live: false, openPrice: null },
     { key: "solusdt", label: "SOL/USDT", priceDigits: 3, amountDigits: 3, rows: [], live: false, openPrice: null },
-    { key: "btcusdt", label: "BTC/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false, openPrice: null }
+    { key: "xrpusdt", label: "XRP/USDT", priceDigits: 4, amountDigits: 1, rows: [], live: false, openPrice: null }
   ];
 
   function fmtTime(ms) {
@@ -44,24 +44,33 @@
     if (sym.rows.length > MAX_ROWS) sym.rows.length = MAX_ROWS;
   }
 
-  // Below this per-panel width, the tape gets too cramped to read — drop
-  // the last symbol (and keep dropping) until what's left fits the phone.
-  // The site body caps out around 800px, so 3 panels there is ~266px each;
-  // this threshold has to clear that while still collapsing to a single
-  // panel on a ~375-430px phone instead of squeezing two in.
+  // Below this per-panel width the tape gets too cramped to read. On
+  // desktop that means dropping panels until what's left fits. On mobile
+  // (`.hero` gains `.hero-scroll`, see style.css) the hero itself becomes a
+  // horizontally scrollable strip instead, so panels are never dropped —
+  // the canvas is simply drawn wider than the viewport at a fixed
+  // MIN_PANEL_W each, and the user scrolls to see the rest. Only if the
+  // viewport can't even fit two panels' worth of scroll room do we fall
+  // back to dropping to two.
   var MIN_PANEL_W = 260;
   var activeSymbols = SYMBOLS;
 
   function resize() {
-    W = container.clientWidth;
+    var containerW = container.clientWidth;
     H = container.clientHeight;
+    var isMobile = window.matchMedia("(max-width: 640px)").matches;
+
+    var maxPanels = isMobile
+      ? SYMBOLS.length
+      : Math.max(1, Math.min(SYMBOLS.length, Math.floor(containerW / MIN_PANEL_W)));
+    activeSymbols = SYMBOLS.slice(SYMBOLS.length - maxPanels);
+
+    W = isMobile ? Math.max(containerW, activeSymbols.length * MIN_PANEL_W) : containerW;
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     canvas.style.width = W + "px";
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var maxPanels = Math.max(1, Math.min(SYMBOLS.length, Math.floor(W / MIN_PANEL_W)));
-    activeSymbols = SYMBOLS.slice(0, maxPanels);
   }
 
   var COLS = [
@@ -216,7 +225,7 @@
 
     var ws;
     try {
-      ws = new WebSocket("wss://stream.binance.com:9443/stream?streams=" + streams.join("/"));
+      ws = new WebSocket("wss://fstream.binance.com/stream?streams=" + streams.join("/"));
     } catch (e) {
       return;
     }
@@ -246,7 +255,7 @@
 
   function backfillSymbol(sym) {
     var upper = sym.key.toUpperCase();
-    return fetch("https://api.binance.com/api/v3/aggTrades?symbol=" + upper + "&limit=" + MAX_ROWS)
+    return fetch("https://fapi.binance.com/fapi/v1/aggTrades?symbol=" + upper + "&limit=" + MAX_ROWS)
       .then(function (res) { return res.json(); })
       .then(function (trades) {
         // Oldest first into pushTrade (which prepends), so the tape ends
