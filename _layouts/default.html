@@ -25,6 +25,7 @@
         <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>About</a>
         <a href="{{ '/experience/' | relative_url }}" {% if page.url contains 'experience' %}class="active"{% endif %}>Experience &amp; Projects</a>
         <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' %}class="active"{% endif %}>Research &amp; Publications</a>
+        <a href="{{ '/updates/' | relative_url }}" {% if page.url contains 'updates' %}class="active"{% endif %}>Updates &amp; Events</a>
         <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
         <a href="{{ '/contact/' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}>Contact</a>
       </nav>
@@ -39,6 +40,7 @@
         <a href="{{ '/' | relative_url }}">About</a>
         <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a>
         <a href="{{ '/research/' | relative_url }}">Research &amp; Publications</a>
+        <a href="{{ '/updates/' | relative_url }}">Updates &amp; Events</a>
         <a href="{{ '/personal/' | relative_url }}">Personal</a>
         <a href="{{ '/contact/' | relative_url }}">Contact</a>
       </nav>
