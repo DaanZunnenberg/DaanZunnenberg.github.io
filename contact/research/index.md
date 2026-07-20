@@ -49,7 +49,7 @@ process theory and where it meets applied statistics.
 </div>
 
 <p>
-  <a class="cta-button" href="mailto:dw.zunnenberg@gmail.com?subject=Research%20inquiry">Email me about research &rarr;</a>
+  <a class="cta-button" data-u="dw.zunnenberg" data-d="gmail.com" data-subject="Research%20inquiry">Email me about research &rarr;</a>
 </p>
 
 <p><a href="{{ '/contact/' | relative_url }}">&larr; Back to Contact</a></p>
