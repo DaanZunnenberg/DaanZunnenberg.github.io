@@ -339,7 +339,10 @@ main::before {
   }
 
   .nav-dropdown a {
-    padding: 8px 2px;
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 2px;
     color: var(--ink-faint);
   }
 }
@@ -348,21 +351,23 @@ main::before {
   display: none;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 5px;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: 1px solid var(--line);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.75);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
   cursor: pointer;
+  z-index: 41;
+  position: relative;
 }
 
 .nav-toggle span {
   display: block;
-  width: 16px;
+  width: 18px;
   height: 1.5px;
-  margin: 0 auto;
   background: var(--ink-soft);
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
@@ -372,30 +377,59 @@ main::before {
 .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 @media (max-width: 680px) {
-  .site-header { align-items: center; }
+  .site-header {
+    align-items: center;
+    position: relative;
+    z-index: 40;
+  }
   .nav-toggle { display: flex; }
 
   .site-nav {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 0;
     width: 100%;
     order: 3;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0 solid var(--line);
+    transition: max-height 0.28s ease, opacity 0.2s ease, margin-top 0.28s ease, padding-top 0.28s ease;
   }
 
   .site-nav.open {
-    display: flex;
+    max-height: 420px;
+    opacity: 1;
     margin-top: 16px;
-    padding-top: 12px;
+    padding-top: 8px;
     border-top: 1px solid var(--line);
   }
 
   .site-nav a {
-    padding: 11px 2px;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 4px;
     border-bottom: 1px solid var(--line-soft);
+    font-size: 14px;
   }
 
+  .site-nav a:active { background: var(--bg-1); }
+
   .site-nav a::after { display: none; }
+
+  .nav-item.nav-has-dropdown {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-dropdown a {
+    min-height: 40px;
+    padding-left: 16px;
+    border-bottom: 1px solid var(--line-soft);
+  }
 }
 
 /* Profile cover: a full-width 16:9 banner photo, bleeding out of the reading
