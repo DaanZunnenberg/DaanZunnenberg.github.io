@@ -15,9 +15,9 @@
   var TRAVELER_COUNT = 3;
   var PULSE_PX_PER_MS = 0.09;
 
-  var NODE_COLOR = 'rgba(28, 38, 58, 0.16)';
-  var LINK_COLOR = 'rgba(44, 85, 184, 0.09)';
-  var PULSE_COLOR = 'rgba(26, 156, 120, 0.35)';
+  var NODE_COLOR = 'rgba(28, 38, 58, 0.3)';
+  var LINK_COLOR = 'rgba(44, 85, 184, 0.17)';
+  var PULSE_COLOR = 'rgba(26, 156, 120, 0.55)';
 
   var nodes = [];
   var travelers = [];
