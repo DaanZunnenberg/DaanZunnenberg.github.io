@@ -27,7 +27,14 @@
         <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' %}class="active"{% endif %}>Research &amp; Publications</a>
         <a href="{{ '/updates/' | relative_url }}" {% if page.url contains 'updates' %}class="active"{% endif %}>Updates &amp; Events</a>
         <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
-        <a href="{{ '/contact/' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}>Contact</a>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/contact/' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}>Contact</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/contact/research/' | relative_url }}">Academic contact</a>
+            <a href="{{ '/contact/recruiters/' | relative_url }}">Professional contact</a>
+            <a href="{{ '/contact/#send-a-message' | relative_url }}">Leave a question</a>
+          </div>
+        </div>
       </nav>
     </header>
 
