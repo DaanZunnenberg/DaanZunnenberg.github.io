@@ -23,6 +23,20 @@ title: About
 Abstract probability by day, quant by heart. <a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
 </p>
 
+<h2>Working Together</h2>
+<p class="tagline">Two different conversations, two different doors &mdash; pick whichever one you're here for.</p>
+
+<div class="nav-cards">
+  <a class="nav-card" href="{{ '/contact/research/' | relative_url }}">
+    <span class="nav-card-title">Research &amp; Academic</span>
+    <span class="nav-card-hint">Collaboration proposals, seminar invitations, peer review, or questions about the PhD work.</span>
+  </a>
+  <a class="nav-card" href="{{ '/contact/recruiters/' | relative_url }}">
+    <span class="nav-card-title">Recruiters &amp; Professional</span>
+    <span class="nav-card-hint">Roles, consulting, or an invitation to meet up: industry and professional contact.</span>
+  </a>
+</div>
+
 <h2>Selected Projects</h2>
 
 <div class="entry">
