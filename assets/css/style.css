@@ -389,6 +389,18 @@ h3 {
   color: var(--ink);
 }
 
+/* Compact sub-subheading, e.g. "Talks" / "Workshops" nested under an
+   Upcoming/Past h3 — same faint mono label style as .readme h4, just not
+   scoped to the collapsible project blocks. */
+h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin: 24px 0 10px;
+}
+
 .entry-head h3 a {
   color: inherit;
   text-decoration: none;
