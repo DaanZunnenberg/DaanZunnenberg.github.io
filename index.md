@@ -20,16 +20,16 @@ title: About
 </section>
 
 <p class="lede">
-Abstract probability by day, quant by heart. <a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
+Lost in abstract probability, inspired by quantitative markets. <a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
 </p>
 
 <h2>Working Together</h2>
-<p class="tagline">Two different conversations, two different doors &mdash; pick whichever one you're here for.</p>
+<p class="tagline">Here for a collaboration or a career opportunity? Choose the path that fits.</p>
 
 <div class="nav-cards">
   <a class="nav-card" href="{{ '/contact/research/' | relative_url }}">
     <span class="nav-card-title">Research &amp; Academic</span>
-    <span class="nav-card-hint">Collaboration proposals, seminar invitations, peer review, or questions about the PhD work.</span>
+    <span class="nav-card-hint">Collaboration proposals, seminar invitations, or questions about the PhD work.</span>
   </a>
   <a class="nav-card" href="{{ '/contact/recruiters/' | relative_url }}">
     <span class="nav-card-title">Recruiters &amp; Professional</span>
@@ -72,9 +72,27 @@ Abstract probability by day, quant by heart. <a href="{{ '/personal/' | relative
           where \(\delta\) is a strictly positive baseline intercept curve, and \(\alpha_i, \beta_j\) are non-negative integral kernel operators mapping past squared return curves and past volatility curves into today's volatility surface.
         </p>
 
+        <h4>Functional GAS Extension</h4>
+        <p>
+          The functional scale model can be extended to a functional Generalized Autoregressive Score (GAS) model by replacing the autoregressive dependence on past squared return curves with a score-driven update. The returns are defined as
+          \[y_t(u) = \sigma_t(u)\eta_t(u),\]
+          where \(\sigma_t^2(u)\) denotes the time-varying conditional variance curve. The functional GAS dynamics are specified as
+          \[\sigma_{t+1}^2 = \delta + B\sigma_t^2 + A\int \phi_K(s)y_t^2(s)\,ds,\]
+          where \(\delta\) is a strictly positive baseline intercept curve, \(B\) is a linear persistence operator acting on the previous volatility curve, and \(A\) maps the observed squared return curve into the updated volatility curve. The basis projection term
+          \[\int \phi_K(s)y_t^2(s)\,ds\]
+          represents the score-driven innovation component obtained from the functional representation of the return process.
+        </p>
+        <p>
+          Equivalently, the recursion can be expressed using integral kernel operators as
+          \[\sigma_{t+1}^2(u) = \delta(u) + \int B(u,v)\sigma_t^2(v)\,dv + \int A(u,s)\phi_K(s)y_t^2(s)\,ds.\]
+          The functional GAS model therefore updates the conditional variance curve using information contained in the most recent squared return curve, while the operator \(B\) captures the persistence of past volatility curves. Compared with the functional scale model,
+          \[\sigma_t^2 = \delta + \sum_{i=1}^{q}\alpha_i(y_{t-i}^{2}) + \sum_{j=1}^{p}\beta_j(\sigma_{t-j}^{2}),\]
+          the GAS formulation replaces the ARCH-type feedback operators \(\alpha_i(y_{t-i}^{2})\) with a score-driven update based on the functional projection of the return innovations.
+        </p>
+
         <h4>Estimation</h4>
         <p>
-          Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using <strong>Functional Quasi-Maximum Likelihood Estimation (QMLE)</strong>. Intuitively, the continuous process is projected onto a finite set of non-negative instrumental functions (such as Bernstein polynomials or shifted functional principal components). This maps the functional constraints into a tractable, finite-dimensional multivariate GARCH structure that can be optimized efficiently.
+          Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using <strong>Functional Quasi-Maximum Likelihood Estimation (QMLE)</strong>.
         </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/FunctionalScale.git
@@ -112,13 +130,13 @@ result = minimize(
         tightly than the plain functional GARCH fit above:
       </p>
       <img src="{{ '/assets/img/gas_vol_surface.png' | relative_url }}" alt="True versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
-      <p class="form-hint">Same simulated data and seed as the functional GARCH comparison; estimated via <code>gas_garch_estimator</code> with a Student-<em>t</em> observation density and an Ornstein&ndash;Uhlenbeck covariance kernel.</p>
+      <p class="form-hint">The first comparison figure shows the estimated GAS-GARCH volatility surface against the true volatility surface to assess the model&rsquo;s ability to recover the underlying dynamics.</p>
       <p>
         Placing the two estimators' fitted surfaces directly next to each other, rather than each against the
         true surface separately, makes the score-driven adaptation's smoothing effect easier to see:
       </p>
       <img src="{{ '/assets/img/garch_vs_gas_vol_surface.png' | relative_url }}" alt="Functional GARCH-estimated versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
-      <p class="form-hint">Same simulated data and seed as both comparisons above.</p>
+      <p class="form-hint">The second comparison figure compares the functional GARCH and GAS-GARCH volatility surfaces, demonstrating the increased flexibility of the GAS-GARCH specification relative to the traditional functional GARCH model.</p>
       <h4>Data Flow</h4>
       <pre class="code-block" data-lang="txt"><code>wrds/*.sas                    scripts/taq_cleaner.py           funcgarch/*.py
 ┌─────────────────┐           ┌────────────────────┐           ┌──────────────────────┐
@@ -152,21 +170,50 @@ result = minimize(
       <div class="readme">
       <h4>Overview</h4>
       <p>
-        A nonparametric test for stationarity of a multivariate It&ocirc; diffusion, built on a
-        Durbin&ndash;Wu&ndash;Hausman-style comparison of two consistent estimators of the diffusion matrix
-        whose convergence rates diverge under nonstationarity: a time-domain smoother (Jacod&ndash;Protter),
-        whose rate is stationarity-invariant, against a state-domain Nadaraya&ndash;Watson smoother, which
-        diverges almost surely once the process is nonstationary. Their standardized difference is
-        asymptotically Gaussian under stationarity (via &beta;-mixing), and the test rejects when the running
-        maximum of that difference exceeds a Gumbel-type critical bound (Pickands/Berman).
+        We consider a <em>d</em>-dimensional It&ocirc; diffusion process \((X_t)_{t \ge 0}\) defined by
+        \[dX_t = b(X_t)\,dt + \sigma(X_t)\,dW_t,\]
+        where \(X_t \in \mathbb{R}^d\), \(b: \mathbb{R}^d \to \mathbb{R}^d\) is the drift function,
+        \(\sigma: \mathbb{R}^d \to \mathbb{R}^{d \times m}\) is the diffusion coefficient, and \(W_t\) is an
+        \(m\)-dimensional Brownian motion. The instantaneous covariance matrix is given by
+        \[a(x) = \sigma(x)\sigma(x)^\top.\]
       </p>
-      <p>The running test statistic compares the two smoothers directly, taking the form</p>
-      \[
-      T_n = \max_{1 \le k \le n} \; \sqrt{k}\,\bigl\| \hat{\Sigma}^{\text{time}}_k - \hat{\Sigma}^{\text{state}}_k \bigr\|
-      \]
       <p>
-        with critical values from the Gumbel-type limit law of Pickands and Berman for the running maximum of a
-        stationary Gaussian sequence.
+        Throughout, we assume that the diffusion satisfies the <strong>uniform ellipticity condition</strong>,
+        meaning that there exists a constant \(\lambda > 0\) such that
+        \[\xi^\top a(x) \xi \ge \lambda \|\xi\|^2, \qquad \forall x \in \mathbb{R}^d,\ \xi \in \mathbb{R}^d.\]
+        This assumption ensures that the diffusion is non-degenerate in every direction. As a consequence, the
+        transition probabilities of the process assign positive probability to every non-empty open subset of
+        the state space. Hence, the process is <strong>open-set irreducible</strong>. Moreover, under standard
+        regularity conditions, the diffusion is <strong>aperiodic</strong>.
+      </p>
+      <p>
+        If the process is additionally <strong>positive Harris recurrent</strong>, then it admits a unique
+        invariant probability distribution and satisfies the usual ergodic properties of Markov processes. In
+        particular, long-run averages of functions of the process converge to their corresponding expectations
+        under the invariant distribution, ensuring stable long-run behaviour.
+      </p>
+      <p>
+        The proposed stationarity test is based on the relationship between stationarity and the growth
+        behaviour of the occupation measure,
+        \[\mu_t(A) = \int_0^t \mathbf{1}_A(X_s)\,ds,\]
+        which measures the amount of time the diffusion spends in a measurable set \(A\). For a stationary and
+        ergodic diffusion, the occupation measure grows linearly with time, with the growth rate determined by
+        the invariant distribution. Therefore, under the diffusion assumptions above, stationarity is
+        equivalent to linear divergence of the occupation measure.
+      </p>
+      <p>
+        The test exploits this equivalence by comparing two consistent estimators of the diffusion matrix. The
+        first estimator is constructed in the time domain, while the second estimator is constructed in the
+        state domain using the occupation measure. Under stationarity, the linear growth of the occupation
+        measure guarantees compatible asymptotic behaviour of both estimators. Under nonstationarity, this
+        linear divergence property fails, leading to a divergence between the two estimators.
+      </p>
+      <p>
+        The limiting distribution used for the test statistic is obtained from the extreme value theory of
+        <strong>Pickands and Berman</strong> for running maxima of stationary Gaussian sequences. Under the
+        stationary regime, the standardized difference between the estimators admits a Gaussian approximation,
+        and the corresponding running maximum converges to a Gumbel-type limit distribution. The critical
+        values for the test are therefore obtained from this Pickands&ndash;Berman extreme value distribution.
       </p>
       <h4>Quick Start</h4>
       <pre class="code-block" data-lang="python"><code>import numpy as np
@@ -199,50 +246,10 @@ bound, scalar_gauss = test.transform_1D_gauss()
 
 <div class="entry">
   <div class="entry-head">
-    <h3><a href="https://github.com/DaanZunnenberg/RiskFunctions" target="_blank" rel="noopener noreferrer">RiskFunctions</a></h3>
-    <span class="entry-date">2024</span>
-  </div>
-  <p>An installable library of risk models by family &mdash; variance-covariance and historic-simulation VaR/ES, CCC-GARCH, EWMA-FHS, copulas, and factor analysis &mdash; kept free of I/O and plotting so the estimators stay composable.</p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/RiskFunctions" target="_blank" rel="noopener noreferrer">RiskFunctions on GitHub</a></div>
-
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-      <h4>Overview</h4>
-      <p>
-        Each model family under <code>src/riskfunctions/models/</code> holds pure estimator/analysis
-        functions operating on DataFrames and arrays, with no I/O or plotting baked in; anything that loads
-        data, wires a model together, or produces output lives in <code>examples/</code> instead. Historic-
-        simulation VaR at level \(\alpha\) is just the empirical quantile of realized P&amp;L,
-      </p>
-      \[
-      \widehat{\mathrm{VaR}}_\alpha = -\inf\{x : \hat F_{\text{PnL}}(x) \ge \alpha\}, \qquad
-      \widehat{\mathrm{ES}}_\alpha = -\mathbb{E}\left[\mathrm{PnL} \mid \mathrm{PnL} \le -\widehat{\mathrm{VaR}}_\alpha\right]
-      \]
-      <h4>Usage</h4>
-      <pre class="code-block" data-lang="bash"><code>python -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"          # core + test dependencies
-pip install -e ".[multivariate]" # needed only for copulas / factor analysis
-
-python examples/var_covariance_example.py
-python examples/ccc_garch_example.py
-</code></pre>
-      <p class="form-hint">Full model list and examples on the <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a> page.</p>
-    </div>
-    </div>
-  </div>
-</div>
-
-<div class="entry">
-  <div class="entry-head">
     <h3><a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">Tukey Depth Under Mixing</a></h3>
     <span class="entry-date">2025</span>
   </div>
-  <p>Simulating dependent (mixing) time series and estimating Tukey's halfspace depth and its minimal direction, both empirically and in closed form, to study how the estimate converges as the sample grows.</p>
+  <p>Research code for studying Tukey depth under dependence: how depth-based statistical methods behave when observations come from dependent, mixing time series rather than independent samples.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">FunctionalCurves on GitHub</a></div>
 
   <div class="readme-toggle">
@@ -253,16 +260,26 @@ python examples/ccc_garch_example.py
       <div class="readme">
       <h4>Overview</h4>
       <p>
-        <code>MixingModels.py</code> generates synthetic bivariate paths with a controllable mixing rate
-        \(\rho\), including a linearly-weighted process whose weights decay as \(k^{-\rho}\).
-        <code>Depth.py</code> estimates Tukey depth &mdash; the minimum, over all halfspaces containing a
-        point \(x\), of the probability mass on one side &mdash;
+        This repository contains research code for studying Tukey depth under dependence. The objective is to
+        investigate how depth-based statistical methods behave when observations are generated from dependent
+        time series rather than independent samples. The code provides tools for simulating dependent, mixing
+        time series processes and estimating Tukey's halfspace depth together with the corresponding minimal
+        direction.
       </p>
-      \[
-      D(x) = \inf_{u \in S^{d-1}} \; \mathbb{P}\left(u^\top X \le u^\top x\right)
-      \]
-      <p>and its minimal direction empirically from a sample, with closed-form depth for Gaussian and stationary VAR(1) processes to compare against.</p>
+      <p>
+        The package includes simulation routines for generating synthetic bivariate time series with
+        different dependence structures and controllable mixing behaviour. It also provides implementations
+        for estimating Tukey depth and the direction that determines the limiting halfspace empirically from
+        simulated samples. In addition, the code includes closed-form benchmark cases for Gaussian models and
+        stationary vector autoregressive processes, allowing the empirical estimates to be compared against
+        theoretical values.
+      </p>
+      <p>
+        The main application is to study the convergence behaviour of depth estimates as the sample size
+        increases under different dependence regimes.
+      </p>
       <h4>Usage</h4>
+      <p>The repository includes Python examples for simulating dependent time series models and estimating Tukey depth and its minimal direction.</p>
       <pre class="code-block" data-lang="python"><code>from Core.MixingModels import MixingLinearModel
 from Core.Depth import Estimator, GaussianDepth
 
@@ -325,6 +342,6 @@ depth, direction = result.depth, result.direction
   That flickering panel behind my name up top isn't decoration. It's a real, currently-live order book,
   quietly doing its job in the background while you read a page about probability theory. Old habits: even
   here, on a page about myself, I couldn't resist leaving a market open in the corner. If it looks unusually
-  calm right now, that's not a design choice &mdash; that's just what the market is doing at this exact
+  calm right now, that's not a design choice, that's just what the market is doing at this exact
   moment, for better or worse.
 </p>

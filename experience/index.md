@@ -8,7 +8,7 @@ permalink: /experience/
   <canvas id="market-widget-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">Market Microstructure<span class="hero-eyebrow-extra"> &middot; Spot/Perp Basis Arb</span></div>
+    <div class="hero-eyebrow">Functional Volatility<span class="hero-eyebrow-extra"> &middot; Market Microstructure &middot; Dynamic Modelling</span></div>
     <h1 class="hero-name">Experience &amp; Projects<span class="cursor">_</span></h1>
     <p class="hero-lede">Roles and side projects at the intersection of statistics, execution, and market-making.</p>
   </div>
@@ -41,39 +41,43 @@ permalink: /experience/
       <div class="readme">
       <h4>Overview</h4>
       <p>
-        Quoting around a reference price is a variance-minimization problem, skewing the bid/ask away from mid
-        to pull inventory back toward zero before volatility or a directional move turns it into unhedged risk.
-        A standard formulation, in the style of Avellaneda&ndash;Stoikov, shifts the reservation price by an
-        amount proportional to inventory, risk aversion, and remaining variance, taking the form
+        Market making can be formulated as a stochastic optimal-control problem: choose bid and ask quotes
+        around a reference price to maximize expected spread capture while controlling inventory risk. In the
+        Gu&eacute;ant&ndash;Lehalle&ndash;Fernandez-Tapia framework, the reference price follows a diffusion
+        \[dS_t = \sigma dW_t,\]
+        while order arrivals depend on quote distance through
+        \[\lambda(\delta) = Ae^{-k\delta}.\]
+        Solving the control problem gives the theoretical optimal quotes. In the finite-horizon
+        Avellaneda&ndash;Stoikov model,
+        \[\delta_t^{b*} = \frac{1}{\gamma}\log(1+\gamma/k) + \frac{1+2q_t}{2}\gamma\sigma(T-t),\]
+        and
+        \[\delta_t^{a*} = \frac{1}{\gamma}\log(1+\gamma/k) + \frac{1-2q_t}{2}\gamma\sigma(T-t),\]
+        where the first term represents the baseline spread and the second term skews quotes according to
+        inventory. For continuous markets such as crypto, the infinite-horizon Gu&eacute;ant formulation
+        removes the terminal-time dependence and yields stationary quotes determined by inventory, volatility,
+        liquidity, and risk aversion. In practice, these models are extended with dynamic volatility estimates,
+        order-flow signals, queue-position models, latency-aware execution, and exchange-specific risk
+        controls.
       </p>
-      \[
-      r_t = s_t - q_t \, \gamma \, \sigma^2 (T - t)
-      \]
-      <p>
-        where \(s_t\) is the mid/reference price, \(q_t\) the current inventory, \(\gamma\) a risk-aversion
-        parameter, and \(\sigma^2(T-t)\) the remaining variance to the horizon. Smart order routing is a
-        related but separate allocation problem, splitting a target quantity \(Q\) across venues to minimize
-        total execution cost, taking the form
-      </p>
-      \[
-      \min_{x_1,\dots,x_n} \; \sum_{i=1}^n c_i(x_i) \quad \text{s.t.} \quad \sum_{i=1}^n x_i = Q, \;\; x_i \le L_i
-      \]
-      <p>
-        with \(c_i(\cdot)\) a per-venue cost function (fees plus expected impact) and \(L_i\) the available
-        liquidity at venue \(i\), re-solved as liquidity and fees shift intraday.
-      </p>
-      <pre class="code-block" data-lang="python"><code>async def route(target_qty, venues):
-    allocation = {}
-    remaining = target_qty
-    for venue in sorted(venues, key=lambda v: v.expected_cost(remaining)):
-        take = min(remaining, venue.available_liquidity)
-        allocation[venue.name] = take
-        remaining -= take
-        if remaining <= 0:
-            break
-    return allocation
+      <p><strong>Python code:</strong> async quote-management loop illustrating live deployment:</p>
+      <pre class="code-block" data-lang="python"><code>async def market_maker(feed, exchange, model):
+    while True:
+        market = await feed.next_update()
+
+        state = {
+            "mid": market.mid,
+            "inventory": await exchange.inventory(),
+            "volatility": market.volatility,
+        }
+
+        quotes = model.compute_quotes(state)
+
+        await exchange.cancel_stale_orders()
+        await exchange.place_quotes(quotes)
+
+        await asyncio.sleep(0.01)
 </code></pre>
-      <p class="form-hint">Illustrative formulation of the class of technique; the production system's exact parameterization is proprietary to QuantFi.</p>
+      <p class="form-hint">Illustrative formulation of the class of technique; production market-making systems typically use proprietary calibration, execution models, risk controls, and infrastructure.</p>
     </div>
     </div>
   </div>
@@ -86,10 +90,13 @@ permalink: /experience/
   </div>
   <div class="entry-org">Amsterdam, Netherlands</div>
   <p>
-    Designed likelihood-based estimation algorithms for functional location-scale models, contributing to
-    Lin &amp; Lucas's work on robust observation-driven dynamics (see <a href="{{ '/research/' | relative_url }}">Publications</a>).
-    The conditional-variance operators are projected onto a finite Bernstein-polynomial basis, reducing an
-    infinite-dimensional positivity-constrained QMLE problem to a bounded, finite-dimensional optimization:
+    Collaborated with <strong>Yicong Lin</strong> and <strong>Andre Lucas</strong> on robust observation-driven
+    dynamics for functional location-scale models (see <a href="{{ '/research/' | relative_url }}">Publications</a>).
+    My contribution focused on the estimation and implementation of the functional volatility component: by
+    projecting infinite-dimensional conditional-variance operators onto a finite Bernstein-polynomial basis, the
+    positivity-constrained QMLE problem is reduced to a bounded, finite-dimensional optimization. The
+    implementation constructs the functional operators, performs the volatility recursion, and estimates the
+    model parameters through constrained likelihood optimization:
   </p>
   <pre class="code-block" data-lang="python"><code>def bernstein_basis(u, M, k):
     return comb(M - 1, k - 1) * u ** (k - 1) * (1 - u) ** (M - k)
@@ -115,10 +122,10 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
 </code></pre>
   <p class="form-hint">Non-negative Bernstein coefficients guarantee a positive volatility surface directly, without constrained optimization over the full operator.</p>
   <p>
-    Fitting the functional GARCH(1,1) recursion above (Bernstein-basis QMLE, projected onto <em>M</em> = 3 basis
-    functions) to simulated intraday data recovers the shape of the true volatility surface, though with visibly
-    more day-to-day roughness than the true process &mdash; several of the fitted operator coefficients sit at
-    their box constraint, which a richer basis or a longer sample would relax:
+    Applying this framework to simulated intraday data with a functional GARCH(1,1) recursion and
+    Bernstein-basis QMLE with <em>M</em> = 3 basis functions gives the fitted volatility surface shown below.
+    The estimation recovers the main structure of the true process, while the remaining day-to-day roughness
+    reflects finite-sample effects and the limited flexibility of the chosen basis:
   </p>
   <img src="{{ '/assets/img/garch_vol_surface.png' | relative_url }}" alt="True versus functional GARCH-estimated volatility surface, side by side" class="entry-figure">
   <p class="form-hint">Simulated 25-point intraday grid over 500 trading days; estimated surface via <code>funcgarch.garch.fit</code> + <code>garch_filter</code>.</p>
@@ -175,9 +182,27 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
           where \(\delta\) is a strictly positive baseline intercept curve, and \(\alpha_i, \beta_j\) are non-negative integral kernel operators mapping past squared return curves and past volatility curves into today's volatility surface.
         </p>
 
+        <h4>Functional GAS Extension</h4>
+        <p>
+          The functional scale model can be extended to a functional Generalized Autoregressive Score (GAS) model by replacing the autoregressive dependence on past squared return curves with a score-driven update. The returns are defined as
+          \[y_t(u) = \sigma_t(u)\eta_t(u),\]
+          where \(\sigma_t^2(u)\) denotes the time-varying conditional variance curve. The functional GAS dynamics are specified as
+          \[\sigma_{t+1}^2 = \delta + B\sigma_t^2 + A\int \phi_K(s)y_t^2(s)\,ds,\]
+          where \(\delta\) is a strictly positive baseline intercept curve, \(B\) is a linear persistence operator acting on the previous volatility curve, and \(A\) maps the observed squared return curve into the updated volatility curve. The basis projection term
+          \[\int \phi_K(s)y_t^2(s)\,ds\]
+          represents the score-driven innovation component obtained from the functional representation of the return process.
+        </p>
+        <p>
+          Equivalently, the recursion can be expressed using integral kernel operators as
+          \[\sigma_{t+1}^2(u) = \delta(u) + \int B(u,v)\sigma_t^2(v)\,dv + \int A(u,s)\phi_K(s)y_t^2(s)\,ds.\]
+          The functional GAS model therefore updates the conditional variance curve using information contained in the most recent squared return curve, while the operator \(B\) captures the persistence of past volatility curves. Compared with the functional scale model,
+          \[\sigma_t^2 = \delta + \sum_{i=1}^{q}\alpha_i(y_{t-i}^{2}) + \sum_{j=1}^{p}\beta_j(\sigma_{t-j}^{2}),\]
+          the GAS formulation replaces the ARCH-type feedback operators \(\alpha_i(y_{t-i}^{2})\) with a score-driven update based on the functional projection of the return innovations.
+        </p>
+
         <h4>Estimation</h4>
         <p>
-          Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using <strong>Functional Quasi-Maximum Likelihood Estimation (QMLE)</strong>. Intuitively, the continuous process is projected onto a finite set of non-negative instrumental functions (such as Bernstein polynomials or shifted functional principal components). This maps the functional constraints into a tractable, finite-dimensional multivariate GARCH structure that can be optimized efficiently.
+          Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using <strong>Functional Quasi-Maximum Likelihood Estimation (QMLE)</strong>.
         </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/FunctionalScale.git
@@ -215,13 +240,13 @@ result = minimize(
         tightly than the plain functional GARCH fit above:
       </p>
       <img src="{{ '/assets/img/gas_vol_surface.png' | relative_url }}" alt="True versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
-      <p class="form-hint">Same simulated data and seed as the functional GARCH comparison; estimated via <code>gas_garch_estimator</code> with a Student-<em>t</em> observation density and an Ornstein&ndash;Uhlenbeck covariance kernel.</p>
+      <p class="form-hint">The first comparison figure shows the estimated GAS-GARCH volatility surface against the true volatility surface to assess the model&rsquo;s ability to recover the underlying dynamics.</p>
       <p>
         Placing the two estimators' fitted surfaces directly next to each other, rather than each against the
         true surface separately, makes the score-driven adaptation's smoothing effect easier to see:
       </p>
       <img src="{{ '/assets/img/garch_vs_gas_vol_surface.png' | relative_url }}" alt="Functional GARCH-estimated versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
-      <p class="form-hint">Same simulated data and seed as both comparisons above.</p>
+      <p class="form-hint">The second comparison figure compares the functional GARCH and GAS-GARCH volatility surfaces, demonstrating the increased flexibility of the GAS-GARCH specification relative to the traditional functional GARCH model.</p>
       <h4>Data Flow</h4>
       <pre class="code-block" data-lang="txt"><code>wrds/*.sas                    scripts/taq_cleaner.py           funcgarch/*.py
 ┌─────────────────┐           ┌────────────────────┐           ┌──────────────────────┐
@@ -255,21 +280,50 @@ result = minimize(
       <div class="readme">
       <h4>Overview</h4>
       <p>
-        A nonparametric test for stationarity of a multivariate It&ocirc; diffusion, built on a
-        Durbin&ndash;Wu&ndash;Hausman-style comparison of two consistent estimators of the diffusion matrix
-        whose convergence rates diverge under nonstationarity: a time-domain smoother (Jacod&ndash;Protter),
-        whose rate is stationarity-invariant, against a state-domain Nadaraya&ndash;Watson smoother, which
-        diverges almost surely once the process is nonstationary. Their standardized difference is
-        asymptotically Gaussian under stationarity (via &beta;-mixing), and the test rejects when the running
-        maximum of that difference exceeds a Gumbel-type critical bound (Pickands/Berman).
+        We consider a <em>d</em>-dimensional It&ocirc; diffusion process \((X_t)_{t \ge 0}\) defined by
+        \[dX_t = b(X_t)\,dt + \sigma(X_t)\,dW_t,\]
+        where \(X_t \in \mathbb{R}^d\), \(b: \mathbb{R}^d \to \mathbb{R}^d\) is the drift function,
+        \(\sigma: \mathbb{R}^d \to \mathbb{R}^{d \times m}\) is the diffusion coefficient, and \(W_t\) is an
+        \(m\)-dimensional Brownian motion. The instantaneous covariance matrix is given by
+        \[a(x) = \sigma(x)\sigma(x)^\top.\]
       </p>
-      <p>The running test statistic compares the two smoothers directly, taking the form</p>
-      \[
-      T_n = \max_{1 \le k \le n} \; \sqrt{k}\,\bigl\| \hat{\Sigma}^{\text{time}}_k - \hat{\Sigma}^{\text{state}}_k \bigr\|
-      \]
       <p>
-        with critical values from the Gumbel-type limit law of Pickands and Berman for the running maximum of a
-        stationary Gaussian sequence.
+        Throughout, we assume that the diffusion satisfies the <strong>uniform ellipticity condition</strong>,
+        meaning that there exists a constant \(\lambda > 0\) such that
+        \[\xi^\top a(x) \xi \ge \lambda \|\xi\|^2, \qquad \forall x \in \mathbb{R}^d,\ \xi \in \mathbb{R}^d.\]
+        This assumption ensures that the diffusion is non-degenerate in every direction. As a consequence, the
+        transition probabilities of the process assign positive probability to every non-empty open subset of
+        the state space. Hence, the process is <strong>open-set irreducible</strong>. Moreover, under standard
+        regularity conditions, the diffusion is <strong>aperiodic</strong>.
+      </p>
+      <p>
+        If the process is additionally <strong>positive Harris recurrent</strong>, then it admits a unique
+        invariant probability distribution and satisfies the usual ergodic properties of Markov processes. In
+        particular, long-run averages of functions of the process converge to their corresponding expectations
+        under the invariant distribution, ensuring stable long-run behaviour.
+      </p>
+      <p>
+        The proposed stationarity test is based on the relationship between stationarity and the growth
+        behaviour of the occupation measure,
+        \[\mu_t(A) = \int_0^t \mathbf{1}_A(X_s)\,ds,\]
+        which measures the amount of time the diffusion spends in a measurable set \(A\). For a stationary and
+        ergodic diffusion, the occupation measure grows linearly with time, with the growth rate determined by
+        the invariant distribution. Therefore, under the diffusion assumptions above, stationarity is
+        equivalent to linear divergence of the occupation measure.
+      </p>
+      <p>
+        The test exploits this equivalence by comparing two consistent estimators of the diffusion matrix. The
+        first estimator is constructed in the time domain, while the second estimator is constructed in the
+        state domain using the occupation measure. Under stationarity, the linear growth of the occupation
+        measure guarantees compatible asymptotic behaviour of both estimators. Under nonstationarity, this
+        linear divergence property fails, leading to a divergence between the two estimators.
+      </p>
+      <p>
+        The limiting distribution used for the test statistic is obtained from the extreme value theory of
+        <strong>Pickands and Berman</strong> for running maxima of stationary Gaussian sequences. Under the
+        stationary regime, the standardized difference between the estimators admits a Gaussian approximation,
+        and the corresponding running maximum converges to a Gumbel-type limit distribution. The critical
+        values for the test are therefore obtained from this Pickands&ndash;Berman extreme value distribution.
       </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>pip install -e .
@@ -403,20 +457,30 @@ weights = recursive_bisection(returns.cov(), order)
       <h4>Overview</h4>
       <p>
         Each unit \(i\) belongs to a latent cluster \(s_{i,t} \in \{1,\dots,K\}\), with observations
-        \(y_{i,t} \mid s_{i,t}=k \sim \mathcal{N}(\mu_{k,t}, \Sigma_{k,t})\). Transition probabilities are
-        shared across units and depend on the Mahalanobis distance between cluster means, scaled by a
-        sensitivity parameter \(\gamma\).
+        \(y_{i,t} \mid s_{i,t}=k \sim \mathcal{N}(\mu_{k,t}, \Sigma_{k,t})\). The transition probabilities are
+        shared across units and depend on the distance between cluster-specific location parameters, scaled
+        by a sensitivity parameter \(\gamma\):
       </p>
       \[
       \pi_t^{(j \to k)} = \frac{\exp(-\gamma\, d(\mu_{j,t-1}, \mu_{k,t-1}))}{\sum_{m=1}^K \exp(-\gamma\, d(\mu_{j,t-1}, \mu_{m,t-1}))}
       \]
+      <p>where \(d(\cdot,\cdot)\) denotes the Mahalanobis distance.</p>
       <p>
-        Cluster means are score-driven rather than static, following a Generalized Autoregressive Score (GAS)
-        recursion built on the gradient of the mixture log-likelihood.
+        The cluster parameters are allowed to evolve dynamically through a Generalized Autoregressive Score
+        (GAS) recursion rather than being fixed over time. Let \(f_{k,t}\) denote the time-varying state
+        associated with cluster \(k\). The update is given by
       </p>
       \[
-      f_{t+1} = \omega + A s_t + B f_t, \qquad s_t = S_t \cdot \frac{\partial \ln p(y_t \mid f_t)}{\partial f_t}
+      f_{k,t+1} = \omega_k + A_k s_{k,t} + B_k f_{k,t},
       \]
+      <p>where the scaled score is</p>
+      \[
+      s_{k,t} = S_{k,t}\, \frac{\partial \log p(y_t \mid f_{k,t})}{\partial f_{k,t}}.
+      \]
+      <p>
+        This score-driven specification allows the cluster characteristics to adapt to new observations while
+        preserving the dynamic structure of the mixture model.
+      </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/DynamicCluster.git
 cd DynamicCluster
@@ -436,7 +500,7 @@ pip install -e .
     <h3><a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">Tukey Depth Under Mixing</a></h3>
     <span class="entry-date">2025</span>
   </div>
-  <p>Simulating dependent (mixing) time series and estimating Tukey's halfspace depth and its minimal direction, both empirically and analytically, to study convergence as sample size grows.</p>
+  <p>Research code for studying Tukey depth under dependence: how depth-based statistical methods behave when observations come from dependent, mixing time series rather than independent samples.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">FunctionalCurves on GitHub</a></div>
 
   <div class="readme-toggle">
@@ -447,10 +511,23 @@ pip install -e .
       <div class="readme">
       <h4>Overview</h4>
       <p>
-        <code>MixingModels.py</code> generates synthetic bivariate paths with a controllable mixing rate
-        \(\rho\), including a linearly-weighted process whose weights decay as \(k^{-\rho}\).
-        <code>Depth.py</code> estimates Tukey depth and its minimal direction empirically from a sample, and
-        gives the closed-form depth for Gaussian and stationary VAR(1) processes to compare against.
+        This repository contains research code for studying Tukey depth under dependence. The objective is to
+        investigate how depth-based statistical methods behave when observations are generated from dependent
+        time series rather than independent samples. The code provides tools for simulating dependent, mixing
+        time series processes and estimating Tukey's halfspace depth together with the corresponding minimal
+        direction.
+      </p>
+      <p>
+        The package includes simulation routines for generating synthetic bivariate time series with
+        different dependence structures and controllable mixing behaviour. It also provides implementations
+        for estimating Tukey depth and the direction that determines the limiting halfspace empirically from
+        simulated samples. In addition, the code includes closed-form benchmark cases for Gaussian models and
+        stationary vector autoregressive processes, allowing the empirical estimates to be compared against
+        theoretical values.
+      </p>
+      <p>
+        The main application is to study the convergence behaviour of depth estimates as the sample size
+        increases under different dependence regimes.
       </p>
       <h4>Usage</h4>
       <pre class="code-block" data-lang="python"><code>from Core.MixingModels import MixingLinearModel
@@ -671,7 +748,7 @@ python scripts/run_tde.py
 
 <div class="entry">
   <ul>
-    <li><strong>Languages &amp; tools:</strong> <code>Python</code> (<code>pandas</code>, <code>numpy</code>, <code>asyncio</code>, <code>numba</code>), <code>Java</code>, <code>Git</code>, <code>Docker</code>, <code>Bash</code></li>
+    <li><strong>Languages &amp; tools:</strong> Python (<code>pandas</code>, <code>numpy</code>, <code>asyncio</code>, <code>numba</code>), Java, Git, Docker, Bash</li>
     <li><strong>Machine learning:</strong> <code>scipy</code>, <code>cvxpy</code>, <code>statsmodels</code>, <code>sklearn</code>, <code>tensorflow</code></li>
     <li><strong>Statistical foundations:</strong> time series analysis, econometrics, inference theory</li>
   </ul>

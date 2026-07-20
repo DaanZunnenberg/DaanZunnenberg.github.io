@@ -27,15 +27,20 @@ permalink: /personal/
 <h2>Research, Briefly</h2>
 <p class="tagline">Probability theory &middot; empirical processes &middot; statistical estimation</p>
 <p>
-  I'm a PhD researcher at Leiden University working on generic chaining, majorizing measures, and weak
-  convergence for dependent processes. The full write-up, including a walkthrough of the math, lives on the
+  I am a doctoral researcher at the Mathematical Institute of Leiden University, supervised by Dr. Alexander
+  D&uuml;rre. My research focuses on probability theory and mathematical statistics, with particular interests
+  in empirical processes, generic chaining, majorizing measures, and weak convergence for dependent processes.
+  I also teach as a teaching assistant for Linear Algebra and Stochastic Processes.
+</p>
+<p>
+  The full research overview, including mathematical background and project details, can be found on the
   <a href="{{ '/research/' | relative_url }}">Research</a> page.
 </p>
 
 <div class="entry">
   <ul>
-    <li><strong>Academic:</strong> collaboration on generic chaining, majorizing measures, or robust statistics under dependence; seminar and reading-group invitations; questions about a proof or a dataset.</li>
-    <li><strong>Professional:</strong> quantitative research or development roles, consulting on estimation and execution systems, and advisory conversations at the intersection of probability and trading.</li>
+    <li><strong>Academic:</strong> I am interested in collaborations and discussions around probability theory, empirical processes, generic chaining, majorizing measures, dependence structures, and robust statistics. I am also happy to discuss seminars, reading groups, proofs, or computational aspects of statistical problems.</li>
+    <li><strong>Professional:</strong> I am open to quantitative research and development opportunities, particularly at the intersection of probability, statistics, and financial markets. My interests include market making, statistical arbitrage, algorithmic trading, and the mathematical modeling of execution and risk systems.</li>
   </ul>
 </div>
 
@@ -46,30 +51,29 @@ permalink: /personal/
 
 <h2>Padel</h2>
 <p>
-A relatively recent habit that stuck harder than most. I play regularly now, and it's become the sport I
-default to when I want to actually switch off rather than just move: fast enough to demand full attention,
-short enough to fit around a research or trading schedule.
-</p>
-
-<h2>Reading</h2>
-<p>
-My reading swings between fiction and non-fiction with no particular pattern; the common thread is that it's
-one of the few things that reliably gets me off a screen in the evening. If you have a recommendation, that's
-a good reason to <a href="{{ '/contact/' | relative_url }}">reach out</a>.
+I am certainly not the best player, but I enjoy the challenge. Perhaps you are up for a match? It is a
+relatively recent habit that has stuck more than most. I play regularly now, and it has become my go-to sport
+when I want to properly switch off rather than just get some movement in. It is fast enough to require my
+full attention, yet short enough to fit around a busy research or trading schedule.
 </p>
 
 <h2>Travel</h2>
 <p>
-Travel is the other thing that gets me to properly close the laptop. I don't have a fixed itinerary style;
-sometimes it's planned well in advance, sometimes it's decided a week out. Conferences and seminar visits tend
-to double as an excuse to see somewhere new.
+I am a big fan of the beauty of winter. The crisp air, snowy landscapes, and the quiet atmosphere that comes
+with the season. The holiday period makes it even more special: the lights, the traditions, the time spent
+with family and friends, and the feeling of slowing down after a busy year. There is something uniquely
+comforting about that time of year.
 </p>
-
-<h2>Sports, more broadly</h2>
 <p>
-Padel is the one that stuck, but staying active in general matters to me. It's as much a counterweight
-to long stretches at a desk as anything else, whether that's a proof that isn't cooperating or a session
-watching production systems tick over.
+That said, I also enjoy escaping to a tropical hideout from time to time, especially when a bit of warmth and
+sunshine are needed. A change of scenery has a way of bringing a fresh perspective.
+</p>
+<p>
+Travel is the other thing that reliably gets me to properly close the laptop. I do not really have a fixed
+style when it comes to planning trips: sometimes everything is organised well in advance, while other times
+the destination is decided only a week before leaving. Conferences and seminar visits often provide the
+perfect excuse to explore somewhere new, turning work trips into opportunities to discover places I might not
+have visited otherwise.
 </p>
 
 <div class="links">
