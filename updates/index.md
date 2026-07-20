@@ -5,7 +5,7 @@ permalink: /updates/
 ---
 
 <section class="hero hero-scroll">
-  <canvas id="footprint-widget-canvas" class="hero-canvas" aria-label="Live order-flow footprint chart for Binance ETH/USDT, SOL/USDT, and BTC/USDT spot trades: each column is a five-second time bar, each row a price level, showing aggressive buy volume against aggressive sell volume at that level (scroll horizontally on narrow screens)" aria-hidden="true"></canvas>
+  <canvas id="orderflow-ladder-canvas" class="hero-canvas" aria-label="Live combined depth-of-market and order-flow ladder for Binance ETH/USDT, SOL/USDT, and BTC/USDT: each row is a price level showing resting bid and ask book size alongside the net executed buy/sell delta traded at that level (scroll horizontally on narrow screens)" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
