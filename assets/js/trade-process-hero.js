@@ -6,9 +6,9 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Three live time-and-sales tapes (ETH, SOL, BTC), side by side. Each row
-  // is one real Binance USDⓈ-M perpetual futures trade: price, trade amount
-  // in the coin's own units, and the time it printed. Tapes advance
-  // independently — whichever symbol is trading fastest fills in first.
+  // is one real Binance spot trade: price, trade amount in the coin's own
+  // units, and the time it printed. Tapes advance independently — whichever
+  // symbol is trading fastest fills in first.
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
   var MONO_FONT = "'SF Mono', Menlo, Consolas, monospace";
@@ -225,7 +225,7 @@
 
     var ws;
     try {
-      ws = new WebSocket("wss://fstream.binance.com/stream?streams=" + streams.join("/"));
+      ws = new WebSocket("wss://stream.binance.com:9443/stream?streams=" + streams.join("/"));
     } catch (e) {
       return;
     }
@@ -255,7 +255,7 @@
 
   function backfillSymbol(sym) {
     var upper = sym.key.toUpperCase();
-    return fetch("https://fapi.binance.com/fapi/v1/aggTrades?symbol=" + upper + "&limit=" + MAX_ROWS)
+    return fetch("https://api.binance.com/api/v3/aggTrades?symbol=" + upper + "&limit=" + MAX_ROWS)
       .then(function (res) { return res.json(); })
       .then(function (trades) {
         // Oldest first into pushTrade (which prepends), so the tape ends
