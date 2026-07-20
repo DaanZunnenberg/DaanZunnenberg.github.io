@@ -256,7 +256,7 @@
       <h1>Daan Zunnenberg<span class="status-underscore">_</span></h1>
       <p class="desc">Probability, market-making &amp; HFT.</p>
 
-      <a class="link site-link" id="site-link" href="https://daanzunnenberg.github.io/" target="_blank" rel="noopener">
+      <a class="link site-link" id="site-link" href="https://daanzunnenberg.com/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
         Personal Website
       </a>
@@ -285,6 +285,18 @@
 </div>
 
 <script>
+  // ---- seeded PRNG so the starting numbers are the same on every refresh ----
+  (function () {
+    let seed = 0x2f6e2b1;
+    function mulberry32() {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    }
+    Math.random = mulberry32;
+  })();
+
   // ---- copy to clipboard ----
   const emailLink = document.getElementById('email-link');
   const toast = document.getElementById('toast');

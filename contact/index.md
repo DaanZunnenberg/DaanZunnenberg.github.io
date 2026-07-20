@@ -39,10 +39,10 @@ permalink: /contact/
 <h2 id="send-a-message">Send a message</h2>
 
 <form class="contact-form" action="https://formsubmit.co/dw.zunnenberg@gmail.com" method="POST">
-  <input type="hidden" name="_subject" value="New message from daanzunnenberg.github.io">
+  <input type="hidden" name="_subject" value="New message from daanzunnenberg.com">
   <input type="hidden" name="_template" value="table">
   <input type="hidden" name="_captcha" value="true">
-  <input type="hidden" name="_next" value="https://daanzunnenberg.github.io/contact/?sent=1">
+  <input type="hidden" name="_next" value="https://daanzunnenberg.com/contact/?sent=1">
   <input type="text" name="_honey" style="display:none">
 
   <div class="form-row">
