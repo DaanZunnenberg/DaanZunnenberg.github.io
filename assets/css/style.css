@@ -194,12 +194,12 @@ main::before {
 
 .site-title {
   font-family: var(--mono);
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: 19px;
+  color: var(--ink);
   text-decoration: none;
-  letter-spacing: 0.03em;
-  opacity: 0.85;
+  letter-spacing: 0.01em;
+  opacity: 0.92;
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
