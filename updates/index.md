@@ -4,8 +4,17 @@ title: Updates & Events
 permalink: /updates/
 ---
 
-<h1>Updates &amp; Events</h1>
-<p class="tagline">Short-form notes, news, and anything on the calendar &mdash; the more active part of this site.</p>
+<section class="hero">
+  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Notes &amp; Announcements</div>
+    <h1 class="hero-name">Updates &amp; Events<span class="cursor">_</span></h1>
+    <p class="hero-lede">Short-form notes, news, and anything on the calendar &mdash; the more active part of this site.</p>
+  </div>
+</section>
+
+<p class="tagline">Probability theory research news &middot; talks &middot; seminars &middot; press</p>
 
 <p class="lede">
 Longer write-ups live on the <a href="{{ '/research/' | relative_url }}">Research</a> and
