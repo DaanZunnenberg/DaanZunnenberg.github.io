@@ -17,17 +17,33 @@
   var BAR_MS = 5000;   // width of one footprint bar
   var MAX_BARS = 60;   // bars kept in memory per symbol
   var MAX_ROWS = 11;   // price rows shown per panel, centered on the latest price
-  var BAR_COL_W = 40;
+  var BAR_COL_W = 52;
   var LABEL_COL_W = 42;
 
   // Same palette as the other live-trade hero sections.
   var AMBER = "rgba(224, 168, 82, 0.75)";
-  var AMBER_BG = "rgba(224, 168, 82, 0.09)";
   var UP_TEXT = "rgba(88, 214, 151, 0.9)";
   var DOWN_TEXT = "rgba(235, 110, 110, 0.9)";
-  var UP_BG = "88, 214, 151";
-  var DOWN_BG = "235, 110, 110";
   var DIM_TEXT = "rgba(233, 236, 243, 0.4)";
+
+  // Each cell is split into a bid half and an ask half, each shaded from a
+  // dark, desaturated base up to a hot color as its share of volume grows —
+  // the same dark-to-hot heat scale the order-book widget uses, so a real
+  // footprint table (light/dark patches by traded size) reads consistently
+  // with the rest of the site rather than introducing a new palette.
+  var ASK_HEAT = "35, 22, 24";
+  var ASK_HOT  = "196, 96, 96";
+  var BID_HEAT = "18, 30, 27";
+  var BID_HOT  = "74, 176, 126";
+
+  function heatColor(base, hot, t) {
+    var b = base.split(",").map(Number);
+    var h = hot.split(",").map(Number);
+    var r = b[0] + (h[0] - b[0]) * t;
+    var g = b[1] + (h[1] - b[1]) * t;
+    var bl = b[2] + (h[2] - b[2]) * t;
+    return "rgb(" + (r | 0) + "," + (g | 0) + "," + (bl | 0) + ")";
+  }
 
   var SYMBOLS = [
     { key: "ethusdt", label: "ETH/USDT", tick: null, bars: [], live: false },
@@ -220,38 +236,39 @@
       ctx.fillText(lvl.toFixed(digits), gridX0 - 4, ry + rowH - rowH * 0.28);
     });
 
-    ctx.strokeStyle = "rgba(224, 168, 82, 0.14)";
-    ctx.beginPath();
-    ctx.moveTo(gridX0 - 2, y0 + headerH);
-    ctx.lineTo(gridX0 - 2, y0 + panelH);
-    ctx.stroke();
+    // Normalize each half's heat against the busiest single side across the
+    // whole visible grid, so a quiet corner stays dark and only genuinely
+    // heavy prints light up — the light/dark patches real footprint tables
+    // show at a glance.
+    var maxSide = 1e-9;
+    visibleBars.forEach(function (bar) {
+      levels.forEach(function (lvl) {
+        var cell = bar.levels[lvl];
+        if (!cell) return;
+        if (cell.bid > maxSide) maxSide = cell.bid;
+        if (cell.ask > maxSide) maxSide = cell.ask;
+      });
+    });
+
+    var halfW = (BAR_COL_W - 1) / 2;
+    var gridBottom = y0 + headerH + levels.length * rowH;
 
     visibleBars.forEach(function (bar, bIdx) {
       var bx = gridX0 + bIdx * BAR_COL_W;
       levels.forEach(function (lvl, r) {
         var ry = y0 + headerH + r * rowH;
         var cell = bar.levels[lvl];
-        var isPoc = bar.poc === lvl;
+        var bidT = cell ? Math.min(1, cell.bid / maxSide) : 0;
+        var askT = cell ? Math.min(1, cell.ask / maxSide) : 0;
 
-        if (isPoc) {
-          ctx.fillStyle = AMBER_BG;
-          ctx.fillRect(bx, ry, BAR_COL_W - 1, rowH - 0.6);
-        } else if (r % 2 === 0) {
-          ctx.fillStyle = "rgba(233, 236, 243, 0.02)";
-          ctx.fillRect(bx, ry, BAR_COL_W - 1, rowH - 0.6);
-        }
+        ctx.fillStyle = heatColor(BID_HEAT, BID_HOT, bidT);
+        ctx.fillRect(bx, ry, halfW, rowH - 1);
+        ctx.fillStyle = heatColor(ASK_HEAT, ASK_HOT, askT);
+        ctx.fillRect(bx + halfW, ry, halfW, rowH - 1);
 
         if (!cell) return;
-        var dom = cell.bid - cell.ask;
-        var domT = Math.min(1, Math.abs(dom) / Math.max(1e-9, cell.bid + cell.ask));
-        var tint = dom >= 0
-          ? "rgba(" + UP_BG + ", " + (0.1 + 0.18 * domT).toFixed(2) + ")"
-          : "rgba(" + DOWN_BG + ", " + (0.1 + 0.18 * domT).toFixed(2) + ")";
-        ctx.fillStyle = tint;
-        ctx.fillRect(bx, ry, BAR_COL_W - 1, rowH - 0.6);
-
         ctx.font = fontPx + "px " + MONO_FONT;
-        var ty = ry + rowH - rowH * 0.28;
+        var ty = ry + rowH - rowH * 0.32;
         ctx.textAlign = "left";
         ctx.fillStyle = cell.bid > 0 ? UP_TEXT : DIM_TEXT;
         ctx.fillText(fmtVol(cell.bid), bx + 3, ty);
@@ -259,7 +276,42 @@
         ctx.fillStyle = cell.ask > 0 ? DOWN_TEXT : DIM_TEXT;
         ctx.fillText(fmtVol(cell.ask), bx + BAR_COL_W - 4, ty);
       });
+
+      // Point-of-control cell for this bar, boxed in amber like a real
+      // footprint chart's POC marker rather than washed in a fill color.
+      if (bar.poc != null && levels.indexOf(bar.poc) !== -1) {
+        var pocR = levels.indexOf(bar.poc);
+        ctx.strokeStyle = AMBER;
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(bx + 0.75, y0 + headerH + pocR * rowH + 0.75, BAR_COL_W - 2.5, rowH - 2.5);
+      }
     });
+
+    // Table grid: a visible ruled line under every row and between every
+    // bar column, so the whole thing reads as a table rather than a loose
+    // scatter of colored rectangles.
+    ctx.strokeStyle = "rgba(10, 12, 18, 0.55)";
+    ctx.lineWidth = 1;
+    for (var r2 = 0; r2 <= levels.length; r2++) {
+      var ly = y0 + headerH + r2 * rowH;
+      ctx.beginPath();
+      ctx.moveTo(gridX0, ly + 0.5);
+      ctx.lineTo(gridX0 + visibleBars.length * BAR_COL_W, ly + 0.5);
+      ctx.stroke();
+    }
+    for (var c2 = 0; c2 <= visibleBars.length; c2++) {
+      var lx = gridX0 + c2 * BAR_COL_W;
+      ctx.beginPath();
+      ctx.moveTo(lx + 0.5, y0 + headerH);
+      ctx.lineTo(lx + 0.5, gridBottom);
+      ctx.stroke();
+    }
+
+    ctx.strokeStyle = "rgba(224, 168, 82, 0.2)";
+    ctx.beginPath();
+    ctx.moveTo(gridX0 - 1.5, y0 + headerH);
+    ctx.lineTo(gridX0 - 1.5, y0 + panelH);
+    ctx.stroke();
 
     ctx.restore();
   }
