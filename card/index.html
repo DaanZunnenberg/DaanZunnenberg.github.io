@@ -634,16 +634,17 @@
     });
   }
 
-  function jitter(sym) {
+  function jitter(sym, intensity) {
+    var p = intensity || 0.18;
     Object.keys(sym.bookByTick).forEach(function (k) {
       var cell = sym.bookByTick[k];
-      if (cell.bid && Math.random() > 0.5) cell.bid = Math.max(2, cell.bid + (Math.random() - 0.5) * 18);
-      if (cell.ask && Math.random() > 0.5) cell.ask = Math.max(2, cell.ask + (Math.random() - 0.5) * 18);
+      if (cell.bid && Math.random() < p) cell.bid = Math.max(2, cell.bid + (Math.random() - 0.5) * 18);
+      if (cell.ask && Math.random() < p) cell.ask = Math.max(2, cell.ask + (Math.random() - 0.5) * 18);
     });
     Object.keys(sym.tradesByTick).forEach(function (k) {
       var cell = sym.tradesByTick[k];
-      if (Math.random() > 0.6) cell.buy = Math.max(0, cell.buy + (Math.random() - 0.5) * 10);
-      if (Math.random() > 0.6) cell.sell = Math.max(0, cell.sell + (Math.random() - 0.5) * 10);
+      if (Math.random() < p) cell.buy = Math.max(0, cell.buy + (Math.random() - 0.5) * 10);
+      if (Math.random() < p) cell.sell = Math.max(0, cell.sell + (Math.random() - 0.5) * 10);
     });
     var cumDelta = 0, poc = null, pocVol = -1;
     Object.keys(sym.tradesByTick).forEach(function (k) {
@@ -657,12 +658,36 @@
     sym.pocVol = pocVol;
   }
 
+  // Normal cadence changes only a handful of cells per tick (low intensity);
+  // occasionally a short burst of rapid, higher-intensity ticks simulates a
+  // flurry of order-flow activity before settling back to the calm pace.
+  function scheduleTick() {
+    setTimeout(function () {
+      if (Math.random() < 0.15) {
+        runBurst();
+      } else {
+        SYMBOLS.forEach(function (s) { jitter(s, 0.14 + Math.random() * 0.1); });
+        draw();
+        scheduleTick();
+      }
+    }, 800 + Math.random() * 400);
+  }
+
+  function runBurst() {
+    var stepsLeft = 3 + Math.floor(Math.random() * 4);
+    function step() {
+      SYMBOLS.forEach(function (s) { jitter(s, 0.45 + Math.random() * 0.25); });
+      draw();
+      stepsLeft--;
+      if (stepsLeft > 0) setTimeout(step, 100 + Math.random() * 100);
+      else scheduleTick();
+    }
+    step();
+  }
+
   resize();
   draw();
-  setInterval(function () {
-    SYMBOLS.forEach(jitter);
-    draw();
-  }, 1200);
+  scheduleTick();
 
   // ---- page background network, ported directly from the homepage's
   // signal-widget.js: nodes drift and bounce off the viewport edges, edges
