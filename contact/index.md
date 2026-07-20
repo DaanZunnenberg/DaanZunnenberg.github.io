@@ -36,7 +36,7 @@ permalink: /contact/
   </a>
 </div>
 
-<h2>Send a message</h2>
+<h2 id="send-a-message">Send a message</h2>
 
 <form class="contact-form" action="https://formsubmit.co/dw.zunnenberg@gmail.com" method="POST">
   <input type="hidden" name="_subject" value="New message from daanzunnenberg.github.io">
