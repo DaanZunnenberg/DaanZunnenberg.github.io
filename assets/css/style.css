@@ -883,7 +883,8 @@ pre.code-block code {
   font-size: 12.5px;
 }
 
-.hero-links a {
+.hero-links a,
+.hero-links .copy-email {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -892,13 +893,46 @@ pre.code-block code {
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
 }
 
-.hero-links a:hover { color: var(--term-blue); }
+.hero-links a:hover,
+.hero-links .copy-email:hover { color: var(--term-blue); }
 
 .hero-links .icon {
   width: 14px;
   height: 14px;
   fill: currentColor;
 }
+
+.hero-links .copy-email {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.copy-toast {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translate(-50%, 4px);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #06110c;
+  background: var(--term-green);
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  text-shadow: none;
+}
+
+.copy-toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (max-width: 640px) {
   .hero { margin: 12px -16px 32px; min-height: 320px; }
