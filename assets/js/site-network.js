@@ -6,6 +6,15 @@
   var canvas = document.getElementById('site-network-canvas');
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
+
+  // Seeded PRNG so the graph's layout is the same on every load/refresh.
+  var seed = 0x9e3779b9;
+  function random() {
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -41,12 +50,12 @@
     nodes = [];
     for (var i = 0; i < nodeCount; i++) {
       nodes.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.22,
-        vy: (Math.random() - 0.5) * 0.22,
-        r: 1.3 + Math.random() * 1.8,
-        phase: Math.random() * Math.PI * 2
+        x: random() * W,
+        y: random() * H,
+        vx: (random() - 0.5) * 0.22,
+        vy: (random() - 0.5) * 0.22,
+        r: 1.3 + random() * 1.8,
+        phase: random() * Math.PI * 2
       });
     }
   }
@@ -72,11 +81,11 @@
   }
 
   function spawnTraveler() {
-    var start = nodes[(Math.random() * nodes.length) | 0];
+    var start = nodes[(random() * nodes.length) | 0];
     var options = neighborsOf(start, null);
     if (!options.length) return null;
-    var next = options[(Math.random() * options.length) | 0];
-    return { from: start, to: next, t: 0, hopsRemaining: 6 + ((Math.random() * 6) | 0) };
+    var next = options[(random() * options.length) | 0];
+    return { from: start, to: next, t: 0, hopsRemaining: 6 + ((random() * 6) | 0) };
   }
 
   function step(now) {
@@ -108,7 +117,7 @@
         if (!options.length) options = neighborsOf(tr.to, null);
         if (!options.length) { tr.dead = true; return; }
         tr.from = tr.to;
-        tr.to = options[(Math.random() * options.length) | 0];
+        tr.to = options[(random() * options.length) | 0];
         tr.t = 0;
       }
     });
