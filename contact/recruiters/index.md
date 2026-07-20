@@ -4,7 +4,16 @@ title: Recruiters & Professionals
 permalink: /contact/recruiters/
 ---
 
-<h1>Recruiters &amp; Professionals</h1>
+<section class="hero">
+  <canvas id="market-widget-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain"></canvas>
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">For Recruiters &amp; Industry<span class="hero-eyebrow-extra"> &middot; Quant Finance &amp; Market-Making</span></div>
+    <h1 class="hero-name">Recruiters &amp; Professionals<span class="cursor">_</span></h1>
+    <p class="hero-lede">Roles, consulting, and professional or industry conversations.</p>
+  </div>
+</section>
+
 <p class="tagline">Roles, consulting, and professional or industry conversations.</p>
 
 <p class="lede">
