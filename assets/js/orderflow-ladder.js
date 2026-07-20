@@ -5,7 +5,7 @@
   var ctx = canvas.getContext("2d");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // A DOM (depth-of-market) ladder fused with order flow for ETH, SOL, BTC:
+  // A DOM (depth-of-market) ladder fused with order flow for XLM, SOL, XRP:
   // each row is a price level, with the resting book size on either side
   // (from Binance's partial-depth stream, same as the homepage order-book
   // widget) and the executed buy/sell volume traded at that level since
@@ -43,9 +43,9 @@
   }
 
   var SYMBOLS = [
-    { key: "ethusdt", label: "ETH/USDT", tick: null, bookByTick: {}, tradesByTick: {}, cumDelta: 0, poc: null, pocVol: -1, bestBid: null, bestAsk: null, live: false },
+    { key: "xlmusdt", label: "XLM/USDT", tick: null, bookByTick: {}, tradesByTick: {}, cumDelta: 0, poc: null, pocVol: -1, bestBid: null, bestAsk: null, live: false },
     { key: "solusdt", label: "SOL/USDT", tick: null, bookByTick: {}, tradesByTick: {}, cumDelta: 0, poc: null, pocVol: -1, bestBid: null, bestAsk: null, live: false },
-    { key: "btcusdt", label: "BTC/USDT", tick: null, bookByTick: {}, tradesByTick: {}, cumDelta: 0, poc: null, pocVol: -1, bestBid: null, bestAsk: null, live: false }
+    { key: "xrpusdt", label: "XRP/USDT", tick: null, bookByTick: {}, tradesByTick: {}, cumDelta: 0, poc: null, pocVol: -1, bestBid: null, bestAsk: null, live: false }
   ];
 
   var live = false;
@@ -59,9 +59,12 @@
   }
 
   function digitsForTick(tick) {
-    if (tick >= 1) return 0;
-    if (tick >= 0.1) return 1;
-    return 2;
+    // General log-scale version rather than a couple of hardcoded bands —
+    // needed once tick sizes span BTC-scale (tens of dollars) down to
+    // XLM-scale (fractions of a cent), where a fixed 1-2 decimal cap would
+    // round several adjacent price rows down to the same displayed label.
+    if (tick <= 0) return 2;
+    return Math.max(0, Math.min(5, Math.ceil(-Math.log10(tick))));
   }
 
   function fmtQty(v) {
