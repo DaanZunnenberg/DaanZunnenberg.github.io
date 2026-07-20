@@ -5,7 +5,7 @@
   var ctx = canvas.getContext("2d");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Three live time-and-sales tapes (XLM, SOL, XRP), side by side. Each row
+  // Three live time-and-sales tapes (ETH, SOL, BTC), side by side. Each row
   // is one real Binance USDⓈ-M perpetual futures trade: price, trade amount
   // in the coin's own units, and the time it printed. Tapes advance
   // independently — whichever symbol is trading fastest fills in first.
@@ -24,9 +24,9 @@
   var DIM_TEXT = "rgba(233, 236, 243, 0.4)";
 
   var SYMBOLS = [
-    { key: "xlmusdt", label: "XLM/USDT", priceDigits: 4, amountDigits: 1, rows: [], live: false, openPrice: null },
+    { key: "ethusdt", label: "ETH/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false, openPrice: null },
     { key: "solusdt", label: "SOL/USDT", priceDigits: 3, amountDigits: 3, rows: [], live: false, openPrice: null },
-    { key: "xrpusdt", label: "XRP/USDT", priceDigits: 4, amountDigits: 1, rows: [], live: false, openPrice: null }
+    { key: "btcusdt", label: "BTC/USDT", priceDigits: 2, amountDigits: 4, rows: [], live: false, openPrice: null }
   ];
 
   function fmtTime(ms) {
