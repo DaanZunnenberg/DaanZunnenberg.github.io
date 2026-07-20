@@ -52,6 +52,15 @@ update between those bigger posts.
 
 <div class="entry">
   <div class="entry-head">
+    <h3>Statistics Seminar &middot; Mathematical Institute, Leiden University</h3>
+    <span class="entry-date">May 2026</span>
+  </div>
+  <div class="entry-org">Leiden, Netherlands</div>
+  <p>Gave a talk titled &ldquo;Maximal and concentration inequalities for mixing empirical measures and their application.&rdquo;</p>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
     <h3><a href="https://www.tudelft.nl/evenementen/2025/ewi/diam/stochastics-meeting-lunteren-2025" target="_blank" rel="noopener noreferrer">53rd Annual Meeting of the Dutch Probability and Statistics Community</a> &middot; The Tukey Depth Under Short Range Dependence</h3>
     <span class="entry-date">November 2025</span>
   </div>
