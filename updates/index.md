@@ -39,7 +39,7 @@ update between those bigger posts.
 
 <h2>Conferences, Talks &amp; Presentations</h2>
 
-<h3>Upcoming</h3>
+<h3>Talks</h3>
 
 <div class="entry">
   <div class="entry-head">
@@ -48,16 +48,6 @@ update between those bigger posts.
   </div>
   <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
   <p>Attending as a poster presenter.</p>
-</div>
-
-<h3>Past</h3>
-
-<div class="entry">
-  <div class="entry-head">
-    <h3><a href="https://www.swi-wiskunde.nl/swi2026/" target="_blank" rel="noopener noreferrer">Studygroup Mathematics with Industry 2026</a> &middot; Super-Resolution Time Delay Estimation: Models, Methods, and Complexity</h3>
-    <span class="entry-date">January 2026</span>
-  </div>
-  <div class="entry-org">Collaborative project with TNO</div>
 </div>
 
 <div class="entry">
@@ -76,4 +66,20 @@ update between those bigger posts.
   </div>
   <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
   <p>Presented a poster on maximal inequalities and concentration of measure with absolute regularity.</p>
+</div>
+
+<h3>Summer &amp; Winter Schools</h3>
+
+<div class="entry">
+  <p>None yet.</p>
+</div>
+
+<h3>Workshops</h3>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://www.swi-wiskunde.nl/swi2026/" target="_blank" rel="noopener noreferrer">Studygroup Mathematics with Industry 2026</a> &middot; Super-Resolution Time Delay Estimation: Models, Methods, and Complexity</h3>
+    <span class="entry-date">January 2026</span>
+  </div>
+  <div class="entry-org">Collaborative project with TNO</div>
 </div>
