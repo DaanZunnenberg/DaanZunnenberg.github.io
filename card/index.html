@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daan Zunnenberg</title>
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -198,10 +199,10 @@
   }
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-  @media (max-width: 640px), (max-aspect-ratio: 3/4) {
+  @media (max-width: 640px), (max-aspect-ratio: 3/4), (max-height: 500px) and (orientation: landscape) {
     body { align-items: flex-start; padding: 16px 0 24px; }
     .frame {
-      width: 92vw;
+      width: min(92vw, 78vh, 460px);
       aspect-ratio: auto;
       height: min(560px, 82vh);
       background: linear-gradient(150deg, rgba(224,168,82,0.55), rgba(224,168,82,0.2) 10%, rgba(0,0,0,0) 22%);
@@ -212,7 +213,7 @@
       top: 0; left: 0; right: 0;
       min-height: 68%;
       height: auto;
-      justify-content: flex-start;
+      justify-content: center;
       max-width: 100%;
       padding: clamp(20px, 6vw, 32px);
       background: linear-gradient(180deg, var(--card-bg) 0%, var(--card-bg) 55%, rgba(10,14,20,0.75) 72%, rgba(10,14,20,0.35) 86%, rgba(10,14,20,0) 100%);
@@ -225,6 +226,17 @@
     .links { width: 100%; }
     .link { background: rgba(10,14,20,0.85); }
     .site-link { width: 100% !important; }
+  }
+
+  @media (max-height: 500px) and (orientation: landscape) {
+    .content { padding: clamp(12px, 3vh, 20px) clamp(16px, 4vw, 24px); gap: 0; }
+    .eyebrow { margin: 0 0 clamp(4px, 1vh, 8px); font-size: 10px; }
+    h1 { font-size: clamp(18px, 5.4vh, 26px); }
+    .desc { margin: clamp(4px, 1.4vh, 10px) 0 clamp(8px, 2vh, 14px); font-size: 12px; }
+    .links { gap: 6px; }
+    .link { padding: 6px 9px; font-size: 11px; }
+    .link svg { width: 13px; height: 13px; }
+    .site-link { margin-bottom: clamp(6px, 1.4vh, 10px); }
   }
 </style>
 </head>
@@ -586,7 +598,7 @@
   }
 
   let W, H;
-  var MOBILE_QUERY = window.matchMedia('(max-width: 640px), (max-aspect-ratio: 3/4)');
+  var MOBILE_QUERY = window.matchMedia('(max-width: 640px), (max-aspect-ratio: 3/4), (max-height: 500px) and (orientation: landscape)');
   function computeLayout() {
     var candidates = MOBILE_QUERY.matches
       ? [{ orientation: "col", count: 4 }]
