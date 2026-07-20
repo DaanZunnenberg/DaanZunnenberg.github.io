@@ -116,6 +116,7 @@ body::after {
 
 .console-path {
   color: var(--term-blue);
+  font-weight: 700;
 }
 
 .console-text {
