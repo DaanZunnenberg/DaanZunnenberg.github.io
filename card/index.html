@@ -199,7 +199,7 @@
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
   @media (max-width: 640px), (max-aspect-ratio: 3/4) {
-    body { align-items: center; padding: 24px 0; }
+    body { align-items: flex-start; padding: 16px 0 24px; }
     .frame {
       width: 92vw;
       aspect-ratio: auto;
@@ -589,7 +589,7 @@
   var MOBILE_QUERY = window.matchMedia('(max-width: 640px), (max-aspect-ratio: 3/4)');
   function computeLayout() {
     var candidates = MOBILE_QUERY.matches
-      ? [{ orientation: "col", count: 2 }]
+      ? [{ orientation: "col", count: 4 }]
       : [
           { orientation: "row", count: 4 },
           { orientation: "row", count: 3 },
@@ -704,7 +704,7 @@
 
     let W, H;
     let LINK_DIST = 150;
-    const TRAVELER_COUNT = 4;
+    const TRAVELER_COUNT = 7;
     const PULSE_PX_PER_MS = 0.16;
 
     const NODE_COLOR = 'rgba(28, 38, 58, 0.4)';
@@ -724,11 +724,11 @@
       canvas.style.width = W + 'px';
       canvas.style.height = H + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      LINK_DIST = Math.max(110, Math.min(W, H) * 0.16);
+      LINK_DIST = Math.max(150, Math.min(W, H) * 0.24);
     }
 
     function seedNodes() {
-      const nodeCount = Math.max(22, Math.floor((W * H) / 42000));
+      const nodeCount = Math.max(40, Math.floor((W * H) / 20000));
       nodes = [];
       for (let i = 0; i < nodeCount; i++) {
         nodes.push({
