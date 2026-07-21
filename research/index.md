@@ -59,45 +59,115 @@ relaxed.
     </button>
     <div class="readme-collapse">
       <div class="readme">
-        <h4>Admissible sequences and the \(\gamma_2\) functional</h4>
         <p>
-          Generic chaining is a method for controlling the supremum of a stochastic process by approximating
-          its index set through a sequence of increasingly fine finite nets. Let \((T,d)\) be a metric space
-          and let \((X_t)_{t \in T}\) be a stochastic process whose increments are controlled by the metric
-          \(d\). Following Talagrand's notation, define
-          \[N_n = 2^{2^n}, \qquad n \ge 0,\]
-          and consider admissible subsets \(T_n \subset T\) satisfying
-          \[\operatorname{card}(T_n) \le N_n.\]
-          The sequence \((T_n)_{n \ge 0}\) is called an admissible sequence. For every \(t \in T\), let
-          \(\pi_n(t) \in T_n\) be an approximation of \(t\) at level \(n\). The chaining decomposition is
-          \[X_t - X_{t_0} = \sum_{n \ge 0} \left(X_{\pi_{n+1}(t)} - X_{\pi_n(t)}\right),\]
-          which expresses the process as a sum of increments across successive scales.
+          Generic chaining provides a systematic framework for controlling the supremum of a stochastic
+          process \(({X}_t)_{t \in T}\) by approximating the index set \(T\) through a sequence of
+          increasingly fine partitions.
         </p>
+
+        <div class="math-env">
+          <p class="math-env-label">Definition</p>
+          <p>
+            Given a set \(T\), an <em>admissible sequence</em> is an increasing sequence of partitions
+            \(A_n\), \(n \ge 0\), of \(T\) such that \(\operatorname{card} A_n \le N_n\), where \(N_0 = 1\)
+            and \(N_n = 2^{2^n}\) for \(n \ge 1\).
+          </p>
+        </div>
+
         <p>
-          The complexity of an admissible sequence is quantified by Talagrand's functional
-          \[\gamma_2(T,d) = \inf_{(T_n)} \sup_{t \in T} \sum_{n \ge 0} 2^{n/2} d(t,T_n),\]
-          where
-          \[d(t,T_n) = \inf_{s \in T_n} d(t,s),\]
-          and the infimum is taken over all admissible sequences. The functional \(\gamma_2(T,d)\) measures
-          the optimal cost of approximating the whole index set at all scales simultaneously.
+          By an increasing sequence of partitions we mean that every set of \(A_{n+1}\) is contained in a
+          set of \(A_n\). Throughout we denote by \(A_n(t)\) the unique element of \(A_n\) which contains
+          \(t\). The double exponential in the definition of \(N_n\) occurs simply since for our purposes the
+          proper measure of the size of a partition \(A\) is \(\log \operatorname{card} A\). This double
+          exponential ensures that the size of the partition \(A_n\) doubles at every step.
         </p>
-        <h4>The majorizing measure theorem</h4>
+
+        <div class="math-env">
+          <p class="math-env-label">Definition</p>
+          <p>
+            For a stochastic process \((X_t)_{t \in T}\) and \(n \ge 0\), we define for \(A \in A_n\)
+          </p>
+          \[
+          \mathit{\Delta}_n(A) = \sup_{s,t \in A} \big( \mathsf{E} |X_s - X_t|^{2^n} \big)^{2^{-n}}.
+          \]
+        </div>
+
         <p>
-          For a centered Gaussian process with canonical metric
-          \[d(s,t) = \left(\mathsf{E}(X_s - X_t)^2\right)^{1/2},\]
-          the majorizing measure theorem states that there exists a universal constant \(L \ge 1\) such that
-          \[\frac{1}{L}\gamma_2(T,d) \le \mathsf{E} \sup_{t \in T} X_t \le L\gamma_2(T,d).\]
+          Here, for a subset \(A \in A_n\), the quantity \(\mathit{\Delta}_n(A)\) replaces the usual metric
+          diameter \(\mathit{\Delta}(A) = \sup_{s,t \in A} d(s,t)\) by incorporating the scale-dependent
+          moment growth of the increments of \(X_t\).
         </p>
+
+        <div class="math-env">
+          <p class="math-env-label">Theorem (R. Lata&#322;a, S. Mendelson)</p>
+          <p>
+            Consider a process \((X_t)_{t \in T}\). For each admissible sequence \(A_n\), \(n \ge 0\), we
+            have
+          </p>
+          \[
+          \mathsf{E} \sup_{t \in T} X_t \le L \inf \sup_{t \in T} \sum_{n \ge 0} \mathit{\Delta}_n(A_n(t)),
+          \]
+          <p>
+            where the infimum is taken over all admissible sequences.
+          </p>
+        </div>
+
         <p>
-          Thus generic chaining identifies the exact geometric quantity governing the expected supremum of a
-          Gaussian process. The choice \(N_n = 2^{2^n}\) gives the correct multiscale balance between the
-          cardinality of the approximating sets and the size of the increments, leading to sharp bounds that
-          improve upon classical entropy estimates based on a single covering scale.
+          To connect this back to the classical generic chaining bound, recall the definition of
+          Talagrand's \(\gamma_2\) functional.
         </p>
+
+        <div class="math-env">
+          <p class="math-env-label">Definition</p>
+          <p>
+            Given a metric space \((T,d)\), we define
+          </p>
+          \[
+          \gamma_2(T,d) = \inf \sup_{t \in T} \sum_{n \ge 0} 2^{n/2} \mathit{\Delta}(A_n(t)),
+          \]
+          <p>
+            where the infimum is taken over all admissible sequences.
+          </p>
+        </div>
+
+        <div class="math-env">
+          <p class="math-env-label">Proposition</p>
+          <p>
+            If \((X_t)_{t \in T}\) is sub-Gaussian with canonical metric
+            \(d(s,t) = (\mathsf{E}|X_s - X_t|^2)^{1/2}\), then \(\mathit{\Delta}_n(A) \le L \, 2^{n/2}
+            \mathit{\Delta}(A)\) for every \(n \ge 0\) and \(A \in A_n\).
+          </p>
+        </div>
+
         <p>
-          This is the toolkit I'm extending, to processes that are only \(\beta\)-mixing rather than
+          Using this bound inside the Lata&#322;a&ndash;Mendelson theorem yields \(\mathsf{E} \sup_{t \in T}
+          X_t \le L \gamma_2(T,d)\), which shows that the Lata&#322;a&ndash;Mendelson theorem extends generic
+          chaining beyond the Gaussian setting.
+        </p>
+
+        <p>
+          This is the toolkit I'm extending to processes that are only \(\beta\)-mixing rather than
           independent, where the chaining argument has to absorb a mixing-rate correction at every scale
           \(n\) instead of relying on independence between increments.
+        </p>
+
+        <p>
+          While upper bounds construct successful approximations, the true beauty of probability theory lies
+          in finding matching lower bounds. It is the matching lower bound that proves a geometric quantity
+          is not merely a technical artifact of the chaining method, but rather the genuine intrinsic
+          parameter governing the size of the supremum. Breakthroughs of this nature form the cornerstone of
+          modern empirical process theory.
+        </p>
+
+        <p>
+          A celebrated example is the Majorizing Measure Theorem, which establishes that \(\gamma_2(T,d)\)
+          provides both an upper and a lower bound for Gaussian processes up to universal constants, going far
+          beyond single-scale estimates like Sudakov's minoration. Similarly, the Bednorz&ndash;Lata&#322;a
+          Theorem (resolving Talagrand's Bernoulli Conjecture) constructs sharp lower bounds for Bernoulli
+          processes by splitting the index set into Gaussian and \(\ell_1\)-like parts. Other classic
+          manifestations of this phenomenon include the Marcus&ndash;Pisier characterization of the
+          boundedness of random Fourier series, as well as the Ajtai&ndash;Koml&oacute;s&ndash;Tusn&aacute;dy
+          theorem governing matching problems in geometric probability.
         </p>
       </div>
     </div>

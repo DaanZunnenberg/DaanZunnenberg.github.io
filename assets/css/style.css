@@ -738,6 +738,34 @@ a:hover { color: var(--blue-300); }
 
 .readme h4:first-child { margin-top: 0; }
 
+/* Definition / theorem / proposition environments inside a .readme panel,
+   styled like a typeset LaTeX theorem block rather than a boxed callout. */
+.math-env {
+  margin: 14px 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--blue-400);
+  background: var(--bg-1);
+  border-radius: 0 4px 4px 0;
+}
+
+.math-env-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue-400);
+  margin: 0 0 6px;
+}
+
+.math-env p {
+  margin: 0;
+}
+
+.math-env p + p {
+  margin-top: 8px;
+}
+
 /* GitHub Dark default theme palette, for code blocks specifically */
 pre.code-block {
   position: relative;
