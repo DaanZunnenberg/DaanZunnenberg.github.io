@@ -150,6 +150,7 @@
     align-self: flex-start;
     width: max-content;
     max-width: 100%;
+    transition: opacity 0.15s ease;
   }
   .link {
     display: flex;
@@ -168,6 +169,20 @@
     cursor: pointer;
     transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
   }
+
+  .content.revealed .links {
+    flex-direction: column;
+    align-self: stretch;
+    width: 100%;
+  }
+  .content.revealed .link {
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .content.revealed #scholar-link {
+    display: none;
+  }
+  .content.reorg .links { opacity: 0; }
   .link:hover {
     border-color: rgba(85,200,232,0.6);
     color: var(--cyan);
@@ -304,7 +319,7 @@
       <div class="scrim"></div>
     </div>
 
-    <div class="content">
+    <div class="content" id="content">
       <p class="eyebrow">Math PhD &middot; Quant Finance</p>
       <h1>Daan Zunnenberg<span class="status-underscore">_</span></h1>
       <p class="desc">Probability, market-making &amp; HFT.</p>
@@ -328,7 +343,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-3a2 2 0 0 1 4 0v3M12 13v3"/></svg>
           <span class="label-text" data-short="LinkedIn" data-long="linkedin.com/in/daanzunnenberg">LinkedIn</span>
         </a>
-        <a class="link" href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener">
+        <a class="link" id="scholar-link" href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 4 2 10l10 6 10-6Z"/><path d="M6 12.5V17c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg>
           <span class="label-text" data-short="Scholar" data-long="scholar.google.com/citations?user=JLg2KjEAAAAJ">Scholar</span>
         </a>
@@ -377,18 +392,26 @@
   // once the new (likely wider) labels have settled. ----
   const revealCheckbox = document.getElementById('reveal-checkbox');
   const revealLabel = document.getElementById('reveal-label');
+  const contentEl = document.getElementById('content');
   const labelTexts = document.querySelectorAll('.label-text');
   revealCheckbox.addEventListener('change', () => {
     const revealed = revealCheckbox.checked;
     revealLabel.textContent = revealed ? 'Show short labels' : 'Show full links';
+    contentEl.classList.add('reorg');
     labelTexts.forEach((el) => {
       el.classList.add('swapping');
-      setTimeout(() => {
+    });
+    setTimeout(() => {
+      labelTexts.forEach((el) => {
         el.textContent = revealed ? el.dataset.long : el.dataset.short;
         el.classList.remove('swapping');
+      });
+      contentEl.classList.toggle('revealed', revealed);
+      requestAnimationFrame(() => {
+        contentEl.classList.remove('reorg');
         syncSiteLinkWidth();
-      }, 180);
-    });
+      });
+    }, 180);
   });
 
   // ---- keep the website link's width matched to the icon-link row below,
