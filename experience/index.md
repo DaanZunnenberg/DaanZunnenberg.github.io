@@ -442,61 +442,6 @@ weights = recursive_bisection(returns.cov(), order)
 
 <div class="entry">
   <div class="entry-head">
-    <h3><a href="https://github.com/DaanZunnenberg/DynamicCluster" target="_blank" rel="noopener noreferrer">Dynamic Clustering with a Score-Driven HMM</a></h3>
-    <span class="entry-date">2026</span>
-  </div>
-  <p>Dynamic clustering of multivariate panel data: a GAS filter drives the time-varying means of an HMM-style mixture model, so cluster membership evolves rather than staying fixed.</p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/DynamicCluster" target="_blank" rel="noopener noreferrer">DynamicCluster on GitHub</a></div>
-
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-      <h4>Overview</h4>
-      <p>
-        Each unit \(i\) belongs to a latent cluster \(s_{i,t} \in \{1,\dots,K\}\), with observations
-        \(y_{i,t} \mid s_{i,t}=k \sim \mathcal{N}(\mu_{k,t}, \Sigma_{k,t})\). The transition probabilities are
-        shared across units and depend on the distance between cluster-specific location parameters, scaled
-        by a sensitivity parameter \(\gamma\):
-      </p>
-      \[
-      \pi_t^{(j \to k)} = \frac{\exp(-\gamma\, d(\mu_{j,t-1}, \mu_{k,t-1}))}{\sum_{m=1}^K \exp(-\gamma\, d(\mu_{j,t-1}, \mu_{m,t-1}))}
-      \]
-      <p>where \(d(\cdot,\cdot)\) denotes the Mahalanobis distance.</p>
-      <p>
-        The cluster parameters are allowed to evolve dynamically through a Generalized Autoregressive Score
-        (GAS) recursion rather than being fixed over time. Let \(f_{k,t}\) denote the time-varying state
-        associated with cluster \(k\). The update is given by
-      </p>
-      \[
-      f_{k,t+1} = \omega_k + A_k s_{k,t} + B_k f_{k,t},
-      \]
-      <p>where the scaled score is</p>
-      \[
-      s_{k,t} = S_{k,t}\, \frac{\partial \log p(y_t \mid f_{k,t})}{\partial f_{k,t}}.
-      \]
-      <p>
-        This score-driven specification allows the cluster characteristics to adapt to new observations while
-        preserving the dynamic structure of the mixture model.
-      </p>
-      <h4>Setup</h4>
-      <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/DynamicCluster.git
-cd DynamicCluster
-pip install -e .
-</code></pre>
-      <h4>Usage</h4>
-      <pre class="code-block" data-lang="bash"><code>python scripts/run_simulation.py
-</code></pre>
-      <p class="form-hint">Simulates panel data under a known dynamic-clustering process, estimates parameters by maximum likelihood, and writes recovered vs. true cluster structure to a <code>.csv</code>.</p>
-    </div>
-    </div>
-  </div>
-</div>
-
-<div class="entry">
-  <div class="entry-head">
     <h3><a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">Tukey Depth Under Mixing</a></h3>
     <span class="entry-date">2025</span>
   </div>
@@ -623,7 +568,7 @@ tardis-fetch --config config/example.yaml
     <h3><a href="https://github.com/DaanZunnenberg/RiskFunctions" target="_blank" rel="noopener noreferrer">RiskFunctions</a></h3>
     <span class="entry-date">2024</span>
   </div>
-  <p>A library of risk models organized by family: variance-covariance and historic-simulation VaR/ES, CCC-GARCH, EWMA-FHS, copulas, and factor analysis, packaged as an installable library.</p>
+  <p>A collection of risk management functions covering VaR/ES, GARCH, EWMA, copulas, and factor analysis.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/RiskFunctions" target="_blank" rel="noopener noreferrer">RiskFunctions on GitHub</a></div>
 
   <div class="readme-toggle">
@@ -649,51 +594,6 @@ pip install -e ".[multivariate]" # needed only for copulas / factor analysis
 python examples/ccc_garch_example.py
 python examples/ewma_fhs_example.py
 </code></pre>
-    </div>
-    </div>
-  </div>
-</div>
-
-<div class="entry">
-  <div class="entry-head">
-    <h3><a href="https://github.com/DaanZunnenberg/MultipleSignalClassification" target="_blank" rel="noopener noreferrer">Subspace-Based Time-Delay Estimation for WiFi</a></h3>
-    <span class="entry-date">2026</span>
-  </div>
-  <p>Subspace-based (MUSIC, ESPRIT, matrix pencil) time-delay estimation for IEEE 802.11n WiFi L-LTF signals. Research paper to be published.</p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultipleSignalClassification" target="_blank" rel="noopener noreferrer">MultipleSignalClassification on GitHub</a></div>
-
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-      <h4>Overview</h4>
-      <p>
-        The L-LTF preamble of a WiFi packet is a known training sequence, so a receiver's channel estimate is
-        a sum of delayed, attenuated copies of it, one per multipath tap. Time-delay estimation recovers those
-        delays directly from the channel/frequency response rather than from cross-correlation alone. MUSIC
-        gets there by eigendecomposing the array/frequency covariance matrix into a signal subspace and a
-        noise subspace, then scanning candidate delays for the ones whose steering vector is (almost)
-        orthogonal to the noise subspace, using the pseudo-spectrum
-      </p>
-      \[
-      P(\tau) = \frac{1}{a(\tau)^{H} \, E_n E_n^{H} \, a(\tau)}
-      \]
-      <p>
-        where \(a(\tau)\) is the steering vector for delay \(\tau\) and \(E_n\) collects the noise-subspace
-        eigenvectors, so \(P(\tau)\) peaks sharply at the true delays. ESPRIT and matrix pencil solve the same
-        subspace-separation problem without an explicit search, by exploiting a shift-invariance structure in
-        the signal subspace instead.
-      </p>
-      <h4>Install</h4>
-      <pre class="code-block" data-lang="bash"><code>pip install -e .
-</code></pre>
-      <h4>Run</h4>
-      <pre class="code-block" data-lang="bash"><code>python examples/basic_usage.py
-python scripts/run_tde.py
-</code></pre>
-      <p class="form-hint"><code>src/musicssvd/</code> separates signal generation (<code>DataGenerator</code>), TDE algorithms (<code>DataProcessor</code>), accuracy metrics (<code>Evaluator</code>), and plotting (<code>Plotter</code>), wired together by the <code>MUSICTDE</code> facade.</p>
     </div>
     </div>
   </div>
