@@ -49,7 +49,7 @@ relaxed.
   <p>
     In short: I study how to bound the supremum of a stochastic process from its geometry alone, and how much
     of that machinery survives once you drop independence. My favorite result in the toolkit is Talagrand's
-    majorizing measure theorem &mdash; <a href="{{ '/research/proof/' | relative_url }}">the full proof is
+    majorizing measure theorem. <a href="{{ '/research/proof/' | relative_url }}">The full proof is
     written up here</a>.
   </p>
 
@@ -152,11 +152,10 @@ relaxed.
         </p>
 
         <p>
-          While upper bounds construct successful approximations, the true beauty of probability theory lies
-          in finding matching lower bounds. It is the matching lower bound that proves a geometric quantity
-          is not merely a technical artifact of the chaining method, but rather the genuine intrinsic
-          parameter governing the size of the supremum. Breakthroughs of this nature form the cornerstone of
-          modern empirical process theory.
+          Upper bounds construct successful approximations, but matching lower bounds are what matter most.
+          A matching lower bound proves that a geometric quantity is not just a technical artifact of the
+          chaining method, but the actual parameter governing the size of the supremum. Results like this are
+          central to modern empirical process theory.
         </p>
 
         <p>

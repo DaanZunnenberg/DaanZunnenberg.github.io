@@ -64,8 +64,8 @@ functional. Below is the proof of both directions, upper and lower.
   <p>
     and since this holds simultaneously for the sequence achieving (close to) the infimum defining
     \(\gamma_2\), \(\mathbb{E}\sup_t X_t \le L_1\, \gamma_2(T,d)\). This direction is exactly Dudley's
-    entropy bound, restated with partitions instead of covering numbers &mdash; it needs no Gaussianity
-    beyond sub-Gaussian increments, and it is comparatively easy: a union bound over an explicit, countable
+    entropy bound, restated with partitions instead of covering numbers. It needs no Gaussianity
+    beyond sub-Gaussian increments, and it is comparatively easy, using a union bound over an explicit, countable
     chain of comparisons.
   </p>
 </div>
@@ -73,8 +73,8 @@ functional. Below is the proof of both directions, upper and lower.
 <h2>Lower bound: the hard direction</h2>
 <div class="entry">
   <p>
-    The converse &mdash; that \(\gamma_2\) is also a <em>lower</em> bound on \(\mathbb{E}\sup_t X_t\), not
-    just an artifact of the chaining proof technique &mdash; is Talagrand's contribution, and it is what
+    The converse, that \(\gamma_2\) is also a <em>lower</em> bound on \(\mathbb{E}\sup_t X_t\) and not
+    just an artifact of the chaining proof technique, is Talagrand's contribution, and it is what
     makes the theorem a genuine equivalence rather than a one-sided estimate. The proof works with
     separated sets rather than partitions. Call \(A \subset T\) \((a,r)\)-separated if \(d(s,t) \ge r\) for
     all distinct \(s, t \in A\) and \(\operatorname{card}(A) \ge \exp(a^2)\). Define the growth functional
@@ -85,7 +85,7 @@ functional. Below is the proof of both directions, upper and lower.
   <p>
     the supremum over all increasing chains of sets \(A_0 \subset A_1 \subset \cdots \subset T\) with
     \(A_n\) being \((2^{n/2}, r_n)\)-separated. The heart of the argument is Talagrand's <em>Gaussian
-    comparison / Sudakov-type minoration</em>, iterated along the chain: if \(A\) is \((a,r)\)-separated
+    comparison / Sudakov-type minoration</em>, iterated along the chain. If \(A\) is \((a,r)\)-separated
     then a Slepian-type comparison lets you bound the expected supremum over the well-separated points of
     \(A\) from below by
   </p>
@@ -95,7 +95,7 @@ functional. Below is the proof of both directions, upper and lower.
   <p>
     for a universal \(c > 0\), because \(\operatorname{card}(A) \ge \exp(a^2)\) points pairwise at distance
     \(\ge r\) behave, in the relevant Gaussian sense, enough like \(\exp(a^2)\) independent \(N(0,r^2)\)
-    variables that their maximum is of order \(a r\) &mdash; the same order as the maximum of that many
+    variables that their maximum is of order \(a r\), the same order as the maximum of that many
     i.i.d. Gaussians. Applying this at every scale \(n\) along the separated chain and summing, rather than
     bounding a single scale in isolation, produces
   </p>
@@ -104,9 +104,9 @@ functional. Below is the proof of both directions, upper and lower.
   \]
   <p>
     for the specific chain achieving (close to) \(F(T,d)\), and therefore \(\mathbb{E}\sup_t X_t \ge c'\,
-    F(T,d)\). The remaining step &mdash; a purely metric-geometry argument with no probability left in it
-    &mdash; is Talagrand's growth-functional comparison, showing \(F(T,d)\) and \(\gamma_2(T,d)\) agree up
-    to a universal constant: any admissible sequence of partitions can be converted into a comparable chain
+    F(T,d)\). The remaining step, a purely metric-geometry argument with no probability left in it,
+    is Talagrand's growth-functional comparison, showing \(F(T,d)\) and \(\gamma_2(T,d)\) agree up
+    to a universal constant, since any admissible sequence of partitions can be converted into a comparable chain
     of separated sets and vice versa, because a partition piece of small diameter at scale \(n\) forces its
     points to be poorly separated at that same scale, and conversely a well-separated set at scale \(n\)
     cannot all live inside one small partition piece. Combining the two inequalities gives
@@ -122,14 +122,14 @@ functional. Below is the proof of both directions, upper and lower.
 <h2>Why this is the one</h2>
 <div class="entry">
   <p>
-    What makes this proof my favorite is the shape of the argument, not just the result: the upper bound is
-    routine (union bounds, done carefully), but the lower bound has to show that no cleverer proof
-    technique could ever beat generic chaining on a Gaussian process &mdash; that the geometry
-    <em>is</em> the obstruction, not merely a sufficient condition for one. It is a genuinely two-sided
-    theorem, and it is the one place in empirical process theory where "the bound is tight because we can
-    also prove a matching lower bound" is not asymptotic folklore but a fully explicit, constructive
-    argument. It is also the toolkit I am extending on the <a href="{{ '/research/' | relative_url }}">main
-    research page</a>: to processes that are only \(\beta\)-mixing rather than independent, where the
+    I like this proof for the shape of the argument, not just the result. The upper bound is routine, a
+    union bound done carefully. The lower bound is the hard part: you have to rule out the possibility that
+    some other proof technique beats generic chaining on a Gaussian process, and show instead that the
+    geometry <em>is</em> the obstacle, not just a byproduct of how the upper bound happened to be proved.
+    That makes the theorem genuinely two-sided, one of the few results in empirical process theory where
+    "tight because we can also prove a matching lower bound" is backed by an actual construction rather than
+    asserted. It's also the toolkit I'm extending on the <a href="{{ '/research/' | relative_url }}">main
+    research page</a>, applied to processes that are only \(\beta\)-mixing rather than independent, where the
     chaining sum has to absorb a mixing-rate correction term at every scale \(n\) instead of relying on
     independence between the increments.
   </p>

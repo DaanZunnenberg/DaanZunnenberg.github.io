@@ -33,7 +33,7 @@ Lost in abstract probability, inspired by quantitative markets. <a href="{{ '/pe
   </a>
   <a class="nav-card" href="{{ '/contact/recruiters/' | relative_url }}">
     <span class="nav-card-title">Recruiters &amp; Professional</span>
-    <span class="nav-card-hint">Roles, consulting, or an invitation to meet up: industry and professional contact.</span>
+    <span class="nav-card-hint">Roles, consulting, or an invitation to meet up. For industry and professional contact.</span>
   </a>
 </div>
 
@@ -249,7 +249,7 @@ bound, scalar_gauss = test.transform_1D_gauss()
     <h3><a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">Tukey Depth Under Mixing</a></h3>
     <span class="entry-date">2025</span>
   </div>
-  <p>Research code for studying Tukey depth under dependence: how depth-based statistical methods behave when observations come from dependent, mixing time series rather than independent samples.</p>
+  <p>Research code for studying Tukey depth under dependence, looking at how depth-based statistical methods behave when observations come from dependent, mixing time series rather than independent samples.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">FunctionalCurves on GitHub</a></div>
 
   <div class="readme-toggle">
@@ -340,7 +340,7 @@ depth, direction = result.depth, result.direction
 <h2 id="banner-confession">A Small Confession About the Banner</h2>
 <p>
   That flickering panel behind my name up top isn't decoration. It's a real, currently-live order book,
-  quietly doing its job in the background while you read a page about probability theory. Old habits: even
+  quietly doing its job in the background while you read a page about probability theory. Old habits. Even
   here, on a page about myself, I couldn't resist leaving a market open in the corner. If it looks unusually
   calm right now, that's not a design choice, that's just what the market is doing at this exact
   moment, for better or worse.
