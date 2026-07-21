@@ -182,6 +182,58 @@
   }
   .site-link svg { width: 16px; height: 16px; stroke: currentColor; flex-shrink: 0; }
 
+  .reveal-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    margin: clamp(10px, 1.8vw, 18px) 0 0;
+    cursor: pointer;
+    user-select: none;
+    color: var(--dim);
+    font-size: clamp(10.5px, 1.1vw, 12px);
+    font-family: inherit;
+  }
+  .reveal-toggle .switch {
+    position: relative;
+    width: 34px;
+    height: 19px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: background 0.25s ease, border-color 0.25s ease;
+    flex-shrink: 0;
+  }
+  .reveal-toggle .switch::after {
+    content: "";
+    position: absolute;
+    top: 1px; left: 1px;
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    background: #d7dedc;
+    transition: transform 0.25s cubic-bezier(.4,0,.2,1), background 0.25s ease;
+  }
+  .reveal-toggle input {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+  }
+  .reveal-toggle input:checked ~ .switch {
+    background: rgba(85,200,232,0.35);
+    border-color: rgba(85,200,232,0.7);
+  }
+  .reveal-toggle input:checked ~ .switch::after {
+    transform: translateX(15px);
+    background: var(--cyan);
+  }
+  .reveal-toggle:hover { color: #a9b7b3; }
+
+  .label-text {
+    display: inline-block;
+    transition: opacity 0.18s ease;
+  }
+  .label-text.swapping { opacity: 0; }
+
   .toast {
     position: absolute;
     top: -28px; left: 50%;
@@ -259,28 +311,34 @@
 
       <a class="link site-link" id="site-link" href="https://daanzunnenberg.com/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
-        Personal Website
+        <span class="label-text" data-short="Personal Website" data-long="daanzunnenberg.com">Personal Website</span>
       </a>
 
       <div class="links">
         <button type="button" class="link" id="email-link" data-u="dw.zunnenberg" data-d="gmail.com">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
-          Email
+          <span class="label-text" data-short="Email" data-long="dw.zunnenberg@gmail.com">Email</span>
           <span class="toast" id="toast">Copied</span>
         </button>
         <a class="link" href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
-          GitHub
+          <span class="label-text" data-short="GitHub" data-long="github.com/DaanZunnenberg">GitHub</span>
         </a>
         <a class="link" href="https://www.linkedin.com/in/daanzunnenberg/" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-3a2 2 0 0 1 4 0v3M12 13v3"/></svg>
-          LinkedIn
+          <span class="label-text" data-short="LinkedIn" data-long="linkedin.com/in/daanzunnenberg">LinkedIn</span>
         </a>
         <a class="link" href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 4 2 10l10 6 10-6Z"/><path d="M6 12.5V17c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg>
-          Scholar
+          <span class="label-text" data-short="Scholar" data-long="scholar.google.com/citations?user=JLg2KjEAAAAJ">Scholar</span>
         </a>
       </div>
+
+      <label class="reveal-toggle">
+        <input type="checkbox" id="reveal-checkbox">
+        <span class="switch"></span>
+        <span id="reveal-label">Show full links</span>
+      </label>
     </div>
   </div>
 </div>
@@ -312,6 +370,25 @@
     }
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1300);
+  });
+
+  // ---- reveal toggle: crossfade each label between its short (icon-style)
+  // text and its full contact-detail text, then re-sync the site-link width
+  // once the new (likely wider) labels have settled. ----
+  const revealCheckbox = document.getElementById('reveal-checkbox');
+  const revealLabel = document.getElementById('reveal-label');
+  const labelTexts = document.querySelectorAll('.label-text');
+  revealCheckbox.addEventListener('change', () => {
+    const revealed = revealCheckbox.checked;
+    revealLabel.textContent = revealed ? 'Show short labels' : 'Show full links';
+    labelTexts.forEach((el) => {
+      el.classList.add('swapping');
+      setTimeout(() => {
+        el.textContent = revealed ? el.dataset.long : el.dataset.short;
+        el.classList.remove('swapping');
+        syncSiteLinkWidth();
+      }, 180);
+    });
   });
 
   // ---- keep the website link's width matched to the icon-link row below,
