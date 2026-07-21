@@ -194,10 +194,16 @@ main::before {
 }
 
 .site-header.is-stuck {
-  padding: 12px 0;
+  padding: 12px 16px;
+  margin: 0 -16px;
+  width: calc(100% + 32px);
   background: rgba(245, 247, 251, 0.86);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: transparent;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  border-radius: 0 0 14px 14px;
   box-shadow: 0 12px 30px -20px rgba(22, 27, 40, 0.4);
 }
 
