@@ -339,9 +339,7 @@ depth, direction = result.depth, result.direction
 
 <h2 id="banner-confession">A Small Confession About the Banner</h2>
 <p>
-  That flickering panel behind my name up top isn't decoration. It's a real, currently-live order book,
-  quietly doing its job in the background while you read a page about probability theory. Old habits. Even
-  here, on a page about myself, I couldn't resist leaving a market open in the corner. If it looks unusually
-  calm right now, that's not a design choice, that's just what the market is doing at this exact
-  moment, for better or worse.
+  That panel behind my name isn't decoration, it's a real, live order book. Old habits: even on my own about
+  page I couldn't resist leaving a market running in the corner. If it looks quiet right now, that's not
+  styling, that's just what the market is doing at this moment.
 </p>
