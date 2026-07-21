@@ -16,7 +16,7 @@ permalink: /experience/
 
 <p class="tagline">The complete resume, plus the projects behind it. Expand any project for an overview and a code sketch.</p>
 
-<h2>Work Experience</h2>
+<h2 id="work-experience">Work Experience</h2>
 
 <div class="entry">
   <div class="entry-head">
@@ -147,7 +147,7 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
   <div class="tags"><code>Python</code> &middot; <code>ccxt</code> &middot; <code>Tardis.dev</code></div>
 </div>
 
-<h2>Projects</h2>
+<h2 id="projects">Projects</h2>
 
 <div class="entry">
   <div class="entry-head">
@@ -701,7 +701,7 @@ python scripts/run_tde.py
 
 <p>More on <a href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
 
-<h2>Education</h2>
+<h2 id="education">Education</h2>
 
 <div class="entry">
   <div class="entry-head">
@@ -744,7 +744,7 @@ python scripts/run_tde.py
   </p>
 </div>
 
-<h2>Skills</h2>
+<h2 id="skills">Skills</h2>
 
 <div class="entry">
   <ul>

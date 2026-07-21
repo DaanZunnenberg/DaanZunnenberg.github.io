@@ -24,7 +24,7 @@ permalink: /personal/
   </p>
 </div>
 
-<h2>Research, Briefly</h2>
+<h2 id="research-briefly">Research, Briefly</h2>
 <p class="tagline">Probability theory &middot; empirical processes &middot; statistical estimation</p>
 <p>
   I am a doctoral researcher at the Mathematical Institute of Leiden University, supervised by Dr. Alexander
@@ -49,7 +49,7 @@ permalink: /personal/
   <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a> for the full, up-to-date list.
 </p>
 
-<h2>Padel</h2>
+<h2 id="padel">Padel</h2>
 <p>
 I am certainly not the best player, but I enjoy the challenge. Perhaps you are up for a match? It is a
 relatively recent habit that has stuck more than most. I play regularly now, and it has become my go-to sport
@@ -57,7 +57,7 @@ when I want to properly switch off rather than just get some movement in. It is 
 full attention, yet short enough to fit around a busy research or trading schedule.
 </p>
 
-<h2>Travel</h2>
+<h2 id="travel">Travel</h2>
 <p>
 I am a big fan of the beauty of winter. The crisp air, snowy landscapes, and the quiet atmosphere that comes
 with the season. The holiday period makes it even more special: the lights, the traditions, the time spent

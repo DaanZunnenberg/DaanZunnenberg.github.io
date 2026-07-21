@@ -23,7 +23,7 @@ techniques extend to weak convergence and statistical estimation when the indepe
 relaxed.
 </p>
 
-<h2>Research Interests</h2>
+<h2 id="research-interests">Research Interests</h2>
 <div class="entry">
   <ul>
     <li>Generic chaining theory, geometric functional analysis, maximal inequalities, and majorizing measures for controlling suprema of stochastic processes.</li>
@@ -33,7 +33,7 @@ relaxed.
   </ul>
 </div>
 
-<h2>Current Work</h2>
+<h2 id="current-work">Current Work</h2>
 <div class="entry">
   <div class="entry-head">
     <h3>PhD Research &middot; Leiden University</h3>
@@ -104,7 +104,7 @@ relaxed.
   </div>
 </div>
 
-<h2>Past Research</h2>
+<h2 id="past-research">Past Research</h2>
 
 <div class="entry">
   <div class="entry-head">
@@ -159,7 +159,7 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></div>
 </div>
 
-<h2>Publications</h2>
+<h2 id="publications">Publications</h2>
 
 <div class="entry">
   <div class="entry-head">
