@@ -135,7 +135,7 @@ relaxed.
           <p>
             If \((X_t)_{t \in T}\) is sub-Gaussian with canonical metric
             \(d(s,t) = (\mathsf{E}|X_s - X_t|^2)^{1/2}\), then \(\mathit{\Delta}_n(A) \le L \, 2^{n/2}
-            \mathit{\Delta}(A)\) for every \(n \ge 0\) and \(A \in A_n\).
+            \mathit{\Delta}(A)\) for each \(A \in A_n\), \(n \ge 0\).
           </p>
         </div>
 
