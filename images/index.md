@@ -41,7 +41,7 @@ There's more here than research and markets. <a href="{{ '/personal/' | relative
       <div class="readme">
       <h4>Overview</h4>
       <p>
-          Treats continuous intraday log-return paths as functional data objects \(y_t(u)\) over the trading day \(u \in [0,1]\). The <strong>Functional GARCH(p,q)</strong> model generalizes classical volatility dynamics to an infinite-dimensional Hilbert space, capturing how shocks at any point of the day impact the entire upcoming volatility surface.
+          Treats continuous intraday log-return paths as functions \(y_t(u)\) over the trading day \(u \in [0,1]\). The Functional GARCH(p,q) model generalizes classical volatility dynamics to an infinite-dimensional Hilbert space, capturing how shocks at any point of the day impact the entire upcoming volatility surface.
         </p>
 
         <h4>Model Definition</h4>
@@ -57,7 +57,7 @@ There's more here than research and markets. <a href="{{ '/personal/' | relative
 
         <h4>Estimation</h4>
         <p>
-          Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using <strong>Functional Quasi-Maximum Likelihood Estimation (QMLE)</strong>. Intuitively, the continuous process is projected onto a finite set of non-negative instrumental functions (such as Bernstein polynomials or shifted functional principal components). This maps the functional constraints into a tractable, finite-dimensional multivariate GARCH structure that can be optimized efficiently.
+          Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using Functional Quasi-Maximum Likelihood Estimation (QMLE). Intuitively, the continuous process is projected onto a finite set of non-negative instrumental functions (such as Bernstein polynomials or shifted functional principal components). This maps the functional constraints into a tractable, finite-dimensional multivariate GARCH structure that can be optimized efficiently.
         </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/FunctionalScale.git
