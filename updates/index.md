@@ -163,32 +163,107 @@ update between those bigger posts.
 
 <div class="entry">
   <div class="entry-head">
-    <h3><a href="https://calendar.mit.edu/event/richard-p-stanley-seminar-in-combinatorics-4032" target="_blank" rel="noopener noreferrer">MIT Probability Seminar</a> &middot; Jacob Fox (Stanford) &middot; Three-Color van der Waerden Numbers Grow Super-Exponentially</h3>
+    <h3><a href="https://calendar.mit.edu/event/richard-p-stanley-seminar-in-combinatorics-4032" target="_blank" rel="noopener noreferrer">MIT Probability Seminar</a> &middot; Jacob Fox (Stanford University) &middot; Three-Color van der Waerden Numbers Grow Super-Exponentially</h3>
     <span class="entry-date">May 2026</span>
   </div>
-  <div class="entry-org">MIT &middot; Cambridge, MA, USA</div>
-  <p>The van der Waerden number \(w(k;r)\) is the minimum positive integer \(N\) such that every
-  \(r\)-coloring of the positive integers up to \(N\) contains a monochromatic \(k\)-term arithmetic
-  progression. Estimating these numbers has remained a challenging open problem for the past century. The talk
-  sketches a proof that the three-color van der Waerden number \(w(k;3)\) grows faster than any exponential in
-  \(k\), settling several longstanding conjectures in the area, with a discussion of related results time
-  permitting. Joint work with Zach Hunter.</p>
+  <div class="entry-org">Massachusetts Institute of Technology &middot; Cambridge, Massachusetts, United States</div>
+  <p>
+    A talk on a new construction showing that, once three colors are allowed, the van der Waerden numbers grow
+    faster than any exponential function of the progression length &mdash; resolving a century-old question
+    about their true rate of growth, and settling several conjectures that had proposed the opposite.
+  </p>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+        <h4>The van der Waerden number</h4>
+        <p>
+          For positive integers \(k\) and \(r\), the van der Waerden number \(w(k;r)\) is the smallest positive
+          integer \(N\) such that every coloring of the integers from one to \(N\) using \(r\) colors contains a
+          monochromatic arithmetic progression of length \(k\). The theorem of van der Waerden guarantees that
+          such an \(N\) always exists; the difficulty, open for a century, is determining how quickly \(w(k;r)\)
+          grows as \(k\) grows.
+        </p>
+        <p>
+          Erd&#337;s conjectured that \(w(k;2)\) grows faster than any exponential function of \(k\), that is,
+          \[\limsup_{k \to \infty} w(k;2)^{1/k} = \infty,\]
+          while an opposing conjecture proposed instead that \(w(k;r)^{1/k}\) converges to \(r\) for every fixed
+          number of colors \(r\).
+        </p>
+        <h4>The result</h4>
+        <p>
+          The talk establishes that, for three or more colors, the opposing conjecture is false: the van der
+          Waerden numbers grow super-exponentially in \(k\) whenever \(r \ge 3\). Writing \(\log^{*} k\) for the
+          iterated logarithm of \(k\) (the number of times the logarithm must be applied to \(k\) before the
+          result is at most one), the precise bound proved is that, for \(k\) sufficiently large,
+          \[w(k;3) > 2^{k (\log^{*}k)/4}.\]
+        </p>
+        <p>
+          The construction underlying this bound is a randomized &ldquo;shifted product&rdquo; procedure: a very
+          dense, arithmetic-progression-free subset of a large cyclic group is built probabilistically, then
+          combined with smaller constructions of the same kind to produce successively larger three-colorings
+          free of monochromatic \(k\)-term progressions, iterated roughly \((\log^{*}k)/2\) times. The same
+          circle of ideas also yields a new lower bound on the canonical van der Waerden numbers \(H(k)\),
+          resolving a related open problem of Erd&#337;s and Graham by showing
+          \[H(k) \ge k^{(1-o(1))k\log k}.\]
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="entry">
   <div class="entry-head">
-    <h3><a href="https://calendar.mit.edu/event/probability-seminar-9981" target="_blank" rel="noopener noreferrer">MIT Probability Seminar</a> &middot; Matthew Nicoletti (Stanford) &middot; Fluctuations for the Toda Lattice</h3>
+    <h3><a href="https://calendar.mit.edu/event/probability-seminar-9981" target="_blank" rel="noopener noreferrer">MIT Probability Seminar</a> &middot; Matthew Nicoletti (Stanford University) &middot; Fluctuations for the Toda Lattice</h3>
     <span class="entry-date">May 2026</span>
   </div>
-  <div class="entry-org">MIT &middot; Cambridge, MA, USA</div>
-  <p>The Toda lattice, a system of classical mechanics discovered by Toda in 1967 describing interacting
-  particles on a line, is integrable: with \(N\) particles it possesses \(N\) independent conserved quantities.
-  Under a class of random initial data with constant particle density, infinitely many integrated currents of
-  the Toda lattice are shown to converge after large time \(T\) at the \(T^{1/2}\) scale to an explicit Gaussian
-  scaling limit, placing it in a different universality class from the \(T^{1/3}\)-scale, non-Gaussian KPZ
-  universality seen in many chaotic \(1+1\) dimensional interacting particle systems. Joint convergence of
-  certain &ldquo;quasi-particles&rdquo; to an explicit scaling limit is obtained along the way. Joint work with
-  Amol Aggarwal.</p>
+  <div class="entry-org">Massachusetts Institute of Technology &middot; Cambridge, Massachusetts, United States</div>
+  <p>
+    A talk on joint work with Amol Aggarwal showing that the Toda lattice, a classical system of interacting
+    particles on the real line, has current and particle fluctuations that converge, after diffusive rescaling,
+    to an explicit Gaussian process &mdash; placing this integrable system in a different universality class
+    from the non-Gaussian fluctuations expected of comparable chaotic particle systems.
+  </p>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+        <h4>The Toda lattice at thermal equilibrium</h4>
+        <p>
+          The Toda lattice is a Hamiltonian system of particles indexed by the integers, with positions
+          \(q_i(t)\) and momenta \(p_i(t)\) evolving under the equations of motion
+          \[\partial_t q_i(t) = p_i(t), \qquad \partial_t p_i(t) = e^{q_{i-1}(t) - q_i(t)} - e^{q_i(t) -
+          q_{i+1}(t)}.\]
+          Because it possesses infinitely many conserved quantities, the Toda lattice is a classical example of
+          an integrable system, in contrast to generic, chaotic many-body Hamiltonian systems. The talk studies
+          it under thermal equilibrium, the natural random initial condition in which momenta and position
+          increments are sampled independently from explicit Gaussian and gamma distributions.
+        </p>
+        <h4>Diffusive Gaussian fluctuations</h4>
+        <p>
+          For chaotic interacting particle systems, physical predictions and rigorous results for related
+          stochastic models place space-time current fluctuations after a long time \(T\) at the
+          \(T^{1/3}\) scale, converging to a non-Gaussian limit belonging to the Kardar&ndash;Parisi&ndash;Zhang
+          universality class. For the integrable Toda lattice, the talk instead establishes that these
+          fluctuations sit at the larger \(T^{1/2}\) scale and converge to an explicit Gaussian process. As one
+          consequence, the trajectory of a single particle, suitably rescaled, converges to a Brownian motion:
+          \[T^{-1/2} \cdot q_0(T\tau) \longrightarrow \mathcal{B}(\tau), \qquad T \to \infty.\]
+        </p>
+        <p>
+          The proof views the lattice as a dense collection of interacting &ldquo;quasi-particles,&rdquo; each
+          carrying a conserved spectral parameter and a location that moves at an explicit effective velocity
+          between collisions, and shows that the joint fluctuations of all quasi-particles converge to a
+          Gaussian process termed a dressed L&eacute;vy&ndash;Chentsov field.
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="entry">
