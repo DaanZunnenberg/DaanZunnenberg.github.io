@@ -58,7 +58,7 @@ There's more here than research and markets. <a href="{{ '/personal/' | relative
       <div class="readme">
       <h4>Overview</h4>
       <p>
-          Treats continuous intraday log-return paths as functional data objects \(y_t(u)\) over the trading day \(u \in [0,1]\). The <strong>Functional GARCH(p,q)</strong> model generalizes classical volatility dynamics to an infinite-dimensional Hilbert space, capturing how shocks at any point of the day impact the entire upcoming volatility surface.
+          Treats continuous intraday log-return paths as functions \(y_t(u)\) over the trading day \(u \in [0,1]\). The Functional GARCH(p,q) model generalizes classical volatility dynamics to an infinite-dimensional Hilbert space, capturing how shocks at any point of the day impact the entire upcoming volatility surface.
         </p>
 
         <h4>Model Definition</h4>
@@ -92,7 +92,7 @@ There's more here than research and markets. <a href="{{ '/personal/' | relative
 
         <h4>Estimation</h4>
         <p>
-          Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using <strong>Functional Quasi-Maximum Likelihood Estimation (QMLE)</strong>.
+          Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using Functional Quasi-Maximum Likelihood Estimation (QMLE).
         </p>
       <h4>Setup</h4>
       <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/FunctionalScale.git
@@ -178,16 +178,16 @@ result = minimize(
         \[a(x) = \sigma(x)\sigma(x)^\top.\]
       </p>
       <p>
-        Throughout, we assume that the diffusion satisfies the <strong>uniform ellipticity condition</strong>,
+        Throughout, we assume that the diffusion satisfies the uniform ellipticity condition,
         meaning that there exists a constant \(\lambda > 0\) such that
         \[\xi^\top a(x) \xi \ge \lambda \|\xi\|^2, \qquad \forall x \in \mathbb{R}^d,\ \xi \in \mathbb{R}^d.\]
         This assumption ensures that the diffusion is non-degenerate in every direction. As a consequence, the
         transition probabilities of the process assign positive probability to every non-empty open subset of
-        the state space. Hence, the process is <strong>open-set irreducible</strong>. Moreover, under standard
-        regularity conditions, the diffusion is <strong>aperiodic</strong>.
+        the state space. Hence, the process is open-set irreducible. Moreover, under standard
+        regularity conditions, the diffusion is aperiodic.
       </p>
       <p>
-        If the process is additionally <strong>positive Harris recurrent</strong>, then it admits a unique
+        If the process is additionally positive Harris recurrent, then it admits a unique
         invariant probability distribution and satisfies the usual ergodic properties of Markov processes. In
         particular, long-run averages of functions of the process converge to their corresponding expectations
         under the invariant distribution, ensuring stable long-run behaviour.
@@ -210,7 +210,7 @@ result = minimize(
       </p>
       <p>
         The limiting distribution used for the test statistic is obtained from the extreme value theory of
-        <strong>Pickands and Berman</strong> for running maxima of stationary Gaussian sequences. Under the
+        Pickands and Berman for running maxima of stationary Gaussian sequences. Under the
         stationary regime, the standardized difference between the estimators admits a Gaussian approximation,
         and the corresponding running maximum converges to a Gumbel-type limit distribution. The critical
         values for the test are therefore obtained from this Pickands&ndash;Berman extreme value distribution.

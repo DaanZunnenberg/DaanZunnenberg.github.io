@@ -19,7 +19,7 @@ permalink: /personal/
   <h1>Beyond the Desk</h1>
   <p class="tagline">The research, and the non-professional version of this site.</p>
   <p class="lede">
-    Outside of that, I play padel, read a lot, and I'm usually planning the next trip.
+    I live in Rotterdam and I'm into math and quant finance. Outside of working hours, I'm usually watching a series or playing some padel.
   </p>
 </div>
 
