@@ -161,6 +161,57 @@ update between those bigger posts.
   <p>Same meeting as the poster session above, listed here as a calendar item since it runs over several days.</p>
 </div>
 
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://calendar.mit.edu/event/richard-p-stanley-seminar-in-combinatorics-4032" target="_blank" rel="noopener noreferrer">MIT Probability Seminar</a> &middot; Jacob Fox (Stanford) &middot; Three-Color van der Waerden Numbers Grow Super-Exponentially</h3>
+    <span class="entry-date">May 2026</span>
+  </div>
+  <div class="entry-org">MIT &middot; Cambridge, MA, USA</div>
+  <p>The van der Waerden number w(k;r) is the minimum positive integer N such that every r-coloring of the
+  positive integers up to N contains a monochromatic k-term arithmetic progression. Estimating these numbers has
+  remained a challenging open problem for the past century. The talk sketches a proof that the three-color van
+  der Waerden number w(k;3) grows faster than any exponential in k, settling several longstanding conjectures in
+  the area, with a discussion of related results time permitting. Joint work with Zach Hunter.</p>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://calendar.mit.edu/event/probability-seminar-9981" target="_blank" rel="noopener noreferrer">MIT Probability Seminar</a> &middot; Matthew Nicoletti (Stanford) &middot; Fluctuations for the Toda Lattice</h3>
+    <span class="entry-date">May 2026</span>
+  </div>
+  <div class="entry-org">MIT &middot; Cambridge, MA, USA</div>
+  <p>The Toda lattice, a system of classical mechanics discovered by Toda in 1967 describing interacting
+  particles on a line, is integrable: with N particles it possesses N independent conserved quantities. Under a
+  class of random initial data with constant particle density, infinitely many integrated currents of the Toda
+  lattice are shown to converge after large time T at the T<sup>1/2</sup> scale to an explicit Gaussian scaling
+  limit, placing it in a different universality class from the T<sup>1/3</sup>-scale, non-Gaussian KPZ
+  universality seen in many chaotic 1+1 dimensional interacting particle systems. Joint convergence of certain
+  &ldquo;quasi-particles&rdquo; to an explicit scaling limit is obtained along the way. Joint work with Amol
+  Aggarwal.</p>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://sites.google.com/view/adu-dmfa/next-meeting" target="_blank" rel="noopener noreferrer">Dutch Math Finance Afternoons</a></h3>
+    <span class="entry-date">November 2025</span>
+  </div>
+  <div class="entry-org">University of Amsterdam &middot; Amsterdam, Netherlands</div>
+  <p>Talks included &ldquo;Functional Estimation of Option Pricing Models,&rdquo; &ldquo;Valuation of Interest
+  Rate Derivatives on Arithmetic Averages of Risk-Free Rates,&rdquo; and &ldquo;Measuring Financial Resilience
+  Using Backward Stochastic Differential Equations.&rdquo;</p>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://sites.google.com/view/adu-dmfa/next-meeting" target="_blank" rel="noopener noreferrer">Finance Research Day</a></h3>
+    <span class="entry-date">October 2025</span>
+  </div>
+  <div class="entry-org">Delft Institute of Applied Mathematics (DIAM), TU Delft &middot; Delft, Netherlands</div>
+  <p>The fourth Finance Research Day organized by DIAM at TU Delft, bringing together academics, practitioners,
+  and regulators working in quantitative finance to discuss current challenges and explore new directions in
+  the field.</p>
+</div>
+
     </div>
   </div>
 </div>
