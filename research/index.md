@@ -53,8 +53,8 @@ relaxed.
     written up here</a>.
   </p>
 
-  <div class="readme-toggle is-open">
-    <button type="button" class="readme-summary" aria-expanded="true">
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
       <span class="label-open">+ What is generic chaining?</span><span class="label-close">&minus; Hide the math</span>
     </button>
     <div class="readme-collapse">

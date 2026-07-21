@@ -562,6 +562,7 @@ h4 {
   letter-spacing: 0.1em;
   color: var(--ink-faint);
   margin: 24px 0 10px;
+  scroll-margin-top: 88px;
 }
 
 .entry-head h3 a {
