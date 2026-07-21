@@ -349,23 +349,7 @@ main::before {
   }
 
   .nav-dropdown {
-    position: static;
-    transform: none;
-    opacity: 1;
-    pointer-events: auto;
-    box-shadow: none;
-    border: none;
-    background: none;
-    padding: 0 0 0 14px;
-    margin-top: 4px;
-  }
-
-  .nav-dropdown a {
-    display: flex;
-    align-items: center;
-    min-height: 40px;
-    padding: 0 2px;
-    color: var(--ink-faint);
+    display: none;
   }
 }
 
@@ -471,12 +455,6 @@ body.nav-locked {
   .nav-item.nav-has-dropdown {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .nav-dropdown a {
-    min-height: 40px;
-    padding-left: 16px;
-    border-bottom: 1px solid var(--line-soft);
   }
 }
 
