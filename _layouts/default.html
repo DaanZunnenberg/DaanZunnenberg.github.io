@@ -72,6 +72,10 @@
       {{ content }}
     </main>
 
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+
     <footer class="site-footer">
       <nav class="footer-nav">
         <a href="{{ '/' | relative_url }}">About</a>
@@ -100,6 +104,7 @@
   <script src="{{ '/assets/js/copy-email.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/mailto-obfuscate.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/nav-toggle.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/sticky-header.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/console-bar.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/market-widget.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/depth-widget.js' | relative_url }}"></script>
