@@ -167,11 +167,12 @@ update between those bigger posts.
     <span class="entry-date">May 2026</span>
   </div>
   <div class="entry-org">MIT &middot; Cambridge, MA, USA</div>
-  <p>The van der Waerden number w(k;r) is the minimum positive integer N such that every r-coloring of the
-  positive integers up to N contains a monochromatic k-term arithmetic progression. Estimating these numbers has
-  remained a challenging open problem for the past century. The talk sketches a proof that the three-color van
-  der Waerden number w(k;3) grows faster than any exponential in k, settling several longstanding conjectures in
-  the area, with a discussion of related results time permitting. Joint work with Zach Hunter.</p>
+  <p>The van der Waerden number \(w(k;r)\) is the minimum positive integer \(N\) such that every
+  \(r\)-coloring of the positive integers up to \(N\) contains a monochromatic \(k\)-term arithmetic
+  progression. Estimating these numbers has remained a challenging open problem for the past century. The talk
+  sketches a proof that the three-color van der Waerden number \(w(k;3)\) grows faster than any exponential in
+  \(k\), settling several longstanding conjectures in the area, with a discussion of related results time
+  permitting. Joint work with Zach Hunter.</p>
 </div>
 
 <div class="entry">
@@ -181,13 +182,13 @@ update between those bigger posts.
   </div>
   <div class="entry-org">MIT &middot; Cambridge, MA, USA</div>
   <p>The Toda lattice, a system of classical mechanics discovered by Toda in 1967 describing interacting
-  particles on a line, is integrable: with N particles it possesses N independent conserved quantities. Under a
-  class of random initial data with constant particle density, infinitely many integrated currents of the Toda
-  lattice are shown to converge after large time T at the T<sup>1/2</sup> scale to an explicit Gaussian scaling
-  limit, placing it in a different universality class from the T<sup>1/3</sup>-scale, non-Gaussian KPZ
-  universality seen in many chaotic 1+1 dimensional interacting particle systems. Joint convergence of certain
-  &ldquo;quasi-particles&rdquo; to an explicit scaling limit is obtained along the way. Joint work with Amol
-  Aggarwal.</p>
+  particles on a line, is integrable: with \(N\) particles it possesses \(N\) independent conserved quantities.
+  Under a class of random initial data with constant particle density, infinitely many integrated currents of
+  the Toda lattice are shown to converge after large time \(T\) at the \(T^{1/2}\) scale to an explicit Gaussian
+  scaling limit, placing it in a different universality class from the \(T^{1/3}\)-scale, non-Gaussian KPZ
+  universality seen in many chaotic \(1+1\) dimensional interacting particle systems. Joint convergence of
+  certain &ldquo;quasi-particles&rdquo; to an explicit scaling limit is obtained along the way. Joint work with
+  Amol Aggarwal.</p>
 </div>
 
 <div class="entry">
@@ -216,11 +217,11 @@ update between those bigger posts.
   </div>
 </div>
 
-<h2 id="challenges">Challenges</h2>
+<h2 id="competitions-challenges">Competitions &amp; Challenges</h2>
 
 <div class="readme-toggle is-open">
   <button type="button" class="readme-summary" aria-expanded="true">
-    <span class="label-open">+ Show challenges</span><span class="label-close">&minus; Hide challenges</span>
+    <span class="label-open">+ Show competitions &amp; challenges</span><span class="label-close">&minus; Hide competitions &amp; challenges</span>
   </button>
   <div class="readme-collapse">
     <div class="readme">
