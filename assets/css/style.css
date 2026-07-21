@@ -760,10 +760,16 @@ a:hover { color: var(--blue-300); }
 
 .math-env p {
   margin: 0;
+  font-style: italic;
 }
 
 .math-env p + p {
   margin-top: 8px;
+}
+
+.math-env em {
+  font-style: normal;
+  font-weight: 600;
 }
 
 /* GitHub Dark default theme palette, for code blocks specifically */
