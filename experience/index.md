@@ -492,43 +492,6 @@ depth, direction = result.depth, result.direction
 
 <div class="entry">
   <div class="entry-head">
-    <h3><a href="https://github.com/DaanZunnenberg/ForeignExchangeData" target="_blank" rel="noopener noreferrer">EUR/USD 2-Minute Bar Dataset</a></h3>
-    <span class="entry-date">2026</span>
-  </div>
-  <p>Free EUR/USD OHLCV data at 2-minute bars for 2025, released as a sandbox for backtests, strategy prototyping, and analysis.</p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/ForeignExchangeData" target="_blank" rel="noopener noreferrer">ForeignExchangeData on GitHub</a></div>
-
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
-      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-      <h4>Overview</h4>
-      <p>
-        One CSV per month of 2-minute EUR/USD bars (open, high, low, close, volume, trade count), covering
-        all of 2025. Provided as-is, no rights reserved, for anyone who wants sample FX data to experiment
-        with.
-      </p>
-      <h4>Data tools</h4>
-      <pre class="code-block" data-lang="python"><code>from scripts.data_tools import load_months, load_all, resample
-
-df = load_months(["2025-01", "2025-02"])  # combine specific months
-df = load_all()                           # combine all available months
-hourly = resample(df, "1h")               # resample to any pandas offset alias
-</code></pre>
-      <h4>Visualization</h4>
-      <pre class="code-block" data-lang="bash"><code>pip install -r requirements.txt
-python scripts/visualize.py --all
-python scripts/visualize.py --all --resample 1h
-</code></pre>
-    </div>
-    </div>
-  </div>
-</div>
-
-<div class="entry">
-  <div class="entry-head">
     <h3><a href="https://github.com/DaanZunnenberg/TardisDevParser" target="_blank" rel="noopener noreferrer">Tardis.dev Data Fetcher</a></h3>
     <span class="entry-date">2024</span>
   </div>
