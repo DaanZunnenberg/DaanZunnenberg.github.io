@@ -17,10 +17,9 @@ permalink: /updates/
 <p class="tagline">Talks &middot; seminars &middot; press &middot; reading groups</p>
 
 <p class="lede">
-Longer write-ups live on the <a href="{{ '/research/' | relative_url }}">Research</a> and
-<a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a> pages. This page is for
-shorter, more frequent notes on talks, papers going out for review, seminars, and anything else worth a quick
-update between those bigger posts.
+The longer pieces live on the <a href="{{ '/research/' | relative_url }}">Research</a> and
+<a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a> pages. This is where I post
+shorter updates instead, on talks, papers going out for review, seminars, and anything else worth mentioning.
 </p>
 
 <h2 id="latest">Latest</h2>
@@ -31,7 +30,7 @@ update between those bigger posts.
     <span class="entry-date">July 2026</span>
   </div>
   <p>
-    Adding a place for shorter, more frequent notes, separate from the longer research write-ups and project
+    Adding a place for shorter, more frequent notes, separate from the longer research pieces and project
     pages elsewhere on the site. Talks, papers going out for review, and seminar announcements will show up
     here first.
   </p>

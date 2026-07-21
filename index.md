@@ -9,7 +9,7 @@ title: About
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher &middot; Quant Enthusiast<span class="hero-eyebrow-extra"> &middot; Probabilist</span></div>
     <h1 class="hero-name">Daan Zunnenberg<span class="cursor">_</span></h1>
-    <p class="hero-lede">Mathematics researcher with a builder's streak for quant trading, HFT &amp; market-making.</p>
+    <p class="hero-lede">PhD researcher in probability theory. I also build quant trading, HFT, and market-making systems.</p>
     <div class="hero-links">
       <button type="button" class="copy-email" data-u="dw.zunnenberg" data-d="gmail.com"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20v16H2V4zm10 7L4 6v2l8 5 8-5V6l-8 5z"/></svg>Email<span class="copy-toast">Copied</span></button>
       <a href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener noreferrer"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.15c-3.19.7-3.86-1.53-3.86-1.53-.52-1.34-1.28-1.7-1.28-1.7-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.25 5.7.41.36.78 1.08.78 2.18v3.24c0 .3.21.66.79.55A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>GitHub</a>
@@ -20,7 +20,7 @@ title: About
 </section>
 
 <p class="lede">
-Lost in abstract probability, inspired by quantitative markets. <a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
+There's more here than research and markets. <a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
 </p>
 
 <h2 id="working-together">Working Together</h2>
@@ -249,7 +249,7 @@ bound, scalar_gauss = test.transform_1D_gauss()
     <h3><a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">Tukey Depth Under Mixing</a></h3>
     <span class="entry-date">2025</span>
   </div>
-  <p>Research code for studying Tukey depth under dependence, looking at how depth-based statistical methods behave when observations come from dependent, mixing time series rather than independent samples.</p>
+  <p>Research code for studying Tukey depth under dependence, looking at how statistical methods based on depth behave when observations come from dependent, mixing time series rather than independent samples.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">FunctionalCurves on GitHub</a></div>
 
   <div class="readme-toggle">
@@ -261,7 +261,7 @@ bound, scalar_gauss = test.transform_1D_gauss()
       <h4>Overview</h4>
       <p>
         This repository contains research code for studying Tukey depth under dependence. The objective is to
-        investigate how depth-based statistical methods behave when observations are generated from dependent
+        investigate how statistical methods based on depth behave when observations are generated from dependent
         time series rather than independent samples. The code provides tools for simulating dependent, mixing
         time series processes and estimating Tukey's halfspace depth together with the corresponding minimal
         direction.
@@ -305,7 +305,7 @@ depth, direction = result.depth, result.direction
     <span class="entry-date">March 2023 &ndash; August 2024</span>
   </div>
   <ul>
-    <li>Ran algorithmic market-making in crypto derivatives: volatility/skew estimation, order-flow modelling, queue-aware execution.</li>
+    <li>Ran algorithmic market-making in crypto derivatives, covering volatility and skew estimation, modelling of order flow, and execution that accounts for queue position.</li>
     <li>Built a smart order router with dynamic liquidity allocation across fragmented order books, cutting slippage and transaction costs by 5.8% on average.</li>
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>numba</code> &middot; <code>ccxt</code></div>
@@ -318,7 +318,7 @@ depth, direction = result.depth, result.direction
   </div>
   <ul>
     <li>Built likelihood-based estimation for functional location-scale models, contributing to Lin &amp; Lucas's work on robust observation-driven dynamics.</li>
-    <li>Projected the conditional-variance operator onto a Bernstein-polynomial basis, turning an infinite-dimensional, positivity-constrained QMLE problem into one numerical optimization can actually solve.</li>
+    <li>Projected the conditional variance operator onto a Bernstein polynomial basis, turning an infinite-dimensional QMLE problem with positivity constraints into one a numerical optimizer can actually solve.</li>
   </ul>
   <div class="tags"><code>Python</code></div>
 </div>
@@ -339,7 +339,6 @@ depth, direction = result.depth, result.direction
 
 <h2 id="banner-confession">A Small Confession About the Banner</h2>
 <p>
-  That panel behind my name isn't decoration, it's a real, live order book. Old habits: even on my own about
-  page I couldn't resist leaving a market running in the corner. If it looks quiet right now, that's not
-  styling, that's just what the market is doing at this moment.
+  That's a real order book behind my name, not decoration. Couldn't help myself. If it's quiet right now,
+  that's just the market, not me.
 </p>
