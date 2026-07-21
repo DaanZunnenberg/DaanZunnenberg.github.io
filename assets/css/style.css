@@ -714,7 +714,9 @@ a:hover { color: var(--blue-300); }
   .readme-collapse { transition: none; }
 }
 
-.readme p { font-size: 15px; color: var(--ink-soft); }
+.readme { font-size: 15px; }
+
+.readme p { color: var(--ink-soft); }
 
 .katex-display {
   margin: 12px 0;
