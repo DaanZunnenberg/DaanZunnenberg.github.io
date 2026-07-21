@@ -19,7 +19,7 @@ permalink: /updates/
 <p class="lede">
 Longer write-ups live on the <a href="{{ '/research/' | relative_url }}">Research</a> and
 <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a> pages. This page is for
-shorter, more frequent notes: talks, papers going out for review, seminars, and anything else worth a quick
+shorter, more frequent notes on talks, papers going out for review, seminars, and anything else worth a quick
 update between those bigger posts.
 </p>
 
@@ -169,8 +169,8 @@ update between those bigger posts.
   <div class="entry-org">Massachusetts Institute of Technology &middot; Cambridge, Massachusetts, United States</div>
   <p>
     A talk on a new construction showing that, once three colors are allowed, the van der Waerden numbers grow
-    faster than any exponential function of the progression length &mdash; resolving a century-old question
-    about their true rate of growth, and settling several conjectures that had proposed the opposite.
+    faster than any exponential function of the progression length, resolving a question that had been
+    open for about a hundred years about their true rate of growth, and settling several conjectures that had proposed the opposite.
   </p>
 
   <div class="readme-toggle">
@@ -195,14 +195,14 @@ update between those bigger posts.
         </p>
         <h4>The result</h4>
         <p>
-          The talk establishes that, for three or more colors, the opposing conjecture is false: the van der
+          The talk establishes that, for three or more colors, the opposing conjecture is false. The van der
           Waerden numbers grow super-exponentially in \(k\) whenever \(r \ge 3\). Writing \(\log^{*} k\) for the
           iterated logarithm of \(k\) (the number of times the logarithm must be applied to \(k\) before the
           result is at most one), the precise bound proved is that, for \(k\) sufficiently large,
           \[w(k;3) > 2^{k (\log^{*}k)/4}.\]
         </p>
         <p>
-          The construction underlying this bound is a randomized &ldquo;shifted product&rdquo; procedure: a very
+          The construction underlying this bound is a randomized &ldquo;shifted product&rdquo; procedure. A very
           dense, arithmetic-progression-free subset of a large cyclic group is built probabilistically, then
           combined with smaller constructions of the same kind to produce successively larger three-colorings
           free of monochromatic \(k\)-term progressions, iterated roughly \((\log^{*}k)/2\) times. The same
@@ -224,7 +224,7 @@ update between those bigger posts.
   <p>
     A talk on joint work with Amol Aggarwal showing that the Toda lattice, a classical system of interacting
     particles on the real line, has current and particle fluctuations that converge, after diffusive rescaling,
-    to an explicit Gaussian process &mdash; placing this integrable system in a different universality class
+    to an explicit Gaussian process, placing this integrable system in a different universality class
     from the non-Gaussian fluctuations expected of comparable chaotic particle systems.
   </p>
 
