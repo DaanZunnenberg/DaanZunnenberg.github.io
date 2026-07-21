@@ -66,8 +66,7 @@ relaxed.
         </p>
 
         <div class="math-env">
-          <p class="math-env-label">Definition</p>
-          <p>
+          <p><span class="math-env-label">Definition.</span>
             Given a set \(T\), an <em>admissible sequence</em> is an increasing sequence of partitions
             \(A_n\), \(n \ge 0\), of \(T\) such that \(\operatorname{card} A_n \le N_n\), where \(N_0 = 1\)
             and \(N_n = 2^{2^n}\) for \(n \ge 1\).
@@ -83,8 +82,7 @@ relaxed.
         </p>
 
         <div class="math-env">
-          <p class="math-env-label">Definition</p>
-          <p>
+          <p><span class="math-env-label">Definition.</span>
             For a stochastic process \((X_t)_{t \in T}\) and \(n \ge 0\), we define for \(A \in A_n\)
           </p>
           \[
@@ -99,8 +97,7 @@ relaxed.
         </p>
 
         <div class="math-env">
-          <p class="math-env-label">Theorem (R. Lata&#322;a, S. Mendelson)</p>
-          <p>
+          <p><span class="math-env-label">Theorem (R. Lata&#322;a, S. Mendelson).</span>
             Consider a process \((X_t)_{t \in T}\). For each admissible sequence \(A_n\), \(n \ge 0\), we
             have
           </p>
@@ -118,8 +115,7 @@ relaxed.
         </p>
 
         <div class="math-env">
-          <p class="math-env-label">Definition</p>
-          <p>
+          <p><span class="math-env-label">Definition.</span>
             Given a metric space \((T,d)\), we define
           </p>
           \[
@@ -131,8 +127,7 @@ relaxed.
         </div>
 
         <div class="math-env">
-          <p class="math-env-label">Proposition</p>
-          <p>
+          <p><span class="math-env-label">Proposition.</span>
             If \((X_t)_{t \in T}\) is sub-Gaussian with canonical metric
             \(d(s,t) = (\mathsf{E}|X_s - X_t|^2)^{1/2}\), then \(\mathit{\Delta}_n(A) \le L \, 2^{n/2}
             \mathit{\Delta}(A)\) for each \(A \in A_n\), \(n \ge 0\).
