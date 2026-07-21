@@ -43,8 +43,8 @@ update between those bigger posts.
 
 <h4>Talks</h4>
 
-<div class="readme-toggle">
-  <button type="button" class="readme-summary" aria-expanded="false">
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
     <span class="label-open">+ Show talks</span><span class="label-close">&minus; Hide talks</span>
   </button>
   <div class="readme-collapse">
@@ -67,8 +67,8 @@ update between those bigger posts.
 
 <h4>Talks</h4>
 
-<div class="readme-toggle">
-  <button type="button" class="readme-summary" aria-expanded="false">
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
     <span class="label-open">+ Show talks</span><span class="label-close">&minus; Hide talks</span>
   </button>
   <div class="readme-collapse">
@@ -107,8 +107,8 @@ update between those bigger posts.
 
 <h4 id="summer-winter-schools">Summer &amp; Winter Schools</h4>
 
-<div class="readme-toggle">
-  <button type="button" class="readme-summary" aria-expanded="false">
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
     <span class="label-open">+ Show summer &amp; winter schools</span><span class="label-close">&minus; Hide summer &amp; winter schools</span>
   </button>
   <div class="readme-collapse">
@@ -124,8 +124,8 @@ update between those bigger posts.
 
 <h4 id="workshops">Workshops</h4>
 
-<div class="readme-toggle">
-  <button type="button" class="readme-summary" aria-expanded="false">
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
     <span class="label-open">+ Show workshops</span><span class="label-close">&minus; Hide workshops</span>
   </button>
   <div class="readme-collapse">
@@ -145,8 +145,8 @@ update between those bigger posts.
 
 <h2 id="events">Events</h2>
 
-<div class="readme-toggle">
-  <button type="button" class="readme-summary" aria-expanded="false">
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
     <span class="label-open">+ Show events</span><span class="label-close">&minus; Hide events</span>
   </button>
   <div class="readme-collapse">
@@ -294,8 +294,8 @@ update between those bigger posts.
 
 <h2 id="competitions-challenges">Competitions &amp; Challenges</h2>
 
-<div class="readme-toggle">
-  <button type="button" class="readme-summary" aria-expanded="false">
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
     <span class="label-open">+ Show competitions &amp; challenges</span><span class="label-close">&minus; Hide competitions &amp; challenges</span>
   </button>
   <div class="readme-collapse">
