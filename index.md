@@ -23,7 +23,7 @@ title: About
 Lost in abstract probability, inspired by quantitative markets. <a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
 </p>
 
-<h2>Working Together</h2>
+<h2 id="working-together">Working Together</h2>
 <p class="tagline">Here for a collaboration or a career opportunity? Choose the path that fits.</p>
 
 <div class="nav-cards">
@@ -37,7 +37,7 @@ Lost in abstract probability, inspired by quantitative markets. <a href="{{ '/pe
   </a>
 </div>
 
-<h2>Selected Projects</h2>
+<h2 id="selected-projects">Selected Projects</h2>
 
 <div class="entry">
   <div class="entry-head">
@@ -297,7 +297,7 @@ depth, direction = result.depth, result.direction
 
 <p><a href="{{ '/experience/' | relative_url }}">All projects &rarr;</a></p>
 
-<h2>Experience</h2>
+<h2 id="experience">Experience</h2>
 
 <div class="entry">
   <div class="entry-head">
@@ -337,7 +337,7 @@ depth, direction = result.depth, result.direction
 
 <p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
 
-<h2>A Small Confession About the Banner</h2>
+<h2 id="banner-confession">A Small Confession About the Banner</h2>
 <p>
   That flickering panel behind my name up top isn't decoration. It's a real, currently-live order book,
   quietly doing its job in the background while you read a page about probability theory. Old habits: even

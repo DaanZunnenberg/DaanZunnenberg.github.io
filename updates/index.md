@@ -23,7 +23,7 @@ shorter, more frequent notes: talks, papers going out for review, seminars, and 
 update between those bigger posts.
 </p>
 
-<h2>Latest</h2>
+<h2 id="latest">Latest</h2>
 
 <div class="entry">
   <div class="entry-head">
@@ -37,7 +37,7 @@ update between those bigger posts.
   </p>
 </div>
 
-<h2>Conferences, Talks &amp; Presentations</h2>
+<h2 id="conferences-talks-presentations">Conferences, Talks &amp; Presentations</h2>
 
 <h3>Upcoming</h3>
 
