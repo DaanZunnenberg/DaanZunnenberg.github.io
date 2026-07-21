@@ -51,29 +51,16 @@ permalink: /personal/
 
 <h2 id="padel">Padel</h2>
 <p>
-I am certainly not the best player, but I enjoy the challenge. Perhaps you are up for a match? It is a
-relatively recent habit that has stuck more than most. I play regularly now, and it has become my go-to sport
-when I want to properly switch off rather than just get some movement in. It is fast enough to require my
-full attention, yet short enough to fit around a busy research or trading schedule.
+I picked up padel fairly recently and it stuck. Not the best player on the court, but I play regularly &mdash;
+it demands enough attention to actually switch off, and a match fits around a research or trading schedule
+in a way a longer sport doesn't. Up for a game? Let me know.
 </p>
 
 <h2 id="travel">Travel</h2>
 <p>
-I am a big fan of the beauty of winter. The crisp air, snowy landscapes, and the quiet atmosphere that comes
-with the season. The holiday period makes it even more special: the lights, the traditions, the time spent
-with family and friends, and the feeling of slowing down after a busy year. There is something uniquely
-comforting about that time of year.
-</p>
-<p>
-That said, I also enjoy escaping to a tropical hideout from time to time, especially when a bit of warmth and
-sunshine are needed. A change of scenery has a way of bringing a fresh perspective.
-</p>
-<p>
-Travel is the other thing that reliably gets me to properly close the laptop. I do not really have a fixed
-style when it comes to planning trips: sometimes everything is organised well in advance, while other times
-the destination is decided only a week before leaving. Conferences and seminar visits often provide the
-perfect excuse to explore somewhere new, turning work trips into opportunities to discover places I might not
-have visited otherwise.
+I love winter: the cold, the snow, the holidays with family. I'm just as happy trading that for somewhere
+tropical when I need the sun instead. No fixed style of planning &mdash; sometimes it's booked months out,
+sometimes a week before. Conferences are a good excuse to add a few extra days somewhere new.
 </p>
 
 <div class="links">
