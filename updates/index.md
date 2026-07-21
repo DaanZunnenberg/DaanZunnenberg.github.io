@@ -105,7 +105,7 @@ update between those bigger posts.
   </div>
 </div>
 
-<h4>Summer &amp; Winter Schools</h4>
+<h4 id="summer-winter-schools">Summer &amp; Winter Schools</h4>
 
 <div class="readme-toggle is-open">
   <button type="button" class="readme-summary" aria-expanded="true">
@@ -122,7 +122,7 @@ update between those bigger posts.
   </div>
 </div>
 
-<h4>Workshops</h4>
+<h4 id="workshops">Workshops</h4>
 
 <div class="readme-toggle is-open">
   <button type="button" class="readme-summary" aria-expanded="true">
@@ -137,6 +137,51 @@ update between those bigger posts.
     <span class="entry-date">January 2026</span>
   </div>
   <div class="entry-org">Collaborative project with TNO</div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<h2 id="events">Events</h2>
+
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
+    <span class="label-open">+ Show events</span><span class="label-close">&minus; Hide events</span>
+  </button>
+  <div class="readme-collapse">
+    <div class="readme">
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://www.tudelft.nl/evenementen/2026/ewi/diam/stochastics-meeting-lunteren-2026" target="_blank" rel="noopener noreferrer">54th Annual Meeting of the Dutch Probability and Statistics Community</a></h3>
+    <span class="entry-date">November 2026</span>
+  </div>
+  <div class="entry-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
+  <p>Same meeting as the poster session above, listed here as a calendar item since it runs over several days.</p>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<h2 id="challenges">Challenges</h2>
+
+<div class="readme-toggle is-open">
+  <button type="button" class="readme-summary" aria-expanded="true">
+    <span class="label-open">+ Show challenges</span><span class="label-close">&minus; Hide challenges</span>
+  </button>
+  <div class="readme-collapse">
+    <div class="readme">
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>World Econometric Championship &middot; Finalist</h3>
+    <span class="entry-date">April 2024</span>
+  </div>
+  <p>Reached the final round of the World Econometric Championship, an international competition testing applied
+  econometric problem-solving under time pressure &mdash; model specification, estimation, and diagnostic
+  reasoning worked through live rather than as a take-home exercise.</p>
 </div>
 
     </div>
