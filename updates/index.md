@@ -271,9 +271,7 @@ shorter updates instead, on talks, papers going out for review, seminars, and an
     <span class="entry-date">November 2025</span>
   </div>
   <div class="entry-org">University of Amsterdam &middot; Amsterdam, Netherlands</div>
-  <p>Talks included &ldquo;Functional Estimation of Option Pricing Models,&rdquo; &ldquo;Valuation of Interest
-  Rate Derivatives on Arithmetic Averages of Risk-Free Rates,&rdquo; and &ldquo;Measuring Financial Resilience
-  Using Backward Stochastic Differential Equations.&rdquo;</p>
+  <p>Talks included themes as functional estimation of option pricing models by Evgenii Vladimirov, valuation of interest rate derivatives on arithmetic averages of risk-free rates by Arco de Kort, and measuring financial resilience using backward stochastic differential equations by Matteo Ferrari.</p>
 </div>
 
 <div class="entry">
