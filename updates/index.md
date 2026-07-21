@@ -176,12 +176,10 @@ update between those bigger posts.
 
 <div class="entry">
   <div class="entry-head">
-    <h3>World Econometric Championship &middot; Finalist</h3>
-    <span class="entry-date">April 2024</span>
+    <h3>World Econometric Championship</h3>
   </div>
-  <p>Reached the final round of the World Econometric Championship, an international competition testing applied
-  econometric problem-solving under time pressure &mdash; model specification, estimation, and diagnostic
-  reasoning worked through live rather than as a take-home exercise.</p>
+  <p>Finalist in the World Econometric Championship, an international competition assessing applied econometric
+  problem-solving under time pressure through live model specification, estimation, and diagnostic analysis.</p>
 </div>
 
     </div>
