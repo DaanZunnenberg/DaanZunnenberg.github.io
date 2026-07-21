@@ -51,16 +51,12 @@ permalink: /personal/
 
 <h2 id="padel">Padel</h2>
 <p>
-I picked up padel fairly recently and it stuck. Not the best player on the court, but I play regularly &mdash;
-it demands enough attention to actually switch off, and a match fits around a research or trading schedule
-in a way a longer sport doesn't. Up for a game? Let me know.
+I picked up padel recently and I'm hooked. Up for a game? Let me know.
 </p>
 
 <h2 id="travel">Travel</h2>
 <p>
-I love winter: the cold, the snow, the holidays with family. I'm just as happy trading that for somewhere
-tropical when I need the sun instead. No fixed style of planning &mdash; sometimes it's booked months out,
-sometimes a week before. Conferences are a good excuse to add a few extra days somewhere new.
+I like winter, and I like travelling.
 </p>
 
 <div class="links">
