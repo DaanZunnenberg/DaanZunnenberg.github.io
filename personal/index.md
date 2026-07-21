@@ -19,8 +19,7 @@ permalink: /personal/
   <h1>Beyond the Desk</h1>
   <p class="tagline">The research, and the non-professional version of this site.</p>
   <p class="lede">
-    Outside of proofs and production systems, I split my time between a padel court, a reading list, and
-    planning the next trip.
+    Outside of that, I play padel, read a lot, and I'm usually planning the next trip.
   </p>
 </div>
 

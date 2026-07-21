@@ -25,11 +25,11 @@ permalink: /experience/
   </div>
   <div class="entry-org">Schiphol-Rijk, Netherlands</div>
   <p>
-    Built and deployed algorithmic market-making strategies: volatility/skew estimation, order-flow modelling,
-    queue-aware execution, and reference-price dynamics. Alongside quoting, I built a dynamic liquidity
-    allocation model for smart order routing across fragmented order books, cutting slippage and transaction
-    costs by an average of 5.8%, and cross-exchange rebalancing methods that time inventory transfers under
-    latency, funding-rate, and liquidity constraints.
+    Built and deployed algorithmic market-making strategies, covering volatility and skew estimation, modelling
+    of order flow, execution that accounts for queue position, and reference price dynamics. Alongside quoting,
+    I built a dynamic liquidity allocation model for smart order routing across fragmented order books, cutting
+    slippage and transaction costs by an average of 5.8%, and cross-exchange rebalancing methods that time
+    inventory transfers under latency, funding rate, and liquidity constraints.
   </p>
   <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>numba</code> &middot; <code>ccxt</code></div>
 
@@ -56,8 +56,8 @@ permalink: /experience/
         inventory. For continuous markets such as crypto, the infinite-horizon Gu&eacute;ant formulation
         removes the terminal-time dependence and yields stationary quotes determined by inventory, volatility,
         liquidity, and risk aversion. In practice, these models are extended with dynamic volatility estimates,
-        order-flow signals, queue-position models, latency-aware execution, and exchange-specific risk
-        controls.
+        order flow signals, models of queue position, execution that accounts for latency, and exchange-specific
+        risk controls.
       </p>
       <p><strong>Python code:</strong> async quote-management loop illustrating live deployment:</p>
       <pre class="code-block" data-lang="python"><code>async def market_maker(feed, exchange, model):
@@ -92,11 +92,11 @@ permalink: /experience/
   <p>
     Collaborated with <strong>Yicong Lin</strong> and <strong>Andre Lucas</strong> on robust observation-driven
     dynamics for functional location-scale models (see <a href="{{ '/research/' | relative_url }}">Publications</a>).
-    My contribution focused on the estimation and implementation of the functional volatility component: by
-    projecting infinite-dimensional conditional-variance operators onto a finite Bernstein-polynomial basis, the
-    positivity-constrained QMLE problem is reduced to a bounded, finite-dimensional optimization. The
-    implementation constructs the functional operators, performs the volatility recursion, and estimates the
-    model parameters through constrained likelihood optimization:
+    My contribution focused on the estimation and implementation of the functional volatility component. By
+    projecting infinite-dimensional conditional variance operators onto a finite Bernstein polynomial basis,
+    the QMLE problem, with its positivity constraints, is reduced to a bounded, finite-dimensional optimization.
+    The implementation constructs the functional operators, performs the volatility recursion, and estimates
+    the model parameters through constrained likelihood optimization.
   </p>
   <pre class="code-block" data-lang="python"><code>def bernstein_basis(u, M, k):
     return comb(M - 1, k - 1) * u ** (k - 1) * (1 - u) ** (M - k)
@@ -500,7 +500,7 @@ pip install -e .
     <h3><a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">Tukey Depth Under Mixing</a></h3>
     <span class="entry-date">2025</span>
   </div>
-  <p>Research code for studying Tukey depth under dependence: how depth-based statistical methods behave when observations come from dependent, mixing time series rather than independent samples.</p>
+  <p>Research code for studying Tukey depth under dependence, looking at how statistical methods based on depth behave when observations come from dependent, mixing time series rather than independent samples.</p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">FunctionalCurves on GitHub</a></div>
 
   <div class="readme-toggle">
@@ -512,7 +512,7 @@ pip install -e .
       <h4>Overview</h4>
       <p>
         This repository contains research code for studying Tukey depth under dependence. The objective is to
-        investigate how depth-based statistical methods behave when observations are generated from dependent
+        investigate how statistical methods based on depth behave when observations are generated from dependent
         time series rather than independent samples. The code provides tools for simulating dependent, mixing
         time series processes and estimating Tukey's halfspace depth together with the corresponding minimal
         direction.

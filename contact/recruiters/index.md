@@ -17,7 +17,7 @@ permalink: /contact/recruiters/
 <p class="tagline">Roles, consulting, and professional or industry conversations.</p>
 
 <p class="lede">
-I split my time between a Mathematics PhD and quantitative finance work, and I'm open to conversations about
+I'm doing a Mathematics PhD alongside quantitative finance work, and I'm open to conversations about
 roles, consulting, or collaborations that sit at that intersection, particularly anything touching
 market making, estimation under uncertainty, or production trading systems.
 </p>
@@ -41,7 +41,7 @@ market making, estimation under uncertainty, or production trading systems.
   </div>
   <div class="entry-org">Schiphol-Rijk, Netherlands</div>
   <ul>
-    <li>Built and deployed algorithmic market-making strategies incorporating volatility and skew estimation, order flow modelling, and queue-aware execution.</li>
+    <li>Built and deployed algorithmic market-making strategies incorporating volatility and skew estimation, order flow modelling, and execution that accounts for queue position.</li>
     <li>Built a dynamic liquidity allocation model for smart order routing, reducing slippage and transaction costs by an average of 5.8%.</li>
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>numba</code> &middot; <code>ccxt</code> &middot; <a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></div>
