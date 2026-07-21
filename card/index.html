@@ -208,6 +208,14 @@
     color: var(--dim);
     font-size: clamp(10.5px, 1.1vw, 12px);
     font-family: inherit;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .card:hover .reveal-toggle,
+  .reveal-toggle:focus-within {
+    opacity: 1;
+    pointer-events: auto;
   }
   .reveal-toggle .switch {
     position: relative;
