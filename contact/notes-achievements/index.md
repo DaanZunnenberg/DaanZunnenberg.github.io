@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Notes & Achievements
+title: Notes
 permalink: /contact/notes-achievements/
 ---
 
@@ -9,12 +9,12 @@ permalink: /contact/notes-achievements/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
-    <h1 class="hero-name">Notes &amp; Achievements<span class="cursor">_</span></h1>
-    <p class="hero-lede">Short-form notes and news, plus competitions and other results worth mentioning.</p>
+    <h1 class="hero-name">Notes<span class="cursor">_</span></h1>
+    <p class="hero-lede">Short-form notes and news, separate from the longer research pieces elsewhere on the site.</p>
   </div>
 </section>
 
-<p class="tagline">Latest &middot; competitions &middot; challenges</p>
+<p class="tagline">Latest</p>
 
 <h2 id="latest">Latest</h2>
 
@@ -28,27 +28,6 @@ permalink: /contact/notes-achievements/
     pages elsewhere on the site. Talks, papers going out for review, and seminar announcements will show up
     here first.
   </p>
-</div>
-
-<h2 id="competitions-challenges">Competitions &amp; Challenges</h2>
-
-<div class="readme-toggle is-open">
-  <button type="button" class="readme-summary" aria-expanded="true">
-    <span class="label-open">+ Show competitions &amp; challenges</span><span class="label-close">&minus; Hide competitions &amp; challenges</span>
-  </button>
-  <div class="readme-collapse">
-    <div class="readme">
-
-<div class="entry">
-  <div class="entry-head">
-    <h3>World Econometric Championship</h3>
-  </div>
-  <p>Finalist in the World Econometric Championship, an international competition assessing applied econometric
-  problem-solving under time pressure through live model specification, estimation, and diagnostic analysis.</p>
-</div>
-
-    </div>
-  </div>
 </div>
 
 <p><a href="{{ '/contact/' | relative_url }}">&larr; Back to Updates, Events &amp; Contact</a></p>
