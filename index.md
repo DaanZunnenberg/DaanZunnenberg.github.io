@@ -355,9 +355,9 @@ depth, direction = result.depth, result.direction
   </div>
   <ul>
     <li>Built survival models for heavily right-censored data using <code>Python</code> and <code>scikit-survival</code>, using <code>SQLAlchemy</code> to pull data from SQL databases.</li>
-    <li>Created features by combining domain data with macroeconomic indicators using <code>pandas</code> and <code>fredapi</code> to cover missing data points.</li>
+    <li>Created features by combining domain data with macroeconomic indicators using <code>pandas</code> and <code>cbsodata</code> to cover missing data points.</li>
   </ul>
-  <div class="tags"><code>Python</code> &middot; <code>scikit-survival</code> &middot; <code>SQLAlchemy</code> &middot; <code>pandas</code> &middot; <code>fredapi</code></div>
+  <div class="tags"><code>Python</code> &middot; <code>scikit-survival</code> &middot; <code>SQLAlchemy</code> &middot; <code>pandas</code> &middot; <code>cbsodata</code></div>
 </div>
 
 <p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
