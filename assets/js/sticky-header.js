@@ -3,21 +3,20 @@
   var backToTop = document.getElementById("back-to-top");
   if (!header && !backToTop) return;
 
-  // Separate enter/exit thresholds (hysteresis): collapsing the header's
-  // padding shrinks its height, which shifts scrollY itself. With a single
-  // threshold that shift could cross back over it and flip the class again
-  // on the very next frame, producing a stuck/unstuck flicker loop.
-  var STICK_AT = 80;
-  var UNSTICK_AT = 40;
   var TOP_AT = 420;
   var ticking = false;
-  var isStuck = false;
 
   function update() {
     var y = window.scrollY || window.pageYOffset;
     if (header) {
-      if (!isStuck && y > STICK_AT) isStuck = true;
-      else if (isStuck && y < UNSTICK_AT) isStuck = false;
+      // The header is only actually pinned (and needs a background so
+      // scrolled content doesn't show through it) once its own top edge
+      // reaches the viewport's top edge. Deriving "stuck" from that,
+      // rather than a fixed scrollY threshold, means the background
+      // appears exactly when the header starts overlapping content,
+      // with no gap in between and no dependence on page-specific
+      // layout (console bar height, hero height, etc.).
+      var isStuck = header.getBoundingClientRect().top <= 0;
       header.classList.toggle("is-stuck", isStuck);
     }
     if (backToTop) backToTop.classList.toggle("visible", y > TOP_AT);
