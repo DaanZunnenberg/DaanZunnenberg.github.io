@@ -23,7 +23,7 @@ Latała-Mendelson bound to extend classical Fernique comparison principles.
 
 <p class="lede">
 Much of this motivation comes directly from the theory developed by Michel Talagrand. His work on
-generic chaining and isoparametric concentration completely reshaped how we handle stochastic
+generic chaining and isoperimetric inequalities completely reshaped how we handle stochastic
 processes, turning coarse bounds into tight, structural characterizations. Tracing how his geometric
 and measure-theoretic insights tame complex random systems is what truly drives my research. The
 specific results and details below show how these ideas shape my current work.
