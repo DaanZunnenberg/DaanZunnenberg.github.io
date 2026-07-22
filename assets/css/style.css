@@ -173,8 +173,6 @@ main::before {
   border-radius: 10px;
   border: 1px solid var(--line-soft);
   box-shadow: 0 30px 70px -40px rgba(22, 27, 40, 0.18);
-  mask-image: linear-gradient(180deg, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
 }
 
 /* Header */
