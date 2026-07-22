@@ -5,7 +5,7 @@ permalink: /mathematics/generic-chaining/
 ---
 
 <section class="hero">
-  <img src="{{ '/images/PisierOil.png' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
+  <img src="{{ '/images/TalagrandOil.png' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Geometry &middot; Stochastic Processes</div>
