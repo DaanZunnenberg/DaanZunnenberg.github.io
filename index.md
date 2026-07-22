@@ -52,7 +52,7 @@ making, and quantitative investing. <a href="{{ '/mathematics/' | relative_url }
 
 <h2 id="selected-projects">Selected Projects</h2>
 
-<div class="entry">
+<div class="entry" id="project-functional-volatility-surface">
   <div class="entry-head">
     <h3><a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">Functional Volatility Surface Modelling</a></h3>
     <span class="entry-date">September 2024 &ndash; present</span>
@@ -167,7 +167,7 @@ result = minimize(
   </div>
 </div>
 
-<div class="entry">
+<div class="entry" id="project-functional-stationarity-test">
   <div class="entry-head">
     <h3><a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Functional Stationarity Test</a></h3>
     <span class="entry-date">2024</span>
@@ -257,7 +257,7 @@ bound, scalar_gauss = test.transform_1D_gauss()
   </div>
 </div>
 
-<div class="entry">
+<div class="entry" id="project-tukey-depth-under-mixing">
   <div class="entry-head">
     <h3><a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">Tukey Depth Under Mixing</a></h3>
     <span class="entry-date">2025</span>
@@ -312,7 +312,7 @@ depth, direction = result.depth, result.direction
 
 <h2 id="experience">Experience</h2>
 
-<div class="entry">
+<div class="entry" id="experience-quantfi-quantitative-developer">
   <div class="entry-head">
     <h3>QuantFi &middot; Quantitative Developer</h3>
     <span class="entry-date">March 2023 &ndash; August 2024</span>
@@ -324,7 +324,7 @@ depth, direction = result.depth, result.direction
   <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>numba</code> &middot; <code>ccxt</code></div>
 </div>
 
-<div class="entry">
+<div class="entry" id="experience-vu-research-assistant">
   <div class="entry-head">
     <h3>VU Econometrics and Data Science &middot; Research Assistant</h3>
     <span class="entry-date">January 2024 &ndash; June 2024</span>
@@ -336,7 +336,7 @@ depth, direction = result.depth, result.direction
   <div class="tags"><code>Python</code></div>
 </div>
 
-<div class="entry">
+<div class="entry" id="experience-quantfi-operational-trader">
   <div class="entry-head">
     <h3>QuantFi &middot; Operational Trader</h3>
     <span class="entry-date">October 2022 &ndash; March 2023</span>
