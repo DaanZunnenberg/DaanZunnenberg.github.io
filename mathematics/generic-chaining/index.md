@@ -4,8 +4,15 @@ title: Generic Chaining
 permalink: /mathematics/generic-chaining/
 ---
 
-<h1>Generic Chaining</h1>
-<p class="tagline">Why the geometry of a metric space completely determines the size of a Gaussian process.</p>
+<section class="hero">
+  <img src="{{ '/images/PisierOil.png' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Geometry &middot; Stochastic Processes</div>
+    <h1 class="hero-name">Generic Chaining<span class="cursor">_</span></h1>
+    <p class="hero-lede">Why the geometry of a metric space completely determines the size of a Gaussian process.</p>
+  </div>
+</section>
 
 <p>
 Let \((T,d)\) be a metric space and \((X_t)_{t\in T}\) a process satisfying
