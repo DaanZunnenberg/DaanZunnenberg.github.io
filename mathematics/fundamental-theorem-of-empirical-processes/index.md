@@ -92,7 +92,7 @@ b_J(A_\ell) \le b(T) - \frac{\sigma}{L}\sqrt{\log m}.
 \]
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Sketch.</span>
   Fix \(t_0\in T\), replace \(T\) by \(T-t_0\). Write \(Y_t = \sum_{i\in J} \varepsilon_i t_i\), \(Z_t = \sum_{i\notin J}\varepsilon_i t_i\), so \(b(T) =\mathsf{E}\sup_t(Y_t+Z_t)\). Let \(\alpha\) be the infimum, over sets \(F\subset T\) with \(\operatorname{card} F\le m\), of \(\mathsf{E}\sup_{t\notin\bigcup_{s\in F}B(s,\sigma)} Y_t\). Choose \(t^1,\dots,t^m\in T\) greedily, \(t^k\) nearly achieving \(\sup_{t\notin\bigcup_{\ell<k}B(t^\ell,\sigma)} Y_t^k\) for an independent copy \(Y^k\) of \(Y\). Sudakov's minoration for Bernoulli processes,
   </p>
@@ -192,7 +192,7 @@ The family \((\varphi_j)_{j\in\mathbb Z}\) of squared distances on \(T\) is the 
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   Bernstein's inequality applied to \(W_i = |r^j(Z_i(s)-Z_i(t))|^2\wedge 1\) and \(A=\varphi_j(s,t)/4 = \tfrac14\sum_i\mathsf{E}W_i\) gives the condition above directly.
   </p>
@@ -414,7 +414,7 @@ Applied at fixed \(\omega\) and taking expectation,
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   We prove
   </p>
@@ -456,7 +456,7 @@ j_n(t)+1,\omega}(s,t)\le 2^{n-2}\}) \le 2N_{n-2}^{-1}.
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof of the Main Lemma.</span>
   Combine the previous lemma with the displayed bound \(\mathsf{E}\int I_{\mu,\omega}(t)\,d\mu(t) \le KS\) above.
   </p>
@@ -472,7 +472,7 @@ We convert this pointwise bound, valid for every \(\mu\in M^+\), into a single m
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   Let \(S^+ = \{g\ ;\ \exists f\in S,\ g\ge f\}\), \(C\) its closed convex hull. Suppose the constant function \(a\) is not in \(C\). By Hahn&ndash;Banach there is a linear functional \(\phi\) with \(\phi(f)>\phi(a)\) for \(f\in C\). For \(g\ge 0\), \(\lambda>0\), \(f\in S\), \(f+\lambda g\in C\), so \(\phi(f)+\lambda\phi(g) >\phi(a)\), and letting \(\lambda\to\infty\), \(\phi(g)\ge 0\), so \(\phi\) is positive. As \(T\) is finite, \(\phi(g) = \sum_{t}\alpha_t g(t)\), \(\alpha_t\ge 0\). Set \(\beta=\sum_t\alpha_t\), \(\nu(\{t\})=\alpha_t/\beta\), so \(\phi(g) = \beta\int g\,d\nu\), and \(g=a\) gives \(\beta a = \phi(a)\). By hypothesis there is \(f\in C\) with \(\int f\,d\nu\le a\), so \(\phi(f) = \beta\int f\,d\nu \le \beta a = \phi(a)\), a contradiction. So \(a\in C\), and the lemma follows.
   </p>
@@ -487,7 +487,7 @@ We convert this pointwise bound, valid for every \(\mu\in M^+\), into a single m
 \]
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   Let \(\mathcal S = \{f = J_\mu\ ;\ \mu\in M^+\}\). Given \(\nu\) on \(T\), take \(\mu = \nu/2+\lambda/2\), \(\lambda\) uniform, so \(\mu\ge\nu/2\) and, by the Main Lemma,
   </p>
@@ -568,13 +568,13 @@ s,t\in B\ \Rightarrow\ \varphi_j(s,t) \le 2^{n+4}.
 \]
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   Let \(U\subset A\) be maximal with \(\varphi_j(s,t)>2^{n+2}\) for distinct \(s,t\in U\). The balls \(B_j(t,2^n)\), \(t\in U\), are disjoint, each of measure \(\ge N_n^{-1}\), so \(\operatorname{card} U\le N_n\). By maximality the balls \(B_j(t,2^{n+2})\), \(t\in U\), cover \(A\), and satisfy \(\varphi_j(s,t)\le 2^{n+4}\) for \(s,t\) in the same ball, by the quasi-triangle inequality for \(\varphi_j\). Assigning each point of \(A\) to the first ball covering it gives \(\mathcal A\).
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof of Theorem.</span>
   We construct \(A_n\) and \(j_n(A)\), \(A\in A_n\), maintaining, for \(n\ge 2\), \(A\in A_n\),
   </p>
@@ -596,7 +596,7 @@ j_{n-1}(t)=j_n(A)+1\}.
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof of the General Lower Bound.</span>
   Assume \(T\) finite. Let \(\mu\) be given by Theorem and \(\bar j_n(t)\) its integers. Set \(j_n(t) = \min_{0\le p\le n}(\bar j_p(t)+n-p)\), so \(j_0(t)=\bar j_0(t)=j_0\), \(j_n(t)\le j_{n+1}(t)\le j_n(t)+1\). Since \(j_n(t)\le \bar j_n(t)\), \(\mu(B_{j_n(t)}(t,2^n))\ge N_n^{-1}\). And \(r^{-j_n(t)} \le \sum_{p\le n} r^{-\bar j_p(t)-n+p}\), so, \(r\ge 4\),
   </p>
@@ -622,7 +622,7 @@ We turn to the Giné&ndash;Zinn theorem. Fix a class \(T\) of functions on \(\Om
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   Let \((X_i')\) be an independent copy of \((X_i)\). Jensen's inequality, taking expectation in \(X_i'\) inside the supremum on the left and outside on the right, gives
   </p>
@@ -641,13 +641,13 @@ We turn to the Giné&ndash;Zinn theorem. Fix a class \(T\) of functions on \(\Om
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   The contraction principle, \(\mathsf{E}\sup_t\sum_i\varepsilon_i|t_i|\le 2\mathsf{E}\sup_t|\sum_i\varepsilon_i t_i|\), applied at fixed \((X_i)_{i\le N}\).
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof of the Giné&ndash;Zinn theorem.</span>
   Write \(\sum_i|t(X_i)| = \sum_i\mathsf{E}|t(X_i)| + \sum_i(|t(X_i)|- \mathsf{E}|t(X_i)|)\), so
   </p>
@@ -667,7 +667,7 @@ We turn to the Giné&ndash;Zinn theorem. Fix a class \(T\) of functions on \(\Om
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   Condition on \((\varepsilon_i)\), set \(I=\{i\ ;\ \varepsilon_i=1\}\), \(J=\{i\ ;\ \varepsilon_i=-1\}\),
   </p>
@@ -709,7 +709,7 @@ We may assume \(0\in T\), since replacing \(T\) by \(T-t_0\) leaves \(S(T)\) unc
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   Since \(0\in T\), \(\varphi_{j_0}(0,t)\le 4\) gives \(\int|r^{j_0}t|^2\wedge 1\,d\nu\le 4\). With \(U=\{2|t|\ge r^{-j_0}\}\), \(\nu(U)\le 16\), so \(\sum_{i\le N}\lambda_i(U)\le 16\). Let \(\mathcal A = \{i\ ;\ \lambda_i(U)\ge 1/2\}\), \(\operatorname{card}\mathcal A\le 32\). For \(i\le N\) let \(\Xi_i\) be the event \(X_i\in U\), \(X_j\notin U\) for \(j\ne i\), \(j\notin\mathcal A\). Since \(1-\lambda_j(U)\ge\exp(-2\lambda_j(U))\) for \(j\notin\mathcal A\), \(\mathsf{P}(\Xi_i) \ge \lambda_i(U)/L\). Given \(\Xi_i\), \(X_i\) is distributed as \(\lambda_i\) restricted to \(U\), so
   </p>
@@ -734,19 +734,19 @@ L\,\mathsf{E}1_{\Xi_i}\Big|\sum_{j\le N}\varepsilon_j t(X_j)\Big|,
 \]
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   Apply the General Lower Bound and then the peaky part decomposition theorem, absorbing what is called \(T_3\) there into \(T_2\). The previous lemma gives the second bound of the proposition.
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof of the Decomposition Theorem.</span>
   Combining the first bound of the proposition with the chaining bound \(S(T_1)\le L(\gamma_2(T_1,d_2)+\gamma_1(T_1,d_\infty))\) gives \(S(T_1)\le LS(T)\), so \(\bar S(T_1)\le LS(T)\) since \(0\in T_1\). Replacing \(T_2\) by \(T_2\cap(T-T_1)\), we may assume \(T_2\subset T-T_1\), so \(\bar S(T_2) \le \bar S(T)+\bar S(T_1) \le LS(T)\). With the second bound of the proposition, the Giné&ndash;Zinn theorem gives \(\mathsf{E}\sup_{t\in T_2}\sum_{i\le N}|t(X_i)| \le LS(T)\).
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof of the Fundamental Theorem of Empirical Processes.</span>
   Apply the previous proof with \(\lambda_i=\mu\) independent of \(i\), so \(\nu=N\mu\). Then \(\gamma_2(T_1,d_{2,\nu}) = \sqrt N\gamma_2(T_1, d_{2,\mu})\), giving \(\gamma_2(T_1,d_2) \le LS_N(\mathcal F)/\sqrt N\). The bound on \(\gamma_1(T_1,d_\infty)\) is unchanged. The lemma comparing \(\bar S\) with the signed sum under centering converts the second bound of the proposition into the bound on \(\mathsf{E}\sup_{t\in T_2}\sum_i|t(X_i)|\) stated in the theorem.
   </p>
@@ -755,5 +755,6 @@ L\,\mathsf{E}1_{\Xi_i}\Big|\sum_{j\le N}\varepsilon_j t(X_j)\Big|,
 <p>
 This closes the chain running from the Latała&ndash;Bednorz theorem through the Main Lemma, the majorizing measure, the partitions, the General Lower Bound, and the Giné&ndash;Zinn theorem, to the Fundamental Theorem of Empirical Processes. Chaining against no cancellation, first isolated for linear sums of signs, governs the size of sums of independent random functions in full generality, and the machinery built for the Bernoulli conjecture is the machinery that proves it.
 </p>
+
 
 <p><a href="{{ '/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>
