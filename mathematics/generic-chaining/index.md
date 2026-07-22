@@ -5,7 +5,7 @@ permalink: /mathematics/generic-chaining/
 ---
 
 <section class="hero">
-  <img src="{{ '/images/TalagrandOil.png' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
+  <img src="{{ '/images/LedouxOil.jpeg' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Geometry &middot; Stochastic Processes</div>
@@ -13,6 +13,8 @@ permalink: /mathematics/generic-chaining/
     <p class="hero-lede">Why the geometry of a metric space completely determines the size of a Gaussian process.</p>
   </div>
 </section>
+
+<h2>Introduction</h2>
 
 <p>
 Let \((T,d)\) be a metric space and \((X_t)_{t\in T}\) a process satisfying
@@ -27,6 +29,8 @@ Let \((T,d)\) be a metric space and \((X_t)_{t\in T}\) a process satisfying
 <p>
 This inequality holds for any Gaussian process if we set \(d(s,t)^2=\mathsf E(X_s-X_t)^2\). The central question of the theory is simple to state. How large is \(\mathsf E\sup_{t\in T}X_t\) in terms of the geometry of \((T,d)\)?
 </p>
+
+<h2>Dudley's bound</h2>
 
 <p>
 Dudley gave the classical answer. Cover \(T\) by balls of radius \(\epsilon\), let \(N(T,d,\epsilon)\) be the smallest number of such balls needed, and you obtain
@@ -46,6 +50,8 @@ This comes from Kolmogorov's chaining argument. You build a sequence of finite a
 This is a wasteful idea. There is no reason why every part of \(T\) should be measured at the same scale. Some regions of \(T\) are sparse while others are crowded, and forcing a single covering radius at each scale discards this structural information. Dudley's bound is not sharp. It fails not on some pathological counterexample, but on the simplest infinite-dimensional convex bodies, namely ellipsoids in Hilbert space.
 </p>
 
+<h2>The generic chaining bound</h2>
+
 <p>
 The generic chaining eliminates this artificial restriction. Instead of choosing a single covering number at each scale, we work with an admissible sequence of partitions \((A_n)_{n\ge0}\) of \(T\). We set \(A_0=\{T\}\) and require \(\mathrm{card}(A_n)\le N_n=2^{2^n}\) for \(n\ge1\), with each partition refining the previous one. For any \(t\in T\), let \(A_n(t)\) be the piece of \(A_n\) containing \(t\), and pick a point \(t_n\) in each piece. Then we have
 </p>
@@ -59,6 +65,8 @@ The generic chaining eliminates this artificial restriction. Instead of choosing
 <p>
 This is the generic chaining bound. The proof is no more difficult than Dudley's. It uses the exact same union bound, but organized so that the step size along a chain depends on where that chain actually goes. Once you realize this, there is no magic left, only the refusal to throw away information that the union bound was ready to give us.
 </p>
+
+<h2>Why it's sharp</h2>
 
 <p>
 Why is this bound sharp? For Gaussian processes, it gives the exact order of magnitude. There is a matching lower bound of the same form, meaning the generic chaining bound and \(\mathsf E\sup_t X_t\) are equivalent up to a universal constant. This is a deep theorem, and it means that this geometric sum completely captures the behavior of the process.
