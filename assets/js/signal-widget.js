@@ -19,6 +19,9 @@
   var nodes = [];
   var travelers = [];
   var lastTs = null;
+  var frameCount = 0;
+  var running = false;
+  var visible = true;
 
   function resize() {
     W = container.clientWidth;
@@ -88,7 +91,8 @@
       if (n.x < 0 || n.x > W) n.vx *= -1;
       if (n.y < 0 || n.y > H) n.vy *= -1;
     });
-    rebuildLinks();
+    frameCount++;
+    if (frameCount % 3 === 0) rebuildLinks();
 
     while (travelers.length < TRAVELER_COUNT) {
       var t = spawnTraveler();
@@ -151,8 +155,20 @@
   }
 
   function loop(ts) {
+    if (!running) return;
     step(ts || performance.now());
-    if (!reduceMotion) requestAnimationFrame(loop);
+    requestAnimationFrame(loop);
+  }
+
+  function start() {
+    if (reduceMotion || running || !visible || document.hidden) return;
+    running = true;
+    lastTs = null;
+    requestAnimationFrame(loop);
+  }
+
+  function stop() {
+    running = false;
   }
 
   window.addEventListener("resize", function () {
@@ -160,9 +176,18 @@
     seedNodes();
     travelers = [];
   });
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) stop(); else start();
+  });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      visible = entries[entries.length - 1].isIntersecting;
+      if (visible) start(); else stop();
+    }).observe(canvas);
+  }
   resize();
   seedNodes();
 
-  if (!reduceMotion) requestAnimationFrame(loop);
+  if (!reduceMotion) start();
   else step(performance.now());
 })();
