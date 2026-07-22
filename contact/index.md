@@ -70,6 +70,16 @@ below.
     </span>
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
+  <a class="nav-card" href="{{ '/card/' | relative_url }}">
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Zm4 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-3 8c.35-1.65 1.9-3 3-3s2.65 1.35 3 3H4Zm9-7.5h6v1.5h-6V9.5Zm0 3.5h6v1.5h-6V13Zm0 3.5h4V18h-4v-1.5Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">Digital Business Card</span>
+      <span class="nav-card-hint">Save my contact card to your phone in one tap.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
+  </a>
 </div>
 
 <div class="links">
@@ -78,5 +88,3 @@ below.
   <a href="https://www.linkedin.com/in/daanzunnenberg/" target="_blank" rel="noopener noreferrer"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>LinkedIn</a>
   <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 8l11 5 9-4.09V17h2V8L12 3zm-7 9.18V16c0 2.21 3.13 4 7 4s7-1.79 7-4v-3.82l-7 3.18-7-3.18z"/></svg>Google Scholar</a>
 </div>
-
-<p class="form-hint">Prefer a digital business card? <a href="{{ '/card/' | relative_url }}">Save my contact card &rarr;</a></p>
