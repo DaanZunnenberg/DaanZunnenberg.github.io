@@ -5,7 +5,7 @@ permalink: /mathematics/generic-chaining/
 ---
 
 <section class="hero">
-  <img src="{{ '/images/LedouxOil.jpeg' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
+  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Geometry &middot; Stochastic Processes</div>
