@@ -32,40 +32,39 @@ specific results and details below show how these ideas shape my current work.
 <h2 id="results">Results</h2>
 
 <p>
-Start with generic chaining itself, the geometric argument that pins down the size of a Gaussian
-process. The Majorizing Measure Theorem is the sharp two-sided version of that bound. The Fundamental
-Theorem of Empirical Processes carries the same argument over to sums of independent random
-functions, where cancellation alone is no longer enough.
+Three pieces, building on each other. Generic chaining is the core idea. The Majorizing Measure
+Theorem is the sharp version of it for Gaussian processes. The Fundamental Theorem of Empirical
+Processes takes the same idea and makes it work for sums of independent functions.
 </p>
 
 <div class="nav-cards">
   <a class="nav-card" href="{{ '/mathematics/generic-chaining/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M4 20 10 8l4 6 3-4 3 10H4Z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M8 12a4 4 0 0 1 4-4h3a4 4 0 1 1 0 8h-1.5v-2H15a2 2 0 1 0 0-4h-3a2 2 0 0 0-2 2v.5H8.5V12H8Zm8 0a4 4 0 0 1-4 4H9a4 4 0 1 1 0-8h1.5v2H9a2 2 0 1 0 0 4h3a2 2 0 0 0 2-2v-.5h1.5V12H16Z"/></svg>
     </span>
     <span class="nav-card-body">
       <span class="nav-card-title">Generic Chaining</span>
-      <span class="nav-card-hint">Why the geometry of a metric space alone controls the size of a Gaussian process.</span>
+      <span class="nav-card-hint">The geometric idea underneath all of this: bound a process by the shape of its index set.</span>
     </span>
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
   <a class="nav-card" href="{{ '/mathematics/majorizing-measure-theorem/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M4 20 10 8l4 6 3-4 3 10H4Z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M2 19h20v2H2v-2Zm2-1c1.7-7.2 3.6-12.5 8-12.5s6.3 5.3 8 12.5H4Z"/></svg>
     </span>
     <span class="nav-card-body">
       <span class="nav-card-title">The Majorizing Measure Theorem</span>
-      <span class="nav-card-hint">Talagrand's two-sided bound on the supremum of a Gaussian process, via generic chaining.</span>
+      <span class="nav-card-hint">The sharp, two-sided version of that bound, for Gaussian processes.</span>
     </span>
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
   <a class="nav-card" href="{{ '/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M4 20 10 8l4 6 3-4 3 10H4Z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M4 20v-8h3v8H4Zm6.5 0V5h3v15h-3ZM17 20v-5h3v5h-3Z"/></svg>
     </span>
     <span class="nav-card-body">
       <span class="nav-card-title">The Fundamental Theorem of Empirical Processes</span>
-      <span class="nav-card-hint">Latała&ndash;Bednorz, the peaky part decomposition, and why chaining plus no cancellation always suffices.</span>
+      <span class="nav-card-hint">The same idea, extended to sums of independent random functions.</span>
     </span>
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
