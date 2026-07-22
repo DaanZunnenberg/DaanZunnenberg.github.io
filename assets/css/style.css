@@ -783,6 +783,15 @@ a:hover { color: var(--blue-300); }
   background: var(--bg-1);
   border-radius: 0 4px 4px 0;
   color: var(--ink-soft);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 140px;
+}
+
+/* Long proof pages carry hundreds of rendered KaTeX formulas; skipping
+   layout/paint for off-screen paragraphs keeps scrolling smooth. */
+main p {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 90px;
 }
 
 .math-env-label {
