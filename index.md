@@ -348,6 +348,18 @@ depth, direction = result.depth, result.direction
   <div class="tags"><code>Python</code> &middot; <code>ccxt</code> &middot; <code>Tardis.dev</code></div>
 </div>
 
+<div class="entry" id="experience-beyonddutch-research-intern">
+  <div class="entry-head">
+    <h3>BeyondDutch &middot; Research Intern</h3>
+    <span class="entry-date">January 2018 &ndash; June 2018</span>
+  </div>
+  <ul>
+    <li>Built survival models for heavily right-censored data using <code>Python</code> and <code>scikit-survival</code>, using <code>SQLAlchemy</code> to pull data from SQL databases.</li>
+    <li>Created features by combining domain data with macroeconomic indicators using <code>pandas</code> and <code>fredapi</code> to cover missing data points.</li>
+  </ul>
+  <div class="tags"><code>Python</code> &middot; <code>scikit-survival</code> &middot; <code>SQLAlchemy</code> &middot; <code>pandas</code> &middot; <code>fredapi</code></div>
+</div>
+
 <p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
 
 <h2 id="banner-confession">A Small Confession About the Banner</h2>
