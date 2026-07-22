@@ -5,7 +5,7 @@ permalink: /mathematics/majorizing-measure-theorem/
 ---
 
 <section class="hero">
-  <img src="{{ '/images/DudleyOil.png' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
+  <img src="{{ '/images/FerniqueOil.jpeg' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Talagrand &middot; Gaussian Processes</div>
@@ -13,13 +13,6 @@ permalink: /mathematics/majorizing-measure-theorem/
     <p class="hero-lede">My favorite proof: Talagrand's two-sided bound on the supremum of a Gaussian process.</p>
   </div>
 </section>
-
-<p class="lede">
-Let \((X_t)_{t \in T}\) be a centered Gaussian process with canonical metric
-\(d(s,t) = (\mathbb{E}|X_s - X_t|^2)^{1/2}\). The theorem says the expected supremum of the process is
-pinned down, up to a universal constant, by a purely geometric quantity of \((T,d)\): the \(\gamma_2\)
-functional. Below is the proof of both directions, upper and lower.
-</p>
 
 <h2>Introduction</h2>
 

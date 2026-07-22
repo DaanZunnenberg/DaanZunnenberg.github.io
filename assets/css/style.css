@@ -183,12 +183,14 @@ main::before {
   text-align: center;
   gap: 14px;
   padding: 44px 0 20px;
+  border: 1px solid transparent;
   border-bottom: 1px solid var(--line);
   margin-bottom: 0;
   position: sticky;
   top: 0;
   z-index: 45;
-  transition: padding 0.22s ease, background-color 0.22s ease, box-shadow 0.22s ease, backdrop-filter 0.22s ease;
+  transition: padding 0.22s ease, margin 0.22s ease, width 0.22s ease, background-color 0.22s ease,
+    box-shadow 0.22s ease, backdrop-filter 0.22s ease, border-color 0.22s ease, border-radius 0.22s ease;
 }
 
 .site-header.is-stuck {

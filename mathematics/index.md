@@ -32,9 +32,11 @@ specific results and details below show how these ideas shape my current work.
 <h2 id="results">Results</h2>
 
 <p>
-Three pieces, building on each other. Generic chaining is the core idea. The Majorizing Measure
+Four pieces, building on each other. Generic chaining is the core idea. The Majorizing Measure
 Theorem is the sharp version of it for Gaussian processes. The Fundamental Theorem of Empirical
-Processes takes the same idea and makes it work for sums of independent functions.
+Processes takes the same idea and makes it work for sums of independent functions. The
+Bousquet&ndash;Talagrand inequality comes at the same problem from a different angle: concentration
+of measure via the entropy method.
 </p>
 
 <div class="nav-cards nav-cards-single">
@@ -65,6 +67,16 @@ Processes takes the same idea and makes it work for sums of independent function
     <span class="nav-card-body">
       <span class="nav-card-title">The Fundamental Theorem of Empirical Processes</span>
       <span class="nav-card-hint">The same idea, extended to sums of independent random functions.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <a class="nav-card" href="{{ '/mathematics/bousquet-talagrand-inequality/' | relative_url }}">
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Zm0 8-8-4v6l8 4 8-4V6l-8 4Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">The Bousquet&ndash;Talagrand Inequality</span>
+      <span class="nav-card-hint">A sharp concentration bound for the supremum of an empirical process, via the entropy method.</span>
     </span>
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
