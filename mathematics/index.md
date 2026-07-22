@@ -5,12 +5,10 @@ permalink: /mathematics/
 ---
 
 <h1>Mathematics</h1>
-<p class="tagline">A running collection of my favourite pieces of theory, written up with full proofs.</p>
+<p class="tagline">Some of my favourite pieces of theory, with full proofs.</p>
 
 <p class="lede">
-These aren't textbook rehashes &mdash; they're the results I keep coming back to, the ones that
-changed how I think about a problem, worked through in the same detail I'd want if I were reading
-them for the first time.
+Results I keep coming back to, written out properly instead of just cited.
 </p>
 
 <h2 id="proofs">Proofs</h2>

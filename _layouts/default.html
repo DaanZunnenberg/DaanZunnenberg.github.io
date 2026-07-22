@@ -23,7 +23,64 @@
         <span></span><span></span><span></span>
       </button>
       <div class="nav-overlay" id="nav-overlay"></div>
-      <nav class="site-nav" id="site-nav">
+
+      <!-- Desktop: grouped hierarchy to keep the top-level item count down -->
+      <nav class="site-nav site-nav-desktop" aria-hidden="true">
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>About</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/#working-together' | relative_url }}">Working together</a>
+            <a href="{{ '/#selected-projects' | relative_url }}">Selected projects</a>
+            <a href="{{ '/#experience' | relative_url }}">Experience</a>
+          </div>
+        </div>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/experience/' | relative_url }}" {% if page.url contains 'experience' %}class="active"{% endif %}>Experience &amp; Projects</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/experience/#work-experience' | relative_url }}">Work experience</a>
+            <a href="{{ '/experience/#projects' | relative_url }}">Projects</a>
+            <a href="{{ '/experience/#education' | relative_url }}">Education</a>
+            <a href="{{ '/experience/#skills' | relative_url }}">Skills</a>
+          </div>
+        </div>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' or page.url contains 'mathematics' or page.url contains 'updates' %}class="active"{% endif %}>Research</a>
+          <div class="nav-dropdown nav-dropdown-grouped">
+            <div class="nav-dropdown-group">
+              <a class="nav-dropdown-heading" href="{{ '/research/' | relative_url }}">Research &amp; Publications</a>
+              <a href="{{ '/research/#research-interests' | relative_url }}">Research interests</a>
+              <a href="{{ '/research/#current-work' | relative_url }}">Current work</a>
+              <a href="{{ '/research/#past-research' | relative_url }}">Past research</a>
+              <a href="{{ '/research/#publications' | relative_url }}">Publications</a>
+            </div>
+            <div class="nav-dropdown-group">
+              <a class="nav-dropdown-heading" href="{{ '/mathematics/' | relative_url }}">Mathematics</a>
+              <a href="{{ '/mathematics/#proofs' | relative_url }}">Proofs</a>
+            </div>
+            <div class="nav-dropdown-group">
+              <a class="nav-dropdown-heading" href="{{ '/updates/' | relative_url }}">Updates &amp; Events</a>
+              <a href="{{ '/updates/#latest' | relative_url }}">Latest</a>
+              <a href="{{ '/updates/#conferences-talks-presentations' | relative_url }}">Conferences &amp; talks</a>
+              <a href="{{ '/updates/#summer-winter-schools' | relative_url }}">Summer &amp; winter schools</a>
+              <a href="{{ '/updates/#workshops' | relative_url }}">Workshops</a>
+              <a href="{{ '/updates/#events' | relative_url }}">Events</a>
+              <a href="{{ '/updates/#competitions-challenges' | relative_url }}">Competitions &amp; challenges</a>
+            </div>
+          </div>
+        </div>
+        <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/contact/' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}>Contact</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/contact/research/' | relative_url }}">Academic contact</a>
+            <a href="{{ '/contact/recruiters/' | relative_url }}">Professional contact</a>
+            <a href="{{ '/contact/#send-a-message' | relative_url }}">Leave a question</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile: flat list, unchanged -->
+      <nav class="site-nav site-nav-mobile" id="site-nav">
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>About</a>
           <div class="nav-dropdown">
