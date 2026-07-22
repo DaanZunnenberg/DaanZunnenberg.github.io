@@ -167,9 +167,7 @@ main::before {
   bottom: -8px;
   left: -16px;
   right: -16px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.74) 0%, rgba(255, 255, 255, 0.82) 100%);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.95) 100%);
   border-radius: 10px;
   border: 1px solid var(--line-soft);
   box-shadow: 0 30px 70px -40px rgba(22, 27, 40, 0.18);
