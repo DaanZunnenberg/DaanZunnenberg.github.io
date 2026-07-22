@@ -1296,6 +1296,10 @@ pre.code-block code {
   margin-bottom: 20px;
 }
 
+.nav-cards-single {
+  grid-template-columns: 1fr;
+}
+
 .nav-card {
   position: relative;
   display: flex;
