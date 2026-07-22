@@ -37,7 +37,7 @@ Theorem is the sharp version of it for Gaussian processes. The Fundamental Theor
 Processes takes the same idea and makes it work for sums of independent functions.
 </p>
 
-<div class="nav-cards">
+<div class="nav-cards nav-cards-single">
   <a class="nav-card" href="{{ '/mathematics/generic-chaining/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M8 12a4 4 0 0 1 4-4h3a4 4 0 1 1 0 8h-1.5v-2H15a2 2 0 1 0 0-4h-3a2 2 0 0 0-2 2v.5H8.5V12H8Zm8 0a4 4 0 0 1-4 4H9a4 4 0 1 1 0-8h1.5v2H9a2 2 0 1 0 0 4h3a2 2 0 0 0 2-2v-.5h1.5V12H16Z"/></svg>
