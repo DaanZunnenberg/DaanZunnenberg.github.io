@@ -4,8 +4,15 @@ title: Proof of Bousquet's Inequality
 permalink: /mathematics/bousquet-talagrand-inequality/
 ---
 
-<h1>The Bousquet&ndash;Talagrand Inequality</h1>
-<p class="tagline">The entropy method: a Bernstein-type concentration bound for the supremum of an empirical process.</p>
+<section class="hero">
+  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Concentration of Measure &middot; Entropy Method</div>
+    <h1 class="hero-name">The Bousquet&ndash;Talagrand Inequality<span class="cursor">_</span></h1>
+    <p class="hero-lede">The entropy method: a Bernstein-type concentration bound for the supremum of an empirical process.</p>
+  </div>
+</section>
 
 <h2>Introduction</h2>
 
