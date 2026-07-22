@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Contact
+title: Updates, Events & Contact
 permalink: /contact/
 ---
 
@@ -9,12 +9,68 @@ permalink: /contact/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Let&rsquo;s Connect<span class="hero-eyebrow-extra"> &middot; Research &amp; Industry</span></div>
-    <h1 class="hero-name">Contact<span class="cursor">_</span></h1>
-    <p class="hero-lede">Research collaborations, roles, or an idea worth starting.</p>
+    <h1 class="hero-name">Updates, Events &amp; Contact<span class="cursor">_</span></h1>
+    <p class="hero-lede">Talks, seminars, and news, or a straight line to get in touch.</p>
   </div>
 </section>
 
-<p class="tagline">Research collaborations, roles, or an idea worth starting. Get in touch.</p>
+<p class="lede">
+Interested in upcoming seminars, talks, or whatever&rsquo;s new, or just want to connect? Choose an option
+below.
+</p>
+
+<div class="nav-cards">
+  <a class="nav-card" href="{{ '/contact/talks-seminars/' | relative_url }}">
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 3 1 8l11 5 9-4.09V17h2V8L12 3zm-7 9.18V16c0 2.21 3.13 4 7 4s7-1.79 7-4v-3.82l-7 3.18-7-3.18z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">Talks &amp; Seminars</span>
+      <span class="nav-card-hint">Conferences, posters, and seminars, upcoming and past.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <a class="nav-card" href="{{ '/contact/schools-workshops/' | relative_url }}">
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M4 20v-8h3v8H4Zm6.5 0V5h3v15h-3ZM17 20v-5h3v5h-3Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">Schools &amp; Workshops</span>
+      <span class="nav-card-hint">Summer and winter schools, study groups, and industry workshops.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <a class="nav-card" href="{{ '/contact/notes-achievements/' | relative_url }}">
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M2 19h20v2H2v-2Zm2-1c1.7-7.2 3.6-12.5 8-12.5s6.3 5.3 8 12.5H4Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">Notes &amp; Achievements</span>
+      <span class="nav-card-hint">Short-form updates, plus competitions and other results.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <a class="nav-card" href="{{ '/contact/research/' | relative_url }}">
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M8 12a4 4 0 0 1 4-4h3a4 4 0 1 1 0 8h-1.5v-2H15a2 2 0 1 0 0-4h-3a2 2 0 0 0-2 2v.5H8.5V12H8Zm8 0a4 4 0 0 1-4 4H9a4 4 0 1 1 0-8h1.5v2H9a2 2 0 1 0 0 4h3a2 2 0 0 0 2-2v-.5h1.5V12H16Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">Academic Contact</span>
+      <span class="nav-card-hint">Collaboration proposals, seminar invitations, peer review, or questions about the PhD work.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <a class="nav-card" href="{{ '/contact/recruiters/' | relative_url }}">
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Zm0 8-8-4v6l8 4 8-4V6l-8 4Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">Professional Contact</span>
+      <span class="nav-card-hint">Roles, consulting, or an invitation to meet up: industry and professional contact.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+</div>
 
 <div class="links">
   <a data-u="dw.zunnenberg" data-d="gmail.com"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20v16H2V4zm10 7L4 6v2l8 5 8-5V6l-8 5z"/></svg></a>
@@ -24,58 +80,3 @@ permalink: /contact/
 </div>
 
 <p class="form-hint">Prefer a digital business card? <a href="{{ '/card/' | relative_url }}">Save my contact card &rarr;</a></p>
-
-<div class="nav-cards">
-  <a class="nav-card" href="{{ '/contact/research/' | relative_url }}">
-    <span class="nav-card-title">Research &amp; Academic</span>
-    <span class="nav-card-hint">Collaboration proposals, seminar invitations, peer review, or questions about the PhD work.</span>
-  </a>
-  <a class="nav-card" href="{{ '/contact/recruiters/' | relative_url }}">
-    <span class="nav-card-title">Recruiters &amp; Professional</span>
-    <span class="nav-card-hint">Roles, consulting, or an invitation to meet up: industry and professional contact.</span>
-  </a>
-</div>
-
-<h2 id="send-a-message">Send a message</h2>
-
-<form class="contact-form" data-u="dw.zunnenberg" data-d="gmail.com" method="POST">
-  <input type="hidden" name="_subject" value="New message from daanzunnenberg.com">
-  <input type="hidden" name="_template" value="table">
-  <input type="hidden" name="_captcha" value="true">
-  <input type="hidden" name="_next" value="https://daanzunnenberg.com/contact/?sent=1">
-  <input type="text" name="_honey" style="display:none">
-
-  <div class="form-row">
-    <div class="field">
-      <label for="name">Name</label>
-      <input id="name" type="text" name="name" placeholder="Jane Doe" required>
-    </div>
-    <div class="field">
-      <label for="email">Email</label>
-      <input id="email" type="email" name="email" placeholder="jane@domain.com" required>
-    </div>
-  </div>
-
-  <div class="field">
-    <label for="topic">What's this about?</label>
-    <select id="topic" name="topic">
-      <option value="Research collaboration">Research &amp; academic inquiry</option>
-      <option value="Role or opportunity">Recruiting / professional opportunity</option>
-      <option value="Starting something together">Starting something together</option>
-      <option value="General question">General question</option>
-      <option value="Other">Other</option>
-    </select>
-  </div>
-
-  <div class="field">
-    <label for="message">Message</label>
-    <textarea id="message" name="message" rows="6" placeholder="A bit of context goes a long way: what you're working on, what you have in mind, and any relevant links." required></textarea>
-  </div>
-
-  <div class="form-footer">
-    <span class="form-hint">Sent directly to my inbox. I read and reply to everything.</span>
-    <button type="submit">Send message &rarr;</button>
-  </div>
-</form>
-
-<p id="sent-note" class="sent-note">Thanks, your message was sent. I'll get back to you by email.</p>
