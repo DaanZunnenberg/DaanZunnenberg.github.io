@@ -364,10 +364,11 @@ main::before {
 }
 
 .nav-dropdown-grouped {
-  flex-direction: row;
-  min-width: 520px;
-  max-width: min(680px, calc(100vw - 32px));
-  gap: 22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  min-width: 340px;
+  max-width: min(760px, calc(100vw - 32px));
+  gap: 8px 22px;
   padding: 14px;
 }
 
@@ -375,8 +376,7 @@ main::before {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  min-width: 180px;
-  flex: 1;
+  min-width: 0;
 }
 
 .nav-dropdown-group a {
