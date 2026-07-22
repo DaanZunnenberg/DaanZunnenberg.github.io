@@ -4,8 +4,15 @@ title: Proof of the Fundamental Theorem of Empirical Processes
 permalink: /mathematics/fundamental-theorem-of-empirical-processes/
 ---
 
-<h1>The Fundamental Theorem of Empirical Processes</h1>
-<p class="tagline">Chaining and the peaky part: why an empirical process always splits into a chained piece and a piece with no cancellation.</p>
+<section class="hero">
+  <img src="{{ '/images/DudleyOil.png' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Latała&ndash;Bednorz &middot; Empirical Processes</div>
+    <h1 class="hero-name">The Fundamental Theorem of Empirical Processes<span class="cursor">_</span></h1>
+    <p class="hero-lede">Chaining and the peaky part: why an empirical process always splits into a chained piece and a piece with no cancellation.</p>
+  </div>
+</section>
 
 <h2>Introduction</h2>
 
