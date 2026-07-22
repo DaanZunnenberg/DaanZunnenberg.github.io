@@ -816,6 +816,16 @@ a:hover { color: var(--blue-300); }
   color: inherit;
 }
 
+/* Proofs read as argument, not as a statement to memorize, so they get
+   upright text instead of the italic used for definitions/theorems. */
+.math-env-proof {
+  border-left-color: var(--line);
+}
+
+.math-env-proof p {
+  font-style: normal;
+}
+
 /* GitHub Dark default theme palette, for code blocks specifically */
 pre.code-block {
   position: relative;

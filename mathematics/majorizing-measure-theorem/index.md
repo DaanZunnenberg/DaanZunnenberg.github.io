@@ -80,7 +80,7 @@ By an increasing sequence of partitions we mean that every set of \(A_{n+1}\) is
 Here, as always, \(\mathit{\Delta}(A_n(t))\) denotes the diameter of \(A_n(t)\) for \(d\).
 </p>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   We may assume \(T\) to be finite. We construct a subset \(T_n\) of \(T\) by taking exactly one point in each set \(A\) of \(A_n\). Then for \(t\in T\) and \(n\ge 0\) we have \(d(t,T_n)\le \mathit{\Delta}(A_n(t))\) and the result follows from the bound \(\mathsf{E}\sup_{t\in T} X_t \le L\sup_{t\in T}\sum_{n\ge 0} 2^{n/2} d(t,T_n)\), valid for any sets \(T_n\) with \(\operatorname{card} T_n\le N_n\).
   </p>
@@ -276,7 +276,7 @@ S := \sup_{t\in T} \sum_{n\ge 0} 2^{n/\alpha}\mathit{\Delta}(B_n(t)).
 \]
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   We set \(A_n=\{T\}\) if \(n<\tau\) and \(A_n=B_{n-\tau}\) if \(n\ge \tau\) so that \(\operatorname{card} A_n \le N_n\) and
   </p>
@@ -339,7 +339,7 @@ r^{-j-1}2^{n/2-1} + \sup_{t\in A_\ell} F_{n+1}(A_\ell \cap B(t,r^{-j-2}))
 Thus we split \(C\) into two kinds of pieces. Those for which \(A_\ell\subset B(t_\ell,r^{-j-1})\) for some \(t_\ell\in C\) are of smaller diameter than \(C\) itself. For those for which \(r^{-j-1}2^{n/2-1} + \sup_{t\in A_\ell} F_{n+1}(A_\ell\cap B(t,r^{-j-2})) \le F_n(C)\), we gain some control on the behavior of the functionals \(F_n\). Two noticeable features of this construction are that it is algorithmic, obtained by repeating a basic simple step until \(C\) has been used up, and greedy, in that the basic step maximizes a simple measure of gain.
 </p>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   We show that for \(\ell<m'\) the set \(A_\ell\) satisfies \(A_\ell\subset B(t_\ell,r^{-j-1})\) for some \(t_\ell\in C\), and that if \(\ell=m'=m\) the set \(A_{m}\) satisfies \(r^{-j-1}2^{n/2-1}+\sup_{t\in A_m}F_{n+1}(A_m\cap B(t,r^{-j-2}))\le F_n(C)\). To avoid being distracted by secondary issues, let us first assume that \(T\) is finite. By induction over \(1\le \ell\le m=N_{n+1}\) we construct points \(t_\ell\in C\) and sets \(A_\ell\subset C\) as follows.
   </p>
@@ -494,7 +494,7 @@ I = \{k\ge 0 ;\ \forall n\ge 0,\ n\ne k,\ a_n < a_k \alpha^{|k-n|}\}.
 \]
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   Let us write \(n\prec k\) when \(a_k \ge a_n \alpha^{|n-k|}\). This relation is a partial order. If \(n\prec k\) and \(k\prec p\) then \(a_p \ge a_n \alpha^{|p-k|+|k-n|} \ge a_n \alpha^{|p-n|}\), so that \(n\prec p\). Let us observe that the set \(I\) defined above is the set of elements \(k\) of \(\mathbb N\) that are maximal, i.e. \(k\prec k' \Rightarrow k=k'\). Since we assume that the sequence \((a_n)\) is bounded, there cannot exist an increasing sequence for the order \(\prec\). Consequently, for each \(n\in \mathbb N\) there exists \(k\in I\) with \(n\prec k\). Then \(a_n \le a_k \alpha^{-|n-k|}\), and therefore
   </p>
@@ -527,7 +527,7 @@ Indeed, if \(j(k+1)=j(k)\), then \(a_{k+1}=\sqrt 2\, a_k\), forcing \(k+1\notin 
 \]
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   It follows from the basic containment \(C\subset B(t_{n,C},r^{-j_n(C)})\) that if we define \(A^* := A_{k'+1}(t)\) and \(t^* := t_{k'+1,A^*}\) then \(A^* \subset B(t^*, r^{-j(k'+1)})\). Moreover, since \(k'\in I\) we have \(j(k'+1)=j(k')+1\), and as noted we have \(t^*\in A_{k'}(t)\subset A_k(t)\). Also \(j(k')\ge j(k+1)\), and \(j(k+1)=j(k)+1\) since \(k\in I\) and \(k\ge 1\). Consequently \(j(k'+1)\ge j(k)+2\) and therefore
   </p>
@@ -552,7 +552,7 @@ B(u,r^{-j(k)-2})) \le F_{k-1}(A_{k-1}(t)),
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">End of proof of the partitioning theorem.</span>
   Let \(x(n) = F_n(A_n(t))\), so that the previous lemma implies
   </p>
@@ -600,7 +600,7 @@ We can now complete the proof of the Fernique&ndash;Talagrand theorem. Recall th
 \]
 </p>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof of the lower bound.</span>
   To prove the lower bound we will use the partitioning theorem and the functionals
   </p>
@@ -673,7 +673,7 @@ m} \mathsf{E}\sup_{t\in H_\ell} X_t,
   </p>
 </div>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof.</span>
   We can and do assume \(m\ge 2\). For \(\ell\le m\), we consider the random variable
   </p>
@@ -722,7 +722,7 @@ Y_\ell \ge \mathsf{E}Y_\ell - V \ge \min_{\ell\le m} \mathsf{E}Y_\ell - V,
 We may now complete the proof of the lower bound.
 </p>
 
-<div class="math-env">
+<div class="math-env math-env-proof">
   <p><span class="math-env-label">Proof of the lower bound, continued.</span>
   We fix \(r\ge 2L_1L_2\). To prove the growth condition for the functionals \(F_n\) we simply observe that the second inequality of the proposition implies that the growth condition holds for \(c^* = 1/L\). Indeed, given \((a,r)\)-separated sets \(H_1,\dots,H_m\) with \(m=N_{n+1}\), so that \(\sqrt{\log m} \asymp 2^{n/2}\), each \(H_\ell\) is contained in a ball of radius \(\sigma = a/r \le a/(2L_1L_2)\) around a point \(t_\ell\) with mutual separations \(\ge a\), and the same inequality applied with finite subsets \(H\subset H_\ell\), taking a supremum over finite subsets \(H\subset \bigcup_\ell H_\ell\) on the left, yields exactly the growth condition for the functionals \(F_n(H^*) = \sup_{H\subset H^*} \mathsf{E}\sup_{t\in H} X_t\), where \(H\) is finite.
   </p>
@@ -752,5 +752,6 @@ X_t\Big) = L\, \mathsf{E}\sup_{t\in T} X_t,
 <p>
 Let us retrace the argument once more. Admissible sequences of partitions and the functional \(\gamma_\alpha(T,d)\) are defined first. A functional and the growth condition with parameters \(r\) and \(c^*\) are defined next. Talagrand's partitioning theorem then shows that any decreasing sequence of functionals satisfying the growth condition controls \(\gamma_2(T,d)\) through \(F_0(T)\) and \(\mathit{\Delta}(T)\). This theorem is proved by an explicit greedy construction of an admissible sequence of partitions, resting on the decomposition lemma, together with a summability argument that isolates a sparse well separated subsequence of scales, and a telescoping estimate along that subsequence. For a Gaussian process the functionals \(F(H^*) = \sup_{H\subset H^*} \mathsf{E}\sup_{t\in H} X_t\), with \(H\) finite, satisfy the growth condition, as a consequence of Sudakov's lemma combined with Borell's inequality, assembled in the proposition above. Plugging these functionals into the partitioning theorem, and bounding \(\mathit{\Delta}(T)\) by \(\mathsf{E}\sup_{t\in T} X_t\), yields the lower bound \(\gamma_2(T,d) \le L\,\mathsf{E}\sup_{t\in T} X_t\).
 </p>
+
 
 <p><a href="{{ '/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>
