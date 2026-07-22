@@ -14,7 +14,22 @@ permalink: /mathematics/
   </div>
 </section>
 
+<p class="lede">
+What really draws me to math is finding sharp order in high-dimensional randomness. My main focus
+centers on concentration of measure and generic chaining theory, working with structural tools like
+Bobkov-Ledoux modified logarithmic Sobolev inequalities, Latała-Oleszkiewicz tensorization, and the
+Latała-Mendelson bound to extend classical Fernique comparison principles. The specific results and
+details below show how these ideas drive my current work.
+</p>
+
 <h2 id="generic-chaining">Generic Chaining</h2>
+
+<div class="readme-toggle">
+  <button type="button" class="readme-summary" aria-expanded="false">
+    <span class="label-open">+ What is generic chaining?</span><span class="label-close">&minus; Hide the math</span>
+  </button>
+  <div class="readme-collapse">
+    <div class="readme">
 
 <p>
 Let \((T,d)\) be a metric space and \((X_t)_{t\in T}\) a process satisfying
@@ -72,6 +87,16 @@ In practice, constructing partitions directly can be cumbersome. We usually work
 
 <p>
 The main takeaway is simple. A metric space carries within its multi-scale geometry the complete answer to how large a Gaussian process indexed by it can be. You do not need extra structural assumptions. Generic chaining is simply the correct way to write down the union bound so that this geometry is preserved.
+</p>
+
+    </div>
+  </div>
+</div>
+
+<p>
+New to the topic? Talagrand's <em>Upper and Lower Bounds for Stochastic Processes</em> is the
+standard reference for what generic chaining is and why it works. For the full technical detail,
+see the proofs below.
 </p>
 
 <p>
