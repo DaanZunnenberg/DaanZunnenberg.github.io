@@ -44,7 +44,7 @@
           </div>
         </div>
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' or page.url contains 'mathematics' or page.url contains 'updates' %}class="active"{% endif %}>Research</a>
+          <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' or page.url contains 'mathematics' %}class="active"{% endif %}>Research</a>
           <div class="nav-dropdown nav-dropdown-grouped">
             <div class="nav-dropdown-group">
               <a class="nav-dropdown-heading" href="{{ '/research/' | relative_url }}">Research &amp; Publications</a>
@@ -57,6 +57,17 @@
               <a class="nav-dropdown-heading" href="{{ '/mathematics/' | relative_url }}">Mathematics</a>
               <a href="{{ '/mathematics/#proofs' | relative_url }}">Proofs</a>
             </div>
+          </div>
+        </div>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' or page.url contains 'updates' %}class="active"{% endif %}>Personal</a>
+          <div class="nav-dropdown nav-dropdown-grouped">
+            <div class="nav-dropdown-group">
+              <a class="nav-dropdown-heading" href="{{ '/personal/' | relative_url }}">Beyond the desk</a>
+              <a href="{{ '/personal/#research-briefly' | relative_url }}">Research, briefly</a>
+              <a href="{{ '/personal/#padel' | relative_url }}">Padel</a>
+              <a href="{{ '/personal/#travel' | relative_url }}">Travel</a>
+            </div>
             <div class="nav-dropdown-group">
               <a class="nav-dropdown-heading" href="{{ '/updates/' | relative_url }}">Updates &amp; Events</a>
               <a href="{{ '/updates/#latest' | relative_url }}">Latest</a>
@@ -68,7 +79,6 @@
             </div>
           </div>
         </div>
-        <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/contact/' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}>Contact</a>
           <div class="nav-dropdown">
