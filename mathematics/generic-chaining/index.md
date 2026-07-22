@@ -58,7 +58,7 @@ The generic chaining eliminates this artificial restriction. Instead of choosing
 
 <p>
 \[
-\mathsf E\sup_{t\in T}X_t\le L\sup_{t\in T}\sum_{n\ge0}2^{n/2}d(t,t_n).
+\mathsf E\sup_{t\in T}X_t\le L\sup_{t\in T}\sum_{n\ge0}2^{n/2}\mathit{\Delta}(A_n(t)).
 \]
 </p>
 
