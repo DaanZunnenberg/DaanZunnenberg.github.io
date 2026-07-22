@@ -20,7 +20,8 @@ title: About
 </section>
 
 <p class="lede">
-There's more here than research and markets. <a href="{{ '/personal/' | relative_url }}">Beyond the desk &rarr;</a>
+I'm a mathematician working in generic chaining theory, driven by a passion for high-frequency trading, market
+making, and quantitative investing. <a href="{{ '/mathematics/' | relative_url }}">Explore the math &rarr;</a>
 </p>
 
 <h2 id="working-together">Working Together</h2>
@@ -28,12 +29,24 @@ There's more here than research and markets. <a href="{{ '/personal/' | relative
 
 <div class="nav-cards">
   <a class="nav-card" href="{{ '/contact/research/' | relative_url }}">
-    <span class="nav-card-title">Research &amp; Academic</span>
-    <span class="nav-card-hint">Collaboration proposals, seminar invitations, or questions about the PhD work.</span>
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Zm0 8L2 15l10 5 10-5-10-5Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">Research &amp; Academic</span>
+      <span class="nav-card-hint">Collaboration proposals, seminar invitations, or questions about the PhD work.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
   <a class="nav-card" href="{{ '/contact/recruiters/' | relative_url }}">
-    <span class="nav-card-title">Recruiters &amp; Professional</span>
-    <span class="nav-card-hint">Roles, consulting, or an invitation to meet up. For industry and professional contact.</span>
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M20 7h-4V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2ZM10 5h4v2h-4V5Zm10 14H4V9h16v10Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">Recruiters &amp; Professional</span>
+      <span class="nav-card-hint">Roles, consulting, or an invitation to meet up. For industry and professional contact.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
 </div>
 

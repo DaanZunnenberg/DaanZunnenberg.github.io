@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Proof of the Majorizing Measure Theorem
-permalink: /research/proof/
+permalink: /mathematics/majorizing-measure-theorem/
 ---
 
 <h1>The Majorizing Measure Theorem</h1>
@@ -135,4 +135,4 @@ functional. Below is the proof of both directions, upper and lower.
   </p>
 </div>
 
-<p><a href="{{ '/research/' | relative_url }}">&larr; Back to Research &amp; Publications</a></p>
+<p><a href="{{ '/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>
