@@ -45,8 +45,8 @@ below.
       <svg viewBox="0 0 24 24"><path d="M2 19h20v2H2v-2Zm2-1c1.7-7.2 3.6-12.5 8-12.5s6.3 5.3 8 12.5H4Z"/></svg>
     </span>
     <span class="nav-card-body">
-      <span class="nav-card-title">Notes &amp; Achievements</span>
-      <span class="nav-card-hint">Short-form updates, plus competitions and other results.</span>
+      <span class="nav-card-title">Notes</span>
+      <span class="nav-card-hint">Short-form updates, separate from the longer research pieces.</span>
     </span>
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>

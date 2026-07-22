@@ -619,6 +619,16 @@ python examples/ewma_fhs_example.py
   </p>
 </div>
 
+<h2 id="achievements">Achievements</h2>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>World Econometric Championship</h3>
+  </div>
+  <p>Finalist in the World Econometric Championship, an international competition assessing applied econometric
+  problem-solving under time pressure through live model specification, estimation, and diagnostic analysis.</p>
+</div>
+
 <h2 id="skills">Skills</h2>
 
 <div class="entry">
