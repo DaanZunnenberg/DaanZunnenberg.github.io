@@ -52,4 +52,48 @@ process theory and where it meets applied statistics.
   <a class="cta-button" data-u="dw.zunnenberg" data-d="gmail.com" data-subject="Research%20inquiry">Email me about research &rarr;</a>
 </p>
 
-<p><a href="{{ '/contact/' | relative_url }}">&larr; Back to Contact</a></p>
+<h2 id="leave-a-message">Leave a message</h2>
+
+<form class="contact-form" data-u="dw.zunnenberg" data-d="gmail.com" method="POST">
+  <input type="hidden" name="_subject" value="New research inquiry from daanzunnenberg.com">
+  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_captcha" value="true">
+  <input type="hidden" name="_next" value="https://daanzunnenberg.com/contact/research/?sent=1">
+  <input type="text" name="_honey" style="display:none">
+
+  <div class="form-row">
+    <div class="field">
+      <label for="name">Name</label>
+      <input id="name" type="text" name="name" placeholder="Jane Doe" required>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" name="email" placeholder="jane@domain.com" required>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="topic">What's this about?</label>
+    <select id="topic" name="topic">
+      <option value="Collaboration proposal">Collaboration proposal</option>
+      <option value="Seminar or reading group invitation">Seminar or reading group invitation</option>
+      <option value="Question about a proof or dataset">Question about a proof or dataset</option>
+      <option value="Peer review">Peer review</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="6" placeholder="A bit of context goes a long way: what you're working on, what you have in mind, and any relevant links." required></textarea>
+  </div>
+
+  <div class="form-footer">
+    <span class="form-hint">Sent directly to my inbox. I read and reply to everything.</span>
+    <button type="submit">Send message &rarr;</button>
+  </div>
+</form>
+
+<p id="sent-note" class="sent-note">Thanks, your message was sent. I'll get back to you by email.</p>
+
+<p><a href="{{ '/contact/' | relative_url }}">&larr; Back to Updates, Events &amp; Contact</a></p>
