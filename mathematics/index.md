@@ -4,8 +4,15 @@ title: Mathematics
 permalink: /mathematics/
 ---
 
-<h1>Mathematics</h1>
-<p class="tagline">Some of my favourite pieces of theory, with full proofs.</p>
+<section class="hero">
+  <img src="{{ '/images/TalagrandOil.png' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Probability &middot; Generic Chaining</div>
+    <h1 class="hero-name">Mathematics<span class="cursor">_</span></h1>
+    <p class="hero-lede">Some of my favourite pieces of theory, with full proofs.</p>
+  </div>
+</section>
 
 <h2 id="generic-chaining">Generic Chaining</h2>
 
@@ -31,6 +38,16 @@ Below are the results from this toolkit that I keep coming back to, worked throu
     <span class="nav-card-body">
       <span class="nav-card-title">The Majorizing Measure Theorem</span>
       <span class="nav-card-hint">Talagrand's two-sided bound on the supremum of a Gaussian process, via generic chaining.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <a class="nav-card" href="{{ '/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M4 20 10 8l4 6 3-4 3 10H4Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">The Fundamental Theorem of Empirical Processes</span>
+      <span class="nav-card-hint">Latała&ndash;Bednorz, the peaky part decomposition, and why chaining plus no cancellation always suffices.</span>
     </span>
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>

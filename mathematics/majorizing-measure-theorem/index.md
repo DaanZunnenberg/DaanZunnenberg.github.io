@@ -4,8 +4,15 @@ title: Proof of the Majorizing Measure Theorem
 permalink: /mathematics/majorizing-measure-theorem/
 ---
 
-<h1>The Majorizing Measure Theorem</h1>
-<p class="tagline">My favorite proof: Talagrand's two-sided bound on the supremum of a Gaussian process.</p>
+<section class="hero">
+  <img src="{{ '/images/DudleyOil.png' | relative_url }}" alt="" class="hero-img" aria-hidden="true">
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Talagrand &middot; Gaussian Processes</div>
+    <h1 class="hero-name">The Majorizing Measure Theorem<span class="cursor">_</span></h1>
+    <p class="hero-lede">My favorite proof: Talagrand's two-sided bound on the supremum of a Gaussian process.</p>
+  </div>
+</section>
 
 <p class="lede">
 Let \((X_t)_{t \in T}\) be a centered Gaussian process with canonical metric
@@ -20,9 +27,11 @@ functional. Below is the proof of both directions, upper and lower.
 We reproduce, following Talagrand's notation and arguments, the proof of the lower bound
 </p>
 
+<p>
 \[
 \gamma_2(T,d) \le L\, \mathsf{E}\sup_{t\in T} X_t
 \]
+</p>
 
 <p>
 in the Majorizing Measure Theorem for Gaussian processes. We first introduce admissible sequences of partitions and the functional \(\gamma_\alpha\), then develop the theory of functionals satisfying a growth condition and the partitioning theorem that they yield, and finally combine these with Sudakov's lemma and Borell's inequality to obtain the lower bound.
@@ -34,9 +43,11 @@ in the Majorizing Measure Theorem for Gaussian processes. We first introduce adm
 Throughout, \((T,d)\) is a metric space. For an integer \(n\ge 0\) we set
 </p>
 
+<p>
 \[
 N_0 = 1 , \qquad N_n = 2^{2^n} \ (n\ge 1).
 \]
+</p>
 
 <div class="math-env">
   <p><span class="math-env-label">Definition (Admissible sequence).</span>
@@ -109,9 +120,11 @@ This is the upper bound. Of course, to make this bound of interest we must be ab
 For a Gaussian process \((X_t)_{t\in T}\), i.e. a jointly Gaussian family of centered random variables indexed by \(T\), we provide \(T\) with the canonical distance
 </p>
 
+<p>
 \[
 d(s,t) = \big(\mathsf{E}(X_s-X_t)^2\big)^{1/2}.
 \]
+</p>
 
 <div class="math-env">
   <p><span class="math-env-label">Theorem (The Fernique&ndash;Talagrand theorem).</span>
@@ -126,9 +139,11 @@ d(s,t) = \big(\mathsf{E}(X_s-X_t)^2\big)^{1/2}.
 The right-hand side inequality follows from the generic chaining bound above, applied to the increment condition satisfied by Gaussian processes. The purpose of these notes is to prove the left-hand side inequality, the lower bound
 </p>
 
+<p>
 \[
 \gamma_2(T,d) \le L\, \mathsf{E}\sup_{t\in T} X_t .
 \]
+</p>
 
 <p>
 We may summarize this by saying that chaining suffices to explain the size of a Gaussian process. By this we simply mean that, as witnessed by the left-hand side inequality above, the natural chaining bound for the size of a Gaussian process, as witnessed by the right-hand side inequality above, is of correct order, provided of course one uses the best possible chaining.
@@ -178,9 +193,11 @@ We now need the notion of well separated small pieces.
 Consider a metric space \((T,d)\) that need not be finite, and a decreasing sequence \((F_n)_{n\ge 0}\) of functionals on \(T\), that is
 </p>
 
+<p>
 \[
 \forall H\subset T,\qquad F_{n+1}(H) \le F_n(H).
 \]
+</p>
 
 <div class="math-env">
   <p><span class="math-env-label">Definition (The growth condition).</span>
@@ -284,9 +301,11 @@ Replacing \(F_n\) by \(F_n/c^*\) it suffices to consider the case \(c^*=1\), so 
 We construct the increasing sequence \((A_n)\) of partitions by induction, starting of course with \(A_0=\{T\}\). Together with \(C\in A_n\), we will construct a point \(t_{n,C}\) of \(T\), and an integer \(j_n(C)\) in \(\mathbb Z\). We assume
 </p>
 
+<p>
 \[
 C \subset B(t_{n,C}, r^{-j_n(C)}),
 \]
+</p>
 
 <p>
 so that in particular \(\mathit{\Delta}(C) \le 2r^{-j_n(C)}\). Thus, we may think of \(j_n(C)\) as keeping track of the diameter of \(C\), more precisely a convenient upper bound for it. We do not require that \(t_{n,C}\) belongs to \(C\).
@@ -425,9 +444,11 @@ We now continue the construction. We split the set \(C\in A_n\) into at most \(m
 If \(A=A_\ell\) satisfies \(A_\ell\subset B(t_\ell,r^{-j-1})\) for some \(t_\ell\in C\), we define \(j_{n+1}(A) = j+1 = j_n(C)+1\) and \(t_{n+1,A}=t_\ell\), so that
 </p>
 
+<p>
 \[
 A = A_\ell \subset B(t_\ell, r^{-j-1}) = B(t_{n+1,A}, r^{-j_{n+1}(A)}).
 \]
+</p>
 
 <p>
 We stress for further use that in that case \(t_{n+1,A} \in C\).
@@ -437,18 +458,22 @@ We stress for further use that in that case \(t_{n+1,A} \in C\).
 If \(A=A_\ell\) satisfies \(r^{-j-1}2^{n/2-1}+\sup_{t\in A_\ell}F_{n+1}(A_\ell \cap B(t,r^{-j-2}))\le F_n(C)\), we define instead \(j_{n+1}(A)=j\, (=j_n(C))\) and \(t_{n+1,A}=t_{n,C}\), so that
 </p>
 
+<p>
 \[
 A \subset C \subset B(t_{n,C}, r^{-j_n(C)}) = B(t_{n+1,A}, r^{-j_{n+1}(A)}).
 \]
+</p>
 
 <p>
 This completes the construction, and we turn to the proof of the bound stated in the theorem. First we observe that for any \(t\in T\), the bound \(\mathit{\Delta}(C)\le 2r^{-j_n(C)}\) established above implies
 </p>
 
+<p>
 \[
 \sum_{n\ge 0} 2^{n/2}\mathit{\Delta}(A_n(t)) \le 2\sum_{n\ge 0} r^{-j_n(A_n(t))}
 2^{n/2},
 \]
+</p>
 
 <p>
 and our objective is to bound the right-hand side. We fix \(t\in T\) once and for all. It turns out that in the right-hand side of the inequality above only certain terms really contribute, an observation made precise by the next lemma. Its basic idea is simply that the sum of a geometric series is bounded, up to a constant, by either the first or the last term of the series.
@@ -483,9 +508,11 @@ I = \{k\ge 0 ;\ \forall n\ge 0,\ n\ne k,\ a_n < a_k \alpha^{|k-n|}\}.
 We go back to the control of the right-hand side of the inequality above. We recall that \(r\ge 4\). To lighten notation we set \(j(n) = j_n(A_n(t))\), and we set \(a_n = r^{-j(n)}2^{n/2}\). This sequence is bounded because either \(j(n)>j(n-1)\) and then \(a(n)\le a(n-1)\), or else \(A_n(t)\) satisfies the functional-drop bound \(r^{-j(n)-1}2^{n/2-1}+\sup_t F_{n+1}(\cdots)\le F_{n-1}(A_{n-1}(t))\), which since \((F_n)\) decreases forces \(a_n\le 4rF_0(T)\). Consider the set \(I\) provided by the lemma above for \(\alpha=\sqrt 2\). We observe the following relation
 </p>
 
+<p>
 \[
 k\in I,\ k\ge 1 \ \Rightarrow\ j(k-1)=j(k),\ j(k+1)=j(k)+1.
 \]
+</p>
 
 <p>
 Indeed, if \(j(k+1)=j(k)\), then \(a_{k+1}=\sqrt 2\, a_k\), forcing \(k+1\notin I\) by the definition of \(I\) unless \(j(k+1)=j(k)+1\), and if \(j(k-1)=j(k)-1\) then \(a_{k-1} = (r/\sqrt2)a_k \ge 2a_k\), forcing \(k\in I\) only when \(j(k-1)=j(k)\).
@@ -567,9 +594,11 @@ Lr\mathit{\Delta}(T),
 We can now complete the proof of the Fernique&ndash;Talagrand theorem. Recall that \((X_t)_{t\in T}\) is a Gaussian process and \(d\) is the canonical distance \(d(s,t)=(\mathsf{E}(X_s-X_t)^2)^{1/2}\) introduced above. We must prove
 </p>
 
+<p>
 \[
 \gamma_2(T,d) \le L\, \mathsf{E}\sup_{t\in T} X_t.
 \]
+</p>
 
 <div class="math-env">
   <p><span class="math-env-label">Proof of the lower bound.</span>
