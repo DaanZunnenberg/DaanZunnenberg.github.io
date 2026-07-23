@@ -1,8 +1,7 @@
 (function () {
-  // Slow-drifting field of math symbols, like chalk dust off a blackboard —
-  // used on the more informal academic pages (schools, notes, contact)
-  // rather than anything data-driven.
-  var canvas = document.getElementById("chalk-symbols-canvas");
+  // Short marker-and-line rows drifting upward, like a log of dated entries
+  // scrolling past — a calmer, non-financial stand-in for a ticker.
+  var canvas = document.getElementById("ledger-widget-canvas");
   if (!canvas) return;
   var container = canvas.parentElement;
   var ctx = canvas.getContext("2d");
@@ -10,10 +9,10 @@
 
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W, H;
-  var SYMBOLS = ["∑", "∫", "ε", "δ", "ℙ", "∞", "√", "π", "∂", "σ", "⊆", "⸨"];
-  var COUNT = 22;
-  var COLOR = "rgba(233, 236, 243, 0.5)";
-  var particles = [];
+  var ROW_COUNT = 16;
+  var LINE_COLOR = "rgba(233, 236, 243, 0.4)";
+  var MARKER_COLOR = "rgba(226, 230, 240, 0.85)";
+  var rows = [];
   var lastTs = null;
   var running = false;
   var visible = true;
@@ -28,22 +27,25 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function spawn(fromBottom) {
+  function spawnRow(fromBottom) {
     return {
-      x: Math.random() * W,
-      y: fromBottom ? H + 20 : Math.random() * H,
-      vy: -(0.012 + Math.random() * 0.02),
-      vx: (Math.random() - 0.5) * 0.012,
-      size: 14 + Math.random() * 20,
-      symbol: SYMBOLS[(Math.random() * SYMBOLS.length) | 0],
-      phase: Math.random() * Math.PI * 2,
-      baseAlpha: 0.25 + Math.random() * 0.4
+      x: 30 + Math.random() * (W * 0.4),
+      y: fromBottom ? H + 14 : Math.random() * H,
+      width: 60 + Math.random() * 160,
+      vy: -(0.01 + Math.random() * 0.016)
     };
   }
 
   function seed() {
-    particles = [];
-    for (var i = 0; i < COUNT; i++) particles.push(spawn(false));
+    rows = [];
+    for (var i = 0; i < ROW_COUNT; i++) rows.push(spawnRow(false));
+  }
+
+  function edgeFade(y) {
+    var margin = 40;
+    if (y < margin) return Math.max(0, y / margin);
+    if (y > H - margin) return Math.max(0, (H - y) / margin);
+    return 1;
   }
 
   function step(now) {
@@ -52,16 +54,25 @@
 
     ctx.clearRect(0, 0, W, H);
 
-    particles.forEach(function (p, i) {
-      p.x += p.vx * dt;
-      p.y += p.vy * dt;
-      if (p.y < -30) particles[i] = spawn(true);
+    rows.forEach(function (row, i) {
+      row.y += row.vy * dt;
+      if (row.y < -20) rows[i] = spawnRow(true);
 
-      var flicker = 0.75 + 0.25 * Math.sin(now / 900 + p.phase);
-      ctx.font = p.size + "px 'IBM Plex Serif', 'Iowan Old Style', Georgia, serif";
-      ctx.fillStyle = COLOR;
-      ctx.globalAlpha = p.baseAlpha * flicker;
-      ctx.fillText(p.symbol, p.x, p.y);
+      var alpha = edgeFade(row.y);
+      ctx.globalAlpha = alpha;
+
+      ctx.fillStyle = MARKER_COLOR;
+      ctx.beginPath();
+      ctx.arc(row.x - 12, row.y, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = LINE_COLOR;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(row.x, row.y);
+      ctx.lineTo(row.x + row.width, row.y);
+      ctx.stroke();
+
       ctx.globalAlpha = 1;
     });
   }

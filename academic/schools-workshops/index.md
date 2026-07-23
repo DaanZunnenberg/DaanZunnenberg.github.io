@@ -5,7 +5,7 @@ permalink: /academic/schools-workshops/
 ---
 
 <section class="hero">
-  <canvas id="chalk-symbols-canvas" class="hero-canvas" aria-label="Slowly drifting field of mathematical symbols" aria-hidden="true"></canvas>
+  <canvas id="orbit-widget-canvas" class="hero-canvas" aria-label="Slowly rotating concentric orbits with travelling points" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>

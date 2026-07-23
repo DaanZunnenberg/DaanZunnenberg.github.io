@@ -624,25 +624,6 @@ a:hover { color: var(--blue-300); }
   margin-bottom: 8px;
 }
 
-.stat-strip {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 14px;
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--ink-soft);
-  margin: 0 0 28px;
-}
-
-.stat-item { white-space: nowrap; }
-
-.stat-item:not(:last-child)::after {
-  content: "\00b7";
-  margin-left: 14px;
-  color: var(--line);
-}
-
 /* Entry blocks (experience / education / projects) */
 .entry {
   position: relative;
