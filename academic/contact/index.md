@@ -5,7 +5,7 @@ permalink: /academic/contact/
 ---
 
 <section class="hero">
-  <canvas id="convergence-widget-canvas" class="hero-canvas" aria-label="Animated pulses converging from several points toward a central hub" aria-hidden="true"></canvas>
+  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">For Academics &amp; Collaborators<span class="hero-eyebrow-extra"> &middot; Probability &amp; Empirical Processes</span></div>

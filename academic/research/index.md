@@ -5,7 +5,7 @@ permalink: /academic/research/
 ---
 
 <section class="hero">
-  <canvas id="signal-widget-canvas" class="hero-canvas signal-widget-platinum" aria-label="Animated citation network, with pulses travelling between connected papers" aria-hidden="true"></canvas>
+  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
