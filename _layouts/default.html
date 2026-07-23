@@ -20,7 +20,11 @@
       </button>
       <div class="nav-overlay" id="nav-overlay"></div>
 
-      {% assign is_academic = page.url contains '/academic/' %}
+      {% if page.url contains '/academic/' %}
+        {% assign is_academic = true %}
+      {% else %}
+        {% assign is_academic = false %}
+      {% endif %}
 
       <!-- Desktop: grouped hierarchy to keep the top-level item count down -->
       {% if is_academic %}
