@@ -24,30 +24,19 @@ I'm a mathematician working in generic chaining theory, driven by a passion for 
 making, and quantitative investing. <a href="{{ '/mathematics/' | relative_url }}">Explore the math &rarr;</a>
 </p>
 
-<h2 id="working-together">Working Together</h2>
-<p class="tagline">Here for a collaboration or a career opportunity? Choose the path that fits.</p>
-
-<div class="nav-cards">
-  <a class="nav-card" href="{{ '/contact/research/' | relative_url }}">
-    <span class="nav-card-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Zm0 8L2 15l10 5 10-5-10-5Z"/></svg>
-    </span>
-    <span class="nav-card-body">
-      <span class="nav-card-title">Research &amp; Academic</span>
-      <span class="nav-card-hint">Collaboration proposals, seminar invitations, or questions about the PhD work.</span>
-    </span>
-    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
-  </a>
-  <a class="nav-card" href="{{ '/contact/recruiters/' | relative_url }}">
-    <span class="nav-card-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M20 7h-4V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2ZM10 5h4v2h-4V5Zm10 14H4V9h16v10Z"/></svg>
-    </span>
-    <span class="nav-card-body">
-      <span class="nav-card-title">Recruiters &amp; Professional</span>
-      <span class="nav-card-hint">Roles, consulting, or an invitation to meet up. For industry and professional contact.</span>
-    </span>
-    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
-  </a>
+<div class="stat-strip">
+  <div class="stat-item">
+    <span class="stat-number">5.8%</span>
+    <span class="stat-label">average slippage cut in live market making</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">3</span>
+    <span class="stat-label">open source research libraries</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">PhD</span>
+    <span class="stat-label">probability theory, Leiden University</span>
+  </div>
 </div>
 
 <h2 id="selected-projects">Selected Projects</h2>
@@ -333,7 +322,7 @@ depth, direction = result.depth, result.direction
     <li>Built likelihood-based estimation for functional location-scale models, contributing to Lin &amp; Lucas's work on robust observation-driven dynamics.</li>
     <li>Projected the conditional variance operator onto a Bernstein polynomial basis, turning an infinite-dimensional QMLE problem with positivity constraints into one a numerical optimizer can actually solve.</li>
   </ul>
-  <div class="tags"><code>Python</code></div>
+  <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code></div>
 </div>
 
 <div class="entry" id="experience-quantfi-operational-trader">
@@ -361,6 +350,32 @@ depth, direction = result.depth, result.direction
 </div>
 
 <p><a href="{{ '/experience/' | relative_url }}">Full resume &rarr;</a></p>
+
+<h2 id="working-together">Working Together</h2>
+<p class="tagline">Here for a collaboration or a career opportunity? Pick the path that fits.</p>
+
+<div class="nav-cards">
+  <a class="nav-card" href="{{ '/contact/research/' | relative_url }}">
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Zm0 8L2 15l10 5 10-5-10-5Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">Research &amp; Academic</span>
+      <span class="nav-card-hint">Collaboration proposals, seminar invitations, or questions about the PhD work.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <a class="nav-card" href="{{ '/contact/recruiters/' | relative_url }}">
+    <span class="nav-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M20 7h-4V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2ZM10 5h4v2h-4V5Zm10 14H4V9h16v10Z"/></svg>
+    </span>
+    <span class="nav-card-body">
+      <span class="nav-card-title">Recruiters &amp; Professional</span>
+      <span class="nav-card-hint">Roles, consulting, or an invitation to meet up. For industry and professional contact.</span>
+    </span>
+    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+</div>
 
 <h2 id="banner-confession">A Small Confession About the Banner</h2>
 <p>

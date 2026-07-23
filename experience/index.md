@@ -98,6 +98,7 @@ permalink: /experience/
     The implementation constructs the functional operators, performs the volatility recursion, and estimates
     the model parameters through constrained likelihood optimization.
   </p>
+  <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code></div>
 
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">

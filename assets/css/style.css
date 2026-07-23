@@ -650,6 +650,37 @@ a:hover { color: var(--blue-300); }
   margin-bottom: 8px;
 }
 
+.stat-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 24px 0 36px;
+}
+
+.stat-item {
+  flex: 1 1 200px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--blue-400);
+  border-radius: 8px;
+  background: var(--bg-raised);
+}
+
+.stat-number {
+  display: block;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--ink);
+}
+
+.stat-label {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
 /* Entry blocks (experience / education / projects) */
 .entry {
   position: relative;
