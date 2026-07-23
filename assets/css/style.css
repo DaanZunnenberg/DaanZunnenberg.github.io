@@ -1125,10 +1125,12 @@ pre.code-block code {
 }
 
 .hero-content-right .hero-links { justify-content: flex-end; }
+.hero-content-right .hero-lede { margin-left: auto; }
 
 @media (max-width: 640px) {
   .hero-content-right { margin-left: 0; text-align: left; }
   .hero-content-right .hero-links { justify-content: flex-start; }
+  .hero-content-right .hero-lede { margin-left: 0; }
 }
 
 @keyframes hero-fade-in {
