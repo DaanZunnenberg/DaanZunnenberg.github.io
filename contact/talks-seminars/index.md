@@ -181,7 +181,7 @@ permalink: /contact/talks-seminars/
 
 <div class="entry">
   <div class="entry-head">
-    <h3><a href="https://sites.google.com/view/adu-dmfa/next-meeting" target="_blank" rel="noopener noreferrer">Finance Research Day</a></h3>
+    <h3><a href="https://www.tudelft.nl/evenementen/2025/ewi/diam/finance-research-day" target="_blank" rel="noopener noreferrer">Finance Research Day</a></h3>
     <span class="entry-date">October 2025</span>
   </div>
   <div class="entry-org">Delft Institute of Applied Mathematics (DIAM), TU Delft &middot; Delft, Netherlands</div>
