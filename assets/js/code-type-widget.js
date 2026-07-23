@@ -120,12 +120,12 @@
         charCount = 0;
         draw(true);
         scheduleNextChar();
-      }, 2600);
+      }, 1600);
       return;
     }
     var nextChar = fullText[charCount];
-    var delay = 22 + Math.random() * 55;
-    if (nextChar === "\n") delay = 160 + Math.random() * 220;
+    var delay = 5 + Math.random() * 14;
+    if (nextChar === "\n") delay = 40 + Math.random() * 55;
     else if (nextChar === " ") delay *= 0.6;
     typingTimer = setTimeout(function () {
       charCount++;
