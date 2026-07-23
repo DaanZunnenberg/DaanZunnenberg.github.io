@@ -24,12 +24,6 @@ I'm a mathematician working in generic chaining theory, driven by a passion for 
 making, and quantitative investing. <a href="{{ '/academic/mathematics/' | relative_url }}">Explore the math &rarr;</a>
 </p>
 
-<p class="stat-strip">
-  <span class="stat-item">3 open source research repos</span>
-  <span class="stat-item">PhD in probability theory</span>
-  <span class="stat-item">4 roles in quant trading and research</span>
-</p>
-
 <h2 id="selected-projects">Selected Projects</h2>
 
 <div class="entry" id="project-functional-volatility-surface">

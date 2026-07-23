@@ -5,7 +5,7 @@ permalink: /academic/notes/
 ---
 
 <section class="hero">
-  <canvas id="chalk-symbols-canvas" class="hero-canvas" aria-label="Slowly drifting field of mathematical symbols" aria-hidden="true"></canvas>
+  <canvas id="ledger-widget-canvas" class="hero-canvas" aria-label="Slowly scrolling rows of marker-and-line entries" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
