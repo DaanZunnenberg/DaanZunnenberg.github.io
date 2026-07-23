@@ -6,7 +6,7 @@ permalink: /experience/
 
 <section class="hero">
   <canvas id="code-type-canvas" class="hero-canvas" aria-label="Animated Python market-making code being typed out" aria-hidden="true"></canvas>
-  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="hero-fade hero-fade-flip" aria-hidden="true"></div>
   <div class="hero-content hero-content-right">
     <div class="hero-eyebrow">Functional Volatility<span class="hero-eyebrow-extra"> &middot; Market Microstructure &middot; Dynamic Modelling</span></div>
     <h1 class="hero-name">Experience &amp; Projects</h1>

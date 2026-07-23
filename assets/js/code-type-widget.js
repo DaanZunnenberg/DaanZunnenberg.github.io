@@ -120,7 +120,7 @@
         charCount = 0;
         draw(true);
         scheduleNextChar();
-      }, 1600);
+      }, 500);
       return;
     }
     var nextChar = fullText[charCount];
