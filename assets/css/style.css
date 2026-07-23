@@ -1,36 +1,38 @@
 :root {
-  /* Cohesive cobalt hue scale — everything derives from one hue (~221deg),
-     now on a light paper ground instead of near-black for daily readability. */
-  --bg: #f5f7fb;
-  --bg-1: #eef1f8;
-  --bg-2: #e4e9f3;
+  /* Deep navy hue scale on a warm ivory ground — desaturated from the
+     earlier bright cobalt-on-periwinkle pairing, closer to how a bank's
+     print collateral reads than a fintech dashboard. */
+  --bg: #f8f7f3;
+  --bg-1: #f1efe7;
+  --bg-2: #e9e6db;
   --bg-raised: #ffffff;
-  --line: #d7dcea;
-  --line-soft: #e2e6f0;
+  --line: #ddd8ca;
+  --line-soft: #e7e3d6;
 
-  --ink: #161b28;
-  --ink-soft: #4c5670;
-  --ink-faint: #757f97;
+  --ink: #14181f;
+  --ink-soft: #4b4f57;
+  --ink-faint: #797d84;
 
-  --blue-950: #0c1830;
-  --blue-800: #dbe4fa;
-  --blue-600: #2c55b8;
-  --blue-500: #2a51ad;
-  --blue-400: #3059c9;
-  --blue-300: #17348a;
-  --blue-glow: rgba(48, 89, 201, 0.22);
+  --blue-950: #0a0f1a;
+  --blue-800: #dfe2e8;
+  --blue-600: #1c2947;
+  --blue-500: #22304f;
+  --blue-400: #23324f;
+  --blue-300: #141d33;
+  --blue-glow: rgba(35, 50, 79, 0.18);
 
-  --up: #1a9c78;
-  --down: #cf3b4c;
+  --up: #1f7a5c;
+  --down: #a23a44;
 
-  /* Bright ANSI-style terminal colors, used on the dark hero overlays */
-  --term-green: #3cff5e;
-  --term-blue: #4dd2ff;
+  /* Muted steel tones on the dark hero overlays, in place of the earlier
+     neon ANSI-style green/cyan. */
+  --term-green: #8fae9c;
+  --term-blue: #9fb0c9;
 
-  /* Restrained platinum accent for section marks and hero eyebrows — a
-     cooler, more corporate counterpoint to the cobalt blue used elsewhere. */
+  /* Platinum accent for section marks and hero eyebrows — a cooler
+     counterpoint to the navy used elsewhere. */
   --accent: var(--blue-950);
-  --accent-bright: #d7dcea;
+  --accent-bright: #dcdfe6;
 
   --mono: "SF Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
   --serif: "IBM Plex Serif", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
