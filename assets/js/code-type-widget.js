@@ -200,7 +200,271 @@
       "        table = pa.Table.from_pylist([t.as_dict() for t in buf], schema=self._schema)\n" +
       "        path = self._partition_path(symbol, buf[0].ts)\n" +
       "        pq.write_table(table, path, compression=\"zstd\", use_dictionary=True)\n" +
-      "        self._notify_subscribers(symbol, path)"
+      "        self._notify_subscribers(symbol, path)",
+
+    "class MarketDataGateway:\n" +
+      "    \"\"\"Multiplexes several exchange websocket feeds into one tick queue.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, venues: Sequence[VenueConfig], queue: asyncio.Queue) -> None:\n" +
+      "        self._venues = venues\n" +
+      "        self._queue = queue\n" +
+      "        self._sockets: Dict[str, websockets.WebSocketClientProtocol] = {}\n" +
+      "        self._sequence: Dict[str, int] = defaultdict(int)",
+
+    "    async def run(self) -> None:\n" +
+      "        async with asyncio.TaskGroup() as tg:\n" +
+      "            for venue in self._venues:\n" +
+      "                tg.create_task(self._subscribe(venue))",
+
+    "    async def _subscribe(self, venue: VenueConfig) -> None:\n" +
+      "        async for ws in websockets.connect(venue.ws_url, ping_interval=15, max_queue=1024):\n" +
+      "            try:\n" +
+      "                self._sockets[venue.name] = ws\n" +
+      "                await ws.send(orjson.dumps({\"op\": \"subscribe\", \"channels\": venue.channels}))\n" +
+      "                async for raw in ws:\n" +
+      "                    await self._on_message(venue, raw)\n" +
+      "            except websockets.ConnectionClosed:\n" +
+      "                logger.warning(\"venue %s disconnected, resubscribing\", venue.name)\n" +
+      "                continue",
+
+    "    async def _on_message(self, venue: VenueConfig, raw: bytes) -> None:\n" +
+      "        msg = orjson.loads(raw)\n" +
+      "        seq = msg.get(\"seq\", 0)\n" +
+      "        if seq and seq <= self._sequence[venue.name]:\n" +
+      "            return\n" +
+      "        self._sequence[venue.name] = seq\n" +
+      "        tick = Tick.from_venue_payload(venue.name, msg)\n" +
+      "        await self._queue.put(tick)",
+
+    "class RiskEngine:\n" +
+      "    \"\"\"Pre-trade and post-trade limit checks, independent of any one strategy.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, limits: RiskLimits, book_keeper: PositionBook) -> None:\n" +
+      "        self._limits = limits\n" +
+      "        self._book = book_keeper\n" +
+      "        self._breaches: List[LimitBreach] = []\n" +
+      "        self._kill_switch = threading.Event()",
+
+    "    def pre_trade_check(self, order: NewOrderSingle) -> None:\n" +
+      "        if self._kill_switch.is_set():\n" +
+      "            raise TradingHalted(\"kill switch engaged\")\n" +
+      "        projected = self._book.projected_exposure(order)\n" +
+      "        if projected.gross_notional > self._limits.max_gross_notional:\n" +
+      "            self._breaches.append(LimitBreach(\"gross_notional\", projected.gross_notional))\n" +
+      "            raise RiskLimitExceeded(order, self._limits.max_gross_notional)\n" +
+      "        if projected.symbol_delta(order.symbol) > self._limits.max_symbol_delta:\n" +
+      "            raise RiskLimitExceeded(order, self._limits.max_symbol_delta)",
+
+    "    @nb.njit(cache=True)\n" +
+      "    def _var_parametric(weights: np.ndarray, cov: np.ndarray, confidence: float) -> float:\n" +
+      "        portfolio_var = weights @ cov @ weights.T\n" +
+      "        z = _inv_norm_cdf(confidence)\n" +
+      "        return z * np.sqrt(portfolio_var)",
+
+    "    def trip_kill_switch(self, reason: str) -> None:\n" +
+      "        self._kill_switch.set()\n" +
+      "        logger.critical(\"kill switch tripped: %s\", reason)\n" +
+      "        metrics.counter(\"risk.kill_switch\").inc(labels={\"reason\": reason})",
+
+    "class PositionBook:\n" +
+      "    \"\"\"Reconciles internal fills against exchange-reported positions.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, session_factory: Callable[[], AsyncSession]) -> None:\n" +
+      "        self._session_factory = session_factory\n" +
+      "        self._cache: Dict[str, Position] = {}\n" +
+      "        self._dirty: Set[str] = set()",
+
+    "    async def reconcile(self, exchange: ExchangeClient) -> ReconciliationReport:\n" +
+      "        remote = {p.symbol: p for p in await exchange.positions()}\n" +
+      "        drifts = [\n" +
+      "            PositionDrift(symbol, self._cache.get(symbol, Position.empty(symbol)), remote_pos)\n" +
+      "            for symbol, remote_pos in remote.items()\n" +
+      "            if not self._cache.get(symbol, Position.empty(symbol)).matches(remote_pos)\n" +
+      "        ]\n" +
+      "        if drifts:\n" +
+      "            await self._persist_drifts(drifts)\n" +
+      "        return ReconciliationReport(drifts=drifts, checked_at=datetime.utcnow())",
+
+    "    async def _persist_drifts(self, drifts: List[PositionDrift]) -> None:\n" +
+      "        async with self._session_factory() as session, session.begin():\n" +
+      "            session.add_all(PositionDriftRow.from_domain(d) for d in drifts)\n" +
+      "            await session.execute(\n" +
+      "                update(PositionRow).where(PositionRow.symbol.in_([d.symbol for d in drifts]))\n" +
+      "            )",
+
+    "class VolatilityForecaster(nn.Module):\n" +
+      "    \"\"\"Small GRU over realized-vol features, used only to seed gamma/kappa.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, input_dim: int = 6, hidden_dim: int = 32) -> None:\n" +
+      "        super().__init__()\n" +
+      "        self.gru = nn.GRU(input_dim, hidden_dim, batch_first=True)\n" +
+      "        self.head = nn.Sequential(nn.Linear(hidden_dim, 16), nn.ReLU(), nn.Linear(16, 1), nn.Softplus())",
+
+    "    def forward(self, x: torch.Tensor) -> torch.Tensor:\n" +
+      "        out, _ = self.gru(x)\n" +
+      "        return self.head(out[:, -1, :]).squeeze(-1)",
+
+    "    @torch.no_grad()\n" +
+      "    def predict_sigma(self, features: np.ndarray) -> float:\n" +
+      "        self.eval()\n" +
+      "        tensor = torch.from_numpy(features).float().unsqueeze(0)\n" +
+      "        return float(self(tensor).item())",
+
+    "def train_forecaster(model: VolatilityForecaster, loader: DataLoader, epochs: int = 20) -> TrainingHistory:\n" +
+      "    optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=1e-5)\n" +
+      "    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)\n" +
+      "    history = TrainingHistory()\n" +
+      "    for epoch in range(epochs):\n" +
+      "        epoch_loss = 0.0\n" +
+      "        for features, target in loader:\n" +
+      "            optimizer.zero_grad(set_to_none=True)\n" +
+      "            loss = F.smooth_l1_loss(model(features), target)\n" +
+      "            loss.backward()\n" +
+      "            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)\n" +
+      "            optimizer.step()\n" +
+      "            epoch_loss += loss.item()\n" +
+      "        scheduler.step()\n" +
+      "        history.record(epoch, epoch_loss / len(loader))\n" +
+      "    return history",
+
+    "class Backtester:\n" +
+      "    \"\"\"Replays TickStore parquet partitions through a strategy, no live I/O.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, strategy_cls: Type[AvellanedaStoikovMarketMaker], fee_bps: float = 0.75) -> None:\n" +
+      "        self._strategy_cls = strategy_cls\n" +
+      "        self._fee_bps = fee_bps\n" +
+      "        self._fills: List[SimulatedFill] = []",
+
+    "    def run(self, partitions: Iterable[Path], **strategy_kwargs: Any) -> BacktestResult:\n" +
+      "        model = self._strategy_cls(**strategy_kwargs)\n" +
+      "        equity_curve = []\n" +
+      "        for partition in partitions:\n" +
+      "            frame = pd.read_parquet(partition, columns=[\"ts\", \"bid\", \"ask\", \"size\"])\n" +
+      "            equity_curve.extend(self._replay(model, frame))\n" +
+      "        return BacktestResult(equity_curve=np.array(equity_curve), fills=self._fills, sharpe=self._sharpe(equity_curve))",
+
+    "    @staticmethod\n" +
+      "    def _sharpe(equity_curve: Sequence[float], periods_per_year: int = 252 * 6.5 * 3600) -> float:\n" +
+      "        rets = np.diff(equity_curve)\n" +
+      "        if rets.std() == 0:\n" +
+      "            return 0.0\n" +
+      "        return float(np.mean(rets) / np.std(rets) * np.sqrt(periods_per_year))",
+
+    "class CircuitBreaker:\n" +
+      "    \"\"\"Trips after N consecutive exchange errors, half-opens after a cooldown.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, threshold: int = 5, cooldown: timedelta = timedelta(seconds=30)) -> None:\n" +
+      "        self._threshold = threshold\n" +
+      "        self._cooldown = cooldown\n" +
+      "        self._failures = 0\n" +
+      "        self._state: Literal[\"closed\", \"open\", \"half_open\"] = \"closed\"\n" +
+      "        self._opened_at: Optional[datetime] = None",
+
+    "    def __call__(self, fn: Callable[..., Awaitable[T]]) -> Callable[..., Awaitable[T]]:\n" +
+      "        @functools.wraps(fn)\n" +
+      "        async def wrapper(*args: Any, **kwargs: Any) -> T:\n" +
+      "            if self._state == \"open\":\n" +
+      "                if datetime.utcnow() - self._opened_at < self._cooldown:\n" +
+      "                    raise CircuitOpenError()\n" +
+      "                self._state = \"half_open\"\n" +
+      "            try:\n" +
+      "                result = await fn(*args, **kwargs)\n" +
+      "            except ExchangeError:\n" +
+      "                self._record_failure()\n" +
+      "                raise\n" +
+      "            else:\n" +
+      "                self._state = \"closed\"\n" +
+      "                self._failures = 0\n" +
+      "                return result\n" +
+      "        return wrapper",
+
+    "class RateLimiter:\n" +
+      "    \"\"\"Token bucket shared across all order-entry coroutines for one venue.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, rate: float, burst: int) -> None:\n" +
+      "        self._rate = rate\n" +
+      "        self._tokens = float(burst)\n" +
+      "        self._burst = burst\n" +
+      "        self._updated = time.monotonic()\n" +
+      "        self._cond = asyncio.Condition()",
+
+    "    async def acquire(self) -> None:\n" +
+      "        async with self._cond:\n" +
+      "            while True:\n" +
+      "                now = time.monotonic()\n" +
+      "                elapsed = now - self._updated\n" +
+      "                self._tokens = min(self._burst, self._tokens + elapsed * self._rate)\n" +
+      "                self._updated = now\n" +
+      "                if self._tokens >= 1.0:\n" +
+      "                    self._tokens -= 1.0\n" +
+      "                    return\n" +
+      "                await asyncio.sleep((1.0 - self._tokens) / self._rate)",
+
+    "class MetricsRegistry:\n" +
+      "    \"\"\"Thin wrapper over a Prometheus push-gateway client for strategy telemetry.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, namespace: str = \"marketmaker\") -> None:\n" +
+      "        self._namespace = namespace\n" +
+      "        self.quote_latency = Histogram(f\"{namespace}_quote_latency_seconds\", \"quote() wall time\", buckets=(0.0001, 0.0005, 0.001, 0.005, 0.01))\n" +
+      "        self.inventory_gauge = Gauge(f\"{namespace}_inventory\", \"current signed inventory\", labelnames=(\"symbol\",))\n" +
+      "        self.fill_counter = Counter(f\"{namespace}_fills_total\", \"fills processed\", labelnames=(\"symbol\", \"side\"))",
+
+    "    @contextmanager\n" +
+      "    def time_quote(self):\n" +
+      "        start = time.perf_counter()\n" +
+      "        try:\n" +
+      "            yield\n" +
+      "        finally:\n" +
+      "            self.quote_latency.observe(time.perf_counter() - start)",
+
+    "@dataclass(frozen=True, slots=True)\n" +
+      "class RuntimeConfig:\n" +
+      "    venues: Tuple[VenueConfig, ...]\n" +
+      "    risk_limits: RiskLimits\n" +
+      "    db_dsn: str\n" +
+      "    redis_url: str\n" +
+      "    log_level: str = \"INFO\"\n" +
+      "\n" +
+      "    @classmethod\n" +
+      "    def from_env(cls, path: Path = Path(\".env\")) -> \"RuntimeConfig\":\n" +
+      "        raw = dotenv_values(path) | os.environ\n" +
+      "        return cls(\n" +
+      "            venues=tuple(VenueConfig.parse(v) for v in raw[\"VENUES\"].split(\",\")),\n" +
+      "            risk_limits=RiskLimits.from_json(raw[\"RISK_LIMITS_JSON\"]),\n" +
+      "            db_dsn=raw[\"DATABASE_URL\"],\n" +
+      "            redis_url=raw[\"REDIS_URL\"],\n" +
+      "        )",
+
+    "async def publish_book_snapshots(redis: Redis, book: PositionBook, interval: float = 1.0) -> None:\n" +
+      "    async with redis.pipeline(transaction=False) as pipe:\n" +
+      "        while True:\n" +
+      "            snapshot = book.snapshot()\n" +
+      "            pipe.set(f\"book:{snapshot.symbol}\", orjson.dumps(snapshot.as_dict()), ex=5)\n" +
+      "            pipe.publish(\"book_updates\", snapshot.symbol)\n" +
+      "            await pipe.execute()\n" +
+      "            await asyncio.sleep(interval)",
+
+    "async def main() -> None:\n" +
+      "    config = RuntimeConfig.from_env()\n" +
+      "    logging.config.dictConfig(build_logging_config(config.log_level))\n" +
+      "    engine = create_async_engine(config.db_dsn, pool_size=10, pool_pre_ping=True)\n" +
+      "    redis = Redis.from_url(config.redis_url, decode_responses=False)\n" +
+      "\n" +
+      "    tick_queue: asyncio.Queue[Tick] = asyncio.Queue(maxsize=10_000)\n" +
+      "    gateway = MarketDataGateway(config.venues, tick_queue)\n" +
+      "    book = PositionBook(async_sessionmaker(engine))\n" +
+      "    risk = RiskEngine(config.risk_limits, book)\n" +
+      "    strategy = AvellanedaStoikovMarketMaker(max_inventory=config.risk_limits.max_symbol_delta)\n" +
+      "\n" +
+      "    async with asyncio.TaskGroup() as tg:\n" +
+      "        tg.create_task(gateway.run())\n" +
+      "        tg.create_task(strategy.stream_quotes(_dequeue(tick_queue), ExchangeClient(config.venues[0])))\n" +
+      "        tg.create_task(publish_book_snapshots(redis, book))\n" +
+      "        tg.create_task(_periodic_reconcile(book, risk))\n" +
+      "\n" +
+      "\n" +
+      "if __name__ == \"__main__\":\n" +
+      "    asyncio.run(main())"
   ];
 
   function tokenize(line) {
@@ -292,20 +556,20 @@
         charCount = 0;
         draw(true);
         scheduleNextChar();
-      }, 1400);
+      }, 2200);
       return;
     }
-    // Whole chunks (a method at a time) are burst-typed in one quick pass;
-    // the real pause is the beat held once a chunk completes, so it reads
-    // like blocks of code landing rather than a sentence being spoken.
+    // Whole chunks (a method at a time) are burst-typed in one pass; the
+    // real pause is the beat held once a chunk completes, so it reads like
+    // blocks of code landing rather than a sentence being spoken.
     var nextChar = fullText[charCount];
-    var delay = 2 + Math.random() * 3;
-    if (nextChar === "\n") delay = 26;
+    var delay = 9 + Math.random() * 10;
+    if (nextChar === "\n") delay = 60;
     typingTimer = setTimeout(function () {
       charCount++;
       draw(true);
       if (chunkEnds[charCount]) {
-        typingTimer = setTimeout(scheduleNextChar, 480 + Math.random() * 260);
+        typingTimer = setTimeout(scheduleNextChar, 650 + Math.random() * 350);
       } else {
         scheduleNextChar();
       }
