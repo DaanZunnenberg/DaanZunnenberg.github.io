@@ -385,6 +385,7 @@ main::before {
 }
 
 .nav-dropdown-heading {
+  display: block;
   font-weight: 700;
   color: var(--ink) !important;
   padding: 8px 10px 8px !important;
