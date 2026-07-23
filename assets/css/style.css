@@ -13,7 +13,7 @@
   --ink-soft: #4b4f57;
   --ink-faint: #797d84;
 
-  --blue-950: #0a0f1a;
+  --blue-950: #0d1726;
   --blue-800: #dfe2e8;
   --blue-600: #1c2947;
   --blue-500: #22304f;
@@ -924,20 +924,20 @@ pre.code-block code {
 
 .hero-fade.hero-fade-soft {
   background:
-    linear-gradient(100deg, rgba(11, 15, 24, 0.6) 0%, rgba(11, 15, 24, 0.42) 28%, rgba(11, 15, 24, 0.16) 52%, rgba(11, 15, 24, 0.04) 72%);
+    linear-gradient(100deg, rgba(13, 23, 38, 0.6) 0%, rgba(13, 23, 38, 0.42) 28%, rgba(13, 23, 38, 0.16) 52%, rgba(13, 23, 38, 0.04) 72%);
 }
 
 /* Higher-specificity (.hero-fade.hero-fade-flip) so this reliably beats the
    base .hero-fade rule regardless of the two rules' order in this file. */
 .hero-fade.hero-fade-flip {
   background:
-    linear-gradient(to left, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
+    linear-gradient(to left, rgba(13, 23, 38, 0.9) 0%, rgba(13, 23, 38, 0.74) 28%, rgba(13, 23, 38, 0.22) 52%, rgba(13, 23, 38, 0.02) 72%);
 }
 
 @media (max-width: 640px) {
   .hero-fade.hero-fade-flip {
     background:
-      linear-gradient(100deg, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
+      linear-gradient(100deg, rgba(13, 23, 38, 0.9) 0%, rgba(13, 23, 38, 0.74) 28%, rgba(13, 23, 38, 0.22) 52%, rgba(13, 23, 38, 0.02) 72%);
   }
 }
 
@@ -945,7 +945,7 @@ pre.code-block code {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(100deg, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.74) 28%, rgba(11, 15, 24, 0.22) 52%, rgba(11, 15, 24, 0.02) 72%);
+    linear-gradient(100deg, rgba(13, 23, 38, 0.9) 0%, rgba(13, 23, 38, 0.74) 28%, rgba(13, 23, 38, 0.22) 52%, rgba(13, 23, 38, 0.02) 72%);
 }
 
 /* Order-book hero: the dark scrim needs to carry further right so the
@@ -953,7 +953,7 @@ pre.code-block code {
    the far-right edge any more than the default fade already does. */
 .hero-fade.hero-fade-long {
   background:
-    linear-gradient(100deg, rgba(11, 15, 24, 0.9) 0%, rgba(11, 15, 24, 0.78) 40%, rgba(11, 15, 24, 0.4) 58%, rgba(11, 15, 24, 0.02) 72%);
+    linear-gradient(100deg, rgba(13, 23, 38, 0.9) 0%, rgba(13, 23, 38, 0.78) 40%, rgba(13, 23, 38, 0.4) 58%, rgba(13, 23, 38, 0.02) 72%);
 }
 
 .hero-content {
@@ -1087,7 +1087,7 @@ pre.code-block code {
   .hero-name { font-size: 32px; }
   .hero-fade {
     background:
-      linear-gradient(180deg, rgba(11, 15, 24, 0.92) 0%, rgba(11, 15, 24, 0.78) 50%, rgba(11, 15, 24, 0.35) 100%);
+      linear-gradient(180deg, rgba(13, 23, 38, 0.92) 0%, rgba(13, 23, 38, 0.78) 50%, rgba(13, 23, 38, 0.35) 100%);
   }
 
   /* Research hero: instead of dropping trade-tape panels on narrow
