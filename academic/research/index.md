@@ -9,7 +9,7 @@ permalink: /academic/research/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Empirical Processes</div>
-    <h1 class="hero-name">Research &amp; Publications<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Research &amp; Publications</h1>
     <p class="hero-lede">Generic chaining, majorizing measures, and weak convergence for dependent processes.</p>
   </div>
 </section>

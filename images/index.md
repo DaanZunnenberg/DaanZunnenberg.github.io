@@ -8,7 +8,7 @@ title: About
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher &middot; Quant Enthusiast<span class="hero-eyebrow-extra"> &middot; Probabilist</span></div>
-    <h1 class="hero-name">Daan Zunnenberg<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Daan Zunnenberg</h1>
     <p class="hero-lede">PhD researcher in probability theory. I also build quant trading, HFT, and market-making systems.</p>
     <div class="hero-links">
       <a href="mailto:dw.zunnenberg@gmail.com"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20v16H2V4zm10 7L4 6v2l8 5 8-5V6l-8 5z"/></svg>Email</a>

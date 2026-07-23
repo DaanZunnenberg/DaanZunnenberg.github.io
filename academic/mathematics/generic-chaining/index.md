@@ -9,7 +9,7 @@ permalink: /academic/mathematics/generic-chaining/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Geometry &middot; Stochastic Processes</div>
-    <h1 class="hero-name">Generic Chaining<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Generic Chaining</h1>
     <p class="hero-lede">Why the geometry of a metric space completely determines the size of a Gaussian process.</p>
   </div>
 </section>

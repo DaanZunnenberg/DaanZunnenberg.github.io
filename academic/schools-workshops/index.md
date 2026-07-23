@@ -9,7 +9,7 @@ permalink: /academic/schools-workshops/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
-    <h1 class="hero-name">Schools &amp; Workshops<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Schools &amp; Workshops</h1>
     <p class="hero-lede">Summer and winter schools, plus study groups and industry workshops.</p>
   </div>
 </section>

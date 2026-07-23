@@ -9,7 +9,7 @@ permalink: /academic/notes/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
-    <h1 class="hero-name">Notes<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Notes</h1>
     <p class="hero-lede">Short-form notes and news, separate from the longer research pieces elsewhere on the site.</p>
   </div>
 </section>
