@@ -5,7 +5,7 @@ permalink: /academic/schools-workshops/
 ---
 
 <section class="hero">
-  <canvas id="orbit-widget-canvas" class="hero-canvas" aria-label="Slowly rotating concentric orbits with travelling points" aria-hidden="true"></canvas>
+  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
