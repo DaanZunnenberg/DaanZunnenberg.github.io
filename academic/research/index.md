@@ -262,7 +262,7 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
     <span class="entry-date">2024</span>
   </div>
   <p>Open-source implementation of a functional stationarity test for multidimensional diffusion processes, developed for my MSc thesis.</p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">github.com/DaanZunnenberg/MultivariateHamrickTaqqu</a></div>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a></div>
 </div>
 
 <div class="entry">
@@ -271,7 +271,7 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
     <span class="entry-date">2024 &ndash; present</span>
   </div>
   <p>Estimation library for functional GARCH/GAS models of time-varying intraday volatility surfaces, using B-splines and <code>numba</code> JIT compilation.</p>
-  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">github.com/DaanZunnenberg/FunctionalScale</a></div>
+  <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a></div>
 </div>
 
 <p>
