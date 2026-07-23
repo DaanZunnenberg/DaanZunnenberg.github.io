@@ -154,24 +154,53 @@ main::before {
   border-bottom: 1px solid var(--line);
 }
 
-.site-header.is-stuck .site-title {
+.site-header.is-stuck .site-title span {
   font-size: 16px;
 }
 
+.site-header.is-stuck .site-mark {
+  width: 22px;
+  height: 22px;
+}
+
 .site-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  opacity: 0.92;
+  transition: opacity 0.2s ease;
+}
+
+.site-mark {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  transition: width 0.22s ease, height 0.22s ease;
+}
+
+.site-mark rect { fill: var(--blue-950); }
+.site-mark text {
+  font-family: var(--serif);
+  font-size: 12px;
+  fill: var(--accent-bright);
+}
+
+.site-title span {
   font-family: var(--mono);
   font-weight: 700;
   font-size: 19px;
   color: var(--ink);
-  text-decoration: none;
   letter-spacing: 0.01em;
-  opacity: 0.92;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  transition: color 0.2s ease, font-size 0.22s ease;
 }
 
 .site-title:hover {
-  color: var(--blue-400);
   opacity: 1;
+}
+
+.site-title:hover span {
+  color: var(--blue-400);
 }
 
 .site-nav {
