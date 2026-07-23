@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #f8f7f3;
@@ -25,7 +25,7 @@
   html, body {
     margin: 0; padding: 0; min-height: 100%;
     background: var(--bg);
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
   }
   body {
     display: flex;
@@ -51,7 +51,7 @@
     z-index: 1;
     width: min(78vw, 148vh, 900px);
     aspect-ratio: 1.75 / 1;
-    border-radius: clamp(14px, 1.6vw, 22px);
+    border-radius: clamp(6px, 0.9vw, 10px);
     padding: 2px;
     background: linear-gradient(150deg, rgba(183,160,102,0.55), rgba(183,160,102,0.16) 40%, rgba(0,0,0,0) 60%, rgba(183,160,102,0.28) 100%);
     box-shadow: 0 30px 80px rgba(0,0,0,0.5);
@@ -61,7 +61,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    border-radius: clamp(13px, 1.5vw, 21px);
+    border-radius: clamp(5px, 0.8vw, 9px);
     background: var(--card-bg);
     overflow: hidden;
   }
@@ -109,12 +109,12 @@
     font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--cyan);
+    color: #dcdfe6;
     margin: 0 0 clamp(8px, 1.3vw, 15px);
   }
 
   h1 {
-    font-family: 'Source Serif 4', Georgia, serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-weight: 600;
     font-size: clamp(26px, 4.6vw, 48px);
     color: var(--text);
@@ -127,19 +127,13 @@
     gap: 0.22em;
   }
 
-  .status-underscore {
-    color: var(--green);
-    font-weight: 700;
-    text-shadow: 0 0 8px rgba(31,122,92,0.7);
-    animation: blink 1s step-end infinite;
-    flex-shrink: 0;
-  }
-  @keyframes blink { 50% { opacity: 0.1; } }
-
   .desc {
-    font-size: clamp(13px, 1.5vw, 18px);
-    line-height: 1.5;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(13px, 1.5vw, 17px);
+    line-height: 1.55;
     color: #9aa4b2;
+    max-width: 34ch;
     margin: clamp(12px, 2vw, 22px) 0 clamp(18px, 3vw, 30px);
     font-weight: 400;
   }
@@ -164,11 +158,12 @@
     font-weight: 500;
     position: relative;
     padding: clamp(8px, 1.3vw, 11px) clamp(11px, 1.6vw, 15px);
-    border-radius: 7px;
+    border-radius: 2px;
     border: 1px solid rgba(255,255,255,0.16);
     background: rgba(255,255,255,0.05);
     cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      background 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .content.revealed .links {
@@ -266,7 +261,7 @@
     color: var(--card-bg);
     background: var(--green);
     padding: 4px 8px;
-    border-radius: 4px;
+    border-radius: 2px;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
@@ -330,7 +325,7 @@
 
     <div class="content" id="content">
       <p class="eyebrow">Math PhD &middot; Quant Finance</p>
-      <h1>Daan Zunnenberg<span class="status-underscore">_</span></h1>
+      <h1>Daan Zunnenberg</h1>
       <p class="desc">Probability, quantitative finance &amp; algorithmic trading.</p>
 
       <a class="link site-link" id="site-link" href="https://daanzunnenberg.com/" target="_blank" rel="noopener">
@@ -442,7 +437,7 @@
   const canvas = document.getElementById('book');
   const ctx = canvas.getContext('2d');
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const MONO_FONT = "'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace";
+  const MONO_FONT = "'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace";
 
   const AMBER = "rgba(183, 160, 102, 0.75)";
   const UP_TEXT = "rgba(122, 181, 155, 0.9)";
