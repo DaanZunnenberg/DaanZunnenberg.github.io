@@ -23,10 +23,6 @@
   --up: #1a9c78;
   --down: #cf3b4c;
 
-  /* Bright ANSI-style terminal colors, used only in the (intentionally dark) console-bar */
-  --term-green: #3cff5e;
-  --term-blue: #4dd2ff;
-
   --mono: "SF Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
 }
@@ -83,7 +79,6 @@ body::after {
     linear-gradient(180deg, var(--bg) 0%, rgba(245, 247, 251, 0) 14%, rgba(245, 247, 251, 0) 78%, var(--bg) 100%);
 }
 
-.console-bar,
 .wrap {
   position: relative;
   z-index: 1;
@@ -91,59 +86,6 @@ body::after {
 
 @media (max-width: 520px) {
   .site-footer { padding-bottom: 60px; }
-}
-
-/* Console bar: a terminal-style header line that types out a rotating
-   set of research/career facts, in place of a stock-ticker strip. */
-.console-bar {
-  background: #10141f;
-  border-bottom: 1px solid #232d47;
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 9px 24px;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  color: #f3f5fa;
-}
-
-.console-prompt {
-  flex: none;
-}
-
-.console-user {
-  color: var(--term-green);
-  font-weight: 700;
-}
-
-.console-sep {
-  color: #f3f5fa;
-}
-
-.console-path {
-  color: var(--term-blue);
-  font-weight: 700;
-}
-
-.console-text {
-  color: #f3f5fa;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.console-caret {
-  color: #f3f5fa;
-  font-size: 9px;
-  animation: blink 1s steps(1) infinite;
-  flex: none;
-}
-
-@media (max-width: 560px) {
-  .console-bar { padding: 8px 16px; font-size: 11px; }
-  .console-prompt { display: none; }
 }
 
 .wrap {
@@ -1569,6 +1511,5 @@ code {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .console-caret { animation: none; }
   .cursor { animation: none; }
 }
