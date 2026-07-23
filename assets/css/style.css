@@ -264,27 +264,17 @@ main::before {
    A bordered button rather than an underlined link, so it reads as its
    own action instead of another page in the current section. */
 .nav-switch a {
-  padding: 7px 16px;
-  border: 1px solid var(--blue-300);
-  border-radius: 2px;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.nav-switch a::after {
-  display: none;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  opacity: 0.75;
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
 
 .nav-switch a:hover,
 .nav-switch a:focus-visible {
-  background: var(--blue-300);
-  border-color: var(--blue-300);
-  color: var(--bg);
-  transform: translateY(-1px);
+  color: var(--blue-400);
+  opacity: 1;
 }
 
 .nav-dropdown a {
