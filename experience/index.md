@@ -9,7 +9,7 @@ permalink: /experience/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Functional Volatility<span class="hero-eyebrow-extra"> &middot; Market Microstructure &middot; Dynamic Modelling</span></div>
-    <h1 class="hero-name">Experience &amp; Projects<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Experience &amp; Projects</h1>
     <p class="hero-lede">Roles and side projects at the intersection of statistics, execution, and market-making.</p>
   </div>
 </section>

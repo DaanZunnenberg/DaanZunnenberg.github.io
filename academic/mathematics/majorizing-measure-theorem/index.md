@@ -9,7 +9,7 @@ permalink: /academic/mathematics/majorizing-measure-theorem/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Talagrand &middot; Gaussian Processes</div>
-    <h1 class="hero-name">The Majorizing Measure Theorem<span class="cursor">_</span></h1>
+    <h1 class="hero-name">The Majorizing Measure Theorem</h1>
     <p class="hero-lede">My favorite proof: Talagrand's two-sided bound on the supremum of a Gaussian process.</p>
   </div>
 </section>

@@ -9,7 +9,7 @@ permalink: /academic/mathematics/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Probability &middot; Generic Chaining</div>
-    <h1 class="hero-name">Mathematics<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Mathematics</h1>
     <p class="hero-lede">Some of my favourite pieces of theory, with full proofs.</p>
   </div>
 </section>

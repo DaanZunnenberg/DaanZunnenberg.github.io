@@ -9,7 +9,7 @@ permalink: /academic/mathematics/bousquet-talagrand-inequality/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Concentration of Measure &middot; Entropy Method</div>
-    <h1 class="hero-name">The Bousquet&ndash;Talagrand Inequality<span class="cursor">_</span></h1>
+    <h1 class="hero-name">The Bousquet&ndash;Talagrand Inequality</h1>
     <p class="hero-lede">The entropy method: a Bernstein-type concentration bound for the supremum of an empirical process.</p>
   </div>
 </section>

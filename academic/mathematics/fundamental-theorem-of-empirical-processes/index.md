@@ -9,7 +9,7 @@ permalink: /academic/mathematics/fundamental-theorem-of-empirical-processes/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Latała&ndash;Bednorz &middot; Empirical Processes</div>
-    <h1 class="hero-name">The Fundamental Theorem of Empirical Processes<span class="cursor">_</span></h1>
+    <h1 class="hero-name">The Fundamental Theorem of Empirical Processes</h1>
     <p class="hero-lede">Chaining and the peaky part: why an empirical process always splits into a chained piece and a piece with no cancellation.</p>
   </div>
 </section>

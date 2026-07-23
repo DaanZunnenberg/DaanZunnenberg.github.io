@@ -9,7 +9,7 @@ permalink: /academic/contact/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">For Academics &amp; Collaborators<span class="hero-eyebrow-extra"> &middot; Probability &amp; Empirical Processes</span></div>
-    <h1 class="hero-name">Research &amp; Academia<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Research &amp; Academia</h1>
     <p class="hero-lede">Collaboration proposals, seminar invitations, and questions about the work.</p>
   </div>
 </section>

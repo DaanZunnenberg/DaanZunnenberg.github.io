@@ -8,7 +8,7 @@ title: About
   <div class="hero-fade hero-fade-long" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher &middot; Quant Enthusiast<span class="hero-eyebrow-extra"> &middot; Probabilist</span></div>
-    <h1 class="hero-name">Daan Zunnenberg<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Daan Zunnenberg</h1>
     <p class="hero-lede">PhD researcher in probability theory with a passion for quant trading, HFT, and market-making.</p>
     <div class="hero-links">
       <button type="button" class="copy-email" data-u="dw.zunnenberg" data-d="gmail.com"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20v16H2V4zm10 7L4 6v2l8 5 8-5V6l-8 5z"/></svg>Email<span class="copy-toast">Copied</span></button>
@@ -362,8 +362,3 @@ depth, direction = result.depth, result.direction
   </a>
 </div>
 
-<h2 id="banner-confession">A Small Confession About the Banner</h2>
-<p>
-  That's a real order book behind my name, not decoration. Couldn't help myself. If it's quiet right now,
-  that's just the market, not me.
-</p>

@@ -9,7 +9,7 @@ permalink: /events/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
-    <h1 class="hero-name">Events<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Events</h1>
     <p class="hero-lede">Conferences, talks, posters, and seminars I&rsquo;m giving or attending, upcoming and past.</p>
   </div>
 </section>

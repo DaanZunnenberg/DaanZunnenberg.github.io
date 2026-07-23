@@ -9,7 +9,7 @@ permalink: /academic/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher &middot; Probability &amp; Empirical Processes</div>
-    <h1 class="hero-name">Academic<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Academic</h1>
     <p class="hero-lede">Research, publications, proofs, and academic life &mdash; separate from the industry side of the site.</p>
   </div>
 </section>
