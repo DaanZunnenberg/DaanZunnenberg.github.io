@@ -16,7 +16,19 @@
       // appears exactly when the header starts overlapping content,
       // with no gap in between and no dependence on page-specific
       // layout (console bar height, hero height, etc.).
-      var isStuck = header.getBoundingClientRect().top <= 0;
+      //
+      // Toggling .is-stuck shrinks the header's own padding/margin, which
+      // shifts its measured top by a few pixels. Using one exact threshold
+      // for both directions let that shift flip the reading back across
+      // the boundary mid-scroll, flickering the class on/off. A small gap
+      // between the "stick" and "unstick" thresholds absorbs that shift.
+      var top = header.getBoundingClientRect().top;
+      var isStuck = header.classList.contains("is-stuck");
+      if (!isStuck && top <= 0) {
+        isStuck = true;
+      } else if (isStuck && top > 8) {
+        isStuck = false;
+      }
       header.classList.toggle("is-stuck", isStuck);
     }
     if (backToTop) backToTop.classList.toggle("visible", y > TOP_AT);
