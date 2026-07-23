@@ -1,8 +1,8 @@
 (function () {
-  // A short market-making Python snippet typed out at a randomized,
-  // human-ish pace (variable per-character delay, longer pauses at line
-  // breaks), with a blinking block cursor. No live data — purely a
-  // decorative "code forming" backdrop for the hero.
+  // A mid-file market-making Python snippet, burst-typed one method at a
+  // time (near-instant within a chunk, a held beat between chunks), with a
+  // blinking block cursor. No live data, nothing here is ever executed —
+  // purely a decorative "code forming" backdrop for the hero.
   var canvas = document.getElementById("code-type-canvas");
   if (!canvas) return;
   var container = canvas.parentElement;
@@ -24,79 +24,69 @@
   var COLOR_NUM = "rgba(201, 112, 122, 0.95)";
   var CURSOR = "rgba(220, 223, 230, 0.85)";
 
-  var KEYWORDS = ["class", "def", "self", "return", "if", "else", "elif", "for", "in", "while", "import", "from", "True", "False", "None", "not", "and", "or", "raise", "try", "except"];
+  var KEYWORDS = ["class", "def", "self", "return", "if", "else", "elif", "for", "in", "while", "import", "from", "True", "False", "None", "not", "and", "or", "raise", "try", "except", "with", "lambda", "is"];
 
-  var LINES = [
-    "import numpy as np",
-    "from collections import deque",
-    "",
-    "class AvellanedaStoikovMarketMaker:",
-    "    \"\"\"Optimal quoting under inventory risk (Avellaneda-Stoikov, 2008).\"\"\"",
-    "",
-    "    def __init__(self, gamma=0.1, k=1.5, horizon=1.0, max_inventory=50):",
-    "        self.gamma = gamma",
-    "        self.k = k",
-    "        self.horizon = horizon",
-    "        self.max_inventory = max_inventory",
-    "        self.inventory = 0",
-    "        self.pnl = 0.0",
-    "        self.returns = deque(maxlen=200)",
-    "        self.last_mid = None",
-    "",
-    "    def update_volatility(self, mid_price):",
-    "        if self.last_mid is not None:",
-    "            self.returns.append(np.log(mid_price / self.last_mid))",
-    "        self.last_mid = mid_price",
-    "        if len(self.returns) < 20:",
-    "            return 0.02",
-    "        return float(np.std(self.returns) * np.sqrt(252 * 6.5 * 3600))",
-    "",
-    "    def reservation_price(self, mid, sigma, t):",
-    "        time_left = max(self.horizon - t, 1e-6)",
-    "        return mid - self.inventory * self.gamma * sigma ** 2 * time_left",
-    "",
-    "    def optimal_spread(self, sigma, t):",
-    "        time_left = max(self.horizon - t, 1e-6)",
-    "        variance_term = self.gamma * sigma ** 2 * time_left",
-    "        intensity_term = (2 / self.gamma) * np.log(1 + self.gamma / self.k)",
-    "        return variance_term + intensity_term",
-    "",
-    "    def quote(self, mid, t):",
-    "        sigma = self.update_volatility(mid)",
-    "        r = self.reservation_price(mid, sigma, t)",
-    "        spread = self.optimal_spread(sigma, t)",
-    "        bid = r - spread / 2",
-    "        ask = r + spread / 2",
-    "        return round(bid, 2), round(ask, 2)",
-    "",
-    "    def risk_check(self, side, size):",
-    "        projected = self.inventory + (size if side == \"buy\" else -size)",
-    "        if abs(projected) > self.max_inventory:",
-    "            raise ValueError(\"inventory limit breached\")",
-    "        return True",
-    "",
-    "    def on_fill(self, side, size, price):",
-    "        self.risk_check(side, size)",
-    "        sign = 1 if side == \"buy\" else -1",
-    "        self.inventory += sign * size",
-    "        self.pnl -= sign * size * price",
-    "",
-    "    def mark_to_market(self, mid):",
-    "        return self.pnl + self.inventory * mid",
-    "",
-    "",
-    "def run(feed, exchange, model, horizon=1.0):",
-    "    t = 0.0",
-    "    while t < horizon:",
-    "        mid = feed.mid_price()",
-    "        bid, ask = model.quote(mid, t)",
-    "        exchange.cancel_all()",
-    "        exchange.place(\"buy\", bid, size=1)",
-    "        exchange.place(\"sell\", ask, size=1)",
-    "        for side, size, price in exchange.poll_fills():",
-    "            model.on_fill(side, size, price)",
-    "        t += feed.tick()",
-    "    return model.mark_to_market(feed.mid_price())"
+  // Each entry is one "chunk" -- a whole method or logical block -- typed at
+  // high speed in one burst, with a visible pause between chunks. The
+  // snippet intentionally opens mid-class (no imports, no class header) so
+  // it reads like a scrollback of an already-open file, not a fresh script.
+  var CHUNKS = [
+    "    gamma: float = 0.1\n" +
+      "    kappa: float = 1.5\n" +
+      "    horizon: float = 1.0\n" +
+      "    max_inventory: int = 50\n" +
+      "    _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)\n" +
+      "    _returns: deque = field(default_factory=lambda: deque(maxlen=512), repr=False)\n" +
+      "    _last_mid: Optional[float] = field(default=None, repr=False)",
+
+    "    @staticmethod\n" +
+      "    @nb.njit(cache=True, fastmath=True, nogil=True)\n" +
+      "    def _ewma_vol(log_returns: np.ndarray, half_life: float) -> float:\n" +
+      "        decay = np.exp(-np.log(2.0) / half_life)\n" +
+      "        weight, num, den = 1.0, 0.0, 0.0\n" +
+      "        for i in range(log_returns.shape[0] - 1, -1, -1):\n" +
+      "            num += weight * log_returns[i] ** 2\n" +
+      "            den += weight\n" +
+      "            weight *= decay\n" +
+      "        return np.sqrt(num / den) * np.sqrt(252.0 * 6.5 * 3600.0)",
+
+    "    @functools.lru_cache(maxsize=4096)\n" +
+      "    def _hawkes_branching_ratio(self, alpha: float, beta: float) -> float:\n" +
+      "        if beta <= alpha:\n" +
+      "            raise ValueError(\"unstable Hawkes kernel: alpha >= beta\")\n" +
+      "        return alpha / beta",
+
+    "    def reservation_price(self, mid: float, sigma: float, t: float) -> float:\n" +
+      "        with self._lock:\n" +
+      "            inv = self.inventory\n" +
+      "        time_left = max(self.horizon - t, 1e-6)\n" +
+      "        skew = inv * self.gamma * sigma ** 2 * time_left\n" +
+      "        return mid - skew",
+
+    "    def optimal_spread(self, sigma: float, t: float, intensity: float) -> float:\n" +
+      "        time_left = max(self.horizon - t, 1e-6)\n" +
+      "        variance_term = self.gamma * sigma ** 2 * time_left\n" +
+      "        liquidity_term = (2.0 / self.gamma) * np.log1p(self.gamma / self.kappa)\n" +
+      "        queue_term = 0.5 * np.log1p(intensity / self.kappa)\n" +
+      "        return variance_term + liquidity_term + queue_term",
+
+    "    def quote(self, mid: float, t: float, book: OrderBookSnapshot) -> Tuple[float, float]:\n" +
+      "        sigma = self._ewma_vol(np.asarray(self._returns), half_life=64.0)\n" +
+      "        intensity = book.trade_intensity(window=5.0)\n" +
+      "        r = self.reservation_price(mid, sigma, t)\n" +
+      "        spread = self.optimal_spread(sigma, t, intensity)\n" +
+      "        bid, ask = r - spread / 2.0, r + spread / 2.0\n" +
+      "        return round(bid, 2), round(ask, 2)",
+
+    "    @retry(exceptions=(ConnectionError,), tries=3, backoff=1.5)\n" +
+      "    def on_fill(self, side: Side, size: float, price: float) -> None:\n" +
+      "        with self._lock:\n" +
+      "            sign = 1.0 if side is Side.BUY else -1.0\n" +
+      "            projected = self.inventory + sign * size\n" +
+      "            if abs(projected) > self.max_inventory:\n" +
+      "                raise InventoryLimitError(projected, self.max_inventory)\n" +
+      "            self.inventory = projected\n" +
+      "            self.pnl -= sign * size * price"
   ];
 
   function tokenize(line) {
@@ -118,7 +108,16 @@
     return tokens;
   }
 
-  var fullText = LINES.join("\n");
+  var fullText = CHUNKS.join("\n\n");
+  var chunkEnds = {};
+  (function () {
+    var pos = 0;
+    for (var i = 0; i < CHUNKS.length; i++) {
+      pos += CHUNKS[i].length;
+      chunkEnds[pos] = true;
+      if (i < CHUNKS.length - 1) pos += 2;
+    }
+  })();
   var charCount = 0;
   var running = false;
   var visible = true;
@@ -179,17 +178,23 @@
         charCount = 0;
         draw(true);
         scheduleNextChar();
-      }, 900);
+      }, 750);
       return;
     }
+    // Whole chunks (a method at a time) are burst-typed almost instantly;
+    // the only real pause is the beat held once a chunk completes, so it
+    // reads like blocks of code landing rather than a sentence being spoken.
     var nextChar = fullText[charCount];
-    var delay = 8 + Math.random() * 12;
-    if (nextChar === "\n") delay = 320 + Math.random() * 220;
-    else if (nextChar === " ") delay *= 0.6;
+    var delay = 0.5 + Math.random() * 1;
+    if (nextChar === "\n") delay = 6;
     typingTimer = setTimeout(function () {
       charCount++;
       draw(true);
-      scheduleNextChar();
+      if (chunkEnds[charCount]) {
+        typingTimer = setTimeout(scheduleNextChar, 320 + Math.random() * 180);
+      } else {
+        scheduleNextChar();
+      }
     }, delay);
   }
 
