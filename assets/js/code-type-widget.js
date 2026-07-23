@@ -124,8 +124,8 @@
       return;
     }
     var nextChar = fullText[charCount];
-    var delay = 5 + Math.random() * 14;
-    if (nextChar === "\n") delay = 40 + Math.random() * 55;
+    var delay = 0.5 + Math.random() * 1.4;
+    if (nextChar === "\n") delay = 4 + Math.random() * 5.5;
     else if (nextChar === " ") delay *= 0.6;
     typingTimer = setTimeout(function () {
       charCount++;
