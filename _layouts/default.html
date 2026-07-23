@@ -55,22 +55,21 @@
           </div>
         </div>
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' or page.url contains 'mathematics' %}class="active"{% endif %}>Research</a>
-          <div class="nav-dropdown nav-dropdown-grouped">
-            <div class="nav-dropdown-group">
-              <a class="nav-dropdown-heading" href="{{ '/research/' | relative_url }}">Research &amp; Publications</a>
-              <a href="{{ '/research/#research-interests' | relative_url }}">Research interests</a>
-              <a href="{{ '/research/#current-work' | relative_url }}">Current work</a>
-              <a href="{{ '/research/#past-research' | relative_url }}">Past research</a>
-              <a href="{{ '/research/#publications' | relative_url }}">Publications</a>
-            </div>
-            <div class="nav-dropdown-group">
-              <a class="nav-dropdown-heading" href="{{ '/mathematics/' | relative_url }}">Mathematics</a>
-              <a href="{{ '/mathematics/generic-chaining/' | relative_url }}">Generic chaining</a>
-              <a href="{{ '/mathematics/majorizing-measure-theorem/' | relative_url }}">Majorizing Measure Theorem</a>
-              <a href="{{ '/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
-              <a href="{{ '/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
-            </div>
+          <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' %}class="active"{% endif %}>Research</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/research/#research-interests' | relative_url }}">Research interests</a>
+            <a href="{{ '/research/#current-work' | relative_url }}">Current work</a>
+            <a href="{{ '/research/#past-research' | relative_url }}">Past research</a>
+            <a href="{{ '/research/#publications' | relative_url }}">Publications</a>
+          </div>
+        </div>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/mathematics/' | relative_url }}" {% if page.url contains 'mathematics' %}class="active"{% endif %}>Math</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/mathematics/generic-chaining/' | relative_url }}">Generic chaining</a>
+            <a href="{{ '/mathematics/majorizing-measure-theorem/' | relative_url }}">Majorizing Measure Theorem</a>
+            <a href="{{ '/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
+            <a href="{{ '/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
           </div>
         </div>
         <div class="nav-item nav-has-dropdown">
@@ -140,7 +139,15 @@
             <a href="{{ '/research/#publications' | relative_url }}">Publications</a>
           </div>
         </div>
-        <a href="{{ '/mathematics/' | relative_url }}" {% if page.url contains 'mathematics' %}class="active"{% endif %}>Mathematics</a>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/mathematics/' | relative_url }}" {% if page.url contains 'mathematics' %}class="active"{% endif %}>Math</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/mathematics/generic-chaining/' | relative_url }}">Generic chaining</a>
+            <a href="{{ '/mathematics/majorizing-measure-theorem/' | relative_url }}">Majorizing Measure Theorem</a>
+            <a href="{{ '/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
+            <a href="{{ '/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
+          </div>
+        </div>
         <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/contact/' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}>Updates, Events &amp; Contact</a>
