@@ -12,9 +12,10 @@
   var TRAVELER_COUNT = 3;
   var PULSE_PX_PER_MS = 0.075; // constant on-screen speed, independent of hop length
 
+  var isPlatinum = canvas.classList.contains("signal-widget-platinum");
   var NODE_COLOR = "rgba(233, 236, 243, 0.55)";
-  var LINK_COLOR = "rgba(77, 210, 255, 0.16)";
-  var PULSE_COLOR = "rgba(60, 255, 94, 0.9)";
+  var LINK_COLOR = isPlatinum ? "rgba(215, 220, 234, 0.18)" : "rgba(77, 210, 255, 0.16)";
+  var PULSE_COLOR = isPlatinum ? "rgba(226, 230, 240, 0.95)" : "rgba(77, 210, 255, 0.9)";
 
   var nodes = [];
   var travelers = [];

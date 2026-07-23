@@ -4,8 +4,8 @@ title: Notes
 permalink: /academic/notes/
 ---
 
-<section class="hero hero-scroll">
-  <canvas id="orderflow-ladder-canvas" class="hero-canvas" aria-label="Live combined depth-of-market and order-flow ladder for Binance XLM/USDT, SOL/USDT, and XRP/USDT: each row is a price level showing resting bid and ask book size, the net executed buy/sell delta traded at that level, and a running cumulative delta down the visible price levels (scroll horizontally on narrow screens)" aria-hidden="true"></canvas>
+<section class="hero">
+  <canvas id="chalk-symbols-canvas" class="hero-canvas" aria-label="Slowly drifting field of mathematical symbols" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
