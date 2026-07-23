@@ -3,7 +3,7 @@ layout: default
 title: About
 ---
 
-<section class="hero">
+<section class="hero hero-bleed">
   <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live XLM, SOL and XRP spot order books, each with a spot/perp price-difference table for cash-and-carry arbitrage"></canvas>
   <div class="hero-fade hero-fade-long" aria-hidden="true"></div>
   <div class="hero-content">

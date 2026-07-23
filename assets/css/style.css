@@ -906,6 +906,28 @@ pre.code-block code {
   box-shadow: 0 30px 70px -36px rgba(10, 14, 24, 0.55);
 }
 
+/* Homepage-only variant: the hero bleeds to the viewport edge instead of
+   sitting in its own bordered card, with the reading column's text
+   position preserved on top of it (banner-behind-document, rather than
+   widget-in-a-document). Scoped to desktop, where there's room for the
+   column and the full-bleed edges to read as distinct from each other;
+   below 641px the hero already reaches the viewport edge via the .hero
+   mobile rule further down, so there's nothing extra to override. */
+@media (min-width: 641px) {
+  .hero-bleed {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .hero-bleed .hero-content {
+    margin-left: max(0px, calc((100vw - 860px) / 2));
+  }
+}
+
 .hero #market-widget-canvas,
 .hero-canvas {
   position: absolute;
