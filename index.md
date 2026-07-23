@@ -28,7 +28,7 @@ market making, and quantitative investing. Explore the site below.
   <div class="carousel-track">
     <a class="carousel-slide is-active" href="{{ '/experience/' | relative_url }}">
       <span class="carousel-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M20 7h-4V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2ZM10 5h4v2h-4V5Zm10 14H4V9h16v10Z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M3 12.5h18"/></svg>
       </span>
       <span class="carousel-index">01</span>
       <span class="carousel-text">
@@ -38,7 +38,7 @@ market making, and quantitative investing. Explore the site below.
     </a>
     <a class="carousel-slide" href="{{ '/personal/' | relative_url }}">
       <span class="carousel-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16Zm-1.6 4.6 5.6 2.2-2.2 5.6-5.6-2.2 2.2-5.6Z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
       </span>
       <span class="carousel-index">02</span>
       <span class="carousel-text">
@@ -48,7 +48,7 @@ market making, and quantitative investing. Explore the site below.
     </a>
     <a class="carousel-slide" href="{{ '/events/' | relative_url }}">
       <span class="carousel-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8H5v10h14V10Z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
       </span>
       <span class="carousel-index">03</span>
       <span class="carousel-text">
@@ -58,7 +58,7 @@ market making, and quantitative investing. Explore the site below.
     </a>
     <a class="carousel-slide" href="{{ '/contact/' | relative_url }}">
       <span class="carousel-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M2 4h20v16H2V4zm10 7L4 6v2l8 5 8-5V6l-8 5z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
       </span>
       <span class="carousel-index">04</span>
       <span class="carousel-text">
@@ -67,6 +67,12 @@ market making, and quantitative investing. Explore the site below.
       </span>
     </a>
   </div>
+  <button type="button" class="carousel-nav carousel-prev" aria-label="Previous section">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg>
+  </button>
+  <button type="button" class="carousel-nav carousel-next" aria-label="Next section">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+  </button>
   <div class="carousel-dots" role="tablist" aria-label="Choose a section">
     <button type="button" class="is-active" aria-label="Experience &amp; Projects" aria-selected="true"></button>
     <button type="button" aria-label="Personal" aria-selected="false"></button>
@@ -403,7 +409,7 @@ depth, direction = result.depth, result.direction
   </a>
   <a class="nav-card" href="{{ '/contact/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M20 7h-4V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2ZM10 5h4v2h-4V5Zm10 14H4V9h16v10Z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M3 12.5h18"/></svg>
     </span>
     <span class="nav-card-body">
       <span class="nav-card-title">Recruiters &amp; Professional</span>
