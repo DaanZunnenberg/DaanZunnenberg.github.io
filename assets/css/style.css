@@ -1067,6 +1067,16 @@ pre.code-block code {
   filter: brightness(1.2) contrast(1.05);
 }
 
+/* Experience hero: the typing-code widget is the desktop treatment, but on
+   phones the code is too small to read while typing, so fall back to the
+   older live options-chain widget instead. */
+.hero-canvas-mobile { display: none; }
+
+@media (max-width: 640px) {
+  .hero-canvas-desktop { display: none; }
+  .hero-canvas-mobile { display: block; }
+}
+
 .hero-img {
   position: absolute;
   inset: 0;
