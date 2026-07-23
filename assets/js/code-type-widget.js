@@ -13,7 +13,9 @@
   var W, H;
   var FONT_SIZE = 14;
   var LINE_HEIGHT = 21;
-  var PAD_X = 22;
+  var PAD_X_MIN = 22;
+  var PAD_X_INDENT = 460; // clears the left-aligned hero copy + its scrim
+  var PAD_X = PAD_X_MIN;
   var PAD_Y = 26;
 
   var COLOR_DEFAULT = "rgba(220, 223, 230, 0.92)";
@@ -517,6 +519,9 @@
     canvas.style.width = W + "px";
     canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Indent the code so it clears the left-aligned hero copy and its dark
+    // scrim, but never eats so much width the code itself has no room.
+    PAD_X = Math.min(PAD_X_INDENT, Math.max(PAD_X_MIN, W - 260));
   }
 
   function draw(cursorOn) {
