@@ -23,6 +23,10 @@
   --up: #1a9c78;
   --down: #cf3b4c;
 
+  /* Bright ANSI-style terminal colors, used on the dark hero overlays */
+  --term-green: #3cff5e;
+  --term-blue: #4dd2ff;
+
   --mono: "SF Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
 }
@@ -262,12 +266,27 @@ main::before {
   transform: translate(-50%, 0);
 }
 
-/* Cross-link between the professional and academic sections of the site. */
+/* Cross-link between the professional and academic sections of the site.
+   A pill button rather than an underlined link, so it reads as its own
+   action instead of another page in the current section. */
 .nav-switch a {
   padding: 6px 12px;
   border: 1px solid var(--line);
   border-radius: 999px;
   font-size: 13px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-switch a::after {
+  display: none;
+}
+
+.nav-switch a:hover,
+.nav-switch a:focus-visible {
+  background: var(--blue-400);
+  border-color: var(--blue-400);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .nav-dropdown a {
@@ -458,7 +477,7 @@ body.nav-locked {
    directly underneath it rather than squeezed alongside. */
 .profile-cover {
   position: relative;
-  margin: 16px -16px 24px;
+  margin: 0 -16px 24px;
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -507,7 +526,7 @@ body.nav-locked {
 .profile-intro { margin-bottom: 4px; }
 
 @media (max-width: 640px) {
-  .profile-cover { margin: 12px -16px 20px; }
+  .profile-cover { margin: 0 -16px 20px; }
 }
 
 /* Typography */
