@@ -27,8 +27,13 @@
   --term-green: #3cff5e;
   --term-blue: #4dd2ff;
 
+  /* Restrained platinum accent for section marks and hero eyebrows — a
+     cooler, more corporate counterpoint to the cobalt blue used elsewhere. */
+  --accent: var(--blue-950);
+  --accent-bright: #d7dcea;
+
   --mono: "SF Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --serif: "IBM Plex Serif", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
 }
 
 * { box-sizing: border-box; }
@@ -544,7 +549,7 @@ h2 {
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: var(--blue-400);
+  color: var(--ink);
   margin: 52px 0 20px;
   padding: 0 0 10px 16px;
   border-bottom: 1px solid var(--line);
@@ -559,7 +564,7 @@ h2::before {
   bottom: 10px;
   width: 3px;
   border-radius: 2px;
-  background: var(--blue-400);
+  background: var(--accent);
 }
 
 h3 {
@@ -1004,7 +1009,7 @@ pre.code-block code {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--term-blue);
+  color: var(--accent-bright);
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
   white-space: nowrap;
   overflow: hidden;
@@ -1231,16 +1236,17 @@ pre.code-block code {
   letter-spacing: 0.04em;
   color: var(--bg);
   background: var(--blue-400);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 4px;
   padding: 11px 22px;
   text-decoration: none;
   text-shadow: none;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
 
 .cta-button:hover {
   background: var(--blue-300);
+  border-color: var(--accent-bright);
   transform: translateY(-1px);
   color: var(--bg);
 }

@@ -5,7 +5,7 @@ permalink: /academic/mathematics/bousquet-talagrand-inequality/
 ---
 
 <section class="hero">
-  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
+  <canvas id="chaining-tree-canvas" class="hero-canvas" aria-label="Animated dyadic tree with pulses descending root-to-leaf paths, illustrating generic chaining" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Concentration of Measure &middot; Entropy Method</div>
