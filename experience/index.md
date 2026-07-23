@@ -98,6 +98,13 @@ permalink: /experience/
     The implementation constructs the functional operators, performs the volatility recursion, and estimates
     the model parameters through constrained likelihood optimization.
   </p>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
   <pre class="code-block" data-lang="python"><code>def bernstein_basis(u, M, k):
     return comb(M - 1, k - 1) * u ** (k - 1) * (1 - u) ** (M - k)
 
@@ -129,6 +136,9 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
   </p>
   <img src="{{ '/assets/img/garch_vol_surface.png' | relative_url }}" alt="True versus functional GARCH-estimated volatility surface, side by side" class="entry-figure">
   <p class="form-hint">Simulated 25-point intraday grid over 500 trading days; estimated surface via <code>funcgarch.garch.fit</code> + <code>garch_filter</code>.</p>
+    </div>
+    </div>
+  </div>
 </div>
 
 <div class="entry">
@@ -172,8 +182,8 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale on GitHub</a></div>
 
-  <div class="readme-toggle is-open">
-    <button type="button" class="readme-summary" aria-expanded="true">
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
       <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
     </button>
     <div class="readme-collapse">
