@@ -35,14 +35,15 @@
     min-height: 100vh;
   }
 
-  #network {
+  .bg-grain {
     position: fixed;
     inset: 0;
     z-index: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
     pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 180px 180px;
+    opacity: 0.035;
+    mix-blend-mode: multiply;
   }
 
   .frame {
@@ -318,7 +319,7 @@
 </head>
 <body>
 
-<canvas id="network"></canvas>
+<div class="bg-grain" aria-hidden="true"></div>
 
 <div class="frame">
   <div class="card">
@@ -821,170 +822,6 @@
   resize();
   draw();
   scheduleTick();
-
-  // ---- page background network, ported directly from the homepage's
-  // signal-widget.js: nodes drift and bounce off the viewport edges, edges
-  // are rebuilt every frame from live distance, and "traveler" pulses hop
-  // node-to-node at a constant on-screen speed (not tied to hop length)
-  // until they've made a few hops, then despawn. Sits behind the card, on
-  // the page's black background — the card overlays it, it never renders
-  // inside the card itself. ----
-  (function () {
-    const canvas = document.getElementById('network');
-    const ctx = canvas.getContext('2d');
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    let W, H;
-    let LINK_DIST = 150;
-    const TRAVELER_COUNT = 7;
-    const PULSE_PX_PER_MS = 0.16;
-
-    const NODE_COLOR = 'rgba(36, 44, 61, 0.4)';
-    const LINK_COLOR = 'rgba(35, 50, 79, 0.22)';
-    const PULSE_COLOR = 'rgba(31, 122, 92, 0.85)';
-
-    let nodes = [];
-    let travelers = [];
-    let links = [];
-    let lastTs = null;
-
-    function resize() {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      canvas.width = W * dpr;
-      canvas.height = H * dpr;
-      canvas.style.width = W + 'px';
-      canvas.style.height = H + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      LINK_DIST = Math.max(150, Math.min(W, H) * 0.24);
-    }
-
-    function seedNodes() {
-      const nodeCount = Math.max(40, Math.floor((W * H) / 20000));
-      nodes = [];
-      for (let i = 0; i < nodeCount; i++) {
-        nodes.push({
-          x: Math.random() * W,
-          y: Math.random() * H,
-          vx: (Math.random() - 0.5) * 0.32,
-          vy: (Math.random() - 0.5) * 0.32,
-          r: 1.2 + Math.random() * 1.5,
-          phase: Math.random() * Math.PI * 2
-        });
-      }
-    }
-
-    function rebuildLinks() {
-      links = [];
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < LINK_DIST) links.push({ a: nodes[i], b: nodes[j], dist: dist });
-        }
-      }
-    }
-
-    function neighborsOf(node, exclude) {
-      const out = [];
-      links.forEach(function (l) {
-        if (l.a === node && l.b !== exclude) out.push(l.b);
-        else if (l.b === node && l.a !== exclude) out.push(l.a);
-      });
-      return out;
-    }
-
-    function spawnTraveler() {
-      const start = nodes[(Math.random() * nodes.length) | 0];
-      const options = neighborsOf(start, null);
-      if (!options.length) return null;
-      const next = options[(Math.random() * options.length) | 0];
-      return { from: start, to: next, t: 0, hopsRemaining: 2 + ((Math.random() * 3) | 0) };
-    }
-
-    function step(now) {
-      const dt = lastTs == null ? 16 : Math.min(now - lastTs, 64);
-      lastTs = now;
-
-      nodes.forEach(function (n) {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0 || n.x > W) n.vx *= -1;
-        if (n.y < 0 || n.y > H) n.vy *= -1;
-      });
-      rebuildLinks();
-
-      while (travelers.length < TRAVELER_COUNT) {
-        const t = spawnTraveler();
-        if (!t) break;
-        travelers.push(t);
-      }
-
-      travelers.forEach(function (tr) {
-        const dx = tr.to.x - tr.from.x, dy = tr.to.y - tr.from.y;
-        const hopDist = Math.max(1, Math.sqrt(dx * dx + dy * dy));
-        tr.t += (PULSE_PX_PER_MS * dt) / hopDist;
-        if (tr.t >= 1) {
-          tr.hopsRemaining -= 1;
-          if (tr.hopsRemaining <= 0) { tr.dead = true; return; }
-          let options = neighborsOf(tr.to, tr.from);
-          if (!options.length) options = neighborsOf(tr.to, null);
-          if (!options.length) { tr.dead = true; return; }
-          tr.from = tr.to;
-          tr.to = options[(Math.random() * options.length) | 0];
-          tr.t = 0;
-        }
-      });
-      travelers = travelers.filter(function (tr) { return !tr.dead; });
-
-      ctx.clearRect(0, 0, W, H);
-
-      links.forEach(function (l) {
-        ctx.strokeStyle = LINK_COLOR;
-        ctx.lineWidth = 1.6;
-        ctx.beginPath();
-        ctx.moveTo(l.a.x, l.a.y);
-        ctx.lineTo(l.b.x, l.b.y);
-        ctx.stroke();
-      });
-
-      travelers.forEach(function (tr) {
-        const px = tr.from.x + (tr.to.x - tr.from.x) * tr.t;
-        const py = tr.from.y + (tr.to.y - tr.from.y) * tr.t;
-        ctx.fillStyle = PULSE_COLOR;
-        ctx.beginPath();
-        ctx.arc(px, py, 2, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      nodes.forEach(function (n) {
-        const twinkle = 0.85 + 0.15 * Math.sin(now / 1100 + n.phase);
-        ctx.fillStyle = NODE_COLOR;
-        ctx.globalAlpha = twinkle;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      });
-    }
-
-    function loop(ts) {
-      step(ts || performance.now());
-      if (!reduceMotion) requestAnimationFrame(loop);
-    }
-
-    window.addEventListener('resize', function () {
-      resize();
-      seedNodes();
-      travelers = [];
-    });
-    resize();
-    seedNodes();
-
-    if (!reduceMotion) requestAnimationFrame(loop);
-    else step(performance.now());
-  })();
 </script>
 
 </body>
