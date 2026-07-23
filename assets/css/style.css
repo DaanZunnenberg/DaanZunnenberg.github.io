@@ -606,6 +606,31 @@ a:hover { color: var(--blue-300); }
   margin-bottom: 8px;
 }
 
+/* Minimal in-page table of contents: quick links to the site's main
+   sections, styled as quiet text rather than another row of cards. */
+.toc-links {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+  margin: 4px 0 28px;
+}
+
+.toc-links a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toc-links a:hover {
+  color: var(--blue-400);
+}
+
+.toc-links span {
+  margin: 0 8px;
+  color: var(--line);
+}
+
 /* Entry blocks (experience / education / projects) */
 .entry {
   position: relative;
