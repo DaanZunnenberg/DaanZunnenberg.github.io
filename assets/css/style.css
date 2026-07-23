@@ -656,9 +656,9 @@ a:hover { color: var(--blue-300); }
 }
 
 .carousel-icon svg {
-  width: 26px;
-  height: 26px;
-  fill: currentColor;
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
 }
 
 .carousel-slide:hover .carousel-icon {
@@ -697,6 +697,49 @@ a:hover { color: var(--blue-300); }
 .carousel-desc {
   font-size: 14px;
   color: var(--ink-faint);
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg-raised);
+  color: var(--ink-faint);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.carousel:hover .carousel-nav {
+  opacity: 1;
+}
+
+.carousel-nav:hover {
+  color: var(--blue-400);
+  border-color: var(--blue-400);
+}
+
+.carousel-nav svg {
+  width: 15px;
+  height: 15px;
+}
+
+.carousel-prev { left: -15px; }
+.carousel-next { right: -15px; }
+
+@media (max-width: 640px) {
+  .carousel-nav { opacity: 1; }
+  .carousel-prev { left: 4px; }
+  .carousel-next { right: 4px; }
 }
 
 .carousel-dots {

@@ -4,6 +4,8 @@
 
   var slides = root.querySelectorAll(".carousel-slide");
   var dots = root.querySelectorAll(".carousel-dots button");
+  var prevBtn = root.querySelector(".carousel-prev");
+  var nextBtn = root.querySelector(".carousel-next");
   if (slides.length < 2) return;
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -25,6 +27,10 @@
     show((current + 1) % slides.length);
   }
 
+  function prev() {
+    show((current - 1 + slides.length) % slides.length);
+  }
+
   function start() {
     if (reduceMotion || timer) return;
     timer = setInterval(next, INTERVAL);
@@ -44,6 +50,21 @@
       start();
     });
   });
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", function () {
+      prev();
+      stop();
+      start();
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener("click", function () {
+      next();
+      stop();
+      start();
+    });
+  }
 
   root.addEventListener("mouseenter", stop);
   root.addEventListener("mouseleave", start);
