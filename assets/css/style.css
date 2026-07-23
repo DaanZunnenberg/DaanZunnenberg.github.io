@@ -180,11 +180,7 @@ main::before {
 }
 
 .site-mark rect { fill: var(--blue-950); }
-.site-mark text {
-  font-family: var(--serif);
-  font-size: 12px;
-  fill: var(--accent-bright);
-}
+.site-mark .site-mark-bar { fill: var(--accent-bright); }
 
 .site-title span {
   font-family: var(--mono);
@@ -1529,11 +1525,7 @@ code {
 }
 
 .footer-mark svg rect { fill: var(--blue-950); }
-.footer-mark svg text {
-  font-family: var(--serif);
-  font-size: 12px;
-  fill: var(--accent-bright);
-}
+.footer-mark svg .footer-mark-bar { fill: var(--accent-bright); }
 
 .footer-mark span {
   font-family: var(--serif);
