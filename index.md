@@ -20,8 +20,18 @@ title: About
 </section>
 
 <p class="lede">
-I'm a mathematician working in generic chaining theory, driven by a passion for high-frequency trading, market
-making, and quantitative investing. <a href="{{ '/academic/mathematics/' | relative_url }}">Explore the math &rarr;</a>
+I'm a mathematician working in generic chaining theory, with a professional focus on high-frequency trading,
+market making, and quantitative investing.
+</p>
+
+<p class="toc-links">
+  <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="{{ '/personal/' | relative_url }}">Personal</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="{{ '/events/' | relative_url }}">Events</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="{{ '/contact/' | relative_url }}">Contact</a>
 </p>
 
 <h2 id="selected-projects">Selected Projects</h2>
