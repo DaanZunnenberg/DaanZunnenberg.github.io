@@ -86,7 +86,121 @@
       "            if abs(projected) > self.max_inventory:\n" +
       "                raise InventoryLimitError(projected, self.max_inventory)\n" +
       "            self.inventory = projected\n" +
-      "            self.pnl -= sign * size * price"
+      "            self.pnl -= sign * size * price",
+
+    "    @staticmethod\n" +
+      "    @nb.njit(cache=True, parallel=True)\n" +
+      "    def _covariance_matrix(returns: np.ndarray) -> np.ndarray:\n" +
+      "        n, k = returns.shape\n" +
+      "        cov = np.zeros((k, k))\n" +
+      "        means = np.array([returns[:, j].mean() for j in range(k)])\n" +
+      "        for i in nb.prange(k):\n" +
+      "            for j in range(i, k):\n" +
+      "                acc = 0.0\n" +
+      "                for t in range(n):\n" +
+      "                    acc += (returns[t, i] - means[i]) * (returns[t, j] - means[j])\n" +
+      "                cov[i, j] = cov[j, i] = acc / (n - 1)\n" +
+      "        return cov",
+
+    "    @cached_property\n" +
+      "    def _kalman_gain(self) -> np.ndarray:\n" +
+      "        P, H, R = self._prior_cov, self._obs_matrix, self._obs_noise\n" +
+      "        S = H @ P @ H.T + R\n" +
+      "        return P @ H.T @ np.linalg.inv(S)",
+
+    "    async def stream_quotes(self, feed: AsyncIterator[Tick], exchange: ExchangeClient) -> None:\n" +
+      "        async with exchange.session() as session:\n" +
+      "            async for tick in feed:\n" +
+      "                bid, ask = self.quote(tick.mid, tick.t, tick.book)\n" +
+      "                await asyncio.gather(\n" +
+      "                    session.replace(\"bid\", bid, size=self._quote_size),\n" +
+      "                    session.replace(\"ask\", ask, size=self._quote_size),\n" +
+      "                )\n" +
+      "                await asyncio.sleep(self._requote_interval)",
+
+    "    async def _watch_fills(self, exchange: ExchangeClient) -> None:\n" +
+      "        backoff = ExponentialBackoff(base=0.2, cap=5.0)\n" +
+      "        while True:\n" +
+      "            try:\n" +
+      "                async for fill in exchange.fills():\n" +
+      "                    self.on_fill(fill.side, fill.size, fill.price)\n" +
+      "                    backoff.reset()\n" +
+      "            except ExchangeDisconnected:\n" +
+      "                await asyncio.sleep(await backoff.next())\n" +
+      "                await exchange.reconnect()",
+
+    "    @asynccontextmanager\n" +
+      "    async def calibrated(self, window: timedelta = timedelta(minutes=15)):\n" +
+      "        async with self._calibration_lock:\n" +
+      "            snapshot = await self._history.fetch(window)\n" +
+      "            self.gamma, self.kappa = await asyncio.to_thread(self._fit_params, snapshot)\n" +
+      "            try:\n" +
+      "                yield self\n" +
+      "            finally:\n" +
+      "                await self._history.append(snapshot)",
+
+    "    def __init_subclass__(cls, **kwargs: Any) -> None:\n" +
+      "        super().__init_subclass__(**kwargs)\n" +
+      "        _STRATEGY_REGISTRY[cls.__name__] = cls\n" +
+      "        cls._compiled = nb.njit(cls._ewma_vol.__func__)\n" +
+      "\n" +
+      "    def __repr__(self) -> str:\n" +
+      "        return f\"<{type(self).__name__} inv={self.inventory} pnl={self.pnl:.2f}>\"",
+
+    "class FixSession:\n" +
+      "    \"\"\"Thin wrapper over a FIX 4.4 socket connection with heartbeats.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, host: str, port: int, sender_comp_id: str, target_comp_id: str) -> None:\n" +
+      "        self._reader: Optional[asyncio.StreamReader] = None\n" +
+      "        self._writer: Optional[asyncio.StreamWriter] = None\n" +
+      "        self._seq_num = itertools.count(1)\n" +
+      "        self._heartbeat_interval = 30\n" +
+      "        self._pending: Dict[str, asyncio.Future] = {}",
+
+    "    async def connect(self) -> None:\n" +
+      "        self._reader, self._writer = await asyncio.open_connection(self.host, self.port, ssl=self._ssl_ctx)\n" +
+      "        await self._send(logon_message(self.sender_comp_id, self.target_comp_id, next(self._seq_num)))\n" +
+      "        asyncio.create_task(self._heartbeat_loop())\n" +
+      "        asyncio.create_task(self._read_loop())",
+
+    "    async def _read_loop(self) -> None:\n" +
+      "        buffer = bytearray()\n" +
+      "        while not self._reader.at_eof():\n" +
+      "            chunk = await self._reader.read(4096)\n" +
+      "            buffer.extend(chunk)\n" +
+      "            for raw in split_fix_messages(buffer):\n" +
+      "                msg = parse_fix(raw)\n" +
+      "                if msg.msg_type == MsgType.EXECUTION_REPORT:\n" +
+      "                    self._pending.pop(msg.cl_ord_id, None)\n" +
+      "                await self._dispatch(msg)",
+
+    "    async def send_order(self, order: NewOrderSingle) -> ExecutionReport:\n" +
+      "        fut: asyncio.Future = asyncio.get_running_loop().create_future()\n" +
+      "        self._pending[order.cl_ord_id] = fut\n" +
+      "        await self._send(encode_new_order(order, next(self._seq_num)))\n" +
+      "        return await asyncio.wait_for(fut, timeout=2.5)",
+
+    "class TickStore:\n" +
+      "    \"\"\"Append-only columnar buffer for raw exchange ticks, flushed to parquet.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, symbols: Sequence[str], flush_every: int = 50_000) -> None:\n" +
+      "        self._buffers: Dict[str, List[Tick]] = {s: [] for s in symbols}\n" +
+      "        self._flush_every = flush_every\n" +
+      "        self._schema = pa.schema([(\"ts\", pa.int64()), (\"bid\", pa.float64()), (\"ask\", pa.float64()), (\"size\", pa.float64())])",
+
+    "    def ingest(self, symbol: str, raw: bytes) -> None:\n" +
+      "        tick = Tick.from_json(orjson.loads(raw))\n" +
+      "        buf = self._buffers[symbol]\n" +
+      "        buf.append(tick)\n" +
+      "        if len(buf) >= self._flush_every:\n" +
+      "            self._flush(symbol, buf)\n" +
+      "            buf.clear()",
+
+    "    def _flush(self, symbol: str, buf: List[Tick]) -> None:\n" +
+      "        table = pa.Table.from_pylist([t.as_dict() for t in buf], schema=self._schema)\n" +
+      "        path = self._partition_path(symbol, buf[0].ts)\n" +
+      "        pq.write_table(table, path, compression=\"zstd\", use_dictionary=True)\n" +
+      "        self._notify_subscribers(symbol, path)"
   ];
 
   function tokenize(line) {
@@ -178,20 +292,20 @@
         charCount = 0;
         draw(true);
         scheduleNextChar();
-      }, 750);
+      }, 1400);
       return;
     }
-    // Whole chunks (a method at a time) are burst-typed almost instantly;
-    // the only real pause is the beat held once a chunk completes, so it
-    // reads like blocks of code landing rather than a sentence being spoken.
+    // Whole chunks (a method at a time) are burst-typed in one quick pass;
+    // the real pause is the beat held once a chunk completes, so it reads
+    // like blocks of code landing rather than a sentence being spoken.
     var nextChar = fullText[charCount];
-    var delay = 0.5 + Math.random() * 1;
-    if (nextChar === "\n") delay = 6;
+    var delay = 2 + Math.random() * 3;
+    if (nextChar === "\n") delay = 26;
     typingTimer = setTimeout(function () {
       charCount++;
       draw(true);
       if (chunkEnds[charCount]) {
-        typingTimer = setTimeout(scheduleNextChar, 320 + Math.random() * 180);
+        typingTimer = setTimeout(scheduleNextChar, 480 + Math.random() * 260);
       } else {
         scheduleNextChar();
       }
