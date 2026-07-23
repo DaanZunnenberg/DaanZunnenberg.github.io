@@ -10,7 +10,7 @@ permalink: /academic/
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher &middot; Probability &amp; Empirical Processes</div>
     <h1 class="hero-name">Academic</h1>
-    <p class="hero-lede">Research, publications, proofs, and academic life &mdash; separate from the industry side of the site.</p>
+    <p class="hero-lede">Research, publications, proofs, and academic life, kept separate from the industry side of the site.</p>
   </div>
 </section>
 
