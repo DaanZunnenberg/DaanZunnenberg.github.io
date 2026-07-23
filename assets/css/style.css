@@ -34,6 +34,14 @@
   --accent: var(--blue-950);
   --accent-bright: #dcdfe6;
 
+  /* Shared border tone for the dark "terminal" cards (hero, code blocks,
+     market widget), and two restrained metallic tones used sparingly for
+     small accents on those same dark surfaces. */
+  --line-dark: #242c3d;
+  --metal-gold: #b7a066;
+  --metal-silver: #b8c0cc;
+  --code-red: #c9707a;
+
   --mono: "SF Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
   --serif: "IBM Plex Serif", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
 }
@@ -87,7 +95,7 @@ body::after {
   z-index: -1;
   pointer-events: none;
   background:
-    linear-gradient(180deg, var(--bg) 0%, rgba(245, 247, 251, 0) 14%, rgba(245, 247, 251, 0) 78%, var(--bg) 100%);
+    linear-gradient(180deg, var(--bg) 0%, rgba(248, 247, 243, 0) 14%, rgba(248, 247, 243, 0) 78%, var(--bg) 100%);
 }
 
 .wrap {
@@ -147,7 +155,7 @@ main::before {
   padding: 12px 16px;
   margin: 0 -16px;
   width: calc(100% + 32px);
-  background: rgba(245, 247, 251, 0.86);
+  background: rgba(248, 247, 243, 0.86);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom-color: transparent;
@@ -281,7 +289,7 @@ main::before {
 .nav-switch a:focus-visible {
   background: var(--blue-400);
   border-color: var(--blue-400);
-  color: #fff;
+  color: var(--bg);
   transform: translateY(-1px);
 }
 
@@ -439,7 +447,7 @@ body.nav-locked {
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    box-shadow: -18px 0 40px -20px rgba(22, 27, 40, 0.35);
+    box-shadow: -18px 0 40px -20px rgba(20, 24, 31, 0.35);
     transform: translateX(100%);
     transition: transform 0.28s ease;
     z-index: 40;
@@ -632,7 +640,7 @@ a:hover { color: var(--blue-300); }
   border-color: var(--blue-600);
   border-left-color: var(--blue-400);
   transform: translateX(2px);
-  box-shadow: 0 0 0 1px rgba(53, 104, 224, 0.15), 0 10px 30px -14px var(--blue-glow);
+  box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.15), 0 10px 30px -14px var(--blue-glow);
 }
 
 .entry-head {
@@ -810,13 +818,13 @@ main p {
   font-style: normal;
 }
 
-/* GitHub Dark default theme palette, for code blocks specifically */
+/* Dark "terminal" card, matching the hero/market-widget treatment */
 pre.code-block {
   position: relative;
   margin: 6px 0 0;
   padding: 20px 14px 12px;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--blue-950);
+  border: 1px solid var(--line-dark);
   border-radius: 2px;
   overflow-x: auto;
   font-family: ui-monospace, var(--mono);
@@ -831,7 +839,7 @@ pre.code-block[data-lang]::before {
   top: 6px;
   right: 12px;
   font-size: 10px;
-  color: #6e7681;
+  color: var(--ink-faint);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -839,7 +847,7 @@ pre.code-block[data-lang]::before {
 pre.code-block code {
   background: none;
   padding: 0;
-  color: #c9d1d9;
+  color: var(--accent-bright);
   font-size: 1em;
   text-shadow: none;
 }
@@ -848,15 +856,15 @@ pre.code-block code {
   display: block;
   width: 100%;
   margin: 10px 0 0;
-  border: 1px solid #232d47;
+  border: 1px solid var(--line-dark);
   border-radius: 2px;
 }
 
-.tok-comment { color: #8b949e; }
-.tok-string { color: #a5d6ff; }
-.tok-number { color: #79c0ff; }
-.tok-func { color: #d2a8ff; }
-.tok-keyword { color: #ff7b72; }
+.tok-comment { color: var(--ink-faint); }
+.tok-string { color: var(--metal-silver); }
+.tok-number { color: var(--term-blue); }
+.tok-func { color: var(--metal-gold); }
+.tok-keyword { color: var(--code-red); }
 
 /* Live market widget: a contained, dark "terminal" card (same treatment as the
    code blocks above) showing a small live BTC/ETH options chain. Scoped to this
@@ -866,8 +874,8 @@ pre.code-block code {
   margin-top: 12px;
   border-radius: 2px;
   overflow: hidden;
-  border: 1px solid #30363d;
-  background: #0b0f18;
+  border: 1px solid var(--line-dark);
+  background: var(--blue-950);
 }
 
 .market-widget canvas {
@@ -891,8 +899,8 @@ pre.code-block code {
   min-height: 320px;
   overflow: hidden;
   border-radius: 2px;
-  border: 1px solid #232d47;
-  background: #0b0f18;
+  border: 1px solid var(--line-dark);
+  background: var(--blue-950);
 }
 
 .hero #market-widget-canvas,
@@ -994,7 +1002,7 @@ pre.code-block code {
   margin: 8px 0 10px;
   font-size: 38px;
   line-height: 1.1;
-  color: #f6f8fc;
+  color: #f3f1ea;
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.85);
 }
 
@@ -1002,7 +1010,7 @@ pre.code-block code {
   font-family: var(--mono);
   font-size: 14px;
   line-height: 1.6;
-  color: rgba(243, 245, 250, 0.92);
+  color: rgba(243, 241, 234, 0.92);
   text-shadow: 0 1px 18px rgba(0, 0, 0, 0.8);
   margin-bottom: 20px;
 }
@@ -1020,7 +1028,7 @@ pre.code-block code {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: rgba(243, 245, 250, 0.85);
+  color: rgba(243, 241, 234, 0.85);
   text-decoration: none;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
 }
@@ -1053,7 +1061,7 @@ pre.code-block code {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #06110c;
+  color: var(--blue-950);
   background: var(--term-green);
   padding: 4px 8px;
   border-radius: 2px;
@@ -1097,7 +1105,7 @@ pre.code-block code {
 .contact-form:focus-within {
   border-color: var(--blue-600);
   border-left-color: var(--blue-400);
-  box-shadow: 0 0 0 1px rgba(53, 104, 224, 0.15), 0 10px 30px -14px var(--blue-glow);
+  box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.15), 0 10px 30px -14px var(--blue-glow);
 }
 
 .form-row {
@@ -1313,7 +1321,7 @@ pre.code-block code {
   border-color: var(--blue-600);
   background: rgba(255, 255, 255, 0.75);
   transform: translateY(-3px);
-  box-shadow: 0 0 0 1px rgba(53, 104, 224, 0.15), 0 16px 34px -16px var(--blue-glow);
+  box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.15), 0 16px 34px -16px var(--blue-glow);
 }
 
 .nav-card:hover::before {
@@ -1341,7 +1349,7 @@ pre.code-block code {
 
 .nav-card:hover .nav-card-icon {
   background: var(--blue-400);
-  color: #fff;
+  color: var(--bg);
   transform: scale(1.06);
 }
 
@@ -1389,7 +1397,7 @@ code {
   font-family: var(--mono);
   font-size: 0.85em;
   color: var(--blue-300);
-  background: rgba(53, 104, 224, 0.12);
+  background: rgba(35, 50, 79, 0.12);
   padding: 1px 5px;
   border-radius: 2px;
 }
@@ -1410,7 +1418,7 @@ code {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 14px 30px -16px rgba(22, 27, 40, 0.45);
+  box-shadow: 0 14px 30px -16px rgba(20, 24, 31, 0.45);
   color: var(--ink-soft);
   cursor: pointer;
   opacity: 0;
