@@ -59,25 +59,6 @@ permalink: /experience/
         order flow signals, models of queue position, execution that accounts for latency, and exchange-specific
         risk controls.
       </p>
-      <p><strong>Python code:</strong> async quote-management loop illustrating live deployment:</p>
-      <pre class="code-block" data-lang="python"><code>async def market_maker(feed, exchange, model):
-    while True:
-        market = await feed.next_update()
-
-        state = {
-            "mid": market.mid,
-            "inventory": await exchange.inventory(),
-            "volatility": market.volatility,
-        }
-
-        quotes = model.compute_quotes(state)
-
-        await exchange.cancel_stale_orders()
-        await exchange.place_quotes(quotes)
-
-        await asyncio.sleep(0.01)
-</code></pre>
-      <p class="form-hint">Illustrative formulation of the class of technique; production market-making systems typically use proprietary calibration, execution models, risk controls, and infrastructure.</p>
     </div>
     </div>
   </div>
