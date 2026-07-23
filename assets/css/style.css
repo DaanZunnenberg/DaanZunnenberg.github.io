@@ -606,29 +606,62 @@ a:hover { color: var(--blue-300); }
   margin-bottom: 8px;
 }
 
-/* Minimal in-page table of contents: quick links to the site's main
-   sections, styled as quiet text rather than another row of cards. */
-.toc-links {
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 0.02em;
-  color: var(--ink-faint);
-  margin: 4px 0 28px;
+/* In-page table of contents to the site's main sections, styled like a
+   prospectus/annual-report contents page: numbered rows, serif titles,
+   hairline rules, an arrow that only reveals itself on hover. */
+.toc {
+  border-top: 1px solid var(--line);
+  margin: 8px 0 32px;
 }
 
-.toc-links a {
-  color: var(--ink-soft);
+.toc-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 15px 6px;
+  border-bottom: 1px solid var(--line-soft);
   text-decoration: none;
+  transition: padding-left 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toc-index {
+  flex: none;
+  width: 22px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+.toc-title {
+  flex: 1;
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--ink);
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.toc-links a:hover {
+.toc-arrow {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--blue-400);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toc-row:hover {
+  padding-left: 12px;
+  background: var(--bg-1);
+}
+
+.toc-row:hover .toc-title {
   color: var(--blue-400);
 }
 
-.toc-links span {
-  margin: 0 8px;
-  color: var(--line);
+.toc-row:hover .toc-arrow {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* Entry blocks (experience / education / projects) */

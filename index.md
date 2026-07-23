@@ -24,15 +24,28 @@ I'm a mathematician working in generic chaining theory, with a professional focu
 market making, and quantitative investing.
 </p>
 
-<p class="toc-links">
-  <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a>
-  <span aria-hidden="true">&middot;</span>
-  <a href="{{ '/personal/' | relative_url }}">Personal</a>
-  <span aria-hidden="true">&middot;</span>
-  <a href="{{ '/events/' | relative_url }}">Events</a>
-  <span aria-hidden="true">&middot;</span>
-  <a href="{{ '/contact/' | relative_url }}">Contact</a>
-</p>
+<nav class="toc" aria-label="Site contents">
+  <a class="toc-row" href="{{ '/experience/' | relative_url }}">
+    <span class="toc-index">01</span>
+    <span class="toc-title">Experience &amp; Projects</span>
+    <span class="toc-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <a class="toc-row" href="{{ '/personal/' | relative_url }}">
+    <span class="toc-index">02</span>
+    <span class="toc-title">Personal</span>
+    <span class="toc-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <a class="toc-row" href="{{ '/events/' | relative_url }}">
+    <span class="toc-index">03</span>
+    <span class="toc-title">Events</span>
+    <span class="toc-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <a class="toc-row" href="{{ '/contact/' | relative_url }}">
+    <span class="toc-index">04</span>
+    <span class="toc-title">Contact</span>
+    <span class="toc-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+</nav>
 
 <h2 id="selected-projects">Selected Projects</h2>
 
