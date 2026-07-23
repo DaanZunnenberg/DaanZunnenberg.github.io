@@ -24,20 +24,11 @@ I'm a mathematician working in generic chaining theory, driven by a passion for 
 making, and quantitative investing. <a href="{{ '/mathematics/' | relative_url }}">Explore the math &rarr;</a>
 </p>
 
-<div class="stat-strip">
-  <div class="stat-item">
-    <span class="stat-number">5.8%</span>
-    <span class="stat-label">average slippage cut in live market making</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">3</span>
-    <span class="stat-label">open source research libraries</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">PhD</span>
-    <span class="stat-label">probability theory, Leiden University</span>
-  </div>
-</div>
+<p class="stat-strip">
+  <span class="stat-item">3 open source research repos</span>
+  <span class="stat-item">PhD in probability theory</span>
+  <span class="stat-item">4 roles in quant trading and research</span>
+</p>
 
 <h2 id="selected-projects">Selected Projects</h2>
 

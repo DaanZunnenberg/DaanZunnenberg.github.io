@@ -653,32 +653,20 @@ a:hover { color: var(--blue-300); }
 .stat-strip {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
-  margin: 24px 0 36px;
-}
-
-.stat-item {
-  flex: 1 1 200px;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-top: 2px solid var(--blue-400);
-  border-radius: 8px;
-  background: var(--bg-raised);
-}
-
-.stat-number {
-  display: block;
+  align-items: center;
+  gap: 10px 14px;
   font-family: var(--mono);
-  font-weight: 700;
-  font-size: 22px;
-  color: var(--ink);
-}
-
-.stat-label {
-  display: block;
   font-size: 13px;
   color: var(--ink-soft);
-  margin-top: 4px;
+  margin: 0 0 28px;
+}
+
+.stat-item { white-space: nowrap; }
+
+.stat-item:not(:last-child)::after {
+  content: "\00b7";
+  margin-left: 14px;
+  color: var(--line);
 }
 
 /* Entry blocks (experience / education / projects) */
