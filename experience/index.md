@@ -91,7 +91,7 @@ permalink: /experience/
   <div class="entry-org">Amsterdam, Netherlands</div>
   <p>
     Collaborated with <strong>Yicong Lin</strong> and <strong>Andre Lucas</strong> on robust observation-driven
-    dynamics for functional location-scale models (see <a href="{{ '/research/' | relative_url }}">Publications</a>).
+    dynamics for functional location-scale models (see <a href="{{ '/academic/research/' | relative_url }}">Publications</a>).
     My contribution focused on the estimation and implementation of the functional volatility component. By
     projecting infinite-dimensional conditional variance operators onto a finite Bernstein polynomial basis,
     the QMLE problem, with its positivity constraints, is reduced to a bounded, finite-dimensional optimization.
@@ -600,7 +600,7 @@ python examples/ewma_fhs_example.py
     stochastic processes, applied to weak convergence and Donsker&ndash;Skorokhod-type results under absolute
     regularity. I also organize and lead a weekly graduate seminar on weak convergence and empirical process
     theory. The full technical writeup, including a walkthrough of the \(\gamma_2\) functional and the
-    majorizing measure theorem, is on the <a href="{{ '/research/' | relative_url }}">Research</a> page.
+    majorizing measure theorem, is on the <a href="{{ '/academic/research/' | relative_url }}">Research</a> page.
   </p>
 </div>
 

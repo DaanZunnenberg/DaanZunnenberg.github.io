@@ -20,7 +20,50 @@
       </button>
       <div class="nav-overlay" id="nav-overlay"></div>
 
+      {% assign is_academic = page.url contains '/academic/' %}
+
       <!-- Desktop: grouped hierarchy to keep the top-level item count down -->
+      {% if is_academic %}
+      <nav class="site-nav site-nav-desktop" aria-hidden="true">
+        <div class="nav-item">
+          <a href="{{ '/academic/' | relative_url }}" {% if page.url == '/academic/' %}class="active"{% endif %}>Academic</a>
+        </div>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/academic/research/' | relative_url }}" {% if page.url == '/academic/research/' %}class="active"{% endif %}>Research</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/academic/research/#research-interests' | relative_url }}">Research interests</a>
+            <a href="{{ '/academic/research/#current-work' | relative_url }}">Current work</a>
+            <a href="{{ '/academic/research/#past-research' | relative_url }}">Past research</a>
+            <a href="{{ '/academic/research/#publications' | relative_url }}">Publications</a>
+          </div>
+        </div>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/academic/mathematics/' | relative_url }}" {% if page.url contains '/academic/mathematics' %}class="active"{% endif %}>Math</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/academic/mathematics/generic-chaining/' | relative_url }}">Generic chaining</a>
+            <a href="{{ '/academic/mathematics/majorizing-measure-theorem/' | relative_url }}">Majorizing Measure Theorem</a>
+            <a href="{{ '/academic/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
+            <a href="{{ '/academic/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
+          </div>
+        </div>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/academic/schools-workshops/' | relative_url }}" {% if page.url == '/academic/schools-workshops/' %}class="active"{% endif %}>Schools &amp; Workshops</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/academic/schools-workshops/#summer-winter-schools' | relative_url }}">Summer &amp; winter schools</a>
+            <a href="{{ '/academic/schools-workshops/#workshops' | relative_url }}">Workshops</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="{{ '/academic/notes/' | relative_url }}" {% if page.url == '/academic/notes/' %}class="active"{% endif %}>Notes</a>
+        </div>
+        <div class="nav-item">
+          <a href="{{ '/academic/contact/' | relative_url }}" {% if page.url == '/academic/contact/' %}class="active"{% endif %}>Contact</a>
+        </div>
+        <div class="nav-item nav-switch">
+          <a href="{{ '/' | relative_url }}">Professional site &rarr;</a>
+        </div>
+      </nav>
+      {% else %}
       <nav class="site-nav site-nav-desktop" aria-hidden="true">
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>About</a>
@@ -51,24 +94,6 @@
           </div>
         </div>
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' %}class="active"{% endif %}>Research</a>
-          <div class="nav-dropdown">
-            <a href="{{ '/research/#research-interests' | relative_url }}">Research interests</a>
-            <a href="{{ '/research/#current-work' | relative_url }}">Current work</a>
-            <a href="{{ '/research/#past-research' | relative_url }}">Past research</a>
-            <a href="{{ '/research/#publications' | relative_url }}">Publications</a>
-          </div>
-        </div>
-        <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/mathematics/' | relative_url }}" {% if page.url contains 'mathematics' %}class="active"{% endif %}>Math</a>
-          <div class="nav-dropdown">
-            <a href="{{ '/mathematics/generic-chaining/' | relative_url }}">Generic chaining</a>
-            <a href="{{ '/mathematics/majorizing-measure-theorem/' | relative_url }}">Majorizing Measure Theorem</a>
-            <a href="{{ '/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
-            <a href="{{ '/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
-          </div>
-        </div>
-        <div class="nav-item nav-has-dropdown">
           <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
           <div class="nav-dropdown">
             <a href="{{ '/personal/#research-briefly' | relative_url }}">Research, briefly</a>
@@ -77,32 +102,55 @@
           </div>
         </div>
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/contact/' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}>Updates, Events &amp; Contact</a>
-          <div class="nav-dropdown nav-dropdown-grouped">
-            <div class="nav-dropdown-group">
-              <a class="nav-dropdown-heading" href="{{ '/contact/talks-seminars/' | relative_url }}">Talks &amp; Seminars</a>
-              <a href="{{ '/contact/talks-seminars/#upcoming' | relative_url }}">Upcoming</a>
-              <a href="{{ '/contact/talks-seminars/#past' | relative_url }}">Past</a>
-            </div>
-            <div class="nav-dropdown-group">
-              <a class="nav-dropdown-heading" href="{{ '/contact/schools-workshops/' | relative_url }}">Schools &amp; Workshops</a>
-              <a href="{{ '/contact/schools-workshops/#summer-winter-schools' | relative_url }}">Summer &amp; winter schools</a>
-              <a href="{{ '/contact/schools-workshops/#workshops' | relative_url }}">Workshops</a>
-            </div>
-            <div class="nav-dropdown-group">
-              <a class="nav-dropdown-heading" href="{{ '/contact/notes-achievements/' | relative_url }}">Notes</a>
-              <a href="{{ '/contact/notes-achievements/#latest' | relative_url }}">Latest</a>
-            </div>
-            <div class="nav-dropdown-group">
-              <a class="nav-dropdown-heading" href="{{ '/contact/' | relative_url }}">Contact</a>
-              <a href="{{ '/contact/research/' | relative_url }}">Academic contact</a>
-              <a href="{{ '/contact/recruiters/' | relative_url }}">Professional contact</a>
-            </div>
+          <a href="{{ '/events/' | relative_url }}" {% if page.url == '/events/' %}class="active"{% endif %}>Events</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/events/#upcoming' | relative_url }}">Upcoming</a>
+            <a href="{{ '/events/#past' | relative_url }}">Past</a>
           </div>
         </div>
+        <div class="nav-item">
+          <a href="{{ '/contact/' | relative_url }}" {% if page.url == '/contact/' %}class="active"{% endif %}>Contact</a>
+        </div>
+        <div class="nav-item nav-switch">
+          <a href="{{ '/academic/' | relative_url }}">Academic site &rarr;</a>
+        </div>
       </nav>
+      {% endif %}
 
-      <!-- Mobile: flat list, unchanged -->
+      <!-- Mobile: flat list -->
+      {% if is_academic %}
+      <nav class="site-nav site-nav-mobile" id="site-nav">
+        <a href="{{ '/academic/' | relative_url }}" {% if page.url == '/academic/' %}class="active"{% endif %}>Academic</a>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/academic/research/' | relative_url }}" {% if page.url == '/academic/research/' %}class="active"{% endif %}>Research</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/academic/research/#research-interests' | relative_url }}">Research interests</a>
+            <a href="{{ '/academic/research/#current-work' | relative_url }}">Current work</a>
+            <a href="{{ '/academic/research/#past-research' | relative_url }}">Past research</a>
+            <a href="{{ '/academic/research/#publications' | relative_url }}">Publications</a>
+          </div>
+        </div>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/academic/mathematics/' | relative_url }}" {% if page.url contains '/academic/mathematics' %}class="active"{% endif %}>Math</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/academic/mathematics/generic-chaining/' | relative_url }}">Generic chaining</a>
+            <a href="{{ '/academic/mathematics/majorizing-measure-theorem/' | relative_url }}">Majorizing Measure Theorem</a>
+            <a href="{{ '/academic/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
+            <a href="{{ '/academic/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
+          </div>
+        </div>
+        <div class="nav-item nav-has-dropdown">
+          <a href="{{ '/academic/schools-workshops/' | relative_url }}" {% if page.url == '/academic/schools-workshops/' %}class="active"{% endif %}>Schools &amp; Workshops</a>
+          <div class="nav-dropdown">
+            <a href="{{ '/academic/schools-workshops/#summer-winter-schools' | relative_url }}">Summer &amp; winter schools</a>
+            <a href="{{ '/academic/schools-workshops/#workshops' | relative_url }}">Workshops</a>
+          </div>
+        </div>
+        <a href="{{ '/academic/notes/' | relative_url }}" {% if page.url == '/academic/notes/' %}class="active"{% endif %}>Notes</a>
+        <a href="{{ '/academic/contact/' | relative_url }}" {% if page.url == '/academic/contact/' %}class="active"{% endif %}>Contact</a>
+        <a href="{{ '/' | relative_url }}" class="nav-switch">Professional site &rarr;</a>
+      </nav>
+      {% else %}
       <nav class="site-nav site-nav-mobile" id="site-nav">
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>About</a>
@@ -126,36 +174,18 @@
             <a href="{{ '/experience/#skills' | relative_url }}">Skills</a>
           </div>
         </div>
-        <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' %}class="active"{% endif %}>Research &amp; Publications</a>
-          <div class="nav-dropdown">
-            <a href="{{ '/research/#research-interests' | relative_url }}">Research interests</a>
-            <a href="{{ '/research/#current-work' | relative_url }}">Current work</a>
-            <a href="{{ '/research/#past-research' | relative_url }}">Past research</a>
-            <a href="{{ '/research/#publications' | relative_url }}">Publications</a>
-          </div>
-        </div>
-        <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/mathematics/' | relative_url }}" {% if page.url contains 'mathematics' %}class="active"{% endif %}>Math</a>
-          <div class="nav-dropdown">
-            <a href="{{ '/mathematics/generic-chaining/' | relative_url }}">Generic chaining</a>
-            <a href="{{ '/mathematics/majorizing-measure-theorem/' | relative_url }}">Majorizing Measure Theorem</a>
-            <a href="{{ '/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
-            <a href="{{ '/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
-          </div>
-        </div>
         <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/contact/' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}>Updates, Events &amp; Contact</a>
+          <a href="{{ '/events/' | relative_url }}" {% if page.url == '/events/' %}class="active"{% endif %}>Events</a>
           <div class="nav-dropdown">
-            <a href="{{ '/contact/talks-seminars/' | relative_url }}">Talks &amp; Seminars</a>
-            <a href="{{ '/contact/schools-workshops/' | relative_url }}">Schools &amp; Workshops</a>
-            <a href="{{ '/contact/notes-achievements/' | relative_url }}">Notes</a>
-            <a href="{{ '/contact/research/' | relative_url }}">Academic contact</a>
-            <a href="{{ '/contact/recruiters/' | relative_url }}">Professional contact</a>
+            <a href="{{ '/events/#upcoming' | relative_url }}">Upcoming</a>
+            <a href="{{ '/events/#past' | relative_url }}">Past</a>
           </div>
         </div>
+        <a href="{{ '/contact/' | relative_url }}" {% if page.url == '/contact/' %}class="active"{% endif %}>Contact</a>
+        <a href="{{ '/academic/' | relative_url }}" class="nav-switch">Academic site &rarr;</a>
       </nav>
+      {% endif %}
     </header>
 
     <main>
@@ -167,14 +197,26 @@
     </button>
 
     <footer class="site-footer">
+      {% if is_academic %}
+      <nav class="footer-nav">
+        <a href="{{ '/academic/' | relative_url }}">Academic</a>
+        <a href="{{ '/academic/research/' | relative_url }}">Research &amp; Publications</a>
+        <a href="{{ '/academic/mathematics/' | relative_url }}">Math</a>
+        <a href="{{ '/academic/schools-workshops/' | relative_url }}">Schools &amp; Workshops</a>
+        <a href="{{ '/academic/notes/' | relative_url }}">Notes</a>
+        <a href="{{ '/academic/contact/' | relative_url }}">Contact</a>
+        <a href="{{ '/' | relative_url }}">Professional site &rarr;</a>
+      </nav>
+      {% else %}
       <nav class="footer-nav">
         <a href="{{ '/' | relative_url }}">About</a>
         <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a>
-        <a href="{{ '/research/' | relative_url }}">Research &amp; Publications</a>
-        <a href="{{ '/mathematics/' | relative_url }}">Mathematics</a>
         <a href="{{ '/personal/' | relative_url }}">Personal</a>
-        <a href="{{ '/contact/' | relative_url }}">Updates, Events &amp; Contact</a>
+        <a href="{{ '/events/' | relative_url }}">Events</a>
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
+        <a href="{{ '/academic/' | relative_url }}">Academic site &rarr;</a>
       </nav>
+      {% endif %}
 
       <div class="footer-links">
         <a href="mailto:{{ site.email }}"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20v16H2V4zm10 7L4 6v2l8 5 8-5V6l-8 5z"/></svg>Email</a>

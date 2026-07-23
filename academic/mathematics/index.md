@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Mathematics
-permalink: /mathematics/
+permalink: /academic/mathematics/
 ---
 
 <section class="hero">
@@ -40,7 +40,7 @@ of measure via the entropy method.
 </p>
 
 <div class="nav-cards nav-cards-single">
-  <a class="nav-card" href="{{ '/mathematics/generic-chaining/' | relative_url }}">
+  <a class="nav-card" href="{{ '/academic/mathematics/generic-chaining/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M8 12a4 4 0 0 1 4-4h3a4 4 0 1 1 0 8h-1.5v-2H15a2 2 0 1 0 0-4h-3a2 2 0 0 0-2 2v.5H8.5V12H8Zm8 0a4 4 0 0 1-4 4H9a4 4 0 1 1 0-8h1.5v2H9a2 2 0 1 0 0 4h3a2 2 0 0 0 2-2v-.5h1.5V12H16Z"/></svg>
     </span>
@@ -50,7 +50,7 @@ of measure via the entropy method.
     </span>
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
-  <a class="nav-card" href="{{ '/mathematics/majorizing-measure-theorem/' | relative_url }}">
+  <a class="nav-card" href="{{ '/academic/mathematics/majorizing-measure-theorem/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M2 19h20v2H2v-2Zm2-1c1.7-7.2 3.6-12.5 8-12.5s6.3 5.3 8 12.5H4Z"/></svg>
     </span>
@@ -60,7 +60,7 @@ of measure via the entropy method.
     </span>
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
-  <a class="nav-card" href="{{ '/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">
+  <a class="nav-card" href="{{ '/academic/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M4 20v-8h3v8H4Zm6.5 0V5h3v15h-3ZM17 20v-5h3v5h-3Z"/></svg>
     </span>
@@ -70,7 +70,7 @@ of measure via the entropy method.
     </span>
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
-  <a class="nav-card" href="{{ '/mathematics/bousquet-talagrand-inequality/' | relative_url }}">
+  <a class="nav-card" href="{{ '/academic/mathematics/bousquet-talagrand-inequality/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Zm0 8-8-4v6l8 4 8-4V6l-8 4Z"/></svg>
     </span>
@@ -82,4 +82,4 @@ of measure via the entropy method.
   </a>
 </div>
 
-<p><a href="{{ '/' | relative_url }}">&larr; Back to About</a></p>
+<p><a href="{{ '/academic/' | relative_url }}">&larr; Back to Academic</a></p>

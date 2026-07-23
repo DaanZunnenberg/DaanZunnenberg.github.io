@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Notes
-permalink: /contact/notes-achievements/
+permalink: /academic/notes/
 ---
 
 <section class="hero hero-scroll">
@@ -30,4 +30,4 @@ permalink: /contact/notes-achievements/
   </p>
 </div>
 
-<p><a href="{{ '/contact/' | relative_url }}">&larr; Back to Updates, Events &amp; Contact</a></p>
+<p><a href="{{ '/academic/' | relative_url }}">&larr; Back to Academic</a></p>

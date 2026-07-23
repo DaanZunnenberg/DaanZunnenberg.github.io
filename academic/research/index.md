@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Research & Publications
-permalink: /research/
+permalink: /academic/research/
 ---
 
 <section class="hero hero-scroll">
@@ -49,7 +49,7 @@ relaxed.
   <p>
     In short: I study how to bound the supremum of a stochastic process from its geometry alone, and how much
     of that machinery survives once you drop independence. My favorite result in the toolkit is Talagrand's
-    majorizing measure theorem. <a href="{{ '/mathematics/majorizing-measure-theorem/' | relative_url }}">The full proof is
+    majorizing measure theorem. <a href="{{ '/academic/mathematics/majorizing-measure-theorem/' | relative_url }}">The full proof is
     written up here</a>.
   </p>
 
@@ -277,5 +277,7 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
 <p>
   A full, up-to-date list is also maintained on
   <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>.
-  For collaboration proposals or seminar invitations, <a href="{{ '/contact/research/' | relative_url }}">get in touch</a>.
+  For collaboration proposals or seminar invitations, <a href="{{ '/academic/contact/' | relative_url }}">get in touch</a>.
 </p>
+
+<p><a href="{{ '/academic/' | relative_url }}">&larr; Back to Academic</a></p>

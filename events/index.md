@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Talks & Seminars
-permalink: /contact/talks-seminars/
+title: Events
+permalink: /events/
 ---
 
 <section class="hero hero-scroll">
@@ -9,7 +9,7 @@ permalink: /contact/talks-seminars/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
-    <h1 class="hero-name">Talks &amp; Seminars<span class="cursor">_</span></h1>
+    <h1 class="hero-name">Events<span class="cursor">_</span></h1>
     <p class="hero-lede">Conferences, talks, posters, and seminars I&rsquo;m giving or attending, upcoming and past.</p>
   </div>
 </section>
@@ -203,4 +203,4 @@ permalink: /contact/talks-seminars/
   </div>
 </div>
 
-<p><a href="{{ '/contact/' | relative_url }}">&larr; Back to Updates, Events &amp; Contact</a></p>
+<p><a href="{{ '/' | relative_url }}">&larr; Back to About</a></p>

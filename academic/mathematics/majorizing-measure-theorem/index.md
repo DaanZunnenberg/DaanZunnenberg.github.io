@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Proof of the Majorizing Measure Theorem
-permalink: /mathematics/majorizing-measure-theorem/
+permalink: /academic/mathematics/majorizing-measure-theorem/
 ---
 
 <section class="hero">
@@ -747,4 +747,4 @@ Let us retrace the argument once more. Admissible sequences of partitions and th
 </p>
 
 
-<p><a href="{{ '/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>
+<p><a href="{{ '/academic/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>
