@@ -24,28 +24,79 @@
   var COLOR_NUM = "rgba(201, 112, 122, 0.95)";
   var CURSOR = "rgba(220, 223, 230, 0.85)";
 
-  var KEYWORDS = ["class", "def", "self", "return", "if", "else", "elif", "for", "in", "import", "from", "True", "False", "None"];
+  var KEYWORDS = ["class", "def", "self", "return", "if", "else", "elif", "for", "in", "while", "import", "from", "True", "False", "None", "not", "and", "or", "raise", "try", "except"];
 
   var LINES = [
     "import numpy as np",
+    "from collections import deque",
     "",
-    "class MarketMaker:",
-    "    def __init__(self, symbol, model):",
-    "        self.symbol = symbol",
-    "        self.model = model",
+    "class AvellanedaStoikovMarketMaker:",
+    "    \"\"\"Optimal quoting under inventory risk (Avellaneda-Stoikov, 2008).\"\"\"",
+    "",
+    "    def __init__(self, gamma=0.1, k=1.5, horizon=1.0, max_inventory=50):",
+    "        self.gamma = gamma",
+    "        self.k = k",
+    "        self.horizon = horizon",
+    "        self.max_inventory = max_inventory",
     "        self.inventory = 0",
+    "        self.pnl = 0.0",
+    "        self.returns = deque(maxlen=200)",
+    "        self.last_mid = None",
     "",
-    "    def quote(self, mid, sigma):",
-    "        skew = self.model.skew(self.inventory)",
-    "        half_spread = self.model.spread(sigma) / 2",
-    "        bid = mid - half_spread - skew",
-    "        ask = mid + half_spread - skew",
+    "    def update_volatility(self, mid_price):",
+    "        if self.last_mid is not None:",
+    "            self.returns.append(np.log(mid_price / self.last_mid))",
+    "        self.last_mid = mid_price",
+    "        if len(self.returns) < 20:",
+    "            return 0.02",
+    "        return float(np.std(self.returns) * np.sqrt(252 * 6.5 * 3600))",
+    "",
+    "    def reservation_price(self, mid, sigma, t):",
+    "        time_left = max(self.horizon - t, 1e-6)",
+    "        return mid - self.inventory * self.gamma * sigma ** 2 * time_left",
+    "",
+    "    def optimal_spread(self, sigma, t):",
+    "        time_left = max(self.horizon - t, 1e-6)",
+    "        variance_term = self.gamma * sigma ** 2 * time_left",
+    "        intensity_term = (2 / self.gamma) * np.log(1 + self.gamma / self.k)",
+    "        return variance_term + intensity_term",
+    "",
+    "    def quote(self, mid, t):",
+    "        sigma = self.update_volatility(mid)",
+    "        r = self.reservation_price(mid, sigma, t)",
+    "        spread = self.optimal_spread(sigma, t)",
+    "        bid = r - spread / 2",
+    "        ask = r + spread / 2",
     "        return round(bid, 2), round(ask, 2)",
     "",
-    "    def on_fill(self, side, size):",
-    "        # update inventory and re-center quotes",
+    "    def risk_check(self, side, size):",
+    "        projected = self.inventory + (size if side == \"buy\" else -size)",
+    "        if abs(projected) > self.max_inventory:",
+    "            raise ValueError(\"inventory limit breached\")",
+    "        return True",
+    "",
+    "    def on_fill(self, side, size, price):",
+    "        self.risk_check(side, size)",
     "        sign = 1 if side == \"buy\" else -1",
-    "        self.inventory += sign * size"
+    "        self.inventory += sign * size",
+    "        self.pnl -= sign * size * price",
+    "",
+    "    def mark_to_market(self, mid):",
+    "        return self.pnl + self.inventory * mid",
+    "",
+    "",
+    "def run(feed, exchange, model, horizon=1.0):",
+    "    t = 0.0",
+    "    while t < horizon:",
+    "        mid = feed.mid_price()",
+    "        bid, ask = model.quote(mid, t)",
+    "        exchange.cancel_all()",
+    "        exchange.place(\"buy\", bid, size=1)",
+    "        exchange.place(\"sell\", ask, size=1)",
+    "        for side, size, price in exchange.poll_fills():",
+    "            model.on_fill(side, size, price)",
+    "        t += feed.tick()",
+    "    return model.mark_to_market(feed.mid_price())"
   ];
 
   function tokenize(line) {
@@ -89,7 +140,15 @@
     ctx.textBaseline = "top";
 
     var revealed = fullText.slice(0, charCount).split("\n");
-    var y = PAD_Y;
+
+    // Once the typed content grows past the visible height, shift the
+    // whole block up so the newest lines (and the cursor) stay in view,
+    // like a terminal following its own output.
+    var contentBottom = PAD_Y + revealed.length * LINE_HEIGHT;
+    var maxVisibleBottom = H - PAD_Y + LINE_HEIGHT;
+    var scrollY = Math.max(0, contentBottom - maxVisibleBottom);
+
+    var y = PAD_Y - scrollY;
     var lastX = PAD_X;
     var lastY = y;
 
@@ -120,12 +179,12 @@
         charCount = 0;
         draw(true);
         scheduleNextChar();
-      }, 500);
+      }, 900);
       return;
     }
     var nextChar = fullText[charCount];
-    var delay = 0.5 + Math.random() * 1.4;
-    if (nextChar === "\n") delay = 4 + Math.random() * 5.5;
+    var delay = 8 + Math.random() * 12;
+    if (nextChar === "\n") delay = 320 + Math.random() * 220;
     else if (nextChar === " ") delay *= 0.6;
     typingTimer = setTimeout(function () {
       charCount++;
