@@ -1494,13 +1494,17 @@ code {
 }
 
 .footer-mark svg {
-  width: 26px;
-  height: 26px;
+  width: 40px;
+  height: 40px;
   flex: none;
 }
 
 .footer-mark svg rect { fill: var(--blue-950); }
-.footer-mark svg .footer-mark-bar { fill: var(--accent-bright); }
+.footer-mark svg text {
+  font-family: var(--serif);
+  font-size: 12px;
+  fill: var(--accent-bright);
+}
 
 .footer-mark span {
   font-family: var(--serif);
@@ -1511,12 +1515,6 @@ code {
 }
 
 .footer-mark:hover span { color: var(--blue-400); }
-
-.footer-tagline {
-  margin: 0;
-  font-size: 12.5px;
-  color: var(--ink-faint);
-}
 
 .footer-bottom {
   display: flex;
