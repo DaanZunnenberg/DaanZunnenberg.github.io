@@ -907,10 +907,10 @@ pre.code-block code {
 }
 
 /* Homepage-only variant: the hero bleeds to the viewport edge instead of
-   sitting in its own bordered card, with the text held at a fixed,
-   comfortable inset from the edge (not centered to the narrow reading
-   column, which strands it in empty space on wide screens) — a banner
-   behind the page rather than a widget inside it. Scoped to desktop;
+   sitting in its own bordered card, with the reading column's text
+   position preserved on top of it (banner-behind-document, rather than
+   widget-in-a-document). Scoped to desktop, where there's room for the
+   column and the full-bleed edges to read as distinct from each other;
    below 641px the hero already reaches the viewport edge via the .hero
    mobile rule further down, so there's nothing extra to override. */
 @media (min-width: 641px) {
@@ -921,20 +921,11 @@ pre.code-block code {
     border-right: none;
     border-radius: 0;
     box-shadow: none;
-    min-height: 460px;
   }
 
   .hero-bleed .hero-content {
-    margin-left: clamp(24px, 6vw, 88px);
+    margin-left: max(0px, calc((100vw - 860px) / 2));
   }
-}
-
-.hero-rule {
-  width: 48px;
-  height: 2px;
-  background: var(--blue-400);
-  border: none;
-  margin: 14px 0 18px;
 }
 
 .hero #market-widget-canvas,
