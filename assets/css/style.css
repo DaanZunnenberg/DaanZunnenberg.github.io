@@ -386,6 +386,10 @@ main::before {
 
 .nav-dropdown-heading {
   display: block;
+  box-sizing: border-box;
+  /* Reserve room for a two-line heading (e.g. "Schools & Workshops") so the
+     divider below lines up across columns whether a heading wraps or not. */
+  min-height: calc(2.6em + 16px);
   font-weight: 700;
   color: var(--ink) !important;
   padding: 8px 10px 8px !important;
