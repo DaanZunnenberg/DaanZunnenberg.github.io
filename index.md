@@ -7,7 +7,7 @@ title: About
   <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live XLM, SOL and XRP spot order books, each with a spot/perp price-difference table for cash-and-carry arbitrage"></canvas>
   <div class="hero-fade hero-fade-long" aria-hidden="true"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">PhD Researcher<span class="hero-eyebrow-extra"> &middot; Quantitative Finance &middot; Probability</span></div>
+    <div class="hero-eyebrow">PhD Researcher<span class="hero-eyebrow-extra"> &middot; Probability &middot; Quant Finance</span></div>
     <h1 class="hero-name">Daan Zunnenberg</h1>
     <p class="hero-lede">PhD researcher in probability theory. Enthusiastic about <em>quantitative investing</em>, algorithmic trading, and market making.</p>
     <div class="hero-links">
