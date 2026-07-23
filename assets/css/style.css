@@ -1496,16 +1496,35 @@ code {
   margin-bottom: 2px;
 }
 
-.footer-name {
+.footer-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.footer-mark svg {
+  width: 26px;
+  height: 26px;
+  flex: none;
+}
+
+.footer-mark svg rect { fill: var(--blue-950); }
+.footer-mark svg text {
+  font-family: var(--serif);
+  font-size: 12px;
+  fill: var(--accent-bright);
+}
+
+.footer-mark span {
   font-family: var(--serif);
   font-size: 17px;
   color: var(--ink);
-  text-decoration: none;
   letter-spacing: -0.005em;
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-name:hover { color: var(--blue-400); }
+.footer-mark:hover span { color: var(--blue-400); }
 
 .footer-tagline {
   margin: 0;
