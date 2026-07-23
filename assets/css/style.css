@@ -262,6 +262,14 @@ main::before {
   transform: translate(-50%, 0);
 }
 
+/* Cross-link between the professional and academic sections of the site. */
+.nav-switch a {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 13px;
+}
+
 .nav-dropdown a {
   padding: 8px 10px;
   border-radius: 6px;

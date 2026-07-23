@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Generic Chaining
-permalink: /mathematics/generic-chaining/
+permalink: /academic/mathematics/generic-chaining/
 ---
 
 <section class="hero">
@@ -83,9 +83,9 @@ The main takeaway is simple. A metric space carries within its multi-scale geome
 <p>
 New to the topic? Talagrand's <em>Upper and Lower Bounds for Stochastic Processes</em> is the
 standard reference for what generic chaining is and why it works. For the full technical detail,
-see <a href="{{ '/mathematics/majorizing-measure-theorem/' | relative_url }}">the Majorizing Measure
-Theorem</a> and <a href="{{ '/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">the
+see <a href="{{ '/academic/mathematics/majorizing-measure-theorem/' | relative_url }}">the Majorizing Measure
+Theorem</a> and <a href="{{ '/academic/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">the
 Fundamental Theorem of Empirical Processes</a>.
 </p>
 
-<p><a href="{{ '/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>
+<p><a href="{{ '/academic/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Research & Academia
-permalink: /contact/research/
+permalink: /academic/contact/
 ---
 
 <section class="hero hero-scroll">
@@ -45,7 +45,7 @@ process theory and where it meets applied statistics.
     dependent processes, alongside a line of work (with Alexander D&uuml;rre) on the Tukey depth under
     dependence, forthcoming in <em>Bernoulli</em>.
   </p>
-  <div class="tags"><a href="{{ '/research/' | relative_url }}">Full research page &amp; publications &rarr;</a></div>
+  <div class="tags"><a href="{{ '/academic/research/' | relative_url }}">Full research page &amp; publications &rarr;</a></div>
 </div>
 
 <p>
@@ -58,7 +58,7 @@ process theory and where it meets applied statistics.
   <input type="hidden" name="_subject" value="New research inquiry from daanzunnenberg.com">
   <input type="hidden" name="_template" value="table">
   <input type="hidden" name="_captcha" value="true">
-  <input type="hidden" name="_next" value="https://daanzunnenberg.com/contact/research/?sent=1">
+  <input type="hidden" name="_next" value="https://daanzunnenberg.com/academic/contact/?sent=1">
   <input type="text" name="_honey" style="display:none">
 
   <div class="form-row">
@@ -96,4 +96,4 @@ process theory and where it meets applied statistics.
 
 <p id="sent-note" class="sent-note">Thanks, your message was sent. I'll get back to you by email.</p>
 
-<p><a href="{{ '/contact/' | relative_url }}">&larr; Back to Updates, Events &amp; Contact</a></p>
+<p><a href="{{ '/academic/' | relative_url }}">&larr; Back to Academic</a></p>

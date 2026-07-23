@@ -33,7 +33,7 @@ permalink: /personal/
 </p>
 <p>
   The full research overview, including mathematical background and project details, can be found on the
-  <a href="{{ '/research/' | relative_url }}">Research</a> page.
+  <a href="{{ '/academic/research/' | relative_url }}">Research</a> page.
 </p>
 
 <div class="entry">
@@ -44,7 +44,7 @@ permalink: /personal/
 </div>
 
 <p>
-  See <a href="{{ '/research/' | relative_url }}">Research &amp; Publications</a> for current work and the full paper/software list, or
+  See <a href="{{ '/academic/research/' | relative_url }}">Research &amp; Publications</a> for current work and the full paper/software list, or
   <a href="https://scholar.google.com/citations?user=JLg2KjEAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a> for the full, up-to-date list.
 </p>
 
@@ -59,7 +59,7 @@ I like winter, and I like travelling.
 </p>
 
 <div class="links">
-  <a href="{{ '/research/' | relative_url }}">Research &rarr;</a>
+  <a href="{{ '/academic/research/' | relative_url }}">Research &rarr;</a>
   <a href="{{ '/experience/' | relative_url }}">Experience &rarr;</a>
   <a href="{{ '/contact/' | relative_url }}">Contact &rarr;</a>
 </div>

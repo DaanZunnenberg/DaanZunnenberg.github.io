@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Schools & Workshops
-permalink: /contact/schools-workshops/
+permalink: /academic/schools-workshops/
 ---
 
 <section class="hero hero-scroll">
@@ -54,4 +54,4 @@ permalink: /contact/schools-workshops/
   </div>
 </div>
 
-<p><a href="{{ '/contact/' | relative_url }}">&larr; Back to Updates, Events &amp; Contact</a></p>
+<p><a href="{{ '/academic/' | relative_url }}">&larr; Back to Academic</a></p>
