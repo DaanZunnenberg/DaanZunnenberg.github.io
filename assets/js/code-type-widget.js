@@ -102,50 +102,55 @@
       "                cov[i, j] = cov[j, i] = acc / (n - 1)\n" +
       "        return cov",
 
-    "    @cached_property\n" +
+    "    @functools.cached_property\n" +
       "    def _kalman_gain(self) -> np.ndarray:\n" +
       "        P, H, R = self._prior_cov, self._obs_matrix, self._obs_noise\n" +
       "        S = H @ P @ H.T + R\n" +
       "        return P @ H.T @ np.linalg.inv(S)",
 
-    "    async def stream_quotes(self, feed: AsyncIterator[Tick], exchange: ExchangeClient) -> None:\n" +
-      "        async with exchange.session() as session:\n" +
+    "    def __repr__(self) -> str:\n" +
+      "        return f\"<{type(self).__name__} inv={self.inventory} pnl={self.pnl:.2f}>\"",
+
+    "class QuoteEngine:\n" +
+      "    \"\"\"Owns the async I/O loop; the strategy stays pure sync math, this\n" +
+      "    class is the only thing that talks to sockets.\"\"\"\n" +
+      "\n" +
+      "    def __init__(self, model: AvellanedaStoikovMarketMaker, exchange: ExchangeClient, quote_size: float, requote_interval: float = 0.25) -> None:\n" +
+      "        self._model = model\n" +
+      "        self._exchange = exchange\n" +
+      "        self._quote_size = quote_size\n" +
+      "        self._requote_interval = requote_interval",
+
+    "    async def stream_quotes(self, feed: AsyncIterator[Tick]) -> None:\n" +
+      "        async with self._exchange.session() as session:\n" +
       "            async for tick in feed:\n" +
-      "                bid, ask = self.quote(tick.mid, tick.t, tick.book)\n" +
+      "                bid, ask = self._model.quote(tick.mid, tick.t, tick.book)\n" +
       "                await asyncio.gather(\n" +
       "                    session.replace(\"bid\", bid, size=self._quote_size),\n" +
       "                    session.replace(\"ask\", ask, size=self._quote_size),\n" +
       "                )\n" +
       "                await asyncio.sleep(self._requote_interval)",
 
-    "    async def _watch_fills(self, exchange: ExchangeClient) -> None:\n" +
+    "    async def watch_fills(self) -> None:\n" +
       "        backoff = ExponentialBackoff(base=0.2, cap=5.0)\n" +
       "        while True:\n" +
       "            try:\n" +
-      "                async for fill in exchange.fills():\n" +
-      "                    self.on_fill(fill.side, fill.size, fill.price)\n" +
+      "                async for fill in self._exchange.fills():\n" +
+      "                    self._model.on_fill(fill.side, fill.size, fill.price)\n" +
       "                    backoff.reset()\n" +
       "            except ExchangeDisconnected:\n" +
       "                await asyncio.sleep(await backoff.next())\n" +
-      "                await exchange.reconnect()",
+      "                await self._exchange.reconnect()",
 
     "    @asynccontextmanager\n" +
-      "    async def calibrated(self, window: timedelta = timedelta(minutes=15)):\n" +
+      "    async def calibrated(self, window: timedelta = timedelta(minutes=15)) -> AsyncIterator[AvellanedaStoikovMarketMaker]:\n" +
       "        async with self._calibration_lock:\n" +
       "            snapshot = await self._history.fetch(window)\n" +
-      "            self.gamma, self.kappa = await asyncio.to_thread(self._fit_params, snapshot)\n" +
+      "            self._model.gamma, self._model.kappa = await asyncio.to_thread(fit_params, snapshot)\n" +
       "            try:\n" +
-      "                yield self\n" +
+      "                yield self._model\n" +
       "            finally:\n" +
       "                await self._history.append(snapshot)",
-
-    "    def __init_subclass__(cls, **kwargs: Any) -> None:\n" +
-      "        super().__init_subclass__(**kwargs)\n" +
-      "        _STRATEGY_REGISTRY[cls.__name__] = cls\n" +
-      "        cls._compiled = nb.njit(cls._ewma_vol.__func__)\n" +
-      "\n" +
-      "    def __repr__(self) -> str:\n" +
-      "        return f\"<{type(self).__name__} inv={self.inventory} pnl={self.pnl:.2f}>\"",
 
     "class FixSession:\n" +
       "    \"\"\"Thin wrapper over a FIX 4.4 socket connection with heartbeats.\"\"\"\n" +
@@ -255,7 +260,8 @@
       "        if projected.symbol_delta(order.symbol) > self._limits.max_symbol_delta:\n" +
       "            raise RiskLimitExceeded(order, self._limits.max_symbol_delta)",
 
-    "    @nb.njit(cache=True)\n" +
+    "    @staticmethod\n" +
+      "    @nb.njit(cache=True)\n" +
       "    def _var_parametric(weights: np.ndarray, cov: np.ndarray, confidence: float) -> float:\n" +
       "        portfolio_var = weights @ cov @ weights.T\n" +
       "        z = _inv_norm_cdf(confidence)\n" +
@@ -454,11 +460,13 @@
       "    gateway = MarketDataGateway(config.venues, tick_queue)\n" +
       "    book = PositionBook(async_sessionmaker(engine))\n" +
       "    risk = RiskEngine(config.risk_limits, book)\n" +
-      "    strategy = AvellanedaStoikovMarketMaker(max_inventory=config.risk_limits.max_symbol_delta)\n" +
+      "    model = AvellanedaStoikovMarketMaker(max_inventory=config.risk_limits.max_symbol_delta)\n" +
+      "    engine_ = QuoteEngine(model, ExchangeClient(config.venues[0]), quote_size=1.0)\n" +
       "\n" +
       "    async with asyncio.TaskGroup() as tg:\n" +
       "        tg.create_task(gateway.run())\n" +
-      "        tg.create_task(strategy.stream_quotes(_dequeue(tick_queue), ExchangeClient(config.venues[0])))\n" +
+      "        tg.create_task(engine_.stream_quotes(_dequeue(tick_queue)))\n" +
+      "        tg.create_task(engine_.watch_fills())\n" +
       "        tg.create_task(publish_book_snapshots(redis, book))\n" +
       "        tg.create_task(_periodic_reconcile(book, risk))\n" +
       "\n" +
