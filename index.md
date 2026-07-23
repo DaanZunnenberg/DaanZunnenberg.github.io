@@ -21,31 +21,59 @@ title: About
 
 <p class="lede">
 I'm a mathematician working in generic chaining theory, with a professional focus on high-frequency trading,
-market making, and quantitative investing.
+market making, and quantitative investing. Explore the site below.
 </p>
 
-<nav class="toc" aria-label="Site contents">
-  <a class="toc-row" href="{{ '/experience/' | relative_url }}">
-    <span class="toc-index">01</span>
-    <span class="toc-title">Experience &amp; Projects</span>
-    <span class="toc-arrow" aria-hidden="true">&rarr;</span>
-  </a>
-  <a class="toc-row" href="{{ '/personal/' | relative_url }}">
-    <span class="toc-index">02</span>
-    <span class="toc-title">Personal</span>
-    <span class="toc-arrow" aria-hidden="true">&rarr;</span>
-  </a>
-  <a class="toc-row" href="{{ '/events/' | relative_url }}">
-    <span class="toc-index">03</span>
-    <span class="toc-title">Events</span>
-    <span class="toc-arrow" aria-hidden="true">&rarr;</span>
-  </a>
-  <a class="toc-row" href="{{ '/contact/' | relative_url }}">
-    <span class="toc-index">04</span>
-    <span class="toc-title">Contact</span>
-    <span class="toc-arrow" aria-hidden="true">&rarr;</span>
-  </a>
-</nav>
+<div class="carousel" id="home-carousel">
+  <div class="carousel-track">
+    <a class="carousel-slide is-active" href="{{ '/experience/' | relative_url }}">
+      <span class="carousel-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M20 7h-4V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2ZM10 5h4v2h-4V5Zm10 14H4V9h16v10Z"/></svg>
+      </span>
+      <span class="carousel-index">01</span>
+      <span class="carousel-text">
+        <span class="carousel-title">Experience &amp; Projects</span>
+        <span class="carousel-desc">Roles in quantitative trading and research, and the projects behind them.</span>
+      </span>
+    </a>
+    <a class="carousel-slide" href="{{ '/personal/' | relative_url }}">
+      <span class="carousel-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16Zm-1.6 4.6 5.6 2.2-2.2 5.6-5.6-2.2 2.2-5.6Z"/></svg>
+      </span>
+      <span class="carousel-index">02</span>
+      <span class="carousel-text">
+        <span class="carousel-title">Personal</span>
+        <span class="carousel-desc">Research, briefly explained; padel; travel.</span>
+      </span>
+    </a>
+    <a class="carousel-slide" href="{{ '/events/' | relative_url }}">
+      <span class="carousel-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8H5v10h14V10Z"/></svg>
+      </span>
+      <span class="carousel-index">03</span>
+      <span class="carousel-text">
+        <span class="carousel-title">Events</span>
+        <span class="carousel-desc">Talks, seminars, and conferences, upcoming and past.</span>
+      </span>
+    </a>
+    <a class="carousel-slide" href="{{ '/contact/' | relative_url }}">
+      <span class="carousel-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M2 4h20v16H2V4zm10 7L4 6v2l8 5 8-5V6l-8 5z"/></svg>
+      </span>
+      <span class="carousel-index">04</span>
+      <span class="carousel-text">
+        <span class="carousel-title">Contact</span>
+        <span class="carousel-desc">Roles, consulting, or an invitation to meet up.</span>
+      </span>
+    </a>
+  </div>
+  <div class="carousel-dots" role="tablist" aria-label="Choose a section">
+    <button type="button" class="is-active" aria-label="Experience &amp; Projects" aria-selected="true"></button>
+    <button type="button" aria-label="Personal" aria-selected="false"></button>
+    <button type="button" aria-label="Events" aria-selected="false"></button>
+    <button type="button" aria-label="Contact" aria-selected="false"></button>
+  </div>
+</div>
 
 <h2 id="selected-projects">Selected Projects</h2>
 
