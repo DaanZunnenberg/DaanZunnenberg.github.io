@@ -59,30 +59,41 @@ permalink: /experience/
         order flow signals, models of queue position, execution that accounts for latency, and exchange-specific
         risk controls.
       </p>
-      <h4>Quoting Engine</h4>
-      <pre class="code-block" data-lang="python"><code>def optimal_quotes(mid, sigma, q, gamma, k, A, tau):
-    spread = (1 / gamma) * np.log(1 + gamma / k)
-    skew = q * gamma * sigma ** 2 * tau
-    reservation = mid - skew
-    bid = reservation - spread / 2
-    ask = reservation + spread / 2
-    return bid, ask
+      <h4>Fair Value Estimation</h4>
+      <p>
+        The na&iuml;ve quote midpoint \((\text{bid} + \text{ask})/2\) is a poor reference price: it is trivially
+        manipulable by anyone resting a single order at the top of book, it ignores the size behind each level, and
+        it reacts to a venue's own thin liquidity rather than to where the asset is actually trading. On
+        fragmented, cross-listed markets a book can sit stale or skewed relative to the rest of the market for
+        several seconds, during which a strategy quoting off its own midpoint is picking up adverse fills. A fair
+        value model instead fuses depth-weighted prices, recent trade flow, and lead&ndash;lag information across
+        every venue we quote on into a single reference price that quotes are built around.
+      </p>
+      <pre class="code-block" data-lang="python"><code>from quantfi.alpha import fair_value_model  # proprietary, weights and features not public
 
-def fill_intensity(delta, A, k):
-    return A * np.exp(-k * delta)
-
-async def quote_loop(book, inventory, params):
+async def fair_value_loop(venues, symbol, params):
     while True:
-        snapshot = await book.next_snapshot()
-        sigma = ewma_vol(snapshot.mid, params.vol_halflife)
-        bid, ask = optimal_quotes(
-            snapshot.mid, sigma, inventory.qty,
-            params.gamma, snapshot.k_hat, snapshot.A_hat, params.tau,
-        )
-        bid, ask = clamp_to_ticks(bid, ask, snapshot.tick_size)
+        snapshots = await asyncio.gather(*(v.book_snapshot(symbol) for v in venues))
+        features = build_features(snapshots, params.lookback)
+        fv, confidence = fair_value_model.predict(features)
+        yield fv, confidence
+
+def build_features(snapshots, lookback):
+    return {
+        "depth_weighted_mid": [depth_weighted_mid(s, levels=5) for s in snapshots],
+        "trade_flow_imbalance": [trade_imbalance(s, lookback) for s in snapshots],
+        "cross_venue_lag": lead_lag_adjustment(snapshots),
+        "staleness": [s.age_ms for s in snapshots],
+    }
+
+async def quote_loop(fair_value_stream, inventory, params):
+    async for fv, confidence in fair_value_stream:
+        spread = base_spread(params.gamma, params.k) / confidence
+        skew = inventory.qty * params.gamma * params.sigma ** 2 * params.tau
+        bid, ask = fv - skew - spread / 2, fv - skew + spread / 2
         await exchange.replace_orders(bid, ask, size=params.quote_size)
 </code></pre>
-      <p class="form-hint">Volatility and arrival-rate parameters (<code>k_hat</code>, <code>A_hat</code>) are re-estimated per snapshot from the live order book; skew pushes quotes to unwind inventory rather than accumulate it.</p>
+      <p class="form-hint">The <code>fair_value_model</code> call is a stand-in: the actual weighting of venues, features, and staleness handling is proprietary to QuantFi. What's shown is the surrounding pipeline &mdash; feature construction across venues feeding a fair value estimate that the quoting logic then skews and spreads around.</p>
     </div>
     </div>
   </div>
