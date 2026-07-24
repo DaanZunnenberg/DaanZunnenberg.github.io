@@ -46,10 +46,11 @@
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/academic/mathematics/' | relative_url }}" {% if page.url contains '/academic/mathematics' %}class="active"{% endif %}>Math</a>
           <div class="nav-dropdown">
-            <a href="{{ '/academic/mathematics/#generic-chaining' | relative_url }}">Generic chaining</a>
+            <a href="{{ '/academic/mathematics/#introduction' | relative_url }}">Introduction</a>
             <a href="{{ '/academic/mathematics/majorizing-measure-theorem/' | relative_url }}">Majorizing Measure Theorem</a>
             <a href="{{ '/academic/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
             <a href="{{ '/academic/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
+            <a href="{{ '/academic/mathematics/#generic-chaining' | relative_url }}">Generic chaining</a>
           </div>
         </div>
         <div class="nav-item nav-has-dropdown">
@@ -129,10 +130,11 @@
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/academic/mathematics/' | relative_url }}" {% if page.url contains '/academic/mathematics' %}class="active"{% endif %}>Math</a>
           <div class="nav-dropdown">
-            <a href="{{ '/academic/mathematics/#generic-chaining' | relative_url }}">Generic chaining</a>
+            <a href="{{ '/academic/mathematics/#introduction' | relative_url }}">Introduction</a>
             <a href="{{ '/academic/mathematics/majorizing-measure-theorem/' | relative_url }}">Majorizing Measure Theorem</a>
             <a href="{{ '/academic/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
             <a href="{{ '/academic/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
+            <a href="{{ '/academic/mathematics/#generic-chaining' | relative_url }}">Generic chaining</a>
           </div>
         </div>
         <div class="nav-item nav-has-dropdown">
@@ -212,7 +214,7 @@
         </div>
         <div class="footer-col">
           <div class="footer-col-label">Connect</div>
-          <a href="mailto:{{ site.email }}">Email</a>
+          <a data-u="{{ site.email | split: '@' | first }}" data-d="{{ site.email | split: '@' | last }}">Email</a>
           <a href="https://github.com/{{ site.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://www.linkedin.com/in/{{ site.linkedin }}/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href="https://scholar.google.com/citations?user={{ site.scholar }}" target="_blank" rel="noopener noreferrer">Scholar</a>
@@ -230,7 +232,7 @@
         </div>
         <div class="footer-col">
           <div class="footer-col-label">Connect</div>
-          <a href="mailto:{{ site.email }}">Email</a>
+          <a data-u="{{ site.email | split: '@' | first }}" data-d="{{ site.email | split: '@' | last }}">Email</a>
           <a href="https://github.com/{{ site.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://www.linkedin.com/in/{{ site.linkedin }}/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href="https://scholar.google.com/citations?user={{ site.scholar }}" target="_blank" rel="noopener noreferrer">Scholar</a>
