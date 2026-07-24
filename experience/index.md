@@ -82,27 +82,27 @@ permalink: /experience/
         where the offsets are derived from inventory and risk parameters, and \(S_t\) is a modeled price filtered
         from order flow and depth across every major venue, not read off one book.
       </p>
-      <pre class="code-block" data-lang="python"><code>from quantfi.alpha import fair_value_model  # proprietary: feature weights, training, and calibration withheld
+      <pre class="code-block" data-lang="python"><code>from meridian import microstructure, alpha  # proprietary: feature weights, training, and calibration withheld
 
 def venue_features(book, trades, lookback):
     return {
-        "microprice": microprice(book, levels=5),          # size-weighted, not just top of book
-        "book_imbalance": imbalance(book, levels=5),
-        "trade_flow": signed_volume(trades, lookback),
-        "realized_vol": ewma_vol(trades.mid, halflife=lookback),
+        "microprice": microstructure.microprice(book, levels=5),      # size-weighted, not just top of book
+        "book_imbalance": microstructure.imbalance(book, levels=5),
+        "trade_flow": microstructure.signed_volume(trades, lookback),
+        "realized_vol": microstructure.ewma_vol(trades.mid, halflife=lookback),
         "staleness_ms": book.age_ms,
         "funding_rate": book.funding_rate,
     }
 
 def cross_venue_features(venues, symbol, lookback):
     per_venue = {v.name: venue_features(v.book(symbol), v.trades(symbol), lookback) for v in venues}
-    lag = lead_lag_matrix(per_venue, window=lookback)      # which venue's prices lead the others
-    weights = liquidity_weights(per_venue)                 # deeper, less stale books get more weight
+    lag = microstructure.lead_lag_matrix(per_venue, window=lookback)  # which venue's prices lead the others
+    weights = microstructure.liquidity_weights(per_venue)             # deeper, less stale books get more weight
     return per_venue, lag, weights
 
 def fair_value(venues, symbol, kalman_state, lookback=500):
     per_venue, lag, weights = cross_venue_features(venues, symbol, lookback)
-    S_hat, kalman_state = fair_value_model.update(per_venue, lag, weights, kalman_state)
+    S_hat, kalman_state = alpha.fair_value_model.update(per_venue, lag, weights, kalman_state)
     return S_hat, kalman_state
 
 def quotes(S_hat, sigma, q, gamma, k, tau):
@@ -110,7 +110,7 @@ def quotes(S_hat, sigma, q, gamma, k, tau):
     delta_a = (1 / gamma) * np.log(1 + gamma / k) + (1 - 2 * q) / 2 * gamma * sigma ** 2 * tau
     return S_hat - delta_b, S_hat + delta_a
 </code></pre>
-      <p class="form-hint">The <code>fair_value_model.update</code> call is a stand-in for a proprietary state-space estimator: the actual feature set, cross-venue weighting, and Kalman-style update are not public. What's shown is the estimation pipeline &mdash; per-venue microstructure features, a lead&ndash;lag and liquidity-weighted fusion step, and the resulting \(S_t\) feeding the same Avellaneda&ndash;Stoikov-style quote placement as above.</p>
+      <p class="form-hint">The <code>alpha.fair_value_model</code> call is a stand-in for a proprietary state-space estimator: the actual feature set, cross-venue weighting, and Kalman-style update are not public. What's shown is the estimation pipeline &mdash; per-venue microstructure features from <code>meridian.microstructure</code>, a lead&ndash;lag and liquidity-weighted fusion step, and the resulting \(S_t\) feeding the same Avellaneda&ndash;Stoikov-style quote placement as above.</p>
     </div>
     </div>
   </div>
