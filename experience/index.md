@@ -61,39 +61,47 @@ permalink: /experience/
       </p>
       <h4>Fair Value Estimation</h4>
       <p>
-        The na&iuml;ve quote midpoint \((\text{bid} + \text{ask})/2\) is a poor reference price: it is trivially
-        manipulable by anyone resting a single order at the top of book, it ignores the size behind each level, and
-        it reacts to a venue's own thin liquidity rather than to where the asset is actually trading. On
-        fragmented, cross-listed markets a book can sit stale or skewed relative to the rest of the market for
-        several seconds, during which a strategy quoting off its own midpoint is picking up adverse fills. A fair
-        value model instead fuses depth-weighted prices, recent trade flow, and lead&ndash;lag information across
-        every venue we quote on into a single reference price that quotes are built around.
+        Quoting directly off the na&iuml;ve midpoint \((\text{bid} + \text{ask})/2\) is a poor choice of reference
+        price: it is set by whatever is resting at the very top of book, so a single thin order on either side can
+        move it without any real trading interest behind it, and it ignores everything about the book beyond the
+        first level &mdash; depth, imbalance, and how one venue's book relates to the others. On fragmented,
+        cross-listed markets this matters a lot, since a given venue's book can sit stale or skewed relative to the
+        rest of the market for seconds at a time; a strategy that quotes off its own midpoint during that window is
+        offering a price the rest of the market has already moved away from, and gets adversely selected on it.
+        Instead, quotes are placed a distance \(\delta_b\) below and \(\delta_a\) above a modelled fair value
+        \(S_t\), i.e. \(\text{bid} = S_t - \delta_b\) and \(\text{ask} = S_t + \delta_a\), where \(S_t\) itself is
+        estimated from order book and trade information pooled across every venue we quote on, rather than read
+        off a single book.
       </p>
-      <pre class="code-block" data-lang="python"><code>from quantfi.alpha import fair_value_model  # proprietary, weights and features not public
+      <pre class="code-block" data-lang="python"><code>from quantfi.alpha import fair_value_model  # proprietary: feature weights, training, and calibration withheld
 
-async def fair_value_loop(venues, symbol, params):
-    while True:
-        snapshots = await asyncio.gather(*(v.book_snapshot(symbol) for v in venues))
-        features = build_features(snapshots, params.lookback)
-        fv, confidence = fair_value_model.predict(features)
-        yield fv, confidence
-
-def build_features(snapshots, lookback):
+def venue_features(book, trades, lookback):
     return {
-        "depth_weighted_mid": [depth_weighted_mid(s, levels=5) for s in snapshots],
-        "trade_flow_imbalance": [trade_imbalance(s, lookback) for s in snapshots],
-        "cross_venue_lag": lead_lag_adjustment(snapshots),
-        "staleness": [s.age_ms for s in snapshots],
+        "microprice": microprice(book, levels=5),          # size-weighted, not just top of book
+        "book_imbalance": imbalance(book, levels=5),
+        "trade_flow": signed_volume(trades, lookback),
+        "realized_vol": ewma_vol(trades.mid, halflife=lookback),
+        "staleness_ms": book.age_ms,
+        "funding_rate": book.funding_rate,
     }
 
-async def quote_loop(fair_value_stream, inventory, params):
-    async for fv, confidence in fair_value_stream:
-        spread = base_spread(params.gamma, params.k) / confidence
-        skew = inventory.qty * params.gamma * params.sigma ** 2 * params.tau
-        bid, ask = fv - skew - spread / 2, fv - skew + spread / 2
-        await exchange.replace_orders(bid, ask, size=params.quote_size)
+def cross_venue_features(venues, symbol, lookback):
+    per_venue = {v.name: venue_features(v.book(symbol), v.trades(symbol), lookback) for v in venues}
+    lag = lead_lag_matrix(per_venue, window=lookback)      # which venue's prices lead the others
+    weights = liquidity_weights(per_venue)                 # deeper, less stale books get more weight
+    return per_venue, lag, weights
+
+def fair_value(venues, symbol, kalman_state, lookback=500):
+    per_venue, lag, weights = cross_venue_features(venues, symbol, lookback)
+    S_hat, kalman_state = fair_value_model.update(per_venue, lag, weights, kalman_state)
+    return S_hat, kalman_state
+
+def quotes(S_hat, sigma, q, gamma, k, tau):
+    delta_b = (1 / gamma) * np.log(1 + gamma / k) + (1 + 2 * q) / 2 * gamma * sigma ** 2 * tau
+    delta_a = (1 / gamma) * np.log(1 + gamma / k) + (1 - 2 * q) / 2 * gamma * sigma ** 2 * tau
+    return S_hat - delta_b, S_hat + delta_a
 </code></pre>
-      <p class="form-hint">The <code>fair_value_model</code> call is a stand-in: the actual weighting of venues, features, and staleness handling is proprietary to QuantFi. What's shown is the surrounding pipeline &mdash; feature construction across venues feeding a fair value estimate that the quoting logic then skews and spreads around.</p>
+      <p class="form-hint">The <code>fair_value_model.update</code> call is a stand-in for a proprietary state-space estimator: the actual feature set, cross-venue weighting, and Kalman-style update are not public. What's shown is the estimation pipeline &mdash; per-venue microstructure features, a lead&ndash;lag and liquidity-weighted fusion step, and the resulting \(S_t\) feeding the same Avellaneda&ndash;Stoikov-style quote placement as above.</p>
     </div>
     </div>
   </div>
