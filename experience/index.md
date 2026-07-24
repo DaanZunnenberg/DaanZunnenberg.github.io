@@ -61,17 +61,21 @@ permalink: /experience/
       </p>
       <h4>Fair Value Estimation</h4>
       <p>
-        Quoting directly off the na&iuml;ve midpoint \((\text{bid} + \text{ask})/2\) is a poor choice of reference
-        price: it is set by whatever is resting at the very top of book, so a single thin order on either side can
-        move it without any real trading interest behind it, and it ignores everything about the book beyond the
-        first level &mdash; depth, imbalance, and how one venue's book relates to the others. On fragmented,
-        cross-listed markets this matters a lot, since a given venue's book can sit stale or skewed relative to the
-        rest of the market for seconds at a time; a strategy that quotes off its own midpoint during that window is
-        offering a price the rest of the market has already moved away from, and gets adversely selected on it.
-        Instead, quotes are placed a distance \(\delta_b\) below and \(\delta_a\) above a modelled fair value
-        \(S_t\), i.e. \(\text{bid} = S_t - \delta_b\) and \(\text{ask} = S_t + \delta_a\), where \(S_t\) itself is
-        estimated from order book and trade information pooled across every venue we quote on, rather than read
-        off a single book.
+        Quoting off the na&iuml;ve midpoint \(\big(\delta_t^{b} + \delta_t^{a}\big)/2\) leaves a market maker
+        exposed. It is set entirely by the best bid \(\delta_t^{b}\) and best ask \(\delta_t^{a}\) resting on a
+        single venue, so one thin order at the top of book can move it with no real size behind it, and it says
+        nothing about depth, imbalance, or what every other venue is doing. On fragmented crypto markets, where
+        the same asset trades across a dozen exchanges at once, a local book can sit stale or skewed for whole
+        seconds while the rest of the market has already moved &mdash; and a strategy quoting off that stale
+        midpoint is handing out free money to whoever notices first.
+      </p>
+      <p>
+        Reference price modeling is the fix, and a core pillar of market making: quotes are placed at optimal
+        offsets \(\delta_t^{b,*}\) and \(\delta_t^{a,*}\) around a consolidated fair value \(S_t\),
+        \[\text{Bid}_t = S_t - \delta_t^{b,*} \qquad \text{Ask}_t = S_t + \delta_t^{a,*},\]
+        where \(\delta_t^{b,*}\) and \(\delta_t^{a,*}\) are optimal distances derived from inventory and risk
+        parameters, and \(S_t\) is a modeled price filtered from order flow and depth across every major venue
+        &mdash; not read off one book's best bid and ask.
       </p>
       <pre class="code-block" data-lang="python"><code>from quantfi.alpha import fair_value_model  # proprietary: feature weights, training, and calibration withheld
 
