@@ -31,448 +31,251 @@
   // snippet intentionally opens mid-class (no imports, no class header) so
   // it reads like a scrollback of an already-open file, not a fresh script.
   var CHUNKS = [
-    "    gamma: float = 0.1\n" +
-      "    kappa: float = 1.5\n" +
-      "    horizon: float = 1.0\n" +
-      "    max_inventory: int = 50\n" +
-      "    _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)\n" +
-      "    _returns: deque = field(default_factory=lambda: deque(maxlen=512), repr=False)\n" +
-      "    _last_mid: Optional[float] = field(default=None, repr=False)",
+    "async def _sub_stream(\n" +
+      "    session: aiohttp.ClientSession,\n" +
+      "    url: str,\n" +
+      "    channels: list[str],\n" +
+      ") -> AsyncIterator[tuple[str, Any]]:\n" +
+      "    \"\"\"\n" +
+      "    Connect, subscribe to channels, yield (channel, data) pairs.\n" +
+      "    Handles Deribit application-level heartbeats and auto-reconnects on drop.\n" +
+      "    The caller is responsible for creating and closing the ClientSession.\n" +
+      "    \"\"\"\n" +
+      "    sub = orjson.dumps({\n" +
+      "        \"jsonrpc\": \"2.0\", \"method\": \"public/subscribe\",\n" +
+      "        \"params\": {\"channels\": channels}, \"id\": 1,\n" +
+      "    }).decode()",
 
-    "    @staticmethod\n" +
-      "    @nb.njit(cache=True, fastmath=True, nogil=True)\n" +
-      "    def _ewma_vol(log_returns: np.ndarray, half_life: float) -> float:\n" +
-      "        decay = np.exp(-np.log(2.0) / half_life)\n" +
-      "        weight, num, den = 1.0, 0.0, 0.0\n" +
-      "        for i in range(log_returns.shape[0] - 1, -1, -1):\n" +
-      "            num += weight * log_returns[i] ** 2\n" +
-      "            den += weight\n" +
-      "            weight *= decay\n" +
-      "        return np.sqrt(num / den) * np.sqrt(252.0 * 6.5 * 3600.0)",
-
-    "    @functools.lru_cache(maxsize=4096)\n" +
-      "    def _hawkes_branching_ratio(self, alpha: float, beta: float) -> float:\n" +
-      "        if beta <= alpha:\n" +
-      "            raise ValueError(\"unstable Hawkes kernel: alpha >= beta\")\n" +
-      "        return alpha / beta",
-
-    "    def reservation_price(self, mid: float, sigma: float, t: float) -> float:\n" +
-      "        with self._lock:\n" +
-      "            inv = self.inventory\n" +
-      "        time_left = max(self.horizon - t, 1e-6)\n" +
-      "        skew = inv * self.gamma * sigma ** 2 * time_left\n" +
-      "        return mid - skew",
-
-    "    def optimal_spread(self, sigma: float, t: float, intensity: float) -> float:\n" +
-      "        time_left = max(self.horizon - t, 1e-6)\n" +
-      "        variance_term = self.gamma * sigma ** 2 * time_left\n" +
-      "        liquidity_term = (2.0 / self.gamma) * np.log1p(self.gamma / self.kappa)\n" +
-      "        queue_term = 0.5 * np.log1p(intensity / self.kappa)\n" +
-      "        return variance_term + liquidity_term + queue_term",
-
-    "    def quote(self, mid: float, t: float, book: OrderBookSnapshot) -> Tuple[float, float]:\n" +
-      "        sigma = self._ewma_vol(np.asarray(self._returns), half_life=64.0)\n" +
-      "        intensity = book.trade_intensity(window=5.0)\n" +
-      "        r = self.reservation_price(mid, sigma, t)\n" +
-      "        spread = self.optimal_spread(sigma, t, intensity)\n" +
-      "        bid, ask = r - spread / 2.0, r + spread / 2.0\n" +
-      "        return round(bid, 2), round(ask, 2)",
-
-    "    @retry(exceptions=(ConnectionError,), tries=3, backoff=1.5)\n" +
-      "    def on_fill(self, side: Side, size: float, price: float) -> None:\n" +
-      "        with self._lock:\n" +
-      "            sign = 1.0 if side is Side.BUY else -1.0\n" +
-      "            projected = self.inventory + sign * size\n" +
-      "            if abs(projected) > self.max_inventory:\n" +
-      "                raise InventoryLimitError(projected, self.max_inventory)\n" +
-      "            self.inventory = projected\n" +
-      "            self.pnl -= sign * size * price",
-
-    "    @staticmethod\n" +
-      "    @nb.njit(cache=True, parallel=True)\n" +
-      "    def _covariance_matrix(returns: np.ndarray) -> np.ndarray:\n" +
-      "        n, k = returns.shape\n" +
-      "        cov = np.zeros((k, k))\n" +
-      "        means = np.array([returns[:, j].mean() for j in range(k)])\n" +
-      "        for i in nb.prange(k):\n" +
-      "            for j in range(i, k):\n" +
-      "                acc = 0.0\n" +
-      "                for t in range(n):\n" +
-      "                    acc += (returns[t, i] - means[i]) * (returns[t, j] - means[j])\n" +
-      "                cov[i, j] = cov[j, i] = acc / (n - 1)\n" +
-      "        return cov",
-
-    "    @functools.cached_property\n" +
-      "    def _kalman_gain(self) -> np.ndarray:\n" +
-      "        P, H, R = self._prior_cov, self._obs_matrix, self._obs_noise\n" +
-      "        S = H @ P @ H.T + R\n" +
-      "        return P @ H.T @ np.linalg.inv(S)",
-
-    "    def __repr__(self) -> str:\n" +
-      "        return f\"<{type(self).__name__} inv={self.inventory} pnl={self.pnl:.2f}>\"",
-
-    "class QuoteEngine:\n" +
-      "    \"\"\"Owns the async I/O loop; the strategy stays pure sync math, this\n" +
-      "    class is the only thing that talks to sockets.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, model: AvellanedaStoikovMarketMaker, exchange: ExchangeClient, quote_size: float, requote_interval: float = 0.25) -> None:\n" +
-      "        self._model = model\n" +
-      "        self._exchange = exchange\n" +
-      "        self._quote_size = quote_size\n" +
-      "        self._requote_interval = requote_interval",
-
-    "    async def stream_quotes(self, feed: AsyncIterator[Tick]) -> None:\n" +
-      "        async with self._exchange.session() as session:\n" +
-      "            async for tick in feed:\n" +
-      "                bid, ask = self._model.quote(tick.mid, tick.t, tick.book)\n" +
-      "                await asyncio.gather(\n" +
-      "                    session.replace(\"bid\", bid, size=self._quote_size),\n" +
-      "                    session.replace(\"ask\", ask, size=self._quote_size),\n" +
-      "                )\n" +
-      "                await asyncio.sleep(self._requote_interval)",
-
-    "    async def watch_fills(self) -> None:\n" +
-      "        backoff = ExponentialBackoff(base=0.2, cap=5.0)\n" +
-      "        while True:\n" +
-      "            try:\n" +
-      "                async for fill in self._exchange.fills():\n" +
-      "                    self._model.on_fill(fill.side, fill.size, fill.price)\n" +
-      "                    backoff.reset()\n" +
-      "            except ExchangeDisconnected:\n" +
-      "                await asyncio.sleep(await backoff.next())\n" +
-      "                await self._exchange.reconnect()",
-
-    "    @asynccontextmanager\n" +
-      "    async def calibrated(self, window: timedelta = timedelta(minutes=15)) -> AsyncIterator[AvellanedaStoikovMarketMaker]:\n" +
-      "        async with self._calibration_lock:\n" +
-      "            snapshot = await self._history.fetch(window)\n" +
-      "            self._model.gamma, self._model.kappa = await asyncio.to_thread(fit_params, snapshot)\n" +
-      "            try:\n" +
-      "                yield self._model\n" +
-      "            finally:\n" +
-      "                await self._history.append(snapshot)",
-
-    "class FixSession:\n" +
-      "    \"\"\"Thin wrapper over a FIX 4.4 socket connection with heartbeats.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, host: str, port: int, sender_comp_id: str, target_comp_id: str) -> None:\n" +
-      "        self._reader: Optional[asyncio.StreamReader] = None\n" +
-      "        self._writer: Optional[asyncio.StreamWriter] = None\n" +
-      "        self._seq_num = itertools.count(1)\n" +
-      "        self._heartbeat_interval = 30\n" +
-      "        self._pending: Dict[str, asyncio.Future] = {}",
-
-    "    async def connect(self) -> None:\n" +
-      "        self._reader, self._writer = await asyncio.open_connection(self.host, self.port, ssl=self._ssl_ctx)\n" +
-      "        await self._send(logon_message(self.sender_comp_id, self.target_comp_id, next(self._seq_num)))\n" +
-      "        asyncio.create_task(self._heartbeat_loop())\n" +
-      "        asyncio.create_task(self._read_loop())",
-
-    "    async def _read_loop(self) -> None:\n" +
-      "        buffer = bytearray()\n" +
-      "        while not self._reader.at_eof():\n" +
-      "            chunk = await self._reader.read(4096)\n" +
-      "            buffer.extend(chunk)\n" +
-      "            for raw in split_fix_messages(buffer):\n" +
-      "                msg = parse_fix(raw)\n" +
-      "                if msg.msg_type == MsgType.EXECUTION_REPORT:\n" +
-      "                    self._pending.pop(msg.cl_ord_id, None)\n" +
-      "                await self._dispatch(msg)",
-
-    "    async def send_order(self, order: NewOrderSingle) -> ExecutionReport:\n" +
-      "        fut: asyncio.Future = asyncio.get_running_loop().create_future()\n" +
-      "        self._pending[order.cl_ord_id] = fut\n" +
-      "        await self._send(encode_new_order(order, next(self._seq_num)))\n" +
-      "        return await asyncio.wait_for(fut, timeout=2.5)",
-
-    "class TickStore:\n" +
-      "    \"\"\"Append-only columnar buffer for raw exchange ticks, flushed to parquet.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, symbols: Sequence[str], flush_every: int = 50_000) -> None:\n" +
-      "        self._buffers: Dict[str, List[Tick]] = {s: [] for s in symbols}\n" +
-      "        self._flush_every = flush_every\n" +
-      "        self._schema = pa.schema([(\"ts\", pa.int64()), (\"bid\", pa.float64()), (\"ask\", pa.float64()), (\"size\", pa.float64())])",
-
-    "    def ingest(self, symbol: str, raw: bytes) -> None:\n" +
-      "        tick = Tick.from_json(orjson.loads(raw))\n" +
-      "        buf = self._buffers[symbol]\n" +
-      "        buf.append(tick)\n" +
-      "        if len(buf) >= self._flush_every:\n" +
-      "            self._flush(symbol, buf)\n" +
-      "            buf.clear()",
-
-    "    def _flush(self, symbol: str, buf: List[Tick]) -> None:\n" +
-      "        table = pa.Table.from_pylist([t.as_dict() for t in buf], schema=self._schema)\n" +
-      "        path = self._partition_path(symbol, buf[0].ts)\n" +
-      "        pq.write_table(table, path, compression=\"zstd\", use_dictionary=True)\n" +
-      "        self._notify_subscribers(symbol, path)",
-
-    "class MarketDataGateway:\n" +
-      "    \"\"\"Multiplexes several exchange websocket feeds into one tick queue.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, venues: Sequence[VenueConfig], queue: asyncio.Queue) -> None:\n" +
-      "        self._venues = venues\n" +
-      "        self._queue = queue\n" +
-      "        self._sockets: Dict[str, websockets.WebSocketClientProtocol] = {}\n" +
-      "        self._sequence: Dict[str, int] = defaultdict(int)",
-
-    "    async def run(self) -> None:\n" +
-      "        async with asyncio.TaskGroup() as tg:\n" +
-      "            for venue in self._venues:\n" +
-      "                tg.create_task(self._subscribe(venue))",
-
-    "    async def _subscribe(self, venue: VenueConfig) -> None:\n" +
-      "        async for ws in websockets.connect(venue.ws_url, ping_interval=15, max_queue=1024):\n" +
-      "            try:\n" +
-      "                self._sockets[venue.name] = ws\n" +
-      "                await ws.send(orjson.dumps({\"op\": \"subscribe\", \"channels\": venue.channels}))\n" +
-      "                async for raw in ws:\n" +
-      "                    await self._on_message(venue, raw)\n" +
-      "            except websockets.ConnectionClosed:\n" +
-      "                logger.warning(\"venue %s disconnected, resubscribing\", venue.name)\n" +
-      "                continue",
-
-    "    async def _on_message(self, venue: VenueConfig, raw: bytes) -> None:\n" +
-      "        msg = orjson.loads(raw)\n" +
-      "        seq = msg.get(\"seq\", 0)\n" +
-      "        if seq and seq <= self._sequence[venue.name]:\n" +
-      "            return\n" +
-      "        self._sequence[venue.name] = seq\n" +
-      "        tick = Tick.from_venue_payload(venue.name, msg)\n" +
-      "        await self._queue.put(tick)",
-
-    "class RiskEngine:\n" +
-      "    \"\"\"Pre-trade and post-trade limit checks, independent of any one strategy.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, limits: RiskLimits, book_keeper: PositionBook) -> None:\n" +
-      "        self._limits = limits\n" +
-      "        self._book = book_keeper\n" +
-      "        self._breaches: List[LimitBreach] = []\n" +
-      "        self._kill_switch = threading.Event()",
-
-    "    def pre_trade_check(self, order: NewOrderSingle) -> None:\n" +
-      "        if self._kill_switch.is_set():\n" +
-      "            raise TradingHalted(\"kill switch engaged\")\n" +
-      "        projected = self._book.projected_exposure(order)\n" +
-      "        if projected.gross_notional > self._limits.max_gross_notional:\n" +
-      "            self._breaches.append(LimitBreach(\"gross_notional\", projected.gross_notional))\n" +
-      "            raise RiskLimitExceeded(order, self._limits.max_gross_notional)\n" +
-      "        if projected.symbol_delta(order.symbol) > self._limits.max_symbol_delta:\n" +
-      "            raise RiskLimitExceeded(order, self._limits.max_symbol_delta)",
-
-    "    @staticmethod\n" +
-      "    @nb.njit(cache=True)\n" +
-      "    def _var_parametric(weights: np.ndarray, cov: np.ndarray, confidence: float) -> float:\n" +
-      "        portfolio_var = weights @ cov @ weights.T\n" +
-      "        z = _inv_norm_cdf(confidence)\n" +
-      "        return z * np.sqrt(portfolio_var)",
-
-    "    def trip_kill_switch(self, reason: str) -> None:\n" +
-      "        self._kill_switch.set()\n" +
-      "        logger.critical(\"kill switch tripped: %s\", reason)\n" +
-      "        metrics.counter(\"risk.kill_switch\").inc(labels={\"reason\": reason})",
-
-    "class PositionBook:\n" +
-      "    \"\"\"Reconciles internal fills against exchange-reported positions.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, session_factory: Callable[[], AsyncSession]) -> None:\n" +
-      "        self._session_factory = session_factory\n" +
-      "        self._cache: Dict[str, Position] = {}\n" +
-      "        self._dirty: Set[str] = set()",
-
-    "    async def reconcile(self, exchange: ExchangeClient) -> ReconciliationReport:\n" +
-      "        remote = {p.symbol: p for p in await exchange.positions()}\n" +
-      "        drifts = [\n" +
-      "            PositionDrift(symbol, self._cache.get(symbol, Position.empty(symbol)), remote_pos)\n" +
-      "            for symbol, remote_pos in remote.items()\n" +
-      "            if not self._cache.get(symbol, Position.empty(symbol)).matches(remote_pos)\n" +
-      "        ]\n" +
-      "        if drifts:\n" +
-      "            await self._persist_drifts(drifts)\n" +
-      "        return ReconciliationReport(drifts=drifts, checked_at=datetime.utcnow())",
-
-    "    async def _persist_drifts(self, drifts: List[PositionDrift]) -> None:\n" +
-      "        async with self._session_factory() as session, session.begin():\n" +
-      "            session.add_all(PositionDriftRow.from_domain(d) for d in drifts)\n" +
-      "            await session.execute(\n" +
-      "                update(PositionRow).where(PositionRow.symbol.in_([d.symbol for d in drifts]))\n" +
-      "            )",
-
-    "class VolatilityForecaster(nn.Module):\n" +
-      "    \"\"\"Small GRU over realized-vol features, used only to seed gamma/kappa.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, input_dim: int = 6, hidden_dim: int = 32) -> None:\n" +
-      "        super().__init__()\n" +
-      "        self.gru = nn.GRU(input_dim, hidden_dim, batch_first=True)\n" +
-      "        self.head = nn.Sequential(nn.Linear(hidden_dim, 16), nn.ReLU(), nn.Linear(16, 1), nn.Softplus())",
-
-    "    def forward(self, x: torch.Tensor) -> torch.Tensor:\n" +
-      "        out, _ = self.gru(x)\n" +
-      "        return self.head(out[:, -1, :]).squeeze(-1)",
-
-    "    @torch.no_grad()\n" +
-      "    def predict_sigma(self, features: np.ndarray) -> float:\n" +
-      "        self.eval()\n" +
-      "        tensor = torch.from_numpy(features).float().unsqueeze(0)\n" +
-      "        return float(self(tensor).item())",
-
-    "def train_forecaster(model: VolatilityForecaster, loader: DataLoader, epochs: int = 20) -> TrainingHistory:\n" +
-      "    optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=1e-5)\n" +
-      "    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)\n" +
-      "    history = TrainingHistory()\n" +
-      "    for epoch in range(epochs):\n" +
-      "        epoch_loss = 0.0\n" +
-      "        for features, target in loader:\n" +
-      "            optimizer.zero_grad(set_to_none=True)\n" +
-      "            loss = F.smooth_l1_loss(model(features), target)\n" +
-      "            loss.backward()\n" +
-      "            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)\n" +
-      "            optimizer.step()\n" +
-      "            epoch_loss += loss.item()\n" +
-      "        scheduler.step()\n" +
-      "        history.record(epoch, epoch_loss / len(loader))\n" +
-      "    return history",
-
-    "class Backtester:\n" +
-      "    \"\"\"Replays TickStore parquet partitions through a strategy, no live I/O.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, strategy_cls: Type[AvellanedaStoikovMarketMaker], fee_bps: float = 0.75) -> None:\n" +
-      "        self._strategy_cls = strategy_cls\n" +
-      "        self._fee_bps = fee_bps\n" +
-      "        self._fills: List[SimulatedFill] = []",
-
-    "    def run(self, partitions: Iterable[Path], **strategy_kwargs: Any) -> BacktestResult:\n" +
-      "        model = self._strategy_cls(**strategy_kwargs)\n" +
-      "        equity_curve = []\n" +
-      "        for partition in partitions:\n" +
-      "            frame = pd.read_parquet(partition, columns=[\"ts\", \"bid\", \"ask\", \"size\"])\n" +
-      "            equity_curve.extend(self._replay(model, frame))\n" +
-      "        return BacktestResult(equity_curve=np.array(equity_curve), fills=self._fills, sharpe=self._sharpe(equity_curve))",
-
-    "    @staticmethod\n" +
-      "    def _sharpe(equity_curve: Sequence[float], periods_per_year: int = 252 * 6.5 * 3600) -> float:\n" +
-      "        rets = np.diff(equity_curve)\n" +
-      "        if rets.std() == 0:\n" +
-      "            return 0.0\n" +
-      "        return float(np.mean(rets) / np.std(rets) * np.sqrt(periods_per_year))",
-
-    "class CircuitBreaker:\n" +
-      "    \"\"\"Trips after N consecutive exchange errors, half-opens after a cooldown.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, threshold: int = 5, cooldown: timedelta = timedelta(seconds=30)) -> None:\n" +
-      "        self._threshold = threshold\n" +
-      "        self._cooldown = cooldown\n" +
-      "        self._failures = 0\n" +
-      "        self._state: Literal[\"closed\", \"open\", \"half_open\"] = \"closed\"\n" +
-      "        self._opened_at: Optional[datetime] = None",
-
-    "    def __call__(self, fn: Callable[..., Awaitable[T]]) -> Callable[..., Awaitable[T]]:\n" +
-      "        @functools.wraps(fn)\n" +
-      "        async def wrapper(*args: Any, **kwargs: Any) -> T:\n" +
-      "            if self._state == \"open\":\n" +
-      "                if datetime.utcnow() - self._opened_at < self._cooldown:\n" +
-      "                    raise CircuitOpenError()\n" +
-      "                self._state = \"half_open\"\n" +
-      "            try:\n" +
-      "                result = await fn(*args, **kwargs)\n" +
-      "            except ExchangeError:\n" +
-      "                self._record_failure()\n" +
-      "                raise\n" +
-      "            else:\n" +
-      "                self._state = \"closed\"\n" +
-      "                self._failures = 0\n" +
-      "                return result\n" +
-      "        return wrapper",
-
-    "class RateLimiter:\n" +
-      "    \"\"\"Token bucket shared across all order-entry coroutines for one venue.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, rate: float, burst: int) -> None:\n" +
-      "        self._rate = rate\n" +
-      "        self._tokens = float(burst)\n" +
-      "        self._burst = burst\n" +
-      "        self._updated = time.monotonic()\n" +
-      "        self._cond = asyncio.Condition()",
-
-    "    async def acquire(self) -> None:\n" +
-      "        async with self._cond:\n" +
-      "            while True:\n" +
-      "                now = time.monotonic()\n" +
-      "                elapsed = now - self._updated\n" +
-      "                self._tokens = min(self._burst, self._tokens + elapsed * self._rate)\n" +
-      "                self._updated = now\n" +
-      "                if self._tokens >= 1.0:\n" +
-      "                    self._tokens -= 1.0\n" +
-      "                    return\n" +
-      "                await asyncio.sleep((1.0 - self._tokens) / self._rate)",
-
-    "class MetricsRegistry:\n" +
-      "    \"\"\"Thin wrapper over a Prometheus push-gateway client for strategy telemetry.\"\"\"\n" +
-      "\n" +
-      "    def __init__(self, namespace: str = \"marketmaker\") -> None:\n" +
-      "        self._namespace = namespace\n" +
-      "        self.quote_latency = Histogram(f\"{namespace}_quote_latency_seconds\", \"quote() wall time\", buckets=(0.0001, 0.0005, 0.001, 0.005, 0.01))\n" +
-      "        self.inventory_gauge = Gauge(f\"{namespace}_inventory\", \"current signed inventory\", labelnames=(\"symbol\",))\n" +
-      "        self.fill_counter = Counter(f\"{namespace}_fills_total\", \"fills processed\", labelnames=(\"symbol\", \"side\"))",
-
-    "    @contextmanager\n" +
-      "    def time_quote(self):\n" +
-      "        start = time.perf_counter()\n" +
+    "    while True:\n" +
       "        try:\n" +
-      "            yield\n" +
-      "        finally:\n" +
-      "            self.quote_latency.observe(time.perf_counter() - start)",
+      "            async with session.ws_connect(url, heartbeat=30) as ws:\n" +
+      "                await ws.send_str(sub)\n" +
+      "                async for msg in ws:\n" +
+      "                    if msg.type == aiohttp.WSMsgType.TEXT:\n" +
+      "                        data = orjson.loads(msg.data)\n" +
+      "                        if data.get(\"method\") == \"heartbeat\":\n" +
+      "                            if data.get(\"params\", {}).get(\"type\") == \"test_request\":\n" +
+      "                                await ws.send_str(_HB_REPLY)\n" +
+      "                            continue\n" +
+      "                        if data.get(\"method\") == \"subscription\":\n" +
+      "                            yield data[\"params\"][\"channel\"], data[\"params\"][\"data\"]\n" +
+      "                    elif msg.type in (\n" +
+      "                        aiohttp.WSMsgType.CLOSE,\n" +
+      "                        aiohttp.WSMsgType.ERROR,\n" +
+      "                        aiohttp.WSMsgType.CLOSED,\n" +
+      "                    ):\n" +
+      "                        exc = ws.exception()\n" +
+      "                        log.warning(\"WS closed (%s) — reconnecting in 1 s\", exc or msg.type)\n" +
+      "                        break\n" +
+      "        except (aiohttp.ClientError, asyncio.TimeoutError, OSError) as exc:\n" +
+      "            log.warning(\"WS dropped (%s) — reconnecting in 1 s\", exc)\n" +
+      "            await asyncio.sleep(1)",
 
-    "@dataclass(frozen=True, slots=True)\n" +
-      "class RuntimeConfig:\n" +
-      "    venues: Tuple[VenueConfig, ...]\n" +
-      "    risk_limits: RiskLimits\n" +
-      "    db_dsn: str\n" +
-      "    redis_url: str\n" +
-      "    log_level: str = \"INFO\"\n" +
+    "class DeribitConnector:\n" +
+      "    \"\"\"\n" +
+      "    WebSocket connector for all public Deribit data streams.\n" +
       "\n" +
-      "    @classmethod\n" +
-      "    def from_env(cls, path: Path = Path(\".env\")) -> \"RuntimeConfig\":\n" +
-      "        raw = dotenv_values(path) | os.environ\n" +
-      "        return cls(\n" +
-      "            venues=tuple(VenueConfig.parse(v) for v in raw[\"VENUES\"].split(\",\")),\n" +
-      "            risk_limits=RiskLimits.from_json(raw[\"RISK_LIMITS_JSON\"]),\n" +
-      "            db_dsn=raw[\"DATABASE_URL\"],\n" +
-      "            redis_url=raw[\"REDIS_URL\"],\n" +
-      "        )",
+      "    Each watch_* method is an independent async generator backed by a dedicated\n" +
+      "    aiohttp ClientSession. Run multiple streams concurrently with asyncio.gather().\n" +
+      "\n" +
+      "    Supported streams\n" +
+      "    -----------------\n" +
+      "    watch_order_book — L2 book with incremental updates\n" +
+      "    watch_trades     — public trade tape\n" +
+      "    watch_ticker     — full ticker\n" +
+      "    watch_index      — spot index price (btc_usd, eth_usd, …)\n" +
+      "    watch_funding    — perpetual funding rate\n" +
+      "    \"\"\"\n" +
+      "\n" +
+      "    def __init__(self, api_key: str = \"\", api_secret: str = \"\", testnet: bool = False) -> None:\n" +
+      "        self._api_key = api_key\n" +
+      "        self._api_secret = api_secret\n" +
+      "        self._url = _WS_TEST if testnet else _WS_LIVE",
 
-    "async def publish_book_snapshots(redis: Redis, book: PositionBook, interval: float = 1.0) -> None:\n" +
-      "    async with redis.pipeline(transaction=False) as pipe:\n" +
-      "        while True:\n" +
-      "            snapshot = book.snapshot()\n" +
-      "            pipe.set(f\"book:{snapshot.symbol}\", orjson.dumps(snapshot.as_dict()), ex=5)\n" +
-      "            pipe.publish(\"book_updates\", snapshot.symbol)\n" +
-      "            await pipe.execute()\n" +
-      "            await asyncio.sleep(interval)",
+    "    # ------------------------------------------------------------------\n" +
+      "    # Order book — stateful (snapshot + incremental deltas)\n" +
+      "    # ------------------------------------------------------------------\n" +
+      "\n" +
+      "    async def watch_order_book(\n" +
+      "        self, instrument: str, depth: int = 20\n" +
+      "    ) -> AsyncIterator[OrderBookSnapshot]:\n" +
+      "        async with aiohttp.ClientSession() as session:\n" +
+      "            while True:\n" +
+      "                async for snap in self._book_stream(session, instrument, depth):\n" +
+      "                    yield snap",
 
-    "async def main() -> None:\n" +
-      "    config = RuntimeConfig.from_env()\n" +
-      "    logging.config.dictConfig(build_logging_config(config.log_level))\n" +
-      "    engine = create_async_engine(config.db_dsn, pool_size=10, pool_pre_ping=True)\n" +
-      "    redis = Redis.from_url(config.redis_url, decode_responses=False)\n" +
+    "    async def _book_stream(\n" +
+      "        self,\n" +
+      "        session: aiohttp.ClientSession,\n" +
+      "        instrument: str,\n" +
+      "        depth: int,\n" +
+      "    ) -> AsyncIterator[OrderBookSnapshot]:\n" +
+      "        # Full raw book channel — Deribit sends [action, price, qty] entries.\n" +
+      "        # Depth-filtered channels (e.g. book.X.none.5.100ms) silently return [].\n" +
+      "        channel = f\"book.{instrument}.100ms\"\n" +
       "\n" +
-      "    tick_queue: asyncio.Queue[Tick] = asyncio.Queue(maxsize=10_000)\n" +
-      "    gateway = MarketDataGateway(config.venues, tick_queue)\n" +
-      "    book = PositionBook(async_sessionmaker(engine))\n" +
-      "    risk = RiskEngine(config.risk_limits, book)\n" +
-      "    model = AvellanedaStoikovMarketMaker(max_inventory=config.risk_limits.max_symbol_delta)\n" +
-      "    engine_ = QuoteEngine(model, ExchangeClient(config.venues[0]), quote_size=1.0)\n" +
+      "        bids: dict[float, float] = {}\n" +
+      "        asks: dict[float, float] = {}\n" +
+      "        last_change_id: int | None = None\n" +
       "\n" +
-      "    async with asyncio.TaskGroup() as tg:\n" +
-      "        tg.create_task(gateway.run())\n" +
-      "        tg.create_task(engine_.stream_quotes(_dequeue(tick_queue)))\n" +
-      "        tg.create_task(engine_.watch_fills())\n" +
-      "        tg.create_task(publish_book_snapshots(redis, book))\n" +
-      "        tg.create_task(_periodic_reconcile(book, risk))\n" +
+      "        sub = orjson.dumps({\n" +
+      "            \"jsonrpc\": \"2.0\", \"method\": \"public/subscribe\",\n" +
+      "            \"params\": {\"channels\": [channel]}, \"id\": 1,\n" +
+      "        }).decode()",
+
+    "        try:\n" +
+      "            async with session.ws_connect(self._url, heartbeat=30) as ws:\n" +
+      "                await ws.send_str(sub)\n" +
+      "                async for msg in ws:\n" +
+      "                    if msg.type != aiohttp.WSMsgType.TEXT:\n" +
+      "                        if msg.type in (\n" +
+      "                            aiohttp.WSMsgType.CLOSE,\n" +
+      "                            aiohttp.WSMsgType.ERROR,\n" +
+      "                            aiohttp.WSMsgType.CLOSED,\n" +
+      "                        ):\n" +
+      "                            log.warning(\"book WS closed (%s) — reconnecting in 1 s\", ws.exception())\n" +
+      "                            break\n" +
+      "                        continue\n" +
       "\n" +
+      "                    envelope = orjson.loads(msg.data)\n" +
       "\n" +
-      "if __name__ == \"__main__\":\n" +
-      "    asyncio.run(main())"
+      "                    if envelope.get(\"method\") == \"heartbeat\":\n" +
+      "                        if envelope.get(\"params\", {}).get(\"type\") == \"test_request\":\n" +
+      "                            await ws.send_str(_HB_REPLY)\n" +
+      "                        continue\n" +
+      "\n" +
+      "                    if envelope.get(\"method\") != \"subscription\":\n" +
+      "                        continue\n" +
+      "\n" +
+      "                    data = envelope[\"params\"][\"data\"]\n" +
+      "\n" +
+      "                    if \"type\" not in data:\n" +
+      "                        log.debug(\"book: ignoring message without 'type': %s\", data)\n" +
+      "                        continue",
+
+    "                    if data[\"type\"] == \"snapshot\":\n" +
+      "                        # Snapshot entries: [action, price, qty]; action is always \"new\".\n" +
+      "                        bids = {float(p): float(q) for _, p, q in data[\"bids\"]}\n" +
+      "                        asks = {float(p): float(q) for _, p, q in data[\"asks\"]}\n" +
+      "                        last_change_id = data[\"change_id\"]\n" +
+      "\n" +
+      "                    elif data[\"type\"] == \"change\":\n" +
+      "                        if last_change_id is None or data[\"prev_change_id\"] != last_change_id:\n" +
+      "                            # Gap in change_id sequence: the book state is corrupt.\n" +
+      "                            # Break to close this WS connection; the outer while-True in\n" +
+      "                            # watch_order_book will reconnect and receive a fresh snapshot.\n" +
+      "                            log.warning(\n" +
+      "                                \"book: change_id gap for %s (expected %s, got %s) — reconnecting\",\n" +
+      "                                instrument,\n" +
+      "                                last_change_id,\n" +
+      "                                data.get(\"prev_change_id\"),\n" +
+      "                            )\n" +
+      "                            bids.clear()\n" +
+      "                            asks.clear()\n" +
+      "                            last_change_id = None\n" +
+      "                            break",
+
+    "                        for action, price, qty in data[\"bids\"]:\n" +
+      "                            p = float(price)\n" +
+      "                            if action == \"delete\":\n" +
+      "                                bids.pop(p, None)\n" +
+      "                            else:\n" +
+      "                                bids[p] = float(qty)\n" +
+      "\n" +
+      "                        for action, price, qty in data[\"asks\"]:\n" +
+      "                            p = float(price)\n" +
+      "                            if action == \"delete\":\n" +
+      "                                asks.pop(p, None)\n" +
+      "                            else:\n" +
+      "                                asks[p] = float(qty)\n" +
+      "\n" +
+      "                        last_change_id = data[\"change_id\"]\n" +
+      "                    else:\n" +
+      "                        continue",
+
+    "                    if bids and asks:\n" +
+      "                        yield OrderBookSnapshot(\n" +
+      "                            instrument_name=instrument,\n" +
+      "                            bids=sorted(bids.items(), reverse=True)[:depth],\n" +
+      "                            asks=sorted(asks.items())[:depth],\n" +
+      "                            timestamp=float(data[\"timestamp\"]),\n" +
+      "                        )\n" +
+      "\n" +
+      "        except (aiohttp.ClientError, asyncio.TimeoutError, OSError) as exc:\n" +
+      "            log.warning(\"book stream dropped (%s) — reconnecting in 1 s\", exc)\n" +
+      "            await asyncio.sleep(1)",
+
+    "    # ------------------------------------------------------------------\n" +
+      "    # Trades\n" +
+      "    # ------------------------------------------------------------------\n" +
+      "\n" +
+      "    async def watch_trades(self, instrument: str) -> AsyncIterator[Trade]:\n" +
+      "        channel = f\"trades.{instrument}.100ms\"\n" +
+      "        async with aiohttp.ClientSession() as session:\n" +
+      "            async for _, data in _sub_stream(session, self._url, [channel]):\n" +
+      "                for t in data:\n" +
+      "                    yield Trade(\n" +
+      "                        instrument_name=instrument,\n" +
+      "                        price=float(t[\"price\"]),\n" +
+      "                        amount=float(t[\"amount\"]),\n" +
+      "                        direction=t[\"direction\"],\n" +
+      "                        timestamp=float(t[\"timestamp\"]),\n" +
+      "                        trade_id=t[\"trade_id\"],\n" +
+      "                        index_price=float(t.get(\"index_price\") or 0.0),\n" +
+      "                    )",
+
+    "    # ------------------------------------------------------------------\n" +
+      "    # Ticker\n" +
+      "    # ------------------------------------------------------------------\n" +
+      "\n" +
+      "    async def watch_ticker(self, instrument: str) -> AsyncIterator[Ticker]:\n" +
+      "        channel = f\"ticker.{instrument}.100ms\"\n" +
+      "        async with aiohttp.ClientSession() as session:\n" +
+      "            async for _, t in _sub_stream(session, self._url, [channel]):\n" +
+      "                yield Ticker(\n" +
+      "                    instrument_name=instrument,\n" +
+      "                    timestamp=float(t[\"timestamp\"]),\n" +
+      "                    mark_price=float(t[\"mark_price\"]),\n" +
+      "                    index_price=float(t[\"index_price\"]),\n" +
+      "                    best_bid_price=float(t.get(\"best_bid_price\") or 0.0),\n" +
+      "                    best_ask_price=float(t.get(\"best_ask_price\") or 0.0),\n" +
+      "                    best_bid_amount=float(t.get(\"best_bid_amount\") or 0.0),\n" +
+      "                    best_ask_amount=float(t.get(\"best_ask_amount\") or 0.0),\n" +
+      "                    last_price=float(t[\"last_price\"]) if t.get(\"last_price\") is not None else None,\n" +
+      "                    open_interest=float(t.get(\"open_interest\") or 0.0),\n" +
+      "                    current_funding=float(t[\"current_funding\"]) if t.get(\"current_funding\") is not None else None,\n" +
+      "                    funding_8h=float(t[\"funding_8h\"]) if t.get(\"funding_8h\") is not None else None,\n" +
+      "                )",
+
+    "    # ------------------------------------------------------------------\n" +
+      "    # Index price  (e.g. index_name='btc_usd', 'eth_usd', 'sol_usd')\n" +
+      "    # ------------------------------------------------------------------\n" +
+      "\n" +
+      "    async def watch_index(self, index_name: str) -> AsyncIterator[IndexPrice]:\n" +
+      "        channel = f\"deribit_price_index.{index_name}\"\n" +
+      "        async with aiohttp.ClientSession() as session:\n" +
+      "            async for _, data in _sub_stream(session, self._url, [channel]):\n" +
+      "                yield IndexPrice(\n" +
+      "                    index_name=data[\"index_name\"],\n" +
+      "                    price=float(data[\"price\"]),\n" +
+      "                    timestamp=float(data[\"timestamp\"]),\n" +
+      "                )",
+
+    "    # ------------------------------------------------------------------\n" +
+      "    # Perpetual funding rate\n" +
+      "    # ------------------------------------------------------------------\n" +
+      "\n" +
+      "    async def watch_funding(self, instrument: str) -> AsyncIterator[FundingRate]:\n" +
+      "        channel = f\"perpetual.{instrument}.100ms\"\n" +
+      "        async with aiohttp.ClientSession() as session:\n" +
+      "            async for _, data in _sub_stream(session, self._url, [channel]):\n" +
+      "                yield FundingRate(\n" +
+      "                    instrument_name=instrument,\n" +
+      "                    timestamp=float(data[\"timestamp\"]),\n" +
+      "                    current_funding=float(data.get(\"current_funding\") or 0.0),\n" +
+      "                    funding_8h=float(data.get(\"funding_8h\") or 0.0),\n" +
+      "                    interest_rate=float(data.get(\"interest_rate\") or 0.0),\n" +
+      "                )"
   ];
 
   function tokenize(line) {
@@ -526,14 +329,12 @@
 
     var revealed = fullText.slice(0, charCount).split("\n");
 
-    // Once the typed content grows past the visible height, shift the
-    // whole block up so the newest lines (and the cursor) stay in view,
-    // like a terminal following its own output.
-    var contentBottom = PAD_Y + revealed.length * LINE_HEIGHT;
-    var maxVisibleBottom = H - PAD_Y + LINE_HEIGHT;
-    var scrollY = Math.max(0, contentBottom - maxVisibleBottom);
-
-    var y = PAD_Y - scrollY;
+    // Anchor the newest line to a fixed baseline near the bottom of the
+    // hero, and lay earlier lines out upward from there — like a terminal
+    // whose prompt always sits in the same place, rather than text that
+    // starts at the top and only starts scrolling once it overflows.
+    var bottomLineY = H - PAD_Y - LINE_HEIGHT;
+    var y = bottomLineY - (revealed.length - 1) * LINE_HEIGHT;
     var lastX = PAD_X;
     var lastY = y;
 
