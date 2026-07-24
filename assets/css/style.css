@@ -606,76 +606,41 @@ a:hover { color: var(--blue-300); }
   margin-bottom: 8px;
 }
 
-/* Homepage section carousel: an editorial "prospectus" reveal of the
-   site's main destinations, each a numbered card with a line-icon, title
-   and one-line description. Built on native scroll-snap rather than a
-   hand-rolled transform loop — the browser owns the scrolling physics
-   (touch, trackpad, mouse-wheel all work for free), JS only supplies the
-   arrow/dot shortcuts, the active-card spotlight, and a slow autoplay
-   that pauses on hover/focus/touch and sits still under reduced motion. */
-.carousel {
-  position: relative;
+/* Homepage destination grid: a quiet 2x2 "prospectus" of the site's main
+   sections, each a numbered card with a line-icon, title and one-line
+   description. Static by design — no scrolling, no autoplay, just four
+   destinations laid out at once. */
+.dest-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
   margin: 8px 0 32px;
 }
 
-.carousel-viewport {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x proximity;
-  /* Matches the track's side padding, so native scroll-snap (which always
-     re-snaps to a card's true edge, overriding any scrollLeft set from JS)
-     lands cards at the edge of the button gutter instead of at the very
-     edge of the viewport. */
-  scroll-padding-inline: 46px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-
-.carousel-viewport::-webkit-scrollbar { display: none; }
-
-.carousel-track {
-  display: flex;
-  gap: 20px;
-  /* Side padding leaves a clear gutter for the floating prev/next buttons,
-     so they never sit on top of a card's edge or its text. */
-  padding: 18px 46px;
-}
-
-.carousel-card {
+.dest-card {
   position: relative;
-  flex: 0 0 45%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 14px;
   min-width: 0;
-  padding: 22px 22px 24px;
+  padding: 24px 24px 26px;
   border: 1px solid var(--line-soft);
   border-radius: 3px;
   background: var(--bg-raised);
   text-decoration: none;
   overflow: hidden;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  opacity: 0.62;
   transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.carousel-card.is-active {
-  opacity: 1;
-}
-
-.carousel-card:hover {
-  opacity: 1;
+.dest-card:hover {
   border-color: var(--blue-600);
   transform: translateY(-3px);
   box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.08), 0 24px 46px -26px var(--blue-glow);
 }
 
-.carousel-card-accent {
+.dest-card-accent {
   position: absolute;
   inset: 0 auto 0 0;
   width: 3px;
@@ -685,12 +650,11 @@ a:hover { color: var(--blue-300); }
   transition: transform 0.25s ease;
 }
 
-.carousel-card:hover .carousel-card-accent,
-.carousel-card.is-active .carousel-card-accent {
+.dest-card:hover .dest-card-accent {
   transform: scaleY(1);
 }
 
-.carousel-icon {
+.dest-icon {
   flex: none;
   display: flex;
   align-items: center;
@@ -704,125 +668,55 @@ a:hover { color: var(--blue-300); }
   transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.carousel-icon svg {
+.dest-icon svg {
   width: 22px;
   height: 22px;
   stroke: currentColor;
 }
 
-.carousel-card:hover .carousel-icon {
+.dest-card:hover .dest-icon {
   border-color: var(--blue-400);
   background: var(--blue-800);
 }
 
-.carousel-index {
+.dest-index {
   position: absolute;
-  top: 22px;
-  right: 18px;
+  top: 24px;
+  right: 22px;
   font-family: var(--mono);
   font-size: 12px;
   color: var(--ink-faint);
 }
 
-.carousel-text {
+.dest-text {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.carousel-title {
+.dest-title {
   font-family: var(--serif);
   font-size: 20px;
   color: var(--ink);
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.carousel-card:hover .carousel-title {
+.dest-card:hover .dest-title {
   color: var(--blue-400);
 }
 
-.carousel-desc {
+.dest-desc {
   font-size: 14px;
   color: var(--ink-faint);
   line-height: 1.45;
 }
 
-.carousel-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: var(--bg-raised);
-  color: var(--ink-faint);
-  cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.25s ease, color 0.25s ease, border-color 0.25s ease;
-}
-
-.carousel:hover .carousel-nav,
-.carousel-nav:focus-visible {
-  opacity: 1;
-}
-
-.carousel-nav:hover {
-  color: var(--blue-400);
-  border-color: var(--blue-400);
-}
-
-.carousel-nav svg {
-  width: 15px;
-  height: 15px;
-}
-
-.carousel-prev { left: 6px; }
-.carousel-next { right: 6px; }
-
-@media (max-width: 640px) {
-  .carousel-nav { opacity: 1; }
-  .carousel-prev { left: 6px; }
-  .carousel-next { right: 6px; }
-}
-
-.carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  padding-bottom: 14px;
-}
-
-.carousel-dots button {
-  width: 7px;
-  height: 7px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  background: var(--line);
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.carousel-dots button.is-active {
-  background: var(--blue-400);
-  transform: scale(1.3);
-}
-
-@media (max-width: 720px) {
-  .carousel-card { flex-basis: 84%; }
-}
-
 @media (max-width: 560px) {
-  .carousel-card { flex-basis: 88%; padding: 20px 18px 22px; }
-  .carousel-icon { width: 44px; height: 44px; }
-  .carousel-icon svg { width: 22px; height: 22px; }
-  .carousel-title { font-size: 19px; }
+  .dest-grid { grid-template-columns: 1fr; gap: 14px; }
+  .dest-card { padding: 20px 20px 22px; }
+  .dest-icon { width: 44px; height: 44px; }
+  .dest-icon svg { width: 22px; height: 22px; }
+  .dest-title { font-size: 19px; }
 }
 
 /* Entry blocks (experience / education / projects) */
