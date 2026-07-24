@@ -221,6 +221,87 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
     packaging the underlying mathematical framework as an open-source library.
   </p>
   <div class="tags"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></div>
+
+  <div class="readme-toggle">
+    <button type="button" class="readme-summary" aria-expanded="false">
+      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
+    </button>
+    <div class="readme-collapse">
+      <div class="readme">
+      <h4>Overview</h4>
+      <p>
+        We consider a <em>d</em>-dimensional It&ocirc; diffusion process \((X_t)_{t \ge 0}\) defined by
+        \[dX_t = b(X_t)\,dt + \sigma(X_t)\,dW_t,\]
+        where \(X_t \in \mathbb{R}^d\), \(b: \mathbb{R}^d \to \mathbb{R}^d\) is the drift function,
+        \(\sigma: \mathbb{R}^d \to \mathbb{R}^{d \times m}\) is the diffusion coefficient, and \(W_t\) is an
+        \(m\)-dimensional Brownian motion. The instantaneous covariance matrix is given by
+        \[a(x) = \sigma(x)\sigma(x)^\top.\]
+      </p>
+      <p>
+        Throughout, we assume that the diffusion satisfies the uniform ellipticity condition,
+        meaning that there exists a constant \(\lambda > 0\) such that
+        \[\xi^\top a(x) \xi \ge \lambda \|\xi\|^2, \qquad \forall x \in \mathbb{R}^d,\ \xi \in \mathbb{R}^d.\]
+        This assumption ensures that the diffusion is non-degenerate in every direction. As a consequence, the
+        transition probabilities of the process assign positive probability to every non-empty open subset of
+        the state space. Hence, the process is open-set irreducible. Moreover, under standard
+        regularity conditions, the diffusion is aperiodic.
+      </p>
+      <p>
+        If the process is additionally positive Harris recurrent, then it admits a unique
+        invariant probability distribution and satisfies the usual ergodic properties of Markov processes. In
+        particular, long-run averages of functions of the process converge to their corresponding expectations
+        under the invariant distribution, ensuring stable long-run behaviour.
+      </p>
+      <p>
+        The proposed stationarity test is based on the relationship between stationarity and the growth
+        behaviour of the occupation measure,
+        \[\mu_t(A) = \int_0^t \mathbf{1}_A(X_s)\,ds,\]
+        which measures the amount of time the diffusion spends in a measurable set \(A\). For a stationary and
+        ergodic diffusion, the occupation measure grows linearly with time, with the growth rate determined by
+        the invariant distribution. Therefore, under the diffusion assumptions above, stationarity is
+        equivalent to linear divergence of the occupation measure.
+      </p>
+      <p>
+        The test exploits this equivalence by comparing two consistent estimators of the diffusion matrix. The
+        first estimator is constructed in the time domain, while the second estimator is constructed in the
+        state domain using the occupation measure. Under stationarity, the linear growth of the occupation
+        measure guarantees compatible asymptotic behaviour of both estimators. Under nonstationarity, this
+        linear divergence property fails, leading to a divergence between the two estimators.
+      </p>
+      <p>
+        The limiting distribution used for the test statistic is obtained from the extreme value theory of
+        Pickands and Berman for running maxima of stationary Gaussian sequences. Under the
+        stationary regime, the standardized difference between the estimators admits a Gaussian approximation,
+        and the corresponding running maximum converges to a Gumbel-type limit distribution. The critical
+        values for the test are therefore obtained from this Pickands&ndash;Berman extreme value distribution.
+      </p>
+      <h4>Quick Start</h4>
+      <pre class="code-block" data-lang="python"><code>import numpy as np
+from mht.models.processes import BivariateOUProcess
+from mht.testing.kernel_test import KernelTest, Kernel, TestPlotter
+
+# Simulate a bivariate OU process
+ou_config = {
+    'T': 365, 'dt': 1/20,
+    'sigma1': np.sqrt(2), 'sigma2': np.sqrt(2),
+    'theta1': 0.2, 'theta2': 0.2,
+    'rho': 0.75,
+}
+process = BivariateOUProcess(**ou_config)
+process.simulate(seed=1)
+X, T, n = process.config()
+
+# Estimate and test
+test = KernelTest(data=X, kernel_params={'bandwidth': np.sqrt(3) * 9 / ((n ** (1/6)) * np.log(n)), 'n': n, 'T': T, 'kernel': Kernel.BaseKernel}, time_params={'bandwidth': 200 * T / n, 'n': n, 'T': T})
+test.time_domain_smoother(lamb=0.99)
+test.state_domain_smoother(dist=True)
+test.gauss()
+bound, scalar_gauss = test.transform_1D_gauss()
+</code></pre>
+      <p class="form-hint">Requires Python &ge; 3.10. Full setup, repository layout, and batch KPSS/Leybourne&ndash;McCabe comparisons on the <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a> page.</p>
+    </div>
+    </div>
+  </div>
 </div>
 
 <h2 id="publications">Publications</h2>
