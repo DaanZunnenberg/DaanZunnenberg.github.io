@@ -613,32 +613,77 @@ a:hover { color: var(--blue-300); }
    pauses on hover/focus, and sits still entirely under reduced motion. */
 .carousel {
   position: relative;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
   margin: 8px 0 32px;
 }
 
+.carousel-viewport {
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  /* No-JS fallback: a native horizontally-scrollable, snap-aligned row so
+     the carousel is still fully usable (including touch swipe) before
+     home-carousel.js takes over and switches this to transform-driven. */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.carousel-viewport::-webkit-scrollbar { display: none; }
+
+.carousel.is-enhanced .carousel-viewport {
+  overflow-x: hidden;
+  scroll-snap-type: none;
+}
+
 .carousel-track {
-  position: relative;
-  min-height: 148px;
-}
-
-.carousel-slide {
-  position: absolute;
-  inset: 0;
   display: flex;
-  align-items: center;
-  gap: 22px;
-  padding: 28px 8px;
-  text-decoration: none;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: 16px;
+  padding: 18px 0;
+  touch-action: pan-y;
 }
 
-.carousel-slide.is-active {
-  opacity: 1;
-  pointer-events: auto;
+.carousel-card {
+  position: relative;
+  flex: 0 0 calc((100% - 32px) / 3);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+  padding: 22px 22px 24px;
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  background: var(--bg-raised);
+  text-decoration: none;
+  overflow: hidden;
+  scroll-snap-align: start;
+  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.carousel-card[aria-hidden="true"] {
+  visibility: hidden;
+}
+
+.carousel-card-accent {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--blue-400), var(--blue-600));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.25s ease;
+}
+
+.carousel-card:hover {
+  border-color: var(--blue-600);
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.08), 0 24px 46px -26px var(--blue-glow);
+}
+
+.carousel-card:hover .carousel-card-accent {
+  transform: scaleY(1);
 }
 
 .carousel-icon {
@@ -646,8 +691,8 @@ a:hover { color: var(--blue-300); }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border: 1px solid var(--line);
   border-radius: 2px;
   background: var(--bg-1);
@@ -656,47 +701,46 @@ a:hover { color: var(--blue-300); }
 }
 
 .carousel-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   stroke: currentColor;
 }
 
-.carousel-slide:hover .carousel-icon {
+.carousel-card:hover .carousel-icon {
   border-color: var(--blue-400);
   background: var(--blue-800);
 }
 
 .carousel-index {
   position: absolute;
-  top: 26px;
-  right: 6px;
+  top: 22px;
+  right: 18px;
   font-family: var(--mono);
   font-size: 12px;
   color: var(--ink-faint);
 }
 
 .carousel-text {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding-right: 28px;
 }
 
 .carousel-title {
   font-family: var(--serif);
-  font-size: 22px;
+  font-size: 20px;
   color: var(--ink);
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.carousel-slide:hover .carousel-title {
+.carousel-card:hover .carousel-title {
   color: var(--blue-400);
 }
 
 .carousel-desc {
   font-size: 14px;
   color: var(--ink-faint);
+  line-height: 1.45;
 }
 
 .carousel-nav {
@@ -765,8 +809,12 @@ a:hover { color: var(--blue-300); }
   transform: scale(1.3);
 }
 
+@media (max-width: 900px) {
+  .carousel-card { flex-basis: calc((100% - 16px) / 2); }
+}
+
 @media (max-width: 560px) {
-  .carousel-slide { align-items: flex-start; padding: 22px 6px; }
+  .carousel-card { flex-basis: 100%; padding: 20px 18px 22px; }
   .carousel-icon { width: 44px; height: 44px; }
   .carousel-icon svg { width: 22px; height: 22px; }
   .carousel-title { font-size: 19px; }

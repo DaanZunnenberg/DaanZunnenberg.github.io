@@ -25,47 +25,53 @@ market making, and quantitative investing. Explore the site below.
 </p>
 
 <div class="carousel" id="home-carousel">
-  <div class="carousel-track">
-    <a class="carousel-slide is-active" href="{{ '/experience/' | relative_url }}">
-      <span class="carousel-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M3 12.5h18"/></svg>
-      </span>
-      <span class="carousel-index">01</span>
-      <span class="carousel-text">
-        <span class="carousel-title">Experience &amp; Projects</span>
-        <span class="carousel-desc">Roles in quantitative trading and research, and the projects behind them.</span>
-      </span>
-    </a>
-    <a class="carousel-slide" href="{{ '/personal/' | relative_url }}">
-      <span class="carousel-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
-      </span>
-      <span class="carousel-index">02</span>
-      <span class="carousel-text">
-        <span class="carousel-title">Personal</span>
-        <span class="carousel-desc">Research, briefly explained; padel; travel.</span>
-      </span>
-    </a>
-    <a class="carousel-slide" href="{{ '/events/' | relative_url }}">
-      <span class="carousel-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-      </span>
-      <span class="carousel-index">03</span>
-      <span class="carousel-text">
-        <span class="carousel-title">Events</span>
-        <span class="carousel-desc">Talks, seminars, and conferences, upcoming and past.</span>
-      </span>
-    </a>
-    <a class="carousel-slide" href="{{ '/contact/' | relative_url }}">
-      <span class="carousel-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
-      </span>
-      <span class="carousel-index">04</span>
-      <span class="carousel-text">
-        <span class="carousel-title">Contact</span>
-        <span class="carousel-desc">Roles, consulting, or an invitation to meet up.</span>
-      </span>
-    </a>
+  <div class="carousel-viewport">
+    <div class="carousel-track">
+      <a class="carousel-card" href="{{ '/experience/' | relative_url }}">
+        <span class="carousel-card-accent" aria-hidden="true"></span>
+        <span class="carousel-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M3 12.5h18"/></svg>
+        </span>
+        <span class="carousel-index">01</span>
+        <span class="carousel-text">
+          <span class="carousel-title">Experience &amp; Projects</span>
+          <span class="carousel-desc">Roles in quantitative trading and research, and the projects behind them.</span>
+        </span>
+      </a>
+      <a class="carousel-card" href="{{ '/personal/' | relative_url }}">
+        <span class="carousel-card-accent" aria-hidden="true"></span>
+        <span class="carousel-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
+        </span>
+        <span class="carousel-index">02</span>
+        <span class="carousel-text">
+          <span class="carousel-title">Personal</span>
+          <span class="carousel-desc">Research, briefly explained; padel; travel.</span>
+        </span>
+      </a>
+      <a class="carousel-card" href="{{ '/events/' | relative_url }}">
+        <span class="carousel-card-accent" aria-hidden="true"></span>
+        <span class="carousel-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        </span>
+        <span class="carousel-index">03</span>
+        <span class="carousel-text">
+          <span class="carousel-title">Events</span>
+          <span class="carousel-desc">Talks, seminars, and conferences, upcoming and past.</span>
+        </span>
+      </a>
+      <a class="carousel-card" href="{{ '/contact/' | relative_url }}">
+        <span class="carousel-card-accent" aria-hidden="true"></span>
+        <span class="carousel-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+        </span>
+        <span class="carousel-index">04</span>
+        <span class="carousel-text">
+          <span class="carousel-title">Contact</span>
+          <span class="carousel-desc">Roles, consulting, or an invitation to meet up.</span>
+        </span>
+      </a>
+    </div>
   </div>
   <button type="button" class="carousel-nav carousel-prev" aria-label="Previous section">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg>
