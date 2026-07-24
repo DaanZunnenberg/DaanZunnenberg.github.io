@@ -335,7 +335,7 @@ depth, direction = result.depth, result.direction
 
 <div class="entry" id="experience-quantfi-quantitative-developer">
   <div class="entry-head">
-    <h3>QuantFi &middot; Quantitative Developer</h3>
+    <h3><a href="{{ '/experience/#experience-quantfi-quantitative-developer' | relative_url }}">QuantFi &middot; Quantitative Developer</a></h3>
     <span class="entry-date">March 2023 &ndash; August 2024</span>
   </div>
   <ul>
@@ -347,7 +347,7 @@ depth, direction = result.depth, result.direction
 
 <div class="entry" id="experience-vu-research-assistant">
   <div class="entry-head">
-    <h3>VU Econometrics and Data Science &middot; Research Assistant</h3>
+    <h3><a href="{{ '/experience/#experience-vu-research-assistant' | relative_url }}">VU Econometrics and Data Science &middot; Research Assistant</a></h3>
     <span class="entry-date">January 2024 &ndash; June 2024</span>
   </div>
   <ul>
@@ -359,7 +359,7 @@ depth, direction = result.depth, result.direction
 
 <div class="entry" id="experience-quantfi-operational-trader">
   <div class="entry-head">
-    <h3>QuantFi &middot; Operational Trader</h3>
+    <h3><a href="{{ '/experience/#experience-quantfi-operational-trader' | relative_url }}">QuantFi &middot; Operational Trader</a></h3>
     <span class="entry-date">October 2022 &ndash; March 2023</span>
   </div>
   <ul>
@@ -371,7 +371,7 @@ depth, direction = result.depth, result.direction
 
 <div class="entry" id="experience-beyonddutch-research-intern">
   <div class="entry-head">
-    <h3>BeyondDutch &middot; Research Intern</h3>
+    <h3><a href="{{ '/experience/#experience-beyonddutch-research-intern' | relative_url }}">BeyondDutch &middot; Research Intern</a></h3>
     <span class="entry-date">January 2018 &ndash; June 2018</span>
   </div>
   <ul>

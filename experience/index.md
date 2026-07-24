@@ -18,7 +18,7 @@ permalink: /experience/
 
 <h2 id="work-experience">Work Experience</h2>
 
-<div class="entry">
+<div class="entry" id="experience-quantfi-quantitative-developer">
   <div class="entry-head">
     <h3>QuantFi &middot; Quantitative Developer</h3>
     <span class="entry-date">March 2023 &ndash; August 2024</span>
@@ -33,8 +33,8 @@ permalink: /experience/
   </p>
   <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>numba</code> &middot; <code>ccxt</code></div>
 
-  <div class="readme-toggle">
-    <button type="button" class="readme-summary" aria-expanded="false">
+  <div class="readme-toggle is-open">
+    <button type="button" class="readme-summary" aria-expanded="true">
       <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
     </button>
     <div class="readme-collapse">
@@ -116,7 +116,7 @@ def quotes(S_hat, sigma, q, gamma, k, tau):
   </div>
 </div>
 
-<div class="entry">
+<div class="entry" id="experience-vu-research-assistant">
   <div class="entry-head">
     <h3>VU Econometrics and Data Science &middot; Research Assistant</h3>
     <span class="entry-date">January 2024 &ndash; June 2024</span>
@@ -175,7 +175,7 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
   </div>
 </div>
 
-<div class="entry">
+<div class="entry" id="experience-quantfi-operational-trader">
   <div class="entry-head">
     <h3>QuantFi &middot; Operational Trader</h3>
     <span class="entry-date">October 2022 &ndash; March 2023</span>
@@ -191,7 +191,7 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
   <div class="tags"><code>Python</code> &middot; <code>ccxt</code> &middot; <code>Tardis.dev</code></div>
 </div>
 
-<div class="entry">
+<div class="entry" id="experience-beyonddutch-research-intern">
   <div class="entry-head">
     <h3>BeyondDutch &middot; Research Intern</h3>
     <span class="entry-date">January 2018 &ndash; June 2018</span>
