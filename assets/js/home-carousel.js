@@ -13,17 +13,20 @@
   if (N < 2 || !viewport || !track) return;
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var TRANSITION = reduceMotion ? "transform 1ms linear" : "transform 480ms cubic-bezier(0.16, 1, 0.3, 1)";
+  var TRANSITION_MS = reduceMotion ? 1 : 420;
+  var TRANSITION = "transform " + TRANSITION_MS + "ms cubic-bezier(0.16, 1, 0.3, 1)";
   var AUTOPLAY_INTERVAL = 5500;
   var DRAG_THRESHOLD = 48;
 
   // Infinite loop via a 5-slot sliding window: slots[0] and slots[4] are
   // off-viewport buffer cards (one card-width to either side, clipped by
   // the viewport's overflow:hidden), slots[1..3] are the visible cards.
-  // Stepping just animates the track by one card-width, then — once the
-  // transition ends — the slot contents are relabelled for the new
-  // position and the transform is reset instantly, so the loop never has
-  // a visible seam.
+  // Stepping animates the track by one card-width, then relabels the slot
+  // contents for the new position and resets the transform instantly, so
+  // the loop never has a visible seam. A step is always exactly one card,
+  // even for dot clicks more than one card away (those chain several
+  // one-card steps) — animating by the wrong distance is what made the
+  // display and the dots fall out of sync.
   var slots = [];
   for (var i = -1; i <= 3; i++) {
     var clone = originals[((i % N) + N) % N].cloneNode(true);
@@ -37,6 +40,7 @@
   var baseOffset = 0;
   var animating = false;
   var autoplayTimer = null;
+  var dragging = false;
 
   function relabelSlots() {
     for (var k = 0; k < slots.length; k++) {
@@ -75,13 +79,28 @@
     }
   }
 
-  function settle() {
+  // Step animations are driven through a single settle() call that both the
+  // transitionend handler and a fallback timer can trigger — whichever
+  // fires first wins, and the other is a no-op. Without this fallback, a
+  // transitionend event that never arrives (tab backgrounded mid-animation,
+  // a skipped transition, etc.) leaves `animating` stuck true forever and
+  // every future click on the arrows or dots silently does nothing.
+  var pendingSettle = null;
+
+  function settle(target, cb) {
+    if (!pendingSettle) return;
+    pendingSettle = null;
+    current = target;
+    relabelSlots();
+    measure();
     setTransform(baseOffset, false);
-    track.getBoundingClientRect(); // force reflow so the next transition isn't skipped
+    track.getBoundingClientRect();
     animating = false;
+    updateDots();
+    if (cb) cb();
   }
 
-  function animateTo(target, dir) {
+  function animateTo(target, dir, cb) {
     if (animating || target === current) return;
     animating = true;
     var to = dir === 1 ? baseOffset - cardStep : baseOffset + cardStep;
@@ -89,30 +108,44 @@
     track.getBoundingClientRect();
     setTransform(to, true);
 
+    var token = {};
+    pendingSettle = token;
+
     function onEnd(e) {
       if (e.target !== track || e.propertyName !== "transform") return;
       track.removeEventListener("transitionend", onEnd);
-      current = target;
-      relabelSlots();
-      measure();
-      settle();
-      updateDots();
+      if (pendingSettle === token) settle(target, cb);
     }
     track.addEventListener("transitionend", onEnd);
+    setTimeout(function () {
+      if (pendingSettle === token) settle(target, cb);
+    }, TRANSITION_MS + 150);
   }
 
   function next() { animateTo((current + 1) % N, 1); }
   function prev() { animateTo((current - 1 + N) % N, -1); }
+
+  function chainSteps(steps, dir) {
+    if (steps <= 0) return;
+    var target = dir === 1 ? (current + 1) % N : (current - 1 + N) % N;
+    animateTo(target, dir, function () {
+      if (steps > 1) chainSteps(steps - 1, dir);
+    });
+  }
+
   function goTo(target) {
-    if (target === current) return;
+    if (target === current || animating) return;
     var forwardDist = (target - current + N) % N;
     var backwardDist = N - forwardDist;
-    animateTo(target, forwardDist <= backwardDist ? 1 : -1);
+    if (forwardDist <= backwardDist) chainSteps(forwardDist, 1);
+    else chainSteps(backwardDist, -1);
   }
 
   function startAutoplay() {
     if (reduceMotion || autoplayTimer || dragging) return;
-    autoplayTimer = setInterval(next, AUTOPLAY_INTERVAL);
+    autoplayTimer = setInterval(function () {
+      if (!animating) next();
+    }, AUTOPLAY_INTERVAL);
   }
 
   function stopAutoplay() {
@@ -123,7 +156,6 @@
   }
 
   // Drag / swipe
-  var dragging = false;
   var dragStartX = 0;
   var dragDelta = 0;
   var dragMoved = false;

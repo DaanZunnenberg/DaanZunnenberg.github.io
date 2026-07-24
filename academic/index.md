@@ -5,7 +5,7 @@ permalink: /academic/
 ---
 
 <section class="hero">
-  <canvas id="code-type-canvas" class="hero-canvas" aria-label="Animated Python market-data code being typed out" aria-hidden="true"></canvas>
+  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher &middot; Probability &amp; Empirical Processes</div>
