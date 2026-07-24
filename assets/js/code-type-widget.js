@@ -13,8 +13,9 @@
   var W, H;
   var FONT_SIZE = 14;
   var LINE_HEIGHT = 21;
-  var PAD_X = 22;
+  var PAD_X = 25;
   var PAD_Y = 26;
+  var PAD_BOTTOM = 44;
 
   var COLOR_DEFAULT = "rgba(220, 223, 230, 0.92)";
   var COLOR_KEYWORD = "rgba(159, 176, 201, 0.95)";
@@ -333,7 +334,7 @@
     // hero, and lay earlier lines out upward from there — like a terminal
     // whose prompt always sits in the same place, rather than text that
     // starts at the top and only starts scrolling once it overflows.
-    var bottomLineY = H - PAD_Y - LINE_HEIGHT;
+    var bottomLineY = H - PAD_BOTTOM - LINE_HEIGHT;
     var y = bottomLineY - (revealed.length - 1) * LINE_HEIGHT;
     var lastX = PAD_X;
     var lastY = y;
@@ -372,8 +373,8 @@
     // real pause is the beat held once a chunk completes, so it reads like
     // blocks of code landing rather than a sentence being spoken.
     var nextChar = fullText[charCount];
-    var delay = 9 + Math.random() * 10;
-    if (nextChar === "\n") delay = 60;
+    var delay = 6 + Math.random() * 7;
+    if (nextChar === "\n") delay = 42;
     typingTimer = setTimeout(function () {
       charCount++;
       draw(true);
