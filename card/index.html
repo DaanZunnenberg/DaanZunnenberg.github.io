@@ -336,7 +336,7 @@
       <div class="links">
         <button type="button" class="link" id="email-link" data-u="dw.zunnenberg" data-d="gmail.com">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
-          <span class="label-text" data-short="Email" data-long="dw.zunnenberg@gmail.com">Email</span>
+          <span class="label-text" data-short="Email">Email</span>
           <span class="toast" id="toast">Copied</span>
         </button>
         <a class="link" href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener">
@@ -378,13 +378,17 @@
   // ---- copy to clipboard ----
   const emailLink = document.getElementById('email-link');
   const toast = document.getElementById('toast');
+  const emailAddress = emailLink.dataset.u + '@' + emailLink.dataset.d;
+  // Built here instead of sitting as a data-long="..." attribute in the
+  // markup, so the address isn't a plain string scrapers can read straight
+  // out of the page source.
+  emailLink.querySelector('.label-text').dataset.long = emailAddress;
   emailLink.addEventListener('click', async (e) => {
     e.preventDefault();
-    const text = emailLink.dataset.u + '@' + emailLink.dataset.d;
-    try { await navigator.clipboard.writeText(text); }
+    try { await navigator.clipboard.writeText(emailAddress); }
     catch (err) {
       const ta = document.createElement('textarea');
-      ta.value = text; document.body.appendChild(ta);
+      ta.value = emailAddress; document.body.appendChild(ta);
       ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
     }
     toast.classList.add('show');
