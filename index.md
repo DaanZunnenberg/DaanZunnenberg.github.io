@@ -27,7 +27,7 @@ market making, and quantitative investing. Explore the site below.
 <div class="carousel" id="home-carousel">
   <div class="carousel-viewport">
     <div class="carousel-track">
-      <a class="carousel-card" href="{{ '/experience/' | relative_url }}">
+      <a class="carousel-card is-active" href="{{ '/experience/' | relative_url }}">
         <span class="carousel-card-accent" aria-hidden="true"></span>
         <span class="carousel-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M3 12.5h18"/></svg>
