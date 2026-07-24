@@ -27,6 +27,15 @@ permalink: /events/
 
 <div class="entry">
   <div class="entry-head">
+    <h3>Akuna Capital Quant Trading Challenge</h3>
+    <span class="entry-date">August 17&ndash;21, 2026</span>
+  </div>
+  <div class="entry-org">Akuna Capital &middot; Virtual</div>
+  <p>A week-long virtual market-making competition: writing a trading bot in Python that competes against Akuna&rsquo;s models and other participants on a simulated exchange.</p>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
     <h3><a href="https://www.tudelft.nl/evenementen/2026/ewi/diam/stochastics-meeting-lunteren-2026" target="_blank" rel="noopener noreferrer">54th Annual Meeting of the Dutch Probability and Statistics Community</a></h3>
     <span class="entry-date">November 2026</span>
   </div>

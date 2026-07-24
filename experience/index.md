@@ -59,6 +59,30 @@ permalink: /experience/
         order flow signals, models of queue position, execution that accounts for latency, and exchange-specific
         risk controls.
       </p>
+      <h4>Quoting Engine</h4>
+      <pre class="code-block" data-lang="python"><code>def optimal_quotes(mid, sigma, q, gamma, k, A, tau):
+    spread = (1 / gamma) * np.log(1 + gamma / k)
+    skew = q * gamma * sigma ** 2 * tau
+    reservation = mid - skew
+    bid = reservation - spread / 2
+    ask = reservation + spread / 2
+    return bid, ask
+
+def fill_intensity(delta, A, k):
+    return A * np.exp(-k * delta)
+
+async def quote_loop(book, inventory, params):
+    while True:
+        snapshot = await book.next_snapshot()
+        sigma = ewma_vol(snapshot.mid, params.vol_halflife)
+        bid, ask = optimal_quotes(
+            snapshot.mid, sigma, inventory.qty,
+            params.gamma, snapshot.k_hat, snapshot.A_hat, params.tau,
+        )
+        bid, ask = clamp_to_ticks(bid, ask, snapshot.tick_size)
+        await exchange.replace_orders(bid, ask, size=params.quote_size)
+</code></pre>
+      <p class="form-hint">Volatility and arrival-rate parameters (<code>k_hat</code>, <code>A_hat</code>) are re-estimated per snapshot from the live order book; skew pushes quotes to unwind inventory rather than accumulate it.</p>
     </div>
     </div>
   </div>
