@@ -211,7 +211,16 @@
         <div class="footer-col footer-contact-col">
           <div class="footer-contact">
             <p>Collaboration proposals, seminar invitations, or questions about the PhD work.</p>
-            <a class="cta-button" href="{{ '/academic/contact/' | relative_url }}">Get in touch &rarr;</a>
+            <form class="footer-message-form" data-u="{{ site.email | split: '@' | first }}" data-d="{{ site.email | split: '@' | last }}" method="POST">
+              <input type="hidden" name="_subject" value="New message from the footer, daanzunnenberg.com">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_captcha" value="true">
+              <input type="hidden" name="_next" value="{{ '/academic/contact/' | absolute_url }}?sent=1">
+              <input type="text" name="_honey" style="display:none">
+              <input type="email" name="email" placeholder="Your email" required>
+              <textarea name="message" rows="2" placeholder="Quick message..." required></textarea>
+              <button type="submit">Send message &rarr;</button>
+            </form>
           </div>
         </div>
         {% else %}
@@ -236,7 +245,16 @@
         <div class="footer-col footer-contact-col">
           <div class="footer-contact">
             <p>Open to roles, consulting, or an invitation to meet up.</p>
-            <a class="cta-button" href="{{ '/contact/' | relative_url }}">Contact me &rarr;</a>
+            <form class="footer-message-form" data-u="{{ site.email | split: '@' | first }}" data-d="{{ site.email | split: '@' | last }}" method="POST">
+              <input type="hidden" name="_subject" value="New message from the footer, daanzunnenberg.com">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_captcha" value="true">
+              <input type="hidden" name="_next" value="{{ '/contact/' | absolute_url }}?sent=1">
+              <input type="text" name="_honey" style="display:none">
+              <input type="email" name="email" placeholder="Your email" required>
+              <textarea name="message" rows="2" placeholder="Quick message..." required></textarea>
+              <button type="submit">Send message &rarr;</button>
+            </form>
           </div>
         </div>
         {% endif %}

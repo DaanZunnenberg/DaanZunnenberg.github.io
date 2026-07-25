@@ -16,7 +16,7 @@ permalink: /contact/
 
 <div class="contact-panel">
 
-<p class="lede">
+<p class="lede contact-lede">
 I'm doing a Mathematics PhD alongside quantitative finance work, at the intersection of market making,
 estimation under uncertainty, and production trading systems.
 </p>
@@ -64,8 +64,6 @@ estimation under uncertainty, and production trading systems.
   </a>
 </div>
 
-</div>
-
 <h2 id="leave-a-message">Leave a message</h2>
 
 <form class="contact-form" data-u="dw.zunnenberg" data-d="gmail.com" method="POST">
@@ -110,3 +108,5 @@ estimation under uncertainty, and production trading systems.
 <p id="sent-note" class="sent-note">Thanks, your message was sent. I'll get back to you by email.</p>
 
 <p><a href="{{ '/' | relative_url }}">&larr; Back to About</a></p>
+
+</div>

@@ -124,10 +124,23 @@ main {
 main > p,
 main > ul,
 main > ol,
+main h1,
+main h2,
 .lede {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Resume's headings sit in the two-column layout's main reading column
+   alongside its (left-aligned, not centered) .entry blocks, so they need
+   to stay flush left rather than pick up the sitewide h1/h2 centering
+   above and drift out of line with the entries beneath them. */
+.resume-main h1,
+.resume-main h2 {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .readme p,
@@ -849,17 +862,78 @@ a:hover { color: var(--blue-300); }
    same full-bleed technique as the hero/footer, and the same restrained
    corporate-contact-page feel as the footer's own dark band. */
 .contact-panel {
-  margin: 32px -64px 40px;
-  padding: 44px 40px 48px;
+  margin: 32px -64px 0;
+  padding: 44px 40px 64px;
   background: var(--blue-950);
 }
 
 @media (max-width: 640px) {
-  .contact-panel { margin: 24px -16px 32px; padding: 32px 16px 36px; }
+  .contact-panel { margin: 24px -16px 0; padding: 32px 16px 48px; }
 }
 
 .contact-panel .lede {
   color: rgba(243, 241, 234, 0.85);
+}
+
+.contact-panel .contact-lede {
+  margin-bottom: 40px;
+}
+
+.contact-panel h2 {
+  color: #f5f7fb;
+  border-bottom-color: var(--line-dark);
+}
+
+.contact-panel h2::before {
+  background: var(--metal-gold);
+}
+
+.contact-panel .contact-form {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-dark);
+  border-left-color: var(--line-dark);
+}
+
+.contact-panel .contact-form:focus-within {
+  border-color: var(--metal-gold);
+  border-left-color: var(--metal-gold);
+}
+
+.contact-panel .contact-form label {
+  color: rgba(233, 236, 243, 0.45);
+}
+
+.contact-panel .contact-form input[type="text"],
+.contact-panel .contact-form input[type="email"],
+.contact-panel .contact-form select,
+.contact-panel .contact-form textarea {
+  color: #f5f7fb;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--line-dark);
+}
+
+.contact-panel .contact-form input::placeholder,
+.contact-panel .contact-form textarea::placeholder {
+  color: rgba(233, 236, 243, 0.35);
+}
+
+.contact-panel .contact-form input:focus,
+.contact-panel .contact-form select:focus,
+.contact-panel .contact-form textarea:focus {
+  border-color: var(--metal-gold);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.contact-panel .form-footer {
+  border-top-color: var(--line-dark);
+}
+
+.contact-panel .form-hint {
+  color: rgba(233, 236, 243, 0.45);
+}
+
+.contact-panel p a {
+  color: var(--metal-gold);
 }
 
 .contact-panel .dest-card {
@@ -2069,6 +2143,60 @@ code {
 .footer-contact .cta-button {
   font-size: 12px;
   padding: 9px 16px;
+}
+
+/* Compact inline message form so a footer visitor can actually send
+   something from wherever they are, rather than only getting a button
+   that redirects to the full Contact page. */
+.footer-message-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-message-form input[type="email"],
+.footer-message-form textarea {
+  font-family: var(--serif);
+  font-size: 13px;
+  color: #f5f7fb;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line-dark);
+  border-radius: 2px;
+  padding: 8px 10px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.footer-message-form input[type="email"]::placeholder,
+.footer-message-form textarea::placeholder {
+  color: rgba(233, 236, 243, 0.35);
+}
+
+.footer-message-form input[type="email"]:focus,
+.footer-message-form textarea:focus {
+  border-color: var(--metal-gold);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.footer-message-form button {
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--bg);
+  background: var(--blue-400);
+  border: none;
+  border-radius: 2px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.footer-message-form button:hover {
+  background: var(--metal-gold);
+  color: var(--blue-950);
 }
 
 .footer-col {
