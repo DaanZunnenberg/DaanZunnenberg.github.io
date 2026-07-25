@@ -11,7 +11,7 @@
   var FLASH_MS = 750;
   var RECOMPUTE_MS = 1400; // pace of the decorative price jitter, like a slow-ticking desk, not a strobe
   var FLASH_CHANCE = 0.3; // only a fraction of changed cells actually flash per tick, to keep it calm
-  var STRIKES_HALF = 3; // strikes above/below ATM
+  var STRIKES_HALF = 2; // strikes above/below ATM (kept small: three panels now share the hero's height)
   var DAYS_TO_EXP = 21;
 
   // Same ThinkOrSwim-inspired palette as the old full-page version, now scoped to this card.
@@ -66,7 +66,8 @@
 
   var SYMBOLS = [
     { key: "btcusdt", label: "BTC/USDT", baseIv: 0.52, spot: 65000, seed: 0.3, rows: [] },
-    { key: "ethusdt", label: "ETH/USDT", baseIv: 0.64, spot: 3400, seed: 1.7, rows: [] }
+    { key: "ethusdt", label: "ETH/USDT", baseIv: 0.64, spot: 3400, seed: 1.7, rows: [] },
+    { key: "solusdt", label: "SOL/USDT", baseIv: 0.71, spot: 145, seed: 2.4, rows: [] }
   ];
 
   var live = false;
@@ -232,7 +233,7 @@
 
     var margin = 0;
     var gap = 0;
-    var panelH = (H - margin * 2 - gap) / 2;
+    var panelH = (H - margin * 2 - gap * (SYMBOLS.length - 1)) / SYMBOLS.length;
     SYMBOLS.forEach(function (sym, i) {
       drawPanel(sym, { x: margin, y: margin + i * (panelH + gap), w: W - margin * 2, h: panelH }, now);
     });
