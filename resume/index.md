@@ -16,6 +16,9 @@ permalink: /resume/
 
 <p class="tagline">For the theory and code behind this work, see <a href="{{ '/projects/' | relative_url }}">Projects</a>.</p>
 
+<div class="resume-layout">
+<div class="resume-main">
+
 <h2 id="work-experience">Work Experience</h2>
 
 <div class="entry" id="experience-quantfi-quantitative-developer">
@@ -55,7 +58,7 @@ permalink: /resume/
     <li>Designed scalable likelihood-based estimation algorithms for functional scale models, optimising computational performance through vectorised computations and parallel processing.</li>
     <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using NumPy vectorisation and parallel computing.</li>
   </ul>
-  <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code> &middot; <a href="{{ '/projects/#project-functional-scale-estimation' | relative_url }}">Full writeup &rarr;</a></div>
+  <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code> &middot; <a href="{{ '/projects/functional-scale-estimation/' | relative_url }}">Full writeup &rarr;</a></div>
 </div>
 
 <h2 id="education">Education</h2>
@@ -81,7 +84,7 @@ permalink: /resume/
   <div class="entry-org">Master of Science, Econometrics and Operations Research &middot; Amsterdam, Netherlands</div>
   <ul>
     <li>Honours Programme, GPA 8.9/10 (magna cum laude).</li>
-    <li>Developed a novel functional stationarity test for multidimensional diffusion processes for a thesis project, implementing and packaging the mathematical framework into an open-source <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Git repository</a> (see <a href="{{ '/projects/#project-functional-stationarity-test' | relative_url }}">Projects</a>).</li>
+    <li>Developed a novel functional stationarity test for multidimensional diffusion processes for a thesis project, implementing and packaging the mathematical framework into an open-source <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Git repository</a> (see <a href="{{ '/projects/functional-stationarity-test/' | relative_url }}">Projects</a>).</li>
     <li>Relevant coursework: Measure Theoretic Probability, Quantitative Financial Risk Management, Stochastic Processes, Stochastic Integration.</li>
   </ul>
 </div>
@@ -108,7 +111,7 @@ permalink: /resume/
     <li>Extending the functional GARCH framework to a generalized autoregressive score (GAS) model to estimate and capture time-varying intraday volatility surfaces.</li>
     <li>Designed efficient estimation procedures using B-splines, applying Numba JIT compilation to enable scalable modelling of volatility surfaces from granular intraday return data.</li>
   </ul>
-  <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="{{ '/projects/#project-functional-volatility-surface' | relative_url }}">Full writeup &rarr;</a></div>
+  <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="{{ '/projects/functional-volatility-surface-modelling/' | relative_url }}">Full writeup &rarr;</a></div>
 </div>
 
 <div class="entry">
@@ -123,14 +126,27 @@ permalink: /resume/
   <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
 </div>
 
-<h2 id="skills">Skills</h2>
+</div>
 
-<div class="entry">
-  <ul>
-    <li><strong>Languages &amp; tools:</strong> Python (<code>pandas</code>, <code>numpy</code>, <code>numba</code>), Java, SQL, Git, Bash</li>
-    <li><strong>Machine learning:</strong> <code>scipy</code>, <code>cvxpy</code>, <code>statsmodels</code>, <code>sklearn</code>, <code>tensorflow</code></li>
-    <li><strong>Statistical foundations:</strong> time series analysis, econometrics, inference theory</li>
-  </ul>
+<div class="resume-aside">
+  <div class="resume-aside-card">
+    <h3>At a Glance</h3>
+    <ul class="resume-facts">
+      <li><span>Based in</span><span>Rotterdam, NL</span></li>
+      <li><span>PhD</span><span>Leiden, exp. 2028</span></li>
+      <li><span>Focus</span><span>Probability &amp; quant finance</span></li>
+    </ul>
+  </div>
+  <div class="resume-aside-card" id="skills">
+    <h3>Skills</h3>
+    <ul>
+      <li><strong>Languages &amp; tools</strong><br>Python (<code>pandas</code>, <code>numpy</code>, <code>numba</code>), Java, SQL, Git, Bash</li>
+      <li><strong>Machine learning</strong><br><code>scipy</code>, <code>cvxpy</code>, <code>statsmodels</code>, <code>sklearn</code>, <code>tensorflow</code></li>
+      <li><strong>Statistical foundations</strong><br>Time series analysis, econometrics, inference theory</li>
+    </ul>
+  </div>
+</div>
+
 </div>
 
 <p><a href="{{ '/' | relative_url }}">&larr; Back to About</a></p>

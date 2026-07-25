@@ -138,6 +138,11 @@ body:has(.hero) .site-header {
   left: 40px;
   right: 40px;
   border-bottom-color: transparent;
+  /* Dark-to-light scrim of its own, rather than relying only on the hero
+     image's own fade, so the light nav text reads clearly regardless of
+     what's directly behind the header on any given hero. */
+  background: linear-gradient(180deg, rgba(6, 10, 18, 0.78) 0%, rgba(6, 10, 18, 0.08) 100%);
+  padding-bottom: 32px;
 }
 
 @media (max-width: 640px) {
@@ -871,6 +876,143 @@ a:hover { color: var(--blue-300); }
 
 @media (max-width: 560px) {
   .article-grid { grid-template-columns: 1fr; gap: 14px; }
+}
+
+/* Events timeline: a vertical thread of dated entries, deliberately a
+   different shape from the Blogposts card grid above it on the same page,
+   since these are read as a chronological record rather than browsed as
+   articles. Each item's full detail lives in its own readme-toggle. */
+.timeline {
+  position: relative;
+  margin: 8px 0 32px;
+  padding-left: 28px;
+  border-left: 2px solid var(--line-soft);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -33px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bg-raised);
+  border: 2px solid var(--blue-400);
+}
+
+.timeline-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 14px;
+}
+
+.timeline-date {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
+
+.timeline-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.timeline-org {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+
+@media (max-width: 560px) {
+  .timeline { padding-left: 20px; }
+  .timeline-item::before { left: -25px; }
+}
+
+/* Resume layout: a main reverse-chronological column plus a narrower,
+   sticky sidebar for the things you actually scan a resume for at a
+   glance (skills, quick facts) rather than read top to bottom. */
+.resume-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 12px 48px;
+  align-items: start;
+}
+
+.resume-main { min-width: 0; }
+
+.resume-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  position: sticky;
+  top: 32px;
+}
+
+.resume-aside-card {
+  padding: 20px 22px;
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.resume-aside-card h3 {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 12px;
+}
+
+.resume-aside-card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resume-aside-card li {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.resume-facts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--ink-soft);
+}
+
+.resume-facts li span:first-child {
+  color: var(--ink-faint);
+}
+
+@media (max-width: 860px) {
+  .resume-layout { grid-template-columns: 1fr; }
+  .resume-aside { position: static; flex-direction: row; flex-wrap: wrap; }
+  .resume-aside-card { flex: 1 1 240px; }
+}
+
+@media (max-width: 560px) {
+  .resume-aside { flex-direction: column; }
 }
 
 /* Entry blocks (experience / education / projects) */
