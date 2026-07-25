@@ -99,7 +99,7 @@ body::after {
 }
 
 .wrap {
-  max-width: 920px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 0 16px;
 }
@@ -1211,6 +1211,7 @@ body:has(.hero) .hero-content {
    <button> and .copy-email's declarations come later in the cascade. */
 .dest-card.copy-email {
   display: flex;
+  align-items: flex-start;
   width: 100%;
   background: var(--bg-raised);
   border: 1px solid var(--line-soft);
