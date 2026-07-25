@@ -182,6 +182,22 @@ body:has(.hero) .site-header .nav-toggle span {
   background: #f5f7fb;
 }
 
+/* Personal's header treatment on hero pages (almost every professional
+   page): the header floats transparently over a dark hero image there, so
+   the same navy used against the light mobile panel would disappear.
+   --metal-gold is the site's existing "small accent on a dark surface"
+   token, already reserved for exactly this kind of contrast. Must come
+   before the mobile override below so the mobile panel (light background)
+   can win back to a dark color at narrow widths. */
+body:has(.hero) .site-header .nav-item-personal > a {
+  color: var(--metal-gold);
+}
+
+body:has(.hero) .site-header .nav-item-personal > a:hover,
+body:has(.hero) .site-header .nav-item-personal > a.active {
+  color: #d4bd85;
+}
+
 /* The mobile slide-out panel always sits on its own solid light background
    (regardless of the transparent header over the hero above it), so its
    links need the normal dark-on-light colors rather than the light-on-dark
@@ -193,6 +209,10 @@ body:has(.hero) .site-header .nav-toggle span {
 
   body:has(.hero) .site-header .site-nav a:hover,
   body:has(.hero) .site-header .site-nav a.active {
+    color: var(--blue-400);
+  }
+
+  body:has(.hero) .site-header .nav-item-personal > a {
     color: var(--blue-400);
   }
 }
@@ -253,6 +273,19 @@ body:has(.hero) .site-header .nav-toggle span {
 .site-nav a:hover::after,
 .site-nav a.active::after {
   transform: scaleX(1);
+}
+
+/* Personal is the odd one out among the nav destinations (hobbies rather
+   than professional content), so it gets a permanent accent + bold weight
+   instead of the shared muted-until-hover treatment every other item uses. */
+.nav-item-personal > a {
+  color: var(--blue-400);
+  font-weight: 700;
+}
+
+.nav-item-personal > a:hover,
+.nav-item-personal > a.active {
+  color: var(--blue-300);
 }
 
 .nav-item {
@@ -767,6 +800,89 @@ a:hover { color: var(--blue-300); }
   .dest-title { font-size: 19px; }
 }
 
+/* Insights-hub card grid (Blogposts / Events on the Blogposts page): same
+   card-with-hover-lift language as .dest-card, but topped with an image
+   instead of a small icon, closer to how asset managers lay out article
+   listings. The image is a CSS-only placeholder gradient + glyph until
+   real photos are supplied, so nothing here depends on an external asset. */
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin: 8px 0 32px;
+}
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  background: var(--bg-raised);
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.article-card:hover {
+  border-color: var(--blue-600);
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.08), 0 24px 46px -26px var(--blue-glow);
+}
+
+.article-card-img {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--blue-950) 0%, var(--blue-600) 100%);
+  color: rgba(245, 247, 251, 0.5);
+  overflow: hidden;
+}
+
+.article-card-img svg {
+  width: 34px;
+  height: 34px;
+  stroke: currentColor;
+}
+
+.article-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px 22px;
+}
+
+.article-card-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+.article-card-title {
+  font-family: var(--serif);
+  font-size: 19px;
+  color: var(--ink);
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.article-card:hover .article-card-title {
+  color: var(--blue-400);
+}
+
+.article-card-desc {
+  font-size: 14px;
+  color: var(--ink-faint);
+  line-height: 1.45;
+}
+
+@media (max-width: 560px) {
+  .article-grid { grid-template-columns: 1fr; gap: 14px; }
+}
+
 /* Entry blocks (experience / education / projects) */
 .entry {
   position: relative;
@@ -1045,7 +1161,11 @@ pre.code-block code {
   display: flex;
   align-items: center;
   margin: 0 -16px 40px;
-  min-height: 320px;
+  /* Tall enough to fit the fullest hero (landing page: eyebrow + two-line
+     headline + lede + CTA row) without that content growing the box past
+     this floor, so every hero on the site renders at the same height
+     instead of the CTA-less pages sitting noticeably shorter. */
+  min-height: 420px;
   overflow: hidden;
   border-radius: 2px;
   border: 1px solid var(--line-dark);
@@ -1267,7 +1387,7 @@ body:has(.hero) .hero-content {
 .copy-toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (max-width: 640px) {
-  .hero { margin: 0 -16px 32px; min-height: 320px; }
+  .hero { margin: 0 -16px 32px; min-height: 380px; }
   .hero-content { max-width: none; padding: 28px 20px; }
   .hero-name { font-size: 32px; }
   .hero-headline { font-size: 27px; }

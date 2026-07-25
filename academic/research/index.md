@@ -298,7 +298,7 @@ test.state_domain_smoother(dist=True)
 test.gauss()
 bound, scalar_gauss = test.transform_1D_gauss()
 </code></pre>
-      <p class="form-hint">Requires Python &ge; 3.10. Full setup, repository layout, and batch KPSS/Leybourne&ndash;McCabe comparisons on the <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a> page.</p>
+      <p class="form-hint">Requires Python &ge; 3.10. Full setup, repository layout, and batch KPSS/Leybourne&ndash;McCabe comparisons on the <a href="{{ '/projects/' | relative_url }}">Projects</a> page.</p>
     </div>
     </div>
   </div>

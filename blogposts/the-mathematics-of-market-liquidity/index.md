@@ -1,7 +1,7 @@
 ---
 layout: default
 title: The Mathematics of Market Liquidity
-permalink: /events/the-mathematics-of-market-liquidity/
+permalink: /blogposts/the-mathematics-of-market-liquidity/
 ---
 
 <section class="hero">
@@ -18,4 +18,4 @@ permalink: /events/the-mathematics-of-market-liquidity/
 
 <p><em>This piece is currently in its final draft phase. The full text will be published here once it is finished.</em></p>
 
-<p><a href="{{ '/events/' | relative_url }}">&larr; Back to Blogposts &amp; Events</a></p>
+<p><a href="{{ '/blogposts/' | relative_url }}">&larr; Back to Blogposts</a></p>
