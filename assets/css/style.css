@@ -125,66 +125,46 @@ main::before {
 /* Header */
 .site-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  text-align: center;
+  justify-content: space-between;
+  text-align: left;
   gap: 12px;
-  padding: 34px 0 16px;
+  padding: 20px 0;
   border: 1px solid transparent;
   border-bottom: 1px solid var(--line);
   margin-bottom: 0;
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 45;
-  transition: padding 0.22s ease, margin 0.22s ease, width 0.22s ease, background-color 0.22s ease,
-    box-shadow 0.22s ease, backdrop-filter 0.22s ease, border-color 0.22s ease, border-radius 0.22s ease;
 }
 
 /* Pages with a hero: header floats transparently over the hero's top edge
-   instead of pushing it down, so the hero art reads as full-bleed. It drops
-   out of flow (nothing above the hero to reserve space for it) and only
-   rejoins the sticky flow once scrolled, at which point .is-stuck already
-   pins it to the same spot so there's no visible jump. */
-body:has(.hero) .site-header:not(.is-stuck) {
+   instead of pushing it down, so the hero art reads as full-bleed. It's
+   taken out of flow (nothing above the hero to reserve space for it) and,
+   since it's no longer sticky, simply scrolls away with the hero beneath
+   it rather than pinning to the viewport. */
+body:has(.hero) .site-header {
   position: absolute;
   left: 16px;
   right: 16px;
   border-bottom-color: transparent;
 }
 
-body:has(.hero) .site-header:not(.is-stuck) .site-title {
+body:has(.hero) .site-header .site-title {
   color: #f5f7fb;
 }
 
-body:has(.hero) .site-header:not(.is-stuck) .site-nav a {
+body:has(.hero) .site-header .site-nav a {
   color: rgba(245, 247, 251, 0.8);
 }
 
-body:has(.hero) .site-header:not(.is-stuck) .site-nav a:hover,
-body:has(.hero) .site-header:not(.is-stuck) .site-nav a.active {
+body:has(.hero) .site-header .site-nav a:hover,
+body:has(.hero) .site-header .site-nav a.active {
   color: #ffffff;
 }
 
-body:has(.hero) .site-header:not(.is-stuck) .nav-toggle span {
+body:has(.hero) .site-header .nav-toggle span {
   background: #f5f7fb;
-}
-
-.site-header.is-stuck {
-  padding: 12px 16px;
-  margin: 0 -16px;
-  width: calc(100% + 32px);
-  background: rgba(248, 247, 243, 0.86);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom-color: transparent;
-  border-left: 1px solid var(--line);
-  border-right: 1px solid var(--line);
-  border-radius: 0 0 2px 2px;
-  border-bottom: 1px solid var(--line);
-}
-
-.site-header.is-stuck .site-title {
-  font-size: 16px;
 }
 
 .site-title {
@@ -195,7 +175,7 @@ body:has(.hero) .site-header:not(.is-stuck) .nav-toggle span {
   text-decoration: none;
   letter-spacing: 0.01em;
   opacity: 0.92;
-  transition: color 0.2s ease, opacity 0.2s ease, font-size 0.22s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 .site-title:hover {
@@ -207,7 +187,7 @@ body:has(.hero) .site-header:not(.is-stuck) .nav-toggle span {
   font-family: var(--mono);
   font-size: 13px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -1039,7 +1019,7 @@ pre.code-block code {
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
-  height: 190px;
+  height: 130px;
   background: linear-gradient(to bottom, rgba(6, 10, 18, 0.75) 0%, rgba(6, 10, 18, 0) 100%);
   z-index: 2;
   pointer-events: none;
@@ -1118,9 +1098,9 @@ pre.code-block code {
 }
 
 /* Clears the transparent header floating on top of the hero (roughly
-   130-140px tall) so its nav text never overlaps the hero copy. */
+   70-75px tall) so its nav text never overlaps the hero copy. */
 body:has(.hero) .hero-content {
-  padding-top: 168px;
+  padding-top: 110px;
 }
 
 .hero-content-right {
