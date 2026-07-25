@@ -1206,6 +1206,19 @@ body:has(.hero) .hero-content {
   cursor: pointer;
 }
 
+/* .copy-email's button reset otherwise strips the card look .dest-card
+   needs (background/border/padding), since both classes sit on the same
+   <button> and .copy-email's declarations come later in the cascade. */
+.dest-card.copy-email {
+  display: flex;
+  width: 100%;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-soft);
+  padding: 24px 24px 26px;
+  font: inherit;
+  text-align: left;
+}
+
 .copy-toast {
   position: absolute;
   bottom: calc(100% + 8px);
