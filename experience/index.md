@@ -38,15 +38,10 @@ permalink: /experience/
     <span class="entry-date">January 2024 &ndash; June 2024</span>
   </div>
   <div class="entry-org">Amsterdam, Netherlands</div>
-  <p>
-    Collaborated with <strong>Yicong Lin</strong> and <strong>Andre Lucas</strong> on robust observation-driven
-    dynamics for functional location-scale models (see <a href="{{ '/academic/research/' | relative_url }}">Publications</a>).
-    My contribution focused on the estimation and implementation of the functional volatility component. By
-    projecting infinite-dimensional conditional variance operators onto a finite Bernstein polynomial basis,
-    the QMLE problem, with its positivity constraints, is reduced to a bounded, finite-dimensional optimization.
-    The implementation constructs the functional operators, performs the volatility recursion, and estimates
-    the model parameters through constrained likelihood optimization.
-  </p>
+  <ul>
+    <li>Designed scalable likelihood-based estimation algorithms for functional scale models, optimising computational performance through vectorised computations and parallel processing.</li>
+    <li>Reduced execution time of large-scale Monte Carlo simulations by over 90%.</li>
+  </ul>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code></div>
 
   <div class="readme-toggle">
@@ -55,6 +50,48 @@ permalink: /experience/
     </button>
     <div class="readme-collapse">
       <div class="readme">
+      <h4>Setting</h4>
+      <p>
+        We work with intraday return curves. Write \(y_t(u)\) for the return at point \(u\) during trading day
+        \(t\), where \(u \in [0,1]\) is the time of day rescaled to the unit interval. Each day gives one full
+        curve, not one number. This is what makes the problem functional rather than scalar.
+      </p>
+      <p>
+        Each return curve is driven by a conditional variance curve \(\sigma_t^2(u)\). We write
+        \[y_t(u) = \sigma_t(u)\eta_t(u),\]
+        where \(\eta_t(u)\) is noise with unit variance. The variance curve follows a recursion,
+        \[\sigma_t^2 = \delta + \sum_{i=1}^{q}\alpha_i\left(y_{t-i}^2\right) + \sum_{j=1}^{p}\beta_j\left(\sigma_{t-j}^2\right),\]
+        where \(\delta\) is a strictly positive intercept curve, and \(\alpha_i, \beta_j\) are operators that
+        map curves to curves. This is the functional version of a classical GARCH recursion. Every quantity is
+        now a function of \(u\), not a single number.
+      </p>
+      <h4>Why basis functions</h4>
+      <p>
+        The operators \(\alpha_i\) and \(\beta_j\) live in an infinite-dimensional space. We cannot estimate
+        an infinite-dimensional object from a finite sample of days. We also need every operator to keep the
+        variance curve positive, since a variance cannot go negative at any point of the day.
+      </p>
+      <p>
+        We solve both problems at once by projecting each operator onto a small set of Bernstein basis
+        functions. A Bernstein basis of order \(M\) is a set of \(M\) polynomials on \([0,1]\), and each one is
+        non-negative everywhere on that interval. Any operator can then be written as a weighted sum of these
+        basis functions. If the weights are non-negative, the resulting operator is automatically positive.
+        This gives a positive variance curve for free, without adding constraints to the optimizer.
+      </p>
+      <p>
+        Projecting onto \(M\) basis functions also turns an infinite-dimensional estimation problem into a
+        small, bounded one. Instead of estimating operators directly, we estimate a short vector of Bernstein
+        coefficients \(\theta\).
+      </p>
+      <h4>Estimation</h4>
+      <p>
+        A standard likelihood cannot be evaluated directly on a continuous curve. We estimate \(\theta\) using
+        Quasi-Maximum Likelihood Estimation instead. This rebuilds the variance recursion at every step from
+        the current coefficients, then scores the fit across the full sample of days. The implementation
+        builds the functional operators from the Bernstein coefficients, runs the volatility recursion forward
+        in time, and optimizes the coefficients under simple bound constraints so the positivity holds
+        throughout.
+      </p>
   <pre class="code-block" data-lang="python"><code>def bernstein_basis(u, M, k):
     return comb(M - 1, k - 1) * u ** (k - 1) * (1 - u) ** (M - k)
 
@@ -276,12 +313,10 @@ result = minimize(
       </p>
       <p>
         The proposed stationarity test is based on the relationship between stationarity and the growth
-        behaviour of the occupation measure,
-        \[\mu_t(A) = \int_0^t \mathbf{1}_A(X_s)\,ds,\]
-        which measures the amount of time the diffusion spends in a measurable set \(A\). For a stationary and
-        ergodic diffusion, the occupation measure grows linearly with time, with the growth rate determined by
-        the invariant distribution. Therefore, under the diffusion assumptions above, stationarity is
-        equivalent to linear divergence of the occupation measure.
+        behaviour of the occupation measure, which measures the amount of time the diffusion spends in a
+        measurable set \(A\). For a stationary and ergodic diffusion, the occupation measure grows linearly
+        with time, with the growth rate determined by the invariant distribution. Therefore, under the
+        diffusion assumptions above, stationarity is equivalent to linear divergence of the occupation measure.
       </p>
       <p>
         The test exploits this equivalence by comparing two consistent estimators of the diffusion matrix. The
@@ -304,6 +339,12 @@ result = minimize(
       <pre class="code-block" data-lang="bash"><code>pip install -r requirements.txt
 </code></pre>
       <h4>Quick Start</h4>
+      <p>
+        The example below simulates a bivariate Ornstein-Uhlenbeck process, then runs the test itself. It
+        builds the time-domain and state-domain diffusion-matrix estimators, standardizes their difference
+        with the Gaussian approximation, and plots the resulting running maximum against the
+        Pickands&ndash;Berman critical bound.
+      </p>
       <pre class="code-block" data-lang="python"><code>import numpy as np
 from mht.models.processes import BivariateOUProcess
 from mht.testing.kernel_test import KernelTest, Kernel, TestPlotter
