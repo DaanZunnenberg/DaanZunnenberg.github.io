@@ -70,7 +70,7 @@
         </div>
       </nav>
       {% else %}
-      <nav class="site-nav site-nav-desktop" aria-hidden="true">
+      <nav class="site-nav site-nav-desktop site-nav-main" aria-hidden="true">
         <div class="nav-item">
           <a href="{{ '/projects/' | relative_url }}" {% if page.url == '/projects/' %}class="active"{% endif %}>Projects</a>
         </div>
@@ -93,6 +93,8 @@
         <div class="nav-item">
           <a href="{{ '/contact/' | relative_url }}" {% if page.url == '/contact/' %}class="active"{% endif %}>Contact</a>
         </div>
+      </nav>
+      <nav class="site-nav site-nav-desktop site-nav-personal-only" aria-hidden="true">
         <div class="nav-item nav-item-personal nav-has-dropdown">
           <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
           <div class="nav-dropdown">
@@ -206,6 +208,12 @@
           <a href="{{ '/card/' | relative_url }}">Save Contact (Digital Card)</a>
           <a href="{{ '/' | relative_url }}">Professional site &rarr;</a>
         </div>
+        <div class="footer-col footer-contact-col">
+          <div class="footer-contact">
+            <p>Collaboration proposals, seminar invitations, or questions about the PhD work.</p>
+            <a class="cta-button" href="{{ '/academic/contact/' | relative_url }}">Get in touch &rarr;</a>
+          </div>
+        </div>
         {% else %}
         <div class="footer-col">
           <div class="footer-col-label">Navigate</div>
@@ -224,6 +232,12 @@
           <a href="https://scholar.google.com/citations?user={{ site.scholar }}" target="_blank" rel="noopener noreferrer">Scholar</a>
           <a href="{{ '/card/' | relative_url }}">Save Contact (Digital Card)</a>
           <a href="{{ '/academic/' | relative_url }}">Academic site &rarr;</a>
+        </div>
+        <div class="footer-col footer-contact-col">
+          <div class="footer-contact">
+            <p>Open to roles, consulting, or an invitation to meet up.</p>
+            <a class="cta-button" href="{{ '/contact/' | relative_url }}">Contact me &rarr;</a>
+          </div>
         </div>
         {% endif %}
       </div>

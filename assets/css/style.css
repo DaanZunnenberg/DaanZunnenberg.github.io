@@ -58,7 +58,7 @@ body {
   background-attachment: fixed;
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: 15.5px;
   line-height: 1.6;
   position: relative;
   isolation: isolate;
@@ -99,7 +99,8 @@ body::after {
 }
 
 .wrap {
-  max-width: none;
+  max-width: 1320px;
+  margin: 0 auto;
   padding: 0 40px;
 }
 
@@ -110,6 +111,41 @@ body::after {
 main {
   position: relative;
   z-index: 1;
+}
+
+/* Standard reading measure for prose, since .wrap itself is wide.
+   Layout elements (grids, cards, the timeline) are left alone since their
+   own column/card widths already control their line length. */
+main > p,
+main > ul,
+main > ol,
+.readme p,
+.readme li,
+.lede {
+  max-width: 700px;
+}
+
+/* Project/blogpost long-form pages read as articles, so they get a
+   narrower, smaller-type column than the rest of the site &mdash; closer to
+   a news or insights piece than a landing page. */
+.article-body {
+  max-width: 640px;
+  font-size: 14.5px;
+}
+
+.article-body h2 {
+  font-size: 21px;
+  margin: 36px 0 14px;
+}
+
+.article-body h4 {
+  font-size: 15px;
+  margin: 20px 0 8px;
+}
+
+.article-body p,
+.article-body li {
+  max-width: none;
 }
 
 /* Header */
@@ -220,7 +256,7 @@ body:has(.hero) .site-header .nav-item-personal > a.active {
 .site-title {
   font-family: var(--display);
   font-weight: 600;
-  font-size: 22px;
+  font-size: 30px;
   color: var(--ink);
   text-decoration: none;
   letter-spacing: 0.01em;
@@ -240,6 +276,14 @@ body:has(.hero) .site-header .nav-item-personal > a.active {
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 20px;
+}
+
+/* Main nav sits in the header's middle zone and centers itself within the
+   space between the logo and the separate Personal nav, rather than
+   packing right like a plain two-item header would. */
+.site-nav-main {
+  flex: 1;
+  justify-content: center;
 }
 
 .site-nav a {
@@ -787,6 +831,50 @@ a:hover { color: var(--blue-300); }
   line-height: 1.45;
 }
 
+/* Contact page: a full-bleed dark panel holding just the contact channels,
+   same full-bleed technique as the hero/footer, and the same restrained
+   corporate-contact-page feel as the footer's own dark band. */
+.contact-panel {
+  margin: 32px -40px 40px;
+  padding: 44px 40px 48px;
+  background: var(--blue-950);
+}
+
+@media (max-width: 640px) {
+  .contact-panel { margin: 24px -16px 32px; padding: 32px 16px 36px; }
+}
+
+.contact-panel .lede {
+  color: rgba(243, 241, 234, 0.85);
+}
+
+.contact-panel .dest-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-dark);
+}
+
+.contact-panel .dest-icon {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--line-dark);
+  color: var(--metal-gold);
+}
+
+.contact-panel .dest-title {
+  color: #f5f7fb;
+}
+
+.contact-panel .dest-card:hover .dest-title {
+  color: var(--metal-gold);
+}
+
+.contact-panel .dest-desc {
+  color: rgba(233, 236, 243, 0.55);
+}
+
+.contact-panel .dest-index {
+  color: rgba(233, 236, 243, 0.35);
+}
+
 @media (max-width: 560px) {
   .dest-grid { grid-template-columns: 1fr; gap: 14px; }
   .dest-card { padding: 20px 20px 22px; }
@@ -1018,6 +1106,7 @@ a:hover { color: var(--blue-300); }
 /* Entry blocks (experience / education / projects) */
 .entry {
   position: relative;
+  max-width: 700px;
   margin-bottom: 26px;
   padding: 22px 26px;
   border: 1px solid var(--line-soft);
@@ -1916,20 +2005,47 @@ code {
   .back-to-top { right: 14px; bottom: 14px; width: 38px; height: 38px; }
 }
 
+/* Full-bleed dark band, same idea as the hero: the footer isn't part of
+   the reading column, so it takes over the negative margin trick to run
+   edge to edge regardless of viewport width. */
 .site-footer {
-  margin-top: 88px;
-  padding: 40px 0 60px;
-  border-top: 1px solid var(--line);
+  margin: 88px -40px 0;
+  padding: 48px 40px 60px;
+  background: var(--blue-950);
   font-family: var(--mono);
   font-size: 13px;
-  color: var(--ink-soft);
+  color: rgba(233, 236, 243, 0.7);
+}
+
+@media (max-width: 640px) {
+  .site-footer { margin: 88px -16px 0; padding: 40px 16px 52px; }
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
   gap: 32px;
   padding-bottom: 28px;
+}
+
+.footer-contact {
+  padding: 18px 20px;
+  border: 1px solid var(--line-dark);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.footer-contact p {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgba(233, 236, 243, 0.75);
+}
+
+.footer-contact .cta-button {
+  font-size: 12px;
+  padding: 9px 16px;
 }
 
 .footer-col {
@@ -1939,19 +2055,19 @@ code {
 }
 
 .footer-col a {
-  color: var(--ink-soft);
+  color: rgba(233, 236, 243, 0.75);
   text-decoration: none;
   font-size: 12.5px;
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-col a:hover { color: var(--blue-400); }
+.footer-col a:hover { color: var(--metal-gold); }
 
 .footer-col-label {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--ink-faint);
+  color: rgba(233, 236, 243, 0.4);
   margin-bottom: 2px;
 }
 
@@ -1968,22 +2084,22 @@ code {
   flex: none;
 }
 
-.footer-mark svg rect { fill: var(--blue-950); }
+.footer-mark svg rect { fill: rgba(255, 255, 255, 0.92); }
 .footer-mark svg text {
   font-family: var(--serif);
   font-size: 12px;
-  fill: var(--accent-bright);
+  fill: var(--blue-950);
 }
 
 .footer-mark span {
   font-family: var(--serif);
   font-size: 17px;
-  color: var(--ink);
+  color: #f5f7fb;
   letter-spacing: -0.005em;
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-mark:hover span { color: var(--blue-400); }
+.footer-mark:hover span { color: var(--metal-gold); }
 
 .footer-bottom {
   display: flex;
@@ -1991,12 +2107,12 @@ code {
   justify-content: space-between;
   gap: 6px 18px;
   padding-top: 20px;
-  border-top: 1px solid var(--line-soft);
+  border-top: 1px solid var(--line-dark);
 }
 
 .footer-note {
   font-size: 11px;
-  color: var(--ink-faint);
+  color: rgba(233, 236, 243, 0.4);
 }
 
 @media (max-width: 640px) {
@@ -2006,6 +2122,9 @@ code {
   .footer-brand {
     grid-column: 1 / -1;
     margin-bottom: 6px;
+  }
+  .footer-contact-col {
+    grid-column: 1 / -1;
   }
 }
 

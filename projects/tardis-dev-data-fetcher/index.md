@@ -14,6 +14,8 @@ permalink: /projects/tardis-dev-data-fetcher/
   </div>
 </section>
 
+<div class="article-body">
+
 <p class="tagline"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/TardisDevParser" target="_blank" rel="noopener noreferrer">TardisDevParser on GitHub</a></p>
 
 <h2 id="overview">Overview</h2>
@@ -69,5 +71,7 @@ tardis-inspect exchanges
 tardis-fetch --config config/example.yaml
 </code></pre>
 <p class="form-hint">Config files are YAML or JSON, dispatched by file extension. <code>tardis-inspect</code> also supports a <code>--json</code> flag on each subcommand for scripting against raw output.</p>
+
+</div>
 
 <p><a href="{{ '/projects/' | relative_url }}">&larr; Back to Projects</a></p>

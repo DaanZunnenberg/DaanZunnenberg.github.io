@@ -14,16 +14,12 @@ permalink: /contact/
   </div>
 </section>
 
-<p class="tagline">Roles, consulting, and professional or industry conversations.</p>
+<div class="contact-panel">
 
 <p class="lede">
-I'm doing a Mathematics PhD alongside quantitative finance work, and I'm open to conversations about
-roles, consulting, or collaborations that sit at that intersection, particularly anything touching
-market making, estimation under uncertainty, or production trading systems.
+I'm doing a Mathematics PhD alongside quantitative finance work, at the intersection of market making,
+estimation under uncertainty, and production trading systems.
 </p>
-
-<h2 id="elsewhere">See My Links</h2>
-<p class="tagline">Code, publications, and professional history, before you reach out.</p>
 
 <div class="dest-grid">
   <button type="button" class="dest-card copy-email" data-u="dw.zunnenberg" data-d="gmail.com">
@@ -68,34 +64,7 @@ market making, estimation under uncertainty, or production trading systems.
   </a>
 </div>
 
-<h2>Open To</h2>
-
-<div class="entry">
-  <ul>
-    <li>Quantitative research or development roles, full-time or contract.</li>
-    <li>Consulting on estimation, volatility modelling, or execution systems.</li>
-    <li>Advisory conversations, panels, or professional meetups.</li>
-  </ul>
 </div>
-
-<h2>Relevant Experience</h2>
-
-<div class="entry">
-  <div class="entry-head">
-    <h3>QuantFi &middot; Quantitative Developer</h3>
-    <span class="entry-date">March 2023 &ndash; August 2024</span>
-  </div>
-  <div class="entry-org">Schiphol-Rijk, Netherlands</div>
-  <ul>
-    <li>Built and deployed algorithmic market-making strategies incorporating volatility and skew estimation, order flow modelling, and execution that accounts for queue position.</li>
-    <li>Built a dynamic liquidity allocation model for smart order routing, reducing slippage and transaction costs by an average of 5.8%.</li>
-  </ul>
-  <div class="tags"><code>Python</code> &middot; <code>numba</code> &middot; <code>ccxt</code> &middot; <a href="{{ '/resume/' | relative_url }}">Full resume &rarr;</a></div>
-</div>
-
-<p>
-  <a class="cta-button" data-u="dw.zunnenberg" data-d="gmail.com" data-subject="Role%20or%20opportunity">Email me about opportunities &rarr;</a>
-</p>
 
 <h2 id="leave-a-message">Leave a message</h2>
 

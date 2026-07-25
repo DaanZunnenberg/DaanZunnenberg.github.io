@@ -14,6 +14,8 @@ permalink: /projects/hrp-portfolio-allocation/
   </div>
 </section>
 
+<div class="article-body">
+
 <p class="tagline"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></p>
 
 <h2 id="overview">Overview</h2>
@@ -62,5 +64,7 @@ order = dendrogram(tree, no_plot=True)["leaves"]
 weights = recursive_bisection(returns.cov(), order)
 </code></pre>
 <p class="form-hint">Illustrative interface. The production version adds transaction-cost-aware rebalancing, so the allocator doesn't churn the portfolio chasing marginal improvements in the objective.</p>
+
+</div>
 
 <p><a href="{{ '/projects/' | relative_url }}">&larr; Back to Projects</a></p>

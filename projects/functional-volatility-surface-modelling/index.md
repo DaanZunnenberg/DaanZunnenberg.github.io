@@ -14,6 +14,8 @@ permalink: /projects/functional-volatility-surface-modelling/
   </div>
 </section>
 
+<div class="article-body">
+
 <p class="tagline"><code>Python</code> &middot; <code>numba</code> &middot; <code>scipy</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">FunctionalScale on GitHub</a></p>
 
 <h2 id="overview">Overview</h2>
@@ -184,5 +186,7 @@ result = minimize(
 └─────────────────┘           └────────────────────┘           └──────────────────────┘
 </code></pre>
 <p class="form-hint">Requires Python &ge; 3.9. Pytest smoke tests cover Bernstein partition-of-unity, positive-definiteness of the OU kernel, and shape/finiteness of the GARCH filter output.</p>
+
+</div>
 
 <p><a href="{{ '/projects/' | relative_url }}">&larr; Back to Projects</a></p>

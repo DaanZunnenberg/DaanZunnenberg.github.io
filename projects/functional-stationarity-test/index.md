@@ -14,6 +14,8 @@ permalink: /projects/functional-stationarity-test/
   </div>
 </section>
 
+<div class="article-body">
+
 <p class="tagline"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></p>
 
 <h2 id="overview">Overview</h2>
@@ -180,5 +182,7 @@ tests/
     test_kernel_test.py
 </code></pre>
 <p class="form-hint">Requires Python &ge; 3.10. Also includes batch KPSS and Leybourne&ndash;McCabe tests for comparison, and BH/BY FDR procedures for simulation studies.</p>
+
+</div>
 
 <p><a href="{{ '/projects/' | relative_url }}">&larr; Back to Projects</a></p>

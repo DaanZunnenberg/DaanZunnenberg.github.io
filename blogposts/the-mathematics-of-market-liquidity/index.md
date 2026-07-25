@@ -14,8 +14,12 @@ permalink: /blogposts/the-mathematics-of-market-liquidity/
   </div>
 </section>
 
+<div class="article-body">
+
 <p class="tagline">Daan Zunnenberg &amp; Nicos Starreveld</p>
 
 <p><em>This piece is currently in its final draft phase. The full text will be published here once it is finished.</em></p>
+
+</div>
 
 <p><a href="{{ '/blogposts/' | relative_url }}">&larr; Back to Blogposts</a></p>

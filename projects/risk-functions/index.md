@@ -14,6 +14,8 @@ permalink: /projects/risk-functions/
   </div>
 </section>
 
+<div class="article-body">
+
 <p class="tagline"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/RiskFunctions" target="_blank" rel="noopener noreferrer">RiskFunctions on GitHub</a></p>
 
 <h2 id="overview">Overview</h2>
@@ -67,5 +69,7 @@ python examples/ccc_garch_example.py
 python examples/ewma_fhs_example.py
 </code></pre>
 <p class="form-hint">The <code>[multivariate]</code> extra (copulas, factor_analysis, seaborn) is only needed for the copula and factor-analysis examples, which also pull fresh price data over the network via yfinance.</p>
+
+</div>
 
 <p><a href="{{ '/projects/' | relative_url }}">&larr; Back to Projects</a></p>

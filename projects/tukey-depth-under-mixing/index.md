@@ -14,6 +14,8 @@ permalink: /projects/tukey-depth-under-mixing/
   </div>
 </section>
 
+<div class="article-body">
+
 <p class="tagline"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/FunctionalCurves" target="_blank" rel="noopener noreferrer">FunctionalCurves on GitHub</a></p>
 
 <h2 id="overview">Overview</h2>
@@ -82,5 +84,7 @@ depth, direction = result.depth, result.direction
   reliably) the empirical depth and direction settle onto their true values as the mixing rate changes.
 </p>
 <p class="form-hint">See the notebooks in <code>Core/</code>, which derive the Gaussian halfspace-probability formula and the linear-process variance formula alongside the simulation code, for the full VAR(1) and mixing-process walkthroughs.</p>
+
+</div>
 
 <p><a href="{{ '/projects/' | relative_url }}">&larr; Back to Projects</a></p>
