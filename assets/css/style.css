@@ -423,6 +423,15 @@ body:has(.hero) .site-header .nav-toggle span {
 .nav-toggle.open span:nth-child(2) { opacity: 0; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
+/* Open, the toggle sits above the slide-out panel's own light background
+   (rather than the dark hero it floats over when closed), so its icon
+   needs to switch to a dark color while open even on hero pages, or it
+   disappears against the light panel behind it. */
+body:has(.hero) .site-header .nav-toggle.open span,
+.nav-toggle.open span {
+  background: var(--ink-soft);
+}
+
 body.nav-locked {
   overflow: hidden;
 }

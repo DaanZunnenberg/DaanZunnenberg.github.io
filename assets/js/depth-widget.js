@@ -183,10 +183,16 @@
 
   function drawPanel(sym, rect) {
     var x0 = rect.x, y0 = rect.y, w = rect.w, h = rect.h;
-    var headerH = 18;
+    var headerH = 18, colHeadH = 11;
     var tableW = Math.max(64, w * 0.32);
     var bookX0 = x0, bookW = w - tableW - 6;
     var tableX0 = x0 + bookW + 6;
+
+    // Price ladder columns: BID size and ASK size flank a single shared
+    // PRICE column down the middle, same three-column arrangement as the
+    // events-page order-flow ladder, rather than a per-side price+qty row.
+    var bidColW = bookW * 0.34, priceColW = bookW * 0.30, askColW = bookW - bidColW - priceColW;
+    var bidColX0 = bookX0, priceColX0 = bidColX0 + bidColW, askColX0 = priceColX0 + priceColW;
 
     ctx.strokeStyle = "rgba(224, 168, 82, 0.14)";
     ctx.lineWidth = 1;
@@ -230,7 +236,19 @@
 
     if (!sym.bids.length || !sym.asks.length) return;
 
-    var rows = h - headerH;
+    // "BID / PRICE / ASK" column heads above the ladder rows, same labels
+    // as the events-page order-flow ladder, so the two widgets read as one
+    // visual language.
+    ctx.font = "8px " + MONO_FONT;
+    ctx.fillStyle = "rgba(166, 175, 194, 0.4)";
+    ctx.textAlign = "left";
+    ctx.fillText("BID", bidColX0 + 5, y0 + headerH + colHeadH - 3);
+    ctx.textAlign = "center";
+    ctx.fillText("PRICE", priceColX0 + priceColW / 2, y0 + headerH + colHeadH - 3);
+    ctx.textAlign = "right";
+    ctx.fillText("ASK", askColX0 + askColW - 5, y0 + headerH + colHeadH - 3);
+
+    var rows = h - headerH - colHeadH;
     var rowH = rows / (ROWS_HALF * 2);
     var fontPx = rowH < 11 ? 8 : 10;
     var maxQty = Math.max.apply(null, sym.bids.concat(sym.asks).map(function (l) { return l[1]; }));
@@ -263,30 +281,34 @@
       ctx.fillText(bps.toFixed(1) + "bp", x0 + w - 5, ty);
     }
 
-    // Asks: highest price first, stacked top-down toward mid.
+    // Asks: highest price first, stacked top-down toward mid. A single
+    // shared PRICE column runs straight down the middle of the ladder
+    // (through the ask rows above and the bid rows below), with resting
+    // size drawn in the ASK column to its right — the same BID / PRICE /
+    // ASK arrangement as the events-page order-flow ladder.
     var asksTop = sym.asks.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
     var perpAsksTop = sym.perpAsks.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
     asksTop.forEach(function (lvl, i) {
-      var ry = y0 + headerH + i * rowH;
+      var ry = y0 + headerH + colHeadH + i * rowH;
       var t = lvl[1] / maxQty;
-      var barW = Math.max(6, t * bookW);
+      var barW = Math.max(6, t * askColW);
       ctx.fillStyle = heatColor(ASK_HEAT, ASK_HOT, t);
       ctx.globalAlpha = 0.62;
-      ctx.fillRect(bookX0, ry, barW, rowH - 0.6);
+      ctx.fillRect(askColX0, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
 
       ctx.font = fontPx + "px " + MONO_FONT;
-      ctx.textAlign = "left";
+      ctx.textAlign = "center";
       ctx.fillStyle = "rgba(255, 200, 195, 0.9)";
-      ctx.fillText(fmtPrice(lvl[0]), bookX0 + 5, ry + rowH - rowH * 0.3);
-      ctx.textAlign = "right";
+      ctx.fillText(fmtPrice(lvl[0]), priceColX0 + priceColW / 2, ry + rowH - rowH * 0.3);
+      ctx.textAlign = "left";
       ctx.fillStyle = "rgba(233, 236, 243, 0.75)";
-      ctx.fillText(fmtQty(lvl[1]), bookX0 + bookW - 5, ry + rowH - rowH * 0.3);
+      ctx.fillText(fmtQty(lvl[1]), askColX0 + 4, ry + rowH - rowH * 0.3);
 
       diffCell(lvl, perpAsksTop[i], ry);
     });
 
-    var midY = y0 + headerH + ROWS_HALF * rowH;
+    var midY = y0 + headerH + colHeadH + ROWS_HALF * rowH;
     ctx.strokeStyle = MID_LINE;
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -294,25 +316,27 @@
     ctx.lineTo(bookX0 + bookW, midY);
     ctx.stroke();
 
-    // Bids: highest price first (closest to mid), stacked downward.
+    // Bids: highest price first (closest to mid), stacked downward, with
+    // resting size drawn in the BID column to the left of the shared
+    // PRICE column.
     var bidsTop = sym.bids.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
     var perpBidsTop = sym.perpBids.slice(0, ROWS_HALF).sort(function (a, b) { return b[0] - a[0]; });
     bidsTop.forEach(function (lvl, i) {
       var ry = midY + i * rowH;
       var t = lvl[1] / maxQty;
-      var barW = Math.max(6, t * bookW);
+      var barW = Math.max(6, t * bidColW);
       ctx.fillStyle = heatColor(BID_HEAT, BID_HOT, t);
       ctx.globalAlpha = 0.62;
-      ctx.fillRect(bookX0, ry, barW, rowH - 0.6);
+      ctx.fillRect(bidColX0 + bidColW - barW, ry, barW, rowH - 0.6);
       ctx.globalAlpha = 1;
 
       ctx.font = fontPx + "px " + MONO_FONT;
-      ctx.textAlign = "left";
+      ctx.textAlign = "center";
       ctx.fillStyle = "rgba(195, 255, 205, 0.9)";
-      ctx.fillText(fmtPrice(lvl[0]), bookX0 + 5, ry + rowH - rowH * 0.3);
+      ctx.fillText(fmtPrice(lvl[0]), priceColX0 + priceColW / 2, ry + rowH - rowH * 0.3);
       ctx.textAlign = "right";
       ctx.fillStyle = "rgba(233, 236, 243, 0.75)";
-      ctx.fillText(fmtQty(lvl[1]), bookX0 + bookW - 5, ry + rowH - rowH * 0.3);
+      ctx.fillText(fmtQty(lvl[1]), bidColX0 + bidColW - 4, ry + rowH - rowH * 0.3);
 
       diffCell(lvl, perpBidsTop[i], ry);
     });
