@@ -24,44 +24,12 @@ permalink: /experience/
     <span class="entry-date">March 2023 &ndash; August 2024</span>
   </div>
   <div class="entry-org">Schiphol-Rijk, Netherlands</div>
-  <p>
-    Built and deployed algorithmic market-making strategies, covering volatility and skew estimation, modelling
-    of order flow, execution that accounts for queue position, and reference price dynamics. Alongside quoting,
-    I built a dynamic liquidity allocation model for smart order routing across fragmented order books, cutting
-    slippage and transaction costs by an average of 5.8%, and cross-exchange rebalancing methods that time
-    inventory transfers under latency, funding rate, and liquidity constraints.
-  </p>
+  <ul>
+    <li>Designed quantitative trading algorithms using volatility estimation and order flow models, improving execution through queue position modelling and market impact estimation.</li>
+    <li>Built a dynamic liquidity allocation model for smart order routing, reducing slippage and transaction costs by an average of 5.8% through real-time optimization over aggregated fragmented order books.</li>
+    <li>Developed quantitative portfolio rebalancing methods across exchanges that optimised timing and execution of inventory transfers under latency constraints, transaction costs, and market liquidity.</li>
+  </ul>
   <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>numba</code> &middot; <code>ccxt</code></div>
-
-  <div class="readme-toggle is-open">
-    <button type="button" class="readme-summary" aria-expanded="true">
-      <span class="label-open">+ Show details &amp; code</span><span class="label-close">&minus; Hide details</span>
-    </button>
-    <div class="readme-collapse">
-      <div class="readme">
-      <h4>Overview</h4>
-      <p>
-        Market making can be formulated as a stochastic optimal-control problem: choose bid and ask quotes
-        around a reference price to maximize expected spread capture while controlling inventory risk. In the
-        Gu&eacute;ant&ndash;Lehalle&ndash;Fernandez-Tapia framework, the reference price follows a diffusion
-        \[dS_t = \sigma dW_t,\]
-        while order arrivals depend on quote distance through
-        \[\lambda(\delta) = Ae^{-k\delta}.\]
-        Solving the control problem gives the theoretical optimal quotes. In the finite-horizon
-        Avellaneda&ndash;Stoikov model,
-        \[\delta_t^{b*} = \frac{1}{\gamma}\log(1+\gamma/k) + \frac{1+2q_t}{2}\gamma\sigma(T-t),\]
-        and
-        \[\delta_t^{a*} = \frac{1}{\gamma}\log(1+\gamma/k) + \frac{1-2q_t}{2}\gamma\sigma(T-t),\]
-        where the first term represents the baseline spread and the second term skews quotes according to
-        inventory. For continuous markets such as crypto, the infinite-horizon Gu&eacute;ant formulation
-        removes the terminal-time dependence and yields stationary quotes determined by inventory, volatility,
-        liquidity, and risk aversion. In practice, these models are extended with dynamic volatility estimates,
-        order flow signals, models of queue position, execution that accounts for latency, and exchange-specific
-        risk controls.
-      </p>
-    </div>
-    </div>
-  </div>
 </div>
 
 <div class="entry" id="experience-vu-research-assistant">
