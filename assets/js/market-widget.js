@@ -294,7 +294,14 @@
     };
   }
 
-  window.addEventListener("resize", resize);
+  // Window resize alone misses the hero growing/shrinking after a web font
+  // swaps in and reflows the headline; a ResizeObserver on the container
+  // catches that too, so the canvas never goes stale relative to its box.
+  if (window.ResizeObserver) {
+    new ResizeObserver(resize).observe(container);
+  } else {
+    window.addEventListener("resize", resize);
+  }
   resize();
   SYMBOLS.forEach(function (sym) { buildChain(sym, performance.now()); });
   seedSpotPrices();

@@ -331,7 +331,16 @@
     if (!reduceMotion) requestAnimationFrame(loop);
   }
 
-  window.addEventListener("resize", resize);
+  // Window resize alone misses a common case: the hero grows or shrinks
+  // after this script's first resize() call because a web font swaps in
+  // and reflows the headline (see hero-content in the page markup). A
+  // ResizeObserver on the container itself catches that too, so the
+  // canvas never ends up a stale size relative to its box.
+  if (window.ResizeObserver) {
+    new ResizeObserver(resize).observe(container);
+  } else {
+    window.addEventListener("resize", resize);
+  }
   resize();
   SYMBOLS.forEach(seedSnapshot);
   SYMBOLS.forEach(seedPerpSnapshot);

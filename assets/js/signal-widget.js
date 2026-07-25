@@ -171,11 +171,19 @@
     running = false;
   }
 
-  window.addEventListener("resize", function () {
+  // Window resize alone misses the hero growing/shrinking after a web font
+  // swaps in and reflows the headline; a ResizeObserver on the container
+  // catches that too, so the canvas never goes stale relative to its box.
+  function onResize() {
     resize();
     seedNodes();
     travelers = [];
-  });
+  }
+  if (window.ResizeObserver) {
+    new ResizeObserver(onResize).observe(container);
+  } else {
+    window.addEventListener("resize", onResize);
+  }
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) stop(); else start();
   });

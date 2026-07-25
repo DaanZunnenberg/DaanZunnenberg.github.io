@@ -8,8 +8,8 @@ title: About
   <div class="hero-fade hero-fade-long" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher<span class="hero-eyebrow-extra"> &middot; Probability &middot; Quant Finance</span></div>
-    <h1 class="hero-name hero-headline">Turning Probability Into Trading Edge</h1>
-    <p class="hero-lede">Systematic market-making and trading research grounded in rigorous probability theory, from generic chaining to live order books.</p>
+    <h1 class="hero-name hero-headline">Mathematician by Training, Trader by Passion</h1>
+    <p class="hero-lede">PhD research in probability theory, alongside professional experience and a lasting interest in quantitative trading and market making.</p>
     <div class="hero-cta">
       <a class="cta-button" href="{{ '/experience/' | relative_url }}">View My Work &rarr;</a>
       <a class="cta-button cta-button-outline" href="{{ '/contact/' | relative_url }}">Get In Touch</a>
@@ -18,8 +18,8 @@ title: About
 </section>
 
 <p class="lede">
-I'm a mathematician working in generic chaining theory, with a professional focus on high-frequency trading,
-market making, and quantitative investing. Explore the site below.
+I'm a mathematician working in generic chaining theory, with professional experience and a lasting interest in
+high-frequency trading, market making, and quantitative investing. Explore the site below.
 </p>
 
 <div class="dest-grid">

@@ -61,26 +61,22 @@ permalink: /experience/
       </p>
       <h4>Fair Value Estimation</h4>
       <p>
-        A market maker has to quote around some reference price, so the choice of reference price is not a
-        technicality: it is what determines whether the desk gets paid for taking risk or bleeds money to
-        whoever is faster. The obvious choice, the local midpoint \((\delta_t^{b} + \delta_t^{a})/2\) of a
-        single venue's best bid \(\delta_t^{b}\) and best ask \(\delta_t^{a}\), is a bad one. It is set by
-        whatever order happens to sit at the top of that book, so a single thin order can move it with no real
-        size behind it, and it ignores depth, imbalance, and every other venue trading the same asset.
+        In practice, the model above needs a fair value \(S_t\) to quote around, and that estimate is built by
+        the pipeline below rather than read off a single book. <code>venue_features</code> turns one venue's raw
+        book and trade tape into a small feature set: a size-weighted microprice instead of the raw top-of-book
+        midpoint, book imbalance, recent signed trade flow, a short-window realized volatility, and how stale
+        that book currently is. <code>cross_venue_features</code> calls this once per venue and adds two things
+        that only make sense once several venues are in view together: a lead&ndash;lag matrix, for which venue's
+        prices tend to move first, and a set of liquidity weights, so a deep, fresh book counts for more than a
+        thin, stale one.
       </p>
       <p>
-        This is a real problem on crypto markets, where the same asset trades on a dozen exchanges at once and
-        local books routinely sit stale or skewed for seconds at a time. A strategy quoting off its own midpoint
-        during that window is offering a price the rest of the market has already left behind, and gets picked
-        off by faster traders the moment the broader price catches up.
-      </p>
-      <p>
-        Reference price modeling fixes this and is a core pillar of market making. Instead of a raw midpoint, own
-        quotes \(\delta_t^{b}\) and \(\delta_t^{a}\) are placed at optimal offsets \(\delta_t^{b,*}\) and
-        \(\delta_t^{a,*}\) around a consolidated fair value \(S_t\),
-        \[\delta_t^{b} = S_t - \delta_t^{b,*} \qquad \delta_t^{a} = S_t + \delta_t^{a,*},\]
-        where the offsets are derived from inventory and risk parameters, and \(S_t\) is a modeled price filtered
-        from order flow and depth across every major venue, not read off one book.
+        <code>fair_value</code> is where those per-venue features get fused into one number: a state-space
+        (Kalman-style) update takes the previous estimate plus the new cross-venue features and produces \(S_t\)
+        together with an updated filter state carried into the next tick. <code>quotes</code> then takes that
+        \(S_t\) and places bid/ask offsets around it using the same Avellaneda&ndash;Stoikov-style formula from
+        the section above, so inventory and risk aversion still control the skew &mdash; only the price they are
+        skewed around is now a filtered, cross-venue estimate instead of one venue's midpoint.
       </p>
       <pre class="code-block" data-lang="python"><code>from meridian import microstructure, alpha  # proprietary: feature weights, training, and calibration withheld
 
@@ -110,7 +106,7 @@ def quotes(S_hat, sigma, q, gamma, k, tau):
     delta_a = (1 / gamma) * np.log(1 + gamma / k) + (1 - 2 * q) / 2 * gamma * sigma ** 2 * tau
     return S_hat - delta_b, S_hat + delta_a
 </code></pre>
-      <p class="form-hint">The <code>alpha.fair_value_model</code> call is a stand-in for a proprietary state-space estimator: the actual feature set, cross-venue weighting, and Kalman-style update are not public. What's shown is the estimation pipeline &mdash; per-venue microstructure features from <code>meridian.microstructure</code>, a lead&ndash;lag and liquidity-weighted fusion step, and the resulting \(S_t\) feeding the same Avellaneda&ndash;Stoikov-style quote placement as above.</p>
+      <p class="form-hint">The <code>alpha.fair_value_model</code> call is a stand-in for a proprietary state-space estimator: the actual feature set, cross-venue weighting, and Kalman-style update are not public.</p>
     </div>
     </div>
   </div>
