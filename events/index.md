@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Events
+title: Blogposts & Events
 permalink: /events/
 ---
 
@@ -9,12 +9,24 @@ permalink: /events/
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Notes &amp; Announcements</div>
-    <h1 class="hero-name">Events</h1>
-    <p class="hero-lede">Conferences, talks, posters, and seminars I&rsquo;m giving or attending, upcoming and past.</p>
+    <h1 class="hero-name">Blogposts &amp; Events</h1>
+    <p class="hero-lede">Writing on markets and mathematics, alongside conferences, talks, posters, and seminars I&rsquo;m giving or attending.</p>
   </div>
 </section>
 
-<p class="tagline">Own talks &middot; posters &middot; seminars attended &middot; conferences</p>
+<p class="tagline">Blogposts &middot; own talks &middot; posters &middot; seminars attended &middot; conferences</p>
+
+<h2 id="blogposts">Blogposts</h2>
+
+<p>A collection of blogposts, news articles, and other writing by me.</p>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="{{ '/events/the-mathematics-of-market-liquidity/' | relative_url }}">The Mathematics of Market Liquidity</a></h3>
+  </div>
+  <p><em>Market making is a solved problem. That does not mean you can win at it.</em></p>
+  <div class="entry-org">Daan Zunnenberg &amp; Nicos Starreveld</div>
+</div>
 
 <h2 id="upcoming">Upcoming</h2>
 

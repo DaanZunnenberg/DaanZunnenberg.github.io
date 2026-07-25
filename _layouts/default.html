@@ -98,8 +98,9 @@
           </div>
         </div>
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/events/' | relative_url }}" {% if page.url == '/events/' %}class="active"{% endif %}>Events</a>
+          <a href="{{ '/events/' | relative_url }}" {% if page.url == '/events/' %}class="active"{% endif %}>Blogposts &amp; Events</a>
           <div class="nav-dropdown">
+            <a href="{{ '/events/#blogposts' | relative_url }}">Blogposts</a>
             <a href="{{ '/events/#upcoming' | relative_url }}">Upcoming</a>
             <a href="{{ '/events/#past' | relative_url }}">Past</a>
           </div>
@@ -168,8 +169,9 @@
         </div>
         <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/events/' | relative_url }}" {% if page.url == '/events/' %}class="active"{% endif %}>Events</a>
+          <a href="{{ '/events/' | relative_url }}" {% if page.url == '/events/' %}class="active"{% endif %}>Blogposts &amp; Events</a>
           <div class="nav-dropdown">
+            <a href="{{ '/events/#blogposts' | relative_url }}">Blogposts</a>
             <a href="{{ '/events/#upcoming' | relative_url }}">Upcoming</a>
             <a href="{{ '/events/#past' | relative_url }}">Past</a>
           </div>
@@ -225,7 +227,7 @@
           <a href="{{ '/' | relative_url }}">About</a>
           <a href="{{ '/experience/' | relative_url }}">Experience &amp; Projects</a>
           <a href="{{ '/personal/' | relative_url }}">Personal</a>
-          <a href="{{ '/events/' | relative_url }}">Events</a>
+          <a href="{{ '/events/' | relative_url }}">Blogposts &amp; Events</a>
           <a href="{{ '/contact/' | relative_url }}">Contact</a>
         </div>
         <div class="footer-col">
