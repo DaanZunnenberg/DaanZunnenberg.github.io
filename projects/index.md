@@ -28,7 +28,7 @@ permalink: /projects/
     Likelihood-based estimation for functional scale (GARCH-type) models, contributing to Lin &amp; Lucas's
     work on robust observation-driven dynamics for functional location-scale models (see
     <a href="{{ '/academic/research/' | relative_url }}">Publications</a>). The precursor to the functional
-    GAS-GARCH project below: projects infinite-dimensional conditional variance operators onto a Bernstein
+    GAS-GARCH project below: projecting infinite-dimensional conditional variance operators onto a Bernstein
     polynomial basis, turning the QMLE problem, positivity constraints included, into a bounded,
     finite-dimensional optimization.
   </p>

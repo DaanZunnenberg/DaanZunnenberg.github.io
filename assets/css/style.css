@@ -140,83 +140,6 @@ main::before {
   z-index: 45;
 }
 
-/* Pages with a hero: header floats transparently over the hero's top edge
-   instead of pushing it down, so the hero art reads as full-bleed. It's
-   taken out of flow (nothing above the hero to reserve space for it) and,
-   since it's no longer sticky, simply scrolls away with the hero beneath
-   it rather than pinning to the viewport. */
-body:has(.hero) .site-header {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  border-bottom-color: transparent;
-}
-
-body:has(.hero) .site-header .site-title {
-  color: #f5f7fb;
-}
-
-body:has(.hero) .site-header .site-nav a {
-  color: rgba(245, 247, 251, 0.8);
-}
-
-body:has(.hero) .site-header .site-nav a:hover,
-body:has(.hero) .site-header .site-nav a.active {
-  color: #ffffff;
-}
-
-/* The dropdown panel itself stays on its own solid light background
-   regardless of the header being transparent over a dark hero, so its
-   links need to keep their normal (dark-on-light) colors rather than
-   inheriting the light-on-dark treatment above. */
-body:has(.hero) .site-header .nav-dropdown a {
-  color: var(--ink-soft);
-}
-
-body:has(.hero) .site-header .nav-dropdown a:hover,
-body:has(.hero) .site-header .nav-dropdown a.active {
-  color: var(--blue-300);
-}
-
-body:has(.hero) .site-header .nav-toggle span {
-  background: #f5f7fb;
-}
-
-/* Personal's header treatment on hero pages (almost every professional
-   page): the header floats transparently over a dark hero image there, so
-   the same navy used against the light mobile panel would disappear.
-   --metal-gold is the site's existing "small accent on a dark surface"
-   token, already reserved for exactly this kind of contrast. Must come
-   before the mobile override below so the mobile panel (light background)
-   can win back to a dark color at narrow widths. */
-body:has(.hero) .site-header .nav-item-personal > a {
-  color: var(--metal-gold);
-}
-
-body:has(.hero) .site-header .nav-item-personal > a:hover,
-body:has(.hero) .site-header .nav-item-personal > a.active {
-  color: #d4bd85;
-}
-
-/* The mobile slide-out panel always sits on its own solid light background
-   (regardless of the transparent header over the hero above it), so its
-   links need the normal dark-on-light colors rather than the light-on-dark
-   treatment meant for the transparent desktop header. */
-@media (max-width: 680px) {
-  body:has(.hero) .site-header .site-nav a {
-    color: var(--ink-soft);
-  }
-
-  body:has(.hero) .site-header .site-nav a:hover,
-  body:has(.hero) .site-header .site-nav a.active {
-    color: var(--blue-400);
-  }
-
-  body:has(.hero) .site-header .nav-item-personal > a {
-    color: var(--blue-400);
-  }
-}
-
 .site-title {
   font-family: var(--display);
   font-weight: 600;
@@ -456,11 +379,6 @@ body:has(.hero) .site-header .nav-item-personal > a.active {
 .nav-toggle.open span:nth-child(2) { opacity: 0; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-/* Open, the toggle sits above the slide-out panel's own light background
-   (rather than the dark hero it floats over when closed), so its icon
-   needs to switch to a dark color while open even on hero pages, or it
-   disappears against the light panel behind it. */
-body:has(.hero) .site-header .nav-toggle.open span,
 .nav-toggle.open span {
   background: var(--ink-soft);
 }
@@ -1254,12 +1172,6 @@ pre.code-block code {
   max-width: 500px;
   padding: 44px 44px;
   animation: hero-fade-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Clears the transparent header floating on top of the hero (roughly
-   70-75px tall) so its nav text never overlaps the hero copy. */
-body:has(.hero) .hero-content {
-  padding-top: 110px;
 }
 
 .hero-content-right {

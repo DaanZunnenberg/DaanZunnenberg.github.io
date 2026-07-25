@@ -4,8 +4,8 @@ title: Resume
 permalink: /resume/
 ---
 
-<section class="hero">
-  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
+<section class="hero hero-scroll">
+  <canvas id="trade-process-canvas" class="hero-canvas" aria-label="Live scrolling time-and-sales tables side by side, for Binance ETH/USDT, SOL/USDT, and BTC/USDT spot trades (scroll horizontally on narrow screens to see all three), each row showing price, trade amount in the coin's own units, trade amount in USD, and trade time" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Work Experience<span class="hero-eyebrow-extra"> &middot; Education &middot; Skills</span></div>
@@ -25,11 +25,24 @@ permalink: /resume/
   </div>
   <div class="entry-org">Schiphol-Rijk, Netherlands</div>
   <ul>
-    <li>Designed quantitative trading algorithms using volatility estimation and order flow models, improving execution through queue position modelling and market impact estimation.</li>
+    <li>Built and deployed algorithmic market-making strategies, incorporating volatility and skew estimation, order flow modelling, queue-aware execution, market impact, and reference price dynamics.</li>
     <li>Built a dynamic liquidity allocation model for smart order routing, reducing slippage and transaction costs by an average of 5.8% through real-time optimization over aggregated fragmented order books.</li>
-    <li>Developed quantitative portfolio rebalancing methods across exchanges that optimised timing and execution of inventory transfers under latency constraints, transaction costs, and market liquidity.</li>
+    <li>Developed cross-exchange rebalancing methods that optimised timing and execution of inventory transfers under latency constraints, transaction costs, funding rates, and market liquidity.</li>
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>numba</code> &middot; <code>ccxt</code></div>
+</div>
+
+<div class="entry" id="experience-quantfi-operational-trader">
+  <div class="entry-head">
+    <h3>QuantFi &middot; Operational Trader</h3>
+    <span class="entry-date">October 2022 &ndash; March 2023</span>
+  </div>
+  <div class="entry-org">Schiphol-Rijk, Netherlands</div>
+  <ul>
+    <li>Monitored production market-making algorithms, managing real-time risk parameters and system health to minimize inventory exposure during high-volatility periods.</li>
+    <li>Designed and deployed a live trading terminal using <code>ccxt</code> and native exchange APIs for real-time position and order tracking, integrating <code>Tardis.dev</code> for historical position reconstructions.</li>
+  </ul>
+  <div class="tags"><code>Python</code> &middot; <code>ccxt</code> &middot; <code>Tardis.dev</code></div>
 </div>
 
 <div class="entry" id="experience-vu-research-assistant">
@@ -40,34 +53,9 @@ permalink: /resume/
   <div class="entry-org">Amsterdam, Netherlands</div>
   <ul>
     <li>Designed scalable likelihood-based estimation algorithms for functional scale models, optimising computational performance through vectorised computations and parallel processing.</li>
-    <li>Reduced execution time of large-scale Monte Carlo simulations by over 90%.</li>
+    <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using NumPy vectorisation and parallel computing.</li>
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code> &middot; <a href="{{ '/projects/#project-functional-scale-estimation' | relative_url }}">Full writeup &rarr;</a></div>
-</div>
-
-<div class="entry" id="experience-quantfi-operational-trader">
-  <div class="entry-head">
-    <h3>QuantFi &middot; Operational Trader</h3>
-    <span class="entry-date">October 2022 &ndash; March 2023</span>
-  </div>
-  <div class="entry-org">Schiphol-Rijk, Netherlands</div>
-  <ul>
-    <li>Monitored production market-making algorithms, managing real-time risk parameters and system health to limit inventory exposure through high-volatility periods.</li>
-    <li>Designed and deployed a live trading terminal on <code>ccxt</code> and native exchange APIs for real-time position and order tracking, integrating <code>Tardis.dev</code> to reconstruct historical positions from raw fills for post-session audits.</li>
-  </ul>
-  <div class="tags"><code>Python</code> &middot; <code>ccxt</code> &middot; <code>Tardis.dev</code></div>
-</div>
-
-<div class="entry" id="experience-beyonddutch-research-intern">
-  <div class="entry-head">
-    <h3>BeyondDutch &middot; Research Intern</h3>
-    <span class="entry-date">January 2018 &ndash; June 2018</span>
-  </div>
-  <ul>
-    <li>Built survival models for heavily right-censored data using <code>Python</code> and <code>scikit-survival</code>, using <code>SQLAlchemy</code> to pull data from SQL databases.</li>
-    <li>Created features by combining domain data with macroeconomic indicators using <code>pandas</code> and <code>cbsodata</code> to cover missing data points.</li>
-  </ul>
-  <div class="tags"><code>Python</code> &middot; <code>scikit-survival</code> &middot; <code>SQLAlchemy</code> &middot; <code>pandas</code> &middot; <code>cbsodata</code></div>
 </div>
 
 <h2 id="education">Education</h2>
@@ -78,13 +66,11 @@ permalink: /resume/
     <span class="entry-date">Expected September 2028</span>
   </div>
   <div class="entry-org">Doctor of Philosophy (PhD), Mathematics &middot; Leiden, Netherlands</div>
-  <p>
-    Researching decomposition theorems, generic chaining, and majorizing measures for controlling suprema of
-    stochastic processes, applied to weak convergence and Donsker&ndash;Skorokhod-type results under absolute
-    regularity. I also organize and lead a weekly graduate seminar on weak convergence and empirical process
-    theory. The full technical writeup, including a walkthrough of the \(\gamma_2\) functional and the
-    majorizing measure theorem, is on the <a href="{{ '/academic/research/' | relative_url }}">Research</a> page.
-  </p>
+  <ul>
+    <li>Researching decomposition theorems, generic chaining, majorizing measures, weak convergence, and Donsker&ndash;Skorokhod theorems for stochastic processes satisfying absolute regularity.</li>
+    <li>Organized and led a weekly graduate seminar on weak convergence and empirical process theory.</li>
+  </ul>
+  <p class="form-hint">The full technical writeup, including a walkthrough of the \(\gamma_2\) functional and the majorizing measure theorem, is on the <a href="{{ '/academic/research/' | relative_url }}">Research</a> page.</p>
 </div>
 
 <div class="entry">
@@ -92,14 +78,12 @@ permalink: /resume/
     <h3>Vrije Universiteit Amsterdam</h3>
     <span class="entry-date">August 2024</span>
   </div>
-  <div class="entry-org">MSc Econometrics and Operations Research &middot; Amsterdam, Netherlands</div>
-  <p>
-    Honours Programme, GPA 8.9/10 (magna cum laude). Coursework centered on Measure Theoretic Probability,
-    Quantitative Financial Risk Management, Stochastic Processes, and Stochastic Integration. My thesis
-    developed a functional stationarity test for multidimensional diffusion processes, packaged as the
-    open-source <em>Functional Stationarity Test</em> library (see
-    <a href="{{ '/projects/#project-functional-stationarity-test' | relative_url }}">Projects</a>).
-  </p>
+  <div class="entry-org">Master of Science, Econometrics and Operations Research &middot; Amsterdam, Netherlands</div>
+  <ul>
+    <li>Honours Programme, GPA 8.9/10 (magna cum laude).</li>
+    <li>Developed a novel functional stationarity test for multidimensional diffusion processes for a thesis project, implementing and packaging the mathematical framework into an open-source <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Git repository</a> (see <a href="{{ '/projects/#project-functional-stationarity-test' | relative_url }}">Projects</a>).</li>
+    <li>Relevant coursework: Measure Theoretic Probability, Quantitative Financial Risk Management, Stochastic Processes, Stochastic Integration.</li>
+  </ul>
 </div>
 
 <div class="entry">
@@ -107,28 +91,43 @@ permalink: /resume/
     <h3>Amsterdam University of Applied Sciences</h3>
     <span class="entry-date">August 2022</span>
   </div>
-  <div class="entry-org">BSc Applied Mathematics &middot; Amsterdam, Netherlands</div>
-  <p>
-    Minor in Big Data Analytics: model training, evaluation, and deployment, the first exposure that pulled me
-    toward the applied/statistical side of mathematics I've stayed in since.
-  </p>
+  <div class="entry-org">Bachelor of Science, Applied Mathematics &middot; Amsterdam, Netherlands</div>
+  <ul>
+    <li>Relevant coursework: Statistical Learning, Time Series, Deep Learning, Risk Theory.</li>
+  </ul>
 </div>
 
-<h2 id="achievements">Achievements</h2>
+<h2 id="projects">Projects</h2>
 
 <div class="entry">
   <div class="entry-head">
-    <h3>World Econometric Championship</h3>
+    <h3><a href="https://github.com/DaanZunnenberg/FunctionalScale" target="_blank" rel="noopener noreferrer">Functional Volatility Surface Modelling</a></h3>
+    <span class="entry-date">September 2024 &ndash; present</span>
   </div>
-  <p>Finalist in the World Econometric Championship, an international competition assessing applied econometric
-  problem-solving under time pressure through live model specification, estimation, and diagnostic analysis.</p>
+  <ul>
+    <li>Extending the functional GARCH framework to a generalized autoregressive score (GAS) model to estimate and capture time-varying intraday volatility surfaces.</li>
+    <li>Designed efficient estimation procedures using B-splines, applying Numba JIT compilation to enable scalable modelling of volatility surfaces from granular intraday return data.</li>
+  </ul>
+  <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <a href="{{ '/projects/#project-functional-volatility-surface' | relative_url }}">Full writeup &rarr;</a></div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3><a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">HRP Portfolio Allocation</a></h3>
+    <span class="entry-date">October 2023 &ndash; August 2024</span>
+  </div>
+  <ul>
+    <li>Implemented Hierarchical Risk Parity via tree clustering using <code>scipy.cluster</code> to stabilize high-dimensional asset allocation, bypassing classical covariance inversion to eliminate noise sensitivity.</li>
+    <li>Generated a mean alpha premium of 3.9% above the benchmark across diverse simulated horizons in a look-ahead-free method that outperformed actively rebalanced benchmark portfolios.</li>
+  </ul>
+  <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
 </div>
 
 <h2 id="skills">Skills</h2>
 
 <div class="entry">
   <ul>
-    <li><strong>Languages &amp; tools:</strong> Python (<code>pandas</code>, <code>numpy</code>, <code>asyncio</code>, <code>numba</code>), Java, Git, Docker, Bash</li>
+    <li><strong>Languages &amp; tools:</strong> Python (<code>pandas</code>, <code>numpy</code>, <code>numba</code>), Java, SQL, Git, Bash</li>
     <li><strong>Machine learning:</strong> <code>scipy</code>, <code>cvxpy</code>, <code>statsmodels</code>, <code>sklearn</code>, <code>tensorflow</code></li>
     <li><strong>Statistical foundations:</strong> time series analysis, econometrics, inference theory</li>
   </ul>

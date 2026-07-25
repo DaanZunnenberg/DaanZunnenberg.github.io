@@ -8,7 +8,7 @@ title: About
   <div class="hero-fade hero-fade-long" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher<span class="hero-eyebrow-extra"> &middot; Probability &middot; Quant Finance</span></div>
-    <h1 class="hero-name hero-headline">Mathematician by Training, Trader by Passion</h1>
+    <h1 class="hero-name hero-headline">Probability Theory, With a Trading Habit</h1>
     <p class="hero-lede">PhD research in probability theory, alongside professional experience and a lasting interest in quantitative trading and market making.</p>
     <div class="hero-cta">
       <a class="cta-button" href="{{ '/projects/' | relative_url }}">View My Work &rarr;</a>

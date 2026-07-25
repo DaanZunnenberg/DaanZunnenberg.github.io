@@ -17,7 +17,7 @@ permalink: /blogposts/
 <p class="tagline">Blogposts &middot; talks &middot; posters &middot; seminars &middot; conferences</p>
 
 <h2 id="blogposts">Blogposts</h2>
-<p>A collection of blogposts, news articles, and other writing by me.</p>
+<p>Occasional writing on markets, mathematics, and the overlap between them.</p>
 
 <div class="article-grid">
   <a class="article-card" href="{{ '/blogposts/the-mathematics-of-market-liquidity/' | relative_url }}">

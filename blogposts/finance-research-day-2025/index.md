@@ -16,11 +16,10 @@ permalink: /blogposts/finance-research-day-2025/
 
 <p class="tagline">Delft Institute of Applied Mathematics (DIAM), TU Delft &middot; Delft, Netherlands</p>
 
-<h2>About the day</h2>
 <p>
-  The fourth Finance Research Day organized by DIAM at TU Delft, bringing together academics,
-  practitioners, and regulators working in quantitative finance to discuss current challenges and
-  explore new directions in the field.
+  The fourth Finance Research Day organized by DIAM at TU Delft: a one-day mix of academic talks and
+  industry perspectives on quantitative finance, aimed at getting researchers and practitioners in the
+  same room for once.
 </p>
 
 <p><a href="{{ '/blogposts/' | relative_url }}">&larr; Back to Blogposts</a></p>

@@ -16,16 +16,10 @@ permalink: /blogposts/54th-star-meeting-lunteren-2026/
 
 <p class="tagline">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</p>
 
-<h2>About the meeting</h2>
 <p>
-  The STAR Lunteren meeting is the main annual national gathering for probability and statistics
-  researchers in the Netherlands, run over several days and bringing together PhD students, postdocs,
-  and faculty across the Dutch stochastics community.
-</p>
-
-<h2>My role</h2>
-<p>
-  I'm attending as a poster presenter. Details on the poster itself will be added closer to the meeting.
+  STAR Lunteren is the main annual meeting for probability and statistics researchers in the Netherlands,
+  a few days at a conference center in Lunteren that most Dutch PhD students in the field end up at every
+  year. I'm going as a poster presenter this time; I'll add the poster itself once it's ready.
 </p>
 
 <p><a href="{{ '/blogposts/' | relative_url }}">&larr; Back to Blogposts</a></p>
