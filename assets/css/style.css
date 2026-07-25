@@ -99,9 +99,12 @@ body::after {
 }
 
 .wrap {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 40px;
+  max-width: none;
+  padding: 0 64px;
+}
+
+@media (max-width: 900px) {
+  .wrap { padding: 0 40px; }
 }
 
 @media (max-width: 640px) {
@@ -113,23 +116,34 @@ main {
   z-index: 1;
 }
 
-/* Standard reading measure for prose, since .wrap itself is wide.
-   Layout elements (grids, cards, the timeline) are left alone since their
-   own column/card widths already control their line length. */
+/* Standard reading measure for prose, since .wrap itself is wide. Centered
+   (not just capped) so text gets even, generous margins on both sides
+   instead of hugging the left edge of a full-width page. Layout elements
+   (grids, cards, the timeline) are left alone since their own column/card
+   widths already control their line length. */
 main > p,
 main > ul,
 main > ol,
-.readme p,
-.readme li,
 .lede {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.readme p,
+.readme li {
   max-width: 700px;
 }
 
 /* Project/blogpost long-form pages read as articles, so they get a
    narrower, smaller-type column than the rest of the site &mdash; closer to
-   a news or insights piece than a landing page. */
+   a news or insights piece than a landing page. Centering the whole
+   article-body div (not just its paragraphs) keeps headings and text
+   aligned to the same column. */
 .article-body {
   max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 14.5px;
 }
 
@@ -171,8 +185,8 @@ main > ol,
    it rather than pinning to the viewport. */
 body:has(.hero) .site-header {
   position: absolute;
-  left: 40px;
-  right: 40px;
+  left: 64px;
+  right: 64px;
   border-bottom-color: transparent;
   /* Dark-to-light scrim of its own, rather than relying only on the hero
      image's own fade, so the light nav text reads clearly regardless of
@@ -275,7 +289,7 @@ body:has(.hero) .site-header .nav-item-personal > a.active {
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 32px;
 }
 
 /* Main nav sits in the header's middle zone and centers itself within the
@@ -585,7 +599,7 @@ body.nav-locked {
    directly underneath it rather than squeezed alongside. */
 .profile-cover {
   position: relative;
-  margin: 0 -40px 24px;
+  margin: 0 -64px 24px;
   border-radius: 2px;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -835,7 +849,7 @@ a:hover { color: var(--blue-300); }
    same full-bleed technique as the hero/footer, and the same restrained
    corporate-contact-page feel as the footer's own dark band. */
 .contact-panel {
-  margin: 32px -40px 40px;
+  margin: 32px -64px 40px;
   padding: 44px 40px 48px;
   background: var(--blue-950);
 }
@@ -1381,7 +1395,7 @@ pre.code-block code {
   position: relative;
   display: flex;
   align-items: center;
-  margin: 0 -40px 40px;
+  margin: 0 -64px 40px;
   /* Tall enough to fit the fullest hero (landing page: eyebrow + two-line
      headline + lede + CTA row) without that content growing the box past
      this floor, so every hero on the site renders at the same height
@@ -1583,6 +1597,15 @@ body:has(.hero) .hero-content {
   padding: 24px 24px 26px;
   font: inherit;
   text-align: left;
+}
+
+/* On the dark Contact panel, the email button needs to fall back to the
+   same dark-card treatment as its sibling <a> cards rather than
+   .dest-card.copy-email's own white background, which otherwise wins the
+   cascade at equal specificity by coming later in the stylesheet. */
+.contact-panel .dest-card.copy-email {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-dark);
 }
 
 .copy-toast {
@@ -2009,7 +2032,7 @@ code {
    the reading column, so it takes over the negative margin trick to run
    edge to edge regardless of viewport width. */
 .site-footer {
-  margin: 88px -40px 0;
+  margin: 88px -64px 0;
   padding: 48px 40px 60px;
   background: var(--blue-950);
   font-family: var(--mono);
