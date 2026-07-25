@@ -45,6 +45,7 @@
   --mono: "SF Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
   --serif: "IBM Plex Serif", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --display: "Fraunces", "IBM Plex Serif", Georgia, serif;
+  --display-hero: "Bodoni Moda", "Fraunces", Didot, "Times New Roman", serif;
 }
 
 * { box-sizing: border-box; }
@@ -1151,11 +1152,11 @@ body:has(.hero) .hero-content {
 
 .hero-name {
   margin: 20px 0 18px;
-  font-family: var(--display);
+  font-family: var(--display-hero);
   font-size: 48px;
   font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.08;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
   color: #f3f1ea;
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.85);
 }
