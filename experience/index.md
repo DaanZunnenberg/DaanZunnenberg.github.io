@@ -214,12 +214,23 @@ theta_hat = minimize(lambda theta: qmle_loss(returns, theta, M), theta0, method=
           Because standard likelihood functions cannot be directly evaluated for continuous curves, the model is estimated using Functional Quasi-Maximum Likelihood Estimation (QMLE).
         </p>
       <h4>Setup</h4>
+      <p>
+        The package is not on PyPI yet, so it is installed straight from the repository. This clones the
+        code and pulls in the numerical stack it depends on: <code>numpy</code>, <code>scipy</code>,
+        <code>numba</code>, <code>pandas</code>, <code>matplotlib</code>, and <code>tqdm</code>.
+      </p>
       <pre class="code-block" data-lang="bash"><code>git clone https://github.com/DaanZunnenberg/FunctionalScale.git
 cd FunctionalScale
 pip install -e .            # editable install, pulls in numpy/scipy/numba/pandas/matplotlib/tqdm
 pip install -e ".[dev]"      # + pytest, jupyter (optional, for tests/notebooks)
 </code></pre>
       <h4>Usage: functional GARCH</h4>
+      <p>
+        This is the baseline estimator. It takes a matrix of intraday return curves, one row per
+        time-of-day grid point and one column per day, and fits a single functional GARCH(p,q) operator to
+        the whole sample using the Bernstein-basis QMLE from above. The output is a fitted variance surface
+        with the same shape as the input returns.
+      </p>
       <pre class="code-block" data-lang="python"><code>import numpy as np
 from funcgarch import fit, garch_filter
 
@@ -234,6 +245,12 @@ vtheta_hat = result.x
 sigma2 = garch_filter(mY, n_grid=N, vtheta=vtheta_hat, M=M)  # (N, T) fitted variance surface
 </code></pre>
       <h4>Usage: functional GAS-GARCH</h4>
+      <p>
+        This is the score-driven extension. Instead of fitting one static operator to the whole sample, it
+        updates its coefficients every day from the score of the latest return curve. The call shape is
+        similar to the plain GARCH fit above, but it estimates the extra persistence and score operators
+        \(B\) and \(A\) alongside the baseline curve.
+      </p>
       <pre class="code-block" data-lang="python"><code>from scipy.optimize import minimize
 from funcgarch import gas_garch_estimator
 
@@ -257,6 +274,11 @@ result = minimize(
       <img src="{{ '/assets/img/garch_vs_gas_vol_surface.png' | relative_url }}" alt="Functional GARCH-estimated versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
       <p class="form-hint">The second comparison figure compares the functional GARCH and GAS-GARCH volatility surfaces, demonstrating the increased flexibility of the GAS-GARCH specification relative to the traditional functional GARCH model.</p>
       <h4>Data Flow</h4>
+      <p>
+        This shows how raw exchange data turns into the fitted surface above. Intraday trades are pulled
+        from WRDS, cleaned and reshaped into the return matrix \(mY\), and then passed into the estimators
+        shown in the two usage examples.
+      </p>
       <pre class="code-block" data-lang="txt"><code>wrds/*.sas                    scripts/taq_cleaner.py           funcgarch/*.py
 ┌─────────────────┐           ┌────────────────────┐           ┌──────────────────────┐
 │ WRDS TAQ pull   │  raw CSV  │ DataCleaner.clean()│  mY (N,T) │ fit() / garch_filter │
