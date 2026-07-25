@@ -182,6 +182,21 @@ body:has(.hero) .site-header .nav-toggle span {
   background: #f5f7fb;
 }
 
+/* The mobile slide-out panel always sits on its own solid light background
+   (regardless of the transparent header over the hero above it), so its
+   links need the normal dark-on-light colors rather than the light-on-dark
+   treatment meant for the transparent desktop header. */
+@media (max-width: 680px) {
+  body:has(.hero) .site-header .site-nav a {
+    color: var(--ink-soft);
+  }
+
+  body:has(.hero) .site-header .site-nav a:hover,
+  body:has(.hero) .site-header .site-nav a.active {
+    color: var(--blue-400);
+  }
+}
+
 .site-title {
   font-family: var(--display);
   font-weight: 600;
@@ -390,7 +405,7 @@ body:has(.hero) .site-header .nav-toggle span {
   padding: 0;
   border: 1px solid var(--line);
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.85);
+  background: none;
   cursor: pointer;
   z-index: 41;
   position: relative;

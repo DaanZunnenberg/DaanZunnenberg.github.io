@@ -59,54 +59,6 @@ permalink: /experience/
         order flow signals, models of queue position, execution that accounts for latency, and exchange-specific
         risk controls.
       </p>
-      <h4>Fair Value Estimation</h4>
-      <p>
-        In practice, the model above needs a fair value \(S_t\) to quote around, and that estimate is built by
-        the pipeline below rather than read off a single book. <code>venue_features</code> turns one venue's raw
-        book and trade tape into a small feature set: a size-weighted microprice instead of the raw top-of-book
-        midpoint, book imbalance, recent signed trade flow, a short-window realized volatility, and how stale
-        that book currently is. <code>cross_venue_features</code> calls this once per venue and adds two things
-        that only make sense once several venues are in view together: a lead&ndash;lag matrix, for which venue's
-        prices tend to move first, and a set of liquidity weights, so a deep, fresh book counts for more than a
-        thin, stale one.
-      </p>
-      <p>
-        <code>fair_value</code> is where those per-venue features get fused into one number: a state-space
-        (Kalman-style) update takes the previous estimate plus the new cross-venue features and produces \(S_t\)
-        together with an updated filter state carried into the next tick. <code>quotes</code> then takes that
-        \(S_t\) and places bid/ask offsets around it using the same Avellaneda&ndash;Stoikov-style formula from
-        the section above, so inventory and risk aversion still control the skew &mdash; only the price they are
-        skewed around is now a filtered, cross-venue estimate instead of one venue's midpoint.
-      </p>
-      <pre class="code-block" data-lang="python"><code>from meridian import microstructure, alpha  # proprietary: feature weights, training, and calibration withheld
-
-def venue_features(book, trades, lookback):
-    return {
-        "microprice": microstructure.microprice(book, levels=5),      # size-weighted, not just top of book
-        "book_imbalance": microstructure.imbalance(book, levels=5),
-        "trade_flow": microstructure.signed_volume(trades, lookback),
-        "realized_vol": microstructure.ewma_vol(trades.mid, halflife=lookback),
-        "staleness_ms": book.age_ms,
-        "funding_rate": book.funding_rate,
-    }
-
-def cross_venue_features(venues, symbol, lookback):
-    per_venue = {v.name: venue_features(v.book(symbol), v.trades(symbol), lookback) for v in venues}
-    lag = microstructure.lead_lag_matrix(per_venue, window=lookback)  # which venue's prices lead the others
-    weights = microstructure.liquidity_weights(per_venue)             # deeper, less stale books get more weight
-    return per_venue, lag, weights
-
-def fair_value(venues, symbol, kalman_state, lookback=500):
-    per_venue, lag, weights = cross_venue_features(venues, symbol, lookback)
-    S_hat, kalman_state = alpha.fair_value_model.update(per_venue, lag, weights, kalman_state)
-    return S_hat, kalman_state
-
-def quotes(S_hat, sigma, q, gamma, k, tau):
-    delta_b = (1 / gamma) * np.log(1 + gamma / k) + (1 + 2 * q) / 2 * gamma * sigma ** 2 * tau
-    delta_a = (1 / gamma) * np.log(1 + gamma / k) + (1 - 2 * q) / 2 * gamma * sigma ** 2 * tau
-    return S_hat - delta_b, S_hat + delta_a
-</code></pre>
-      <p class="form-hint">The <code>alpha.fair_value_model</code> call is a stand-in for a proprietary state-space estimator: the actual feature set, cross-venue weighting, and Kalman-style update are not public.</p>
     </div>
     </div>
   </div>
