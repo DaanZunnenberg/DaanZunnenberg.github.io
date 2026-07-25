@@ -9,24 +9,16 @@
   function update() {
     var y = window.scrollY || window.pageYOffset;
     if (header) {
-      // The header is only actually pinned (and needs a background so
-      // scrolled content doesn't show through it) once its own top edge
-      // reaches the viewport's top edge. Deriving "stuck" from that,
-      // rather than a fixed scrollY threshold, means the background
-      // appears exactly when the header starts overlapping content,
-      // with no gap in between and no dependence on page-specific
-      // layout (console bar height, hero height, etc.).
-      //
-      // Toggling .is-stuck shrinks the header's own padding/margin, which
-      // shifts its measured top by a few pixels. Using one exact threshold
-      // for both directions let that shift flip the reading back across
-      // the boundary mid-scroll, flickering the class on/off. A small gap
-      // between the "stick" and "unstick" thresholds absorbs that shift.
-      var top = header.getBoundingClientRect().top;
+      // On hero pages the header sits out of flow (absolutely positioned
+      // over the hero) so it can float transparently on top of it; its own
+      // rect.top reads 0 from the very first frame regardless of scroll,
+      // so "stuck" has to be derived from scroll position instead of the
+      // header's own geometry. A small gap between the two thresholds
+      // avoids flicker right at the boundary.
       var isStuck = header.classList.contains("is-stuck");
-      if (!isStuck && top <= 0) {
+      if (!isStuck && y > 4) {
         isStuck = true;
-      } else if (isStuck && top > 8) {
+      } else if (isStuck && y <= 0) {
         isStuck = false;
       }
       header.classList.toggle("is-stuck", isStuck);

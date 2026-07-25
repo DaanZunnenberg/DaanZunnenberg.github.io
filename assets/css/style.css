@@ -140,6 +140,35 @@ main::before {
     box-shadow 0.22s ease, backdrop-filter 0.22s ease, border-color 0.22s ease, border-radius 0.22s ease;
 }
 
+/* Pages with a hero: header floats transparently over the hero's top edge
+   instead of pushing it down, so the hero art reads as full-bleed. It drops
+   out of flow (nothing above the hero to reserve space for it) and only
+   rejoins the sticky flow once scrolled, at which point .is-stuck already
+   pins it to the same spot so there's no visible jump. */
+body:has(.hero) .site-header:not(.is-stuck) {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  border-bottom-color: transparent;
+}
+
+body:has(.hero) .site-header:not(.is-stuck) .site-title {
+  color: #f5f7fb;
+}
+
+body:has(.hero) .site-header:not(.is-stuck) .site-nav a {
+  color: rgba(245, 247, 251, 0.8);
+}
+
+body:has(.hero) .site-header:not(.is-stuck) .site-nav a:hover,
+body:has(.hero) .site-header:not(.is-stuck) .site-nav a.active {
+  color: #ffffff;
+}
+
+body:has(.hero) .site-header:not(.is-stuck) .nav-toggle span {
+  background: #f5f7fb;
+}
+
 .site-header.is-stuck {
   padding: 12px 16px;
   margin: 0 -16px;
@@ -1004,6 +1033,18 @@ pre.code-block code {
   background: var(--blue-950);
 }
 
+/* Scrim so the site title/nav stay legible when the transparent header
+   floats over whatever the hero art is doing underneath it. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 190px;
+  background: linear-gradient(to bottom, rgba(6, 10, 18, 0.75) 0%, rgba(6, 10, 18, 0) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
 .hero #market-widget-canvas,
 .hero-canvas {
   position: absolute;
@@ -1074,6 +1115,12 @@ pre.code-block code {
   max-width: 440px;
   padding: 44px 44px;
   animation: hero-fade-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Clears the transparent header floating on top of the hero (roughly
+   130-140px tall) so its nav text never overlaps the hero copy. */
+body:has(.hero) .hero-content {
+  padding-top: 168px;
 }
 
 .hero-content-right {
