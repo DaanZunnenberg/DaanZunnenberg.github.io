@@ -5,7 +5,7 @@ permalink: /blogposts/sieve-estimation-of-volatility/
 ---
 
 <section class="hero">
-  <img class="hero-img" src="{{ '/images/volatility/back1.png' | relative_url }}" alt="">
+  <img class="hero-img" src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Blogpost &middot; Volatility Modelling</div>
