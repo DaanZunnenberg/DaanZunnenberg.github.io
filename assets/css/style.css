@@ -705,6 +705,18 @@ body.nav-locked {
 
 .profile-intro { margin-bottom: 4px; }
 
+/* The intro block's own h1/lede would otherwise pick up the sitewide
+   centered-and-inset h1/.lede rule above, while its .tagline right
+   between them has no such rule and stays flush left, so the three lines
+   would sit at different left edges. Keep all three flush left instead,
+   matching the resume page's analogous override. */
+.profile-intro h1,
+.profile-intro .lede {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 @media (max-width: 640px) {
   .profile-cover { margin: 0 -16px 20px; }
 }
