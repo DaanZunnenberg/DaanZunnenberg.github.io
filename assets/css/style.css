@@ -132,6 +132,20 @@ main h2,
   margin-right: auto;
 }
 
+/* Blogposts index mixes prose (h2/p, picking up the sitewide narrow
+   centered measure above) with full-width blocks (.article-grid,
+   .timeline), which read as mismatched &mdash; a narrow indented caption
+   sitting above a wide grid. Here the text should run the same width as
+   the blocks beneath it, so it's left-aligned and uncapped like them
+   instead of centered to the 700px reading column. */
+.blogposts-index main > h2,
+.blogposts-index main > p {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
+
 /* Resume's headings sit in the two-column layout's main reading column
    alongside its (left-aligned, not centered) .entry blocks, so they need
    to stay flush left rather than pick up the sitewide h1/h2 centering
@@ -1017,6 +1031,12 @@ a:hover { color: var(--blue-300); }
   width: 34px;
   height: 34px;
   stroke: currentColor;
+}
+
+.article-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .article-card-body {

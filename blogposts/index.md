@@ -2,6 +2,7 @@
 layout: default
 title: Blogposts
 permalink: /blogposts/
+body_class: blogposts-index
 ---
 
 <section class="hero hero-scroll">
@@ -22,7 +23,7 @@ permalink: /blogposts/
 <div class="article-grid">
   <a class="article-card" href="{{ '/blogposts/the-mathematics-of-market-liquidity/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <img src="{{ '/images/chart_image.jpg' | relative_url }}" alt="">
     </span>
     <span class="article-card-body">
       <span class="article-card-title">The Mathematics of Market Liquidity</span>
