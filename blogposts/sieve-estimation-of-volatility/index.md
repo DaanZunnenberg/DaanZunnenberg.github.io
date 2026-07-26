@@ -85,7 +85,7 @@ where \(\phi_\eta(\varepsilon) = \exp(\eta\varepsilon^2)\) squashes the higher-o
 </p>
 
 <p>
-The catch is exactly the one you'd expect: more flexibility is not free. A higher order \(k\) always fits the in-sample likelihood at least as well as a lower one, so left unchecked the procedure would overfit noise. We therefore choose \(k\) by the Akaike and Bayesian information criteria, \(\text{AIC}=2|\bm{\theta}|-2\hat{L}\) and \(\text{BIC}=|\bm{\theta}|\log n - 2\hat{L}\), both of which penalise adding coefficients that don't earn their keep in likelihood.
+The catch is exactly the one you'd expect: more flexibility is not free. A higher order \(k\) always fits the in-sample likelihood at least as well as a lower one, so left unchecked the procedure would overfit noise. We therefore choose \(k\) by the Akaike and Bayesian information criteria, both of which penalise adding coefficients that don't earn their keep in likelihood.
 </p>
 
 <h2 id="two-simulations-two-very-different-verdicts">Two simulations, two very different verdicts</h2>
