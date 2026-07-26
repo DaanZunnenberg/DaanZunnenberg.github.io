@@ -5,7 +5,7 @@ permalink: /projects/functional-stationarity-test/
 ---
 
 <section class="hero">
-  <canvas id="market-widget-canvas" class="hero-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain" aria-hidden="true"></canvas>
+  <img class="hero-img" src="{{ '/images/stationarity_background.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Project &middot; 2024</div>
