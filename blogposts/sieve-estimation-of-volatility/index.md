@@ -16,7 +16,7 @@ permalink: /blogposts/sieve-estimation-of-volatility/
 
 <div class="article-body">
 
-<h4>The problem with fixing the shape in advance</h4>
+<h2 id="the-problem-with-fixing-the-shape-in-advance">The problem with fixing the shape in advance</h2>
 
 <p>
 Every GARCH model makes a choice before it ever sees a single return: the shape of the function that maps yesterday's shock into today's variance. The plain GARCH(1,1) model writes that shape as a symmetric quadratic,
@@ -56,7 +56,7 @@ which generalises further to the asymmetric power ARCH (APARCH) model,
 This works, but only to the extent that the true news-impact curve actually looks like this particular parametric family. \(\lambda\) buys you one extra degree of freedom: an asymmetric tilt. If the real shape is more complicated than a tilted power curve, APARCH is still misspecified, just less obviously so.
 </p>
 
-<h4>Letting the shape be unknown</h4>
+<h2 id="letting-the-shape-be-unknown">Letting the shape be unknown</h2>
 
 <p>
 The alternative we study is to stop guessing the functional form altogether. Instead of committing to a parametric asymmetry term, write the updating equation as
@@ -88,7 +88,7 @@ where \(\phi_\eta(\varepsilon) = \exp(\eta\varepsilon^2)\) squashes the higher-o
 The catch is exactly the one you'd expect: more flexibility is not free. A higher order \(k\) always fits the in-sample likelihood at least as well as a lower one, so left unchecked the procedure would overfit noise. We therefore choose \(k\) by the Akaike and Bayesian information criteria, \(\text{AIC}=2|\bm{\theta}|-2\hat{L}\) and \(\text{BIC}=|\bm{\theta}|\log n - 2\hat{L}\), both of which penalise adding coefficients that don't earn their keep in likelihood.
 </p>
 
-<h4>Two simulations, two very different verdicts</h4>
+<h2 id="two-simulations-two-very-different-verdicts">Two simulations, two very different verdicts</h2>
 
 <p>
 To see what this buys you in practice, we simulated returns from two known news-impact curves and asked whether the transformed polynomial model could recover them better than the plain \(t\)-GARCH(1,1) and \(t\)-APARCH(1,1,1) benchmarks.
@@ -141,7 +141,7 @@ h(\varepsilon_t,\sigma^2(t)) = \omega + \beta\varepsilon_t + \alpha\sigma^2(t-1)
 an infinite sum of monomial terms that a fixed-form model like APARCH simply has no parameters to represent. Every additional order \(k\) in the transformed polynomial buys real information here, so the likelihood improves faster than the AIC and BIC penalise it. The lesson from both simulations together: flexibility pays for itself only when the truth is complicated enough to need it. If the real news-impact curve is simple, or sharply kinked but otherwise simple, added complexity is dead weight.
 </p>
 
-<h4>Checking the distributional assumption before trusting any of this</h4>
+<h2 id="checking-the-distributional-assumption-before-trusting-any-of-this">Checking the distributional assumption before trusting any of this</h2>
 
 <p>
 All of the above relies on the student-\(t\) distribution being a reasonable model for the innovations \(\varepsilon_t\). Before applying any of these models to real data, we checked this directly with a quantile-quantile comparison against the S&amp;P 500 return series.
@@ -156,7 +156,7 @@ All of the above relies on the student-\(t\) distribution being a reasonable mod
 The Gaussian case, \(\nu=\infty\), departs from the diagonal in both tails: the empirical returns have more extreme observations than a normal distribution predicts, the familiar fat-tails problem in financial returns. Tightening \(\nu\) to 5 degrees of freedom, giving the distribution much heavier tails, brings the quantiles back in line. This matters beyond a robustness footnote: every likelihood comparison in this study, and the AIC/BIC penalties built on top of it, are only meaningful if the assumed error distribution is a reasonable description of the data. Getting \(\nu\) right first is a precondition for everything that follows, not an afterthought.
 </p>
 
-<h4>What happens on real data</h4>
+<h2 id="what-happens-on-real-data">What happens on real data</h2>
 
 <p>
 We then applied all three models, \(t\)-GARCH, \(t\)-APARCH, and the sieve-estimated transformed polynomial model, to S&amp;P 500 returns, using both a short window (\(n=1000\), 2019&ndash;2023) and a long one (\(n\approx10{,}000\), 1983&ndash;2023). The result echoes the sharp-asymmetry simulation rather than the sinusoidal one: \(t\)-APARCH wins outright on both AIC and BIC at both sample sizes. The higher-order polynomial models do reach a higher raw log-likelihood than APARCH at \(n=1000\), but never enough to overcome the complexity penalty. At \(n\approx10{,}000\), the estimated parameters \((\omega,\beta,\alpha,\nu)\) that are shared across all three models come out remarkably similar, which is itself informative: it suggests the population volatility process for the S&amp;P 500 is not the plain symmetric GARCH model, but something closer to what APARCH already captures with its single asymmetry parameter \(\lambda\).
@@ -166,7 +166,7 @@ We then applied all three models, \(t\)-GARCH, \(t\)-APARCH, and the sieve-estim
 There are two ways to read this. The optimistic one is that the real news-impact curve for a broad equity index is, in fact, close enough to APARCH's tilted-power shape that there's little left on the table for a more flexible model to pick up, once you pay for the extra parameters. The more cautious reading is that volatility models of every stripe, ours included, are sensitive to structural breaks: financial crashes, regime shifts, and other one-off events that a stationary model averages over rather than tracks. A more flexible model has more parameters that can be pulled around by exactly this kind of misspecification, which could just as easily explain why the added complexity doesn't pay off here even if the underlying process is more intricate than APARCH assumes. Disentangling those two explanations would require explicitly testing for structural breaks first, which we leave for future work.
 </p>
 
-<h4>Conclusion</h4>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>
 Sieve-M estimation with transformed polynomials is a mathematically sound way to stop guessing the shape of the news-impact curve and let the data determine it instead, and the theory backs this up: the class of transformed polynomials is dense in the space of continuous functions, and the resulting estimator is consistent under fairly mild conditions. But soundness in theory is not the same as winning in practice. Whether the added flexibility is worth its cost depends entirely on how complicated the true curve actually is relative to the sample size on hand. When the truth is simple or sharply asymmetric, the parametric \(t\)-APARCH model remains very hard to beat, and that is exactly what we find both in simulation and on the S&amp;P 500. When the truth is genuinely intricate, as in the sinusoidal simulation, the flexible model pulls decisively ahead. The honest conclusion is not "nonparametric beats parametric" or the reverse, but that the AIC and BIC are doing real work here: they are the mechanism that tells you, case by case, whether the extra complexity was worth affording.

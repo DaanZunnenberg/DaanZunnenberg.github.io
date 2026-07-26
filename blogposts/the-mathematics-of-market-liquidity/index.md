@@ -18,7 +18,7 @@ permalink: /blogposts/the-mathematics-of-market-liquidity/
 
 <p class="tagline">By Daan Zunnenberg and Nicos Starreveld</p>
 
-<h4>What is market making?</h4>
+<h2 id="what-is-market-making">What is market making?</h2>
 
 <p>
 A market maker quotes a price to buy and a price to sell. She does this at the same time, all day. One standard definition describes making a market as &ldquo;continuous buying and selling of shares in particular companies at particular prices.&rdquo; Exchanges themselves describe a market maker as a party that &ldquo;stands ready to buy and sell stock on a regular and continuous basis at a publicly quoted price.&rdquo; The job has two goals. Keep the market liquid and make money doing it.
@@ -40,7 +40,7 @@ Around fifteen years ago, this problem got a real mathematical answer. In 2008, 
 This newsletter walks through that model. It shows why the model is mathematically optimal. Then it explains why almost nobody outside a handful of firms can trade it profitably.
 </p>
 
-<h4>The Avellaneda&ndash;Stoikov model</h4>
+<h2 id="the-avellaneda-stoikov-model">The Avellaneda&ndash;Stoikov model</h2>
 
 <p>
 Here is the setup. A market maker posts a bid and an ask around a reference price, meaning the theoretical fair value of the asset at that instant. When another trader hits one of those quotes, a trade happens. The goal is to earn the spread between bid and ask. At the same time, she must avoid letting her position build up too far in one direction. After all, because she only quotes passively, every trade she gets filled on is, by construction, one the other side wanted to make.
@@ -166,7 +166,7 @@ One honest caveat, straight from the practitioner's side of the desk. Nobody at 
 There is also a second, quieter assumption worth flagging. \(S_t\) here is a stylized diffusion, treated as given. In practice, that reference price is not observed. It is estimated, continuously, from the order book, from correlated instruments, from the market maker's own recent fills. Building a good estimate of fair value is its own hard statistical problem. On most desks, it is a bigger source of edge than the inventory control layer sitting on top of it. The model in this section answers the question of how to skew given fair value. It does not answer what fair value actually is. Treating the two as one problem is the single most common mistake made by people learning this model from a textbook.
 </p>
 
-<h4>Why the theory does not survive contact with real markets</h4>
+<h2 id="why-the-theory-does-not-survive-contact-with-real-markets">Why the theory does not survive contact with real markets</h2>
 
 <p>
 So the model is solved, and the solution is elegant. The problem is that solving the optimal control problem and making money are two different things. The model is a clean idealization. Real markets are not clean. The gap between the two is exactly where the typical retail trader loses.
@@ -204,7 +204,7 @@ On top of that, you are not the only one running this playbook. Many firms run s
 This is sharpest in derivatives markets, where contracts are complex and competition is brutal. There, staying profitable is not about knowing the Avellaneda&ndash;Stoikov formula. It is about who has the better volatility estimate, the better short term flow prediction, and perhaps most importantly, the lower latency. The formula gives you a starting point. Everyone already knows the formula. The edge lives somewhere else.
 </p>
 
-<h4>Why the typical trader still loses</h4>
+<h2 id="why-the-typical-trader-still-loses">Why the typical trader still loses</h2>
 
 <p>
 It is tempting to read the last section as follows. Pick a quiet market, and the theory works fine. There is some truth to that. A thin, slow moving market has less adverse selection and fewer competitors, so the model's assumptions are less obviously wrong. But quiet markets are quiet precisely because the big players have not bothered to compete there yet. The moment real money shows up, the same forces reappear.
@@ -234,7 +234,7 @@ The fourth is the signal itself getting gamed. Outright manipulation, such as sp
 None of this means the math is wrong. It means the math describes the best you could do if you were the only trader in the market. You are not. Each of these four forces widens the gap between the theoretical spread and what a small, slow, unprotected trader can actually capture. That gap is where the theoretical edge disappears before it reaches your account.
 </p>
 
-<h4>Conclusion</h4>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>
 The Avellaneda&ndash;Stoikov model answers a real question. Given inventory risk and random order flow, what is the optimal quote? The answer is explicit, elegant, and correct, on its own terms.
