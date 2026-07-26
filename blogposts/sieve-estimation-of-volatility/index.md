@@ -100,12 +100,12 @@ The first curve is deliberately sharp and asymmetric,
 
 <p>
 \[
-\sigma^2(t) = b_0 + b_1\varepsilon_{t-1}\mathbb{1}\{\varepsilon_{t-1}\leqslant 0\} + b_2\varepsilon_{t-1}\mathbb{1}\{\varepsilon_{t-1}>0\} + b_3\sigma^2(t-1), \qquad \bm{b}=(0.9,-0.8,0.4,0.0),
+\sigma^2(t) = b_0 + b_1\varepsilon_{t-1}\mathbb{1}\{\varepsilon_{t-1}\leqslant 0\} + b_2\varepsilon_{t-1}\mathbb{1}\{\varepsilon_{t-1}>0\} + b_3\sigma^2(t-1),
 \]
 </p>
 
 <p>
-a kinked, non-differentiable function at \(\varepsilon_{t-1}=0\). The second is smoother but considerably more convoluted,
+a kinked, non-differentiable function at \(\varepsilon_{t-1}=0\). Here the baseline variance is high (\(b_0=0.9\)), a negative shock pulls variance sharply down (\(b_1=-0.8\)), a positive shock of the same size pushes it up by about half as much (\(b_2=0.4\)), and lagged variance plays no role at all (\(b_3=0\)), so the whole curve is driven purely by the sign and size of the last shock. The second curve is smoother but considerably more convoluted,
 </p>
 
 <p>
