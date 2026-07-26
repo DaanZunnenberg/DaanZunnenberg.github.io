@@ -936,9 +936,13 @@ a:hover { color: var(--blue-300); }
   grid-template-columns: repeat(3, 1fr);
 }
 
+/* Featured tiles keep the exact same padding, index-number treatment,
+   and text layout as the secondary cards below &mdash; only the icon and
+   title scale up &mdash; so the two rows read as one consistent card
+   language at two sizes, not two different card designs. */
 .dest-card-featured {
-  padding: 30px 30px 32px;
-  min-height: 200px;
+  padding: 28px 26px 30px;
+  min-height: 168px;
 }
 
 .dest-card-featured .dest-icon {
@@ -951,50 +955,14 @@ a:hover { color: var(--blue-300); }
   height: 24px;
 }
 
-.dest-card-featured .dest-text {
-  /* Keeps title/description clear of the ghost numeral's column on the
-     right, instead of wrapping underneath and reading as overlapping
-     text once the numeral is on top of it. */
-  max-width: 78%;
-  position: relative;
-  z-index: 1;
-}
-
 .dest-card-featured .dest-title {
-  font-size: 25px;
-}
-
-.dest-card-featured .dest-desc {
-  font-size: 14.5px;
-}
-
-/* Ghost numeral tucked fully into the card's bottom-right corner, sized
-   and inset so it never reaches the text column above (capped to 78%
-   width via .dest-text) &mdash; ambient background type, not something that
-   should ever visually compete with or run into the real content. */
-.dest-card-featured .dest-index {
-  top: auto;
-  left: auto;
-  right: 14px;
-  bottom: 8px;
-  font-family: var(--display);
-  font-size: 84px;
-  font-weight: 600;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.05);
-  transition: color 0.35s ease;
-}
-
-.dest-card-featured:hover .dest-index {
-  color: rgba(183, 160, 102, 0.18);
+  font-size: 23px;
 }
 
 @media (max-width: 760px) {
   .dest-grid-featured,
   .dest-grid-secondary { grid-template-columns: 1fr; }
   .dest-card-featured { min-height: 0; }
-  .dest-card-featured .dest-text { max-width: 100%; }
-  .dest-card-featured .dest-index { font-size: 56px; }
 }
 
 /* Contact page: a full-bleed dark panel holding just the contact channels,
@@ -1019,6 +987,14 @@ a:hover { color: var(--blue-300); }
 }
 
 .contact-panel h2 {
+  /* The sitewide main h2 rule centers headings to a 700px column, but
+     .tagline, .stat-strip, .dest-grid, and .nav-cards right below it in
+     these dark panels are all flush left and full width, so the h2 was
+     the one line in each panel sitting indented differently from
+     everything around it. Reset here so it lines up with the rest. */
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
   color: #f5f7fb;
   border-bottom-color: var(--line-dark);
 }

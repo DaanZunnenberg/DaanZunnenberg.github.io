@@ -92,6 +92,8 @@ high-frequency trading, market making, and quantitative investing. Explore the s
 
 <section class="contact-panel landing-panel">
   <div class="hero-eyebrow">By The Numbers</div>
+  <h2 id="by-the-numbers">Quick Facts</h2>
+  <p class="tagline">A few concrete numbers instead of adjectives.</p>
   <div class="stat-strip">
     <div class="stat-item">
       <span class="stat-value">PhD</span>
@@ -113,6 +115,7 @@ high-frequency trading, market making, and quantitative investing. Explore the s
 </section>
 
 <section class="contact-panel landing-panel">
+  <div class="hero-eyebrow">Get In Touch</div>
   <h2 id="working-together">Working Together</h2>
   <p class="tagline">Here for a collaboration or a career opportunity? Pick the path that fits.</p>
 
