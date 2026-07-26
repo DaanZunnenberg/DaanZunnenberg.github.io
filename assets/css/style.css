@@ -927,7 +927,7 @@ a:hover { color: var(--blue-300); }
   margin: 0;
 }
 
-.dest-grid-featured {
+.dest-panel .dest-grid-featured {
   grid-template-columns: repeat(2, 1fr);
   margin-bottom: 18px;
 }
