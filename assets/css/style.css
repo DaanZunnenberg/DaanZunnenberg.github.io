@@ -937,9 +937,8 @@ a:hover { color: var(--blue-300); }
 }
 
 .dest-card-featured {
-  padding: 34px 30px 36px;
-  min-height: 190px;
-  justify-content: flex-end;
+  padding: 30px 30px 32px;
+  min-height: 200px;
 }
 
 .dest-card-featured .dest-icon {
@@ -952,6 +951,15 @@ a:hover { color: var(--blue-300); }
   height: 24px;
 }
 
+.dest-card-featured .dest-text {
+  /* Keeps title/description clear of the ghost numeral's column on the
+     right, instead of wrapping underneath and reading as overlapping
+     text once the numeral is on top of it. */
+  max-width: 78%;
+  position: relative;
+  z-index: 1;
+}
+
 .dest-card-featured .dest-title {
   font-size: 25px;
 }
@@ -960,30 +968,33 @@ a:hover { color: var(--blue-300); }
   font-size: 14.5px;
 }
 
-/* Giant ghost numeral behind a featured card's content, the kind of
-   oversized ambient type a landing-page hero tile uses to fill dead
-   space without competing with the actual title. Clipped by the card's
-   own overflow:hidden, so it never spills past the tile's rounded edge. */
+/* Ghost numeral tucked fully into the card's bottom-right corner, sized
+   and inset so it never reaches the text column above (capped to 78%
+   width via .dest-text) &mdash; ambient background type, not something that
+   should ever visually compete with or run into the real content. */
 .dest-card-featured .dest-index {
   top: auto;
-  right: -6px;
-  bottom: -30px;
+  left: auto;
+  right: 14px;
+  bottom: 8px;
   font-family: var(--display);
-  font-size: 132px;
+  font-size: 84px;
   font-weight: 600;
   line-height: 1;
-  color: rgba(255, 255, 255, 0.045);
+  color: rgba(255, 255, 255, 0.05);
   transition: color 0.35s ease;
 }
 
 .dest-card-featured:hover .dest-index {
-  color: rgba(183, 160, 102, 0.16);
+  color: rgba(183, 160, 102, 0.18);
 }
 
 @media (max-width: 760px) {
   .dest-grid-featured,
   .dest-grid-secondary { grid-template-columns: 1fr; }
   .dest-card-featured { min-height: 0; }
+  .dest-card-featured .dest-text { max-width: 100%; }
+  .dest-card-featured .dest-index { font-size: 56px; }
 }
 
 /* Contact page: a full-bleed dark panel holding just the contact channels,
