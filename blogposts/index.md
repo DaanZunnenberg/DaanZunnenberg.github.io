@@ -31,7 +31,7 @@ body_class: blogposts-index
 
   <a class="article-card" href="{{ '/blogposts/sieve-estimation-of-volatility/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/volatility/background.jpg' | relative_url }}" alt="">
+      <img src="{{ '/images/volatility/background.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
     </span>
     <span class="article-card-body">
       <span class="article-card-title">Sieve-M Estimation for Conditional Heteroskedasticity</span>

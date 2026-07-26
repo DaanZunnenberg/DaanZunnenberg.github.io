@@ -5,7 +5,7 @@ permalink: /blogposts/sieve-estimation-of-volatility/
 ---
 
 <section class="hero">
-  <img class="hero-img" src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}" alt="">
+  <img class="hero-img" src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Blogpost &middot; Volatility Modelling</div>
@@ -119,7 +119,7 @@ which folds a sinusoid into the variance equation. We set a modest baseline and 
 </p>
 
 <div class="article-figure">
-  <img src="{{ '/images/volatility/volatility-smile.png' | relative_url }}" alt="Volatility smile from the simulated updating mechanisms: asymmetric process on the left, sinusoidal process on the right, comparing APARCH, GARCH, and the estimated transformed polynomial model against the true simulated curve">
+  <img src="{{ '/images/volatility/volatility-smile.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="Volatility smile from the simulated updating mechanisms: asymmetric process on the left, sinusoidal process on the right, comparing APARCH, GARCH, and the estimated transformed polynomial model against the true simulated curve">
   <figcaption>Volatility smile from the simulated updating mechanisms defined above: the asymmetric process on the left, the sinusoidal process on the right. The blue line is the true simulated curve; the dashed, dotted, and solid black lines are the fitted APARCH, GARCH, and transformed-polynomial models, using the order that achieved the lowest AIC.</figcaption>
 </div>
 
@@ -148,7 +148,7 @@ All of the above relies on the student-\(t\) distribution being a reasonable mod
 </p>
 
 <div class="article-figure">
-  <img src="{{ '/images/volatility/qq-plot.png' | relative_url }}" alt="Empirical-theoretic quantile-quantile plots of S&P 500 returns against the student-t distribution at nu equals infinity (Gaussian) and nu equals 5 degrees of freedom">
+  <img src="{{ '/images/volatility/qq-plot.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="Empirical-theoretic quantile-quantile plots of S&P 500 returns against the student-t distribution at nu equals infinity (Gaussian) and nu equals 5 degrees of freedom">
   <figcaption>Empirical-theoretic quantile-quantile relation of the S&amp;P 500 return series against the student-\(t\) distribution on \(\nu\in\{\infty,5\}\) degrees of freedom. The Gaussian case (\(\nu=\infty\), left) departs from the 45-degree line in the tails; \(\nu=5\) (right) tracks it much more closely.</figcaption>
 </div>
 
