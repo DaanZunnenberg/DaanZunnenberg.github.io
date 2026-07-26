@@ -1029,6 +1029,104 @@ a:hover { color: var(--blue-300); }
   .dest-title { font-size: 19px; }
 }
 
+/* Home page reuses .contact-panel's full-bleed dark band (same technique
+   as the footer) as a general "page break" wrapper, not just for the
+   Contact page, so nav-cards need the same light-on-dark treatment the
+   dest-cards already get above. .landing-panel is just a naming hook for
+   home-page-specific spacing; all the actual dark-surface colors are
+   inherited from .contact-panel. */
+.landing-panel {
+  margin-top: 64px;
+}
+
+/* The closing CTA panel sits directly above the footer, which is the same
+   dark surface, so its own top margin is dropped here to merge the two
+   into one continuous dark close instead of leaving a thin light seam
+   between them. */
+.landing-page .site-footer {
+  margin-top: 0;
+}
+
+.contact-panel .nav-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-dark);
+}
+
+.contact-panel .nav-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--metal-gold);
+}
+
+.contact-panel .nav-card-icon {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--metal-gold);
+}
+
+.contact-panel .nav-card:hover .nav-card-icon {
+  background: var(--metal-gold);
+  color: var(--blue-950);
+}
+
+.contact-panel .nav-card-title {
+  color: #f5f7fb;
+}
+
+.contact-panel .nav-card-hint {
+  color: rgba(233, 236, 243, 0.55);
+}
+
+.contact-panel .nav-card-arrow {
+  color: var(--metal-gold);
+}
+
+.contact-panel .tagline {
+  color: rgba(233, 236, 243, 0.55);
+}
+
+/* Landing-page highlight strip: a row of short stat/label pairs, the kind
+   of quick-scan proof-point block a marketing landing page would open a
+   dark section with, reusing the site's own mono/mixed-serif type pairing
+   rather than borrowing a generic dashboard-stat look. */
+.landing-panel .hero-eyebrow {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-value {
+  font-family: var(--display);
+  font-size: 30px;
+  font-weight: 600;
+  color: #f5f7fb;
+}
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: rgba(233, 236, 243, 0.55);
+  line-height: 1.4;
+}
+
+@media (max-width: 760px) {
+  .stat-strip { grid-template-columns: repeat(2, 1fr); gap: 24px 20px; }
+}
+
+@media (max-width: 420px) {
+  .stat-strip { grid-template-columns: 1fr; }
+}
+
 /* Insights-hub card grid (Blogposts / Events on the Blogposts page): same
    card-with-hover-lift language as .dest-card, but topped with an image
    instead of a small icon, closer to how asset managers lay out article
