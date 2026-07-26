@@ -916,6 +916,76 @@ a:hover { color: var(--blue-300); }
   line-height: 1.45;
 }
 
+/* Home page "site map" panel: the destination grid moved onto its own
+   full-bleed dark band (same technique as the footer/contact panel)
+   instead of sitting on the light page, and split into a bento layout
+   &mdash; two larger featured tiles for the content-heavy sections up top,
+   three smaller ones below &mdash; rather than one flat 5-up grid, so the
+   panel reads as a deliberately laid-out site map rather than a plain
+   link list. */
+.dest-panel .dest-grid {
+  margin: 0;
+}
+
+.dest-grid-featured {
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 18px;
+}
+
+.dest-grid-secondary {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.dest-card-featured {
+  padding: 34px 30px 36px;
+  min-height: 190px;
+  justify-content: flex-end;
+}
+
+.dest-card-featured .dest-icon {
+  width: 52px;
+  height: 52px;
+}
+
+.dest-card-featured .dest-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.dest-card-featured .dest-title {
+  font-size: 25px;
+}
+
+.dest-card-featured .dest-desc {
+  font-size: 14.5px;
+}
+
+/* Giant ghost numeral behind a featured card's content, the kind of
+   oversized ambient type a landing-page hero tile uses to fill dead
+   space without competing with the actual title. Clipped by the card's
+   own overflow:hidden, so it never spills past the tile's rounded edge. */
+.dest-card-featured .dest-index {
+  top: auto;
+  right: -6px;
+  bottom: -30px;
+  font-family: var(--display);
+  font-size: 132px;
+  font-weight: 600;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.045);
+  transition: color 0.35s ease;
+}
+
+.dest-card-featured:hover .dest-index {
+  color: rgba(183, 160, 102, 0.16);
+}
+
+@media (max-width: 760px) {
+  .dest-grid-featured,
+  .dest-grid-secondary { grid-template-columns: 1fr; }
+  .dest-card-featured { min-height: 0; }
+}
+
 /* Contact page: a full-bleed dark panel holding just the contact channels,
    same full-bleed technique as the hero/footer, and the same restrained
    corporate-contact-page feel as the footer's own dark band. */

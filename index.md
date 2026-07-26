@@ -23,63 +23,72 @@ I'm a mathematician working in generic chaining theory, with professional experi
 high-frequency trading, market making, and quantitative investing. Explore the site below.
 </p>
 
-<div class="dest-grid">
-  <a class="dest-card" href="{{ '/personal/' | relative_url }}">
-    <span class="dest-card-accent" aria-hidden="true"></span>
-    <span class="dest-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
-    </span>
-    <span class="dest-index">01</span>
-    <span class="dest-text">
-      <span class="dest-title">Personal</span>
-      <span class="dest-desc">Hobbies, and the non-professional version of this site.</span>
-    </span>
-  </a>
-  <a class="dest-card" href="{{ '/projects/' | relative_url }}">
-    <span class="dest-card-accent" aria-hidden="true"></span>
-    <span class="dest-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M3 12.5h18"/></svg>
-    </span>
-    <span class="dest-index">02</span>
-    <span class="dest-text">
-      <span class="dest-title">Projects</span>
-      <span class="dest-desc">Research and side projects in statistics, execution, and market-making.</span>
-    </span>
-  </a>
-  <a class="dest-card" href="{{ '/resume/' | relative_url }}">
-    <span class="dest-card-accent" aria-hidden="true"></span>
-    <span class="dest-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-    </span>
-    <span class="dest-index">03</span>
-    <span class="dest-text">
-      <span class="dest-title">Resume</span>
-      <span class="dest-desc">Work experience, education, and skills, short and impact-first.</span>
-    </span>
-  </a>
-  <a class="dest-card" href="{{ '/blogposts/' | relative_url }}">
-    <span class="dest-card-accent" aria-hidden="true"></span>
-    <span class="dest-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-    </span>
-    <span class="dest-index">04</span>
-    <span class="dest-text">
-      <span class="dest-title">Blogposts</span>
-      <span class="dest-desc">Writing on markets and mathematics, plus talks and conferences.</span>
-    </span>
-  </a>
-  <a class="dest-card" href="{{ '/contact/' | relative_url }}">
-    <span class="dest-card-accent" aria-hidden="true"></span>
-    <span class="dest-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
-    </span>
-    <span class="dest-index">05</span>
-    <span class="dest-text">
-      <span class="dest-title">Contact</span>
-      <span class="dest-desc">Roles, consulting, or an invitation to meet up.</span>
-    </span>
-  </a>
-</div>
+<section class="contact-panel landing-panel dest-panel">
+  <div class="hero-eyebrow">Site Map</div>
+  <h2>Explore the Site</h2>
+  <p class="tagline">Two places to start, and three more once you know what you're after.</p>
+
+  <div class="dest-grid dest-grid-featured">
+    <a class="dest-card dest-card-featured" href="{{ '/projects/' | relative_url }}">
+      <span class="dest-card-accent" aria-hidden="true"></span>
+      <span class="dest-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M3 12.5h18"/></svg>
+      </span>
+      <span class="dest-index">01</span>
+      <span class="dest-text">
+        <span class="dest-title">Projects</span>
+        <span class="dest-desc">Research and side projects in statistics, execution, and market-making.</span>
+      </span>
+    </a>
+    <a class="dest-card dest-card-featured" href="{{ '/blogposts/' | relative_url }}">
+      <span class="dest-card-accent" aria-hidden="true"></span>
+      <span class="dest-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      </span>
+      <span class="dest-index">02</span>
+      <span class="dest-text">
+        <span class="dest-title">Blogposts</span>
+        <span class="dest-desc">Writing on markets and mathematics, plus talks and conferences.</span>
+      </span>
+    </a>
+  </div>
+
+  <div class="dest-grid dest-grid-secondary">
+    <a class="dest-card" href="{{ '/resume/' | relative_url }}">
+      <span class="dest-card-accent" aria-hidden="true"></span>
+      <span class="dest-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+      </span>
+      <span class="dest-index">03</span>
+      <span class="dest-text">
+        <span class="dest-title">Resume</span>
+        <span class="dest-desc">Work experience, education, and skills, short and impact-first.</span>
+      </span>
+    </a>
+    <a class="dest-card" href="{{ '/personal/' | relative_url }}">
+      <span class="dest-card-accent" aria-hidden="true"></span>
+      <span class="dest-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
+      </span>
+      <span class="dest-index">04</span>
+      <span class="dest-text">
+        <span class="dest-title">Personal</span>
+        <span class="dest-desc">Hobbies, and the non-professional version of this site.</span>
+      </span>
+    </a>
+    <a class="dest-card" href="{{ '/contact/' | relative_url }}">
+      <span class="dest-card-accent" aria-hidden="true"></span>
+      <span class="dest-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+      </span>
+      <span class="dest-index">05</span>
+      <span class="dest-text">
+        <span class="dest-title">Contact</span>
+        <span class="dest-desc">Roles, consulting, or an invitation to meet up.</span>
+      </span>
+    </a>
+  </div>
+</section>
 
 <section class="contact-panel landing-panel">
   <div class="hero-eyebrow">By The Numbers</div>
