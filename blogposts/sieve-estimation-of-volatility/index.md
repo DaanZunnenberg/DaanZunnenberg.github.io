@@ -110,12 +110,12 @@ a kinked, non-differentiable function at \(\varepsilon_{t-1}=0\). The second is 
 
 <p>
 \[
-\sigma^2(t) = b_0 + b_1\varepsilon_{t-1}^2 + b_2\sigma^2(t-1) + b_3\|\sin\varepsilon_{t-1}\|, \qquad \bm{b}=(0.5,0.2,0.2,1.5),
+\sigma^2(t) = b_0 + b_1\varepsilon_{t-1}^2 + b_2\sigma^2(t-1) + b_3\|\sin\varepsilon_{t-1}\|,
 \]
 </p>
 
 <p>
-which folds a sinusoid into the variance equation. Neither of these is a curve that \(t\)-GARCH or \(t\)-APARCH can represent exactly by construction.
+which folds a sinusoid into the variance equation. We set a modest baseline and squared-shock loading (\(b_0=0.5\), \(b_1=0.2\)), give lagged variance the same weight (\(b_2=0.2\)), and let the sinusoidal term dominate everything else (\(b_3=1.5\)), so the oscillation is the main thing shaping the curve rather than a minor ripple on top of an otherwise ordinary GARCH shape. Neither of these is a curve that \(t\)-GARCH or \(t\)-APARCH can represent exactly by construction.
 </p>
 
 <div class="article-figure">
