@@ -14,8 +14,6 @@ permalink: /academic/schools-workshops/
   </div>
 </section>
 
-<p class="tagline">Summer &amp; winter schools &middot; study groups &middot; workshops</p>
-
 <h2 id="summer-winter-schools">Summer &amp; Winter Schools</h2>
 
 <div class="readme-toggle is-open">

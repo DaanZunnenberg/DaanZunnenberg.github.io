@@ -14,8 +14,6 @@ permalink: /academic/notes/
   </div>
 </section>
 
-<p class="tagline">Latest</p>
-
 <h2 id="latest">Latest</h2>
 
 <div class="entry">

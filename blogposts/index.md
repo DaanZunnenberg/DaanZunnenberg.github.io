@@ -15,8 +15,6 @@ body_class: blogposts-index
   </div>
 </section>
 
-<p class="tagline">Blogposts &middot; talks &middot; posters &middot; seminars &middot; conferences</p>
-
 <h2 id="blogposts">Blogposts</h2>
 <p>Occasional writing on markets, mathematics, and the overlap between them.</p>
 
