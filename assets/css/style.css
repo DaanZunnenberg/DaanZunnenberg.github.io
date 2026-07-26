@@ -212,9 +212,15 @@ main h2,
    it rather than pinning to the viewport. */
 body:has(.hero) .site-header {
   position: absolute;
-  left: 64px;
-  right: 64px;
-  border-bottom-color: transparent;
+  /* Matches .hero's own -64px bleed below, so the header's scrim spans the
+     same full viewport width as the hero art instead of stopping at the
+     .wrap padding, which previously left it inset with a visible edge and
+     narrower than the hero underneath it. */
+  left: 0;
+  right: 0;
+  padding-left: 64px;
+  padding-right: 64px;
+  border: none;
   /* Dark-to-light scrim of its own, rather than relying only on the hero
      image's own fade, so the light nav text reads clearly regardless of
      what's directly behind the header on any given hero. */
@@ -222,10 +228,17 @@ body:has(.hero) .site-header {
   padding-bottom: 32px;
 }
 
+@media (max-width: 900px) {
+  body:has(.hero) .site-header {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
 @media (max-width: 640px) {
   body:has(.hero) .site-header {
-    left: 16px;
-    right: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
 
