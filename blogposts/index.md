@@ -35,7 +35,7 @@ body_class: blogposts-index
     </span>
     <span class="article-card-body">
       <span class="article-card-title">Sieve-M Estimation for Conditional Heteroskedasticity</span>
-      <span class="article-card-desc">Letting a GARCH model learn its own news-impact curve &middot; with Daniel Suijdendorp, Robbert Schnitzeler &amp; Gijs Vermeulen</span>
+      <span class="article-card-desc">Letting a GARCH model learn its own news-impact curve</span>
     </span>
   </a>
 </div>

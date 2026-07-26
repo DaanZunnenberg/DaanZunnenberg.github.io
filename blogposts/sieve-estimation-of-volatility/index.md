@@ -16,8 +16,6 @@ permalink: /blogposts/sieve-estimation-of-volatility/
 
 <div class="article-body">
 
-<p class="tagline">By Daan Zunnenberg, Daniel Suijdendorp, Robbert Schnitzeler and Gijs Vermeulen</p>
-
 <h4>The problem with fixing the shape in advance</h4>
 
 <p>

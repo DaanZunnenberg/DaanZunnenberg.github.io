@@ -196,9 +196,9 @@ main h2,
 .article-figure img {
   display: block;
   width: 100%;
-  border: 1px solid var(--line-soft);
+  border: 1px solid var(--line-dark);
   border-radius: 2px;
-  background: #fff;
+  background: var(--blue-950);
 }
 
 .article-figure figcaption {
