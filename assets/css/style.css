@@ -1201,6 +1201,42 @@ a:hover { color: var(--blue-300); }
   color: var(--ink-faint);
 }
 
+/* At-a-glance Experience/Education/Projects lists: title wraps freely but
+   the date always sits flush right on its own baseline, so dates line up
+   at the same right edge across every card regardless of title length. */
+.resume-glance {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resume-glance li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 12px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.resume-glance-title {
+  color: var(--ink-soft);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.resume-glance-date {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
 @media (max-width: 860px) {
   .resume-layout { grid-template-columns: 1fr; }
   .resume-aside { position: static; flex-direction: row; flex-wrap: wrap; }
@@ -1214,7 +1250,7 @@ a:hover { color: var(--blue-300); }
 /* Entry blocks (experience / education / projects) */
 .entry {
   position: relative;
-  max-width: 700px;
+  width: 100%;
   margin-bottom: 26px;
   padding: 22px 26px;
   border: 1px solid var(--line-soft);
@@ -1243,6 +1279,19 @@ a:hover { color: var(--blue-300); }
   padding-bottom: 10px;
   margin-bottom: 8px;
   border-bottom: 1px solid var(--line-soft);
+}
+
+/* Entry cards share one padding/border rhythm (.entry above), so titles,
+   dates, and org lines already start at the same left inset in every
+   card; the date is additionally pinned to the far right via margin-left:
+   auto so it lines up on the same right edge across every entry, even
+   when the title is long enough to wrap. */
+.entry-head h3 {
+  margin: 0;
+}
+
+.entry-date {
+  margin-left: auto;
 }
 
 .entry-org {

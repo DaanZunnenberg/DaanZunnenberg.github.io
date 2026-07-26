@@ -137,12 +137,27 @@ permalink: /resume/
       <li><span>Focus</span><span>Probability &amp; quant finance</span></li>
     </ul>
   </div>
-  <div class="resume-aside-card" id="skills">
-    <h3>Skills</h3>
-    <ul>
-      <li><strong>Languages &amp; tools</strong><br>Python (<code>pandas</code>, <code>numpy</code>, <code>numba</code>), Java, SQL, Git, Bash</li>
-      <li><strong>Machine learning</strong><br><code>scipy</code>, <code>cvxpy</code>, <code>statsmodels</code>, <code>sklearn</code>, <code>tensorflow</code></li>
-      <li><strong>Statistical foundations</strong><br>Time series analysis, econometrics, inference theory</li>
+  <div class="resume-aside-card" id="glance-experience">
+    <h3>Experience</h3>
+    <ul class="resume-glance">
+      <li><span class="resume-glance-title">QuantFi &middot; Quantitative Developer</span><span class="resume-glance-date">Mar 2023 &ndash; Aug 2024</span></li>
+      <li><span class="resume-glance-title">QuantFi &middot; Operational Trader</span><span class="resume-glance-date">Oct 2022 &ndash; Mar 2023</span></li>
+      <li><span class="resume-glance-title">VU Econometrics &amp; Data Science &middot; Research Assistant</span><span class="resume-glance-date">Jan 2024 &ndash; Jun 2024</span></li>
+    </ul>
+  </div>
+  <div class="resume-aside-card" id="glance-education">
+    <h3>Education</h3>
+    <ul class="resume-glance">
+      <li><span class="resume-glance-title">Leiden University &middot; PhD, Mathematics</span><span class="resume-glance-date">Exp. Sep 2028</span></li>
+      <li><span class="resume-glance-title">Vrije Universiteit Amsterdam &middot; MSc, Econometrics &amp; OR</span><span class="resume-glance-date">Aug 2024</span></li>
+      <li><span class="resume-glance-title">Amsterdam University of Applied Sciences &middot; BSc, Applied Mathematics</span><span class="resume-glance-date">Aug 2022</span></li>
+    </ul>
+  </div>
+  <div class="resume-aside-card" id="glance-projects">
+    <h3>Projects</h3>
+    <ul class="resume-glance">
+      <li><span class="resume-glance-title">Functional Volatility Surface Modelling</span><span class="resume-glance-date">Sep 2024 &ndash; present</span></li>
+      <li><span class="resume-glance-title">HRP Portfolio Allocation &middot; Coinmerce Capital</span><span class="resume-glance-date">Oct 2023 &ndash; Aug 2024</span></li>
     </ul>
   </div>
 </div>
