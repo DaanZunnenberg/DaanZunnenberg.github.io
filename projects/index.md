@@ -19,7 +19,7 @@ permalink: /projects/
 <div class="article-grid">
   <a class="article-card" href="{{ '/projects/functional-volatility-surface-modelling/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/assets/img/gas_vol_surface_container_no_title.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+      <img src="{{ '/images/volatility/back1.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
     </span>
     <span class="article-card-body">
       <span class="article-card-date">September 2024 &ndash; present</span>
@@ -30,7 +30,7 @@ permalink: /projects/
 
   <a class="article-card" href="{{ '/projects/functional-scale-estimation/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/assets/img/garch_vol_surface_no_title.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+      <img src="{{ '/images/volatility/background.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
     </span>
     <span class="article-card-body">
       <span class="article-card-date">January 2024 &ndash; June 2024</span>
