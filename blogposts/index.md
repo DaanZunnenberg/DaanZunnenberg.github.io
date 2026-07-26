@@ -28,6 +28,16 @@ body_class: blogposts-index
       <span class="article-card-desc">Market making is a solved problem. That does not mean you can win at it. &middot; with Nicos Starreveld</span>
     </span>
   </a>
+
+  <a class="article-card" href="{{ '/blogposts/sieve-estimation-of-volatility/' | relative_url }}">
+    <span class="article-card-img" aria-hidden="true">
+      <img src="{{ '/images/volatility/background.jpg' | relative_url }}" alt="">
+    </span>
+    <span class="article-card-body">
+      <span class="article-card-title">Sieve-M Estimation for Conditional Heteroskedasticity</span>
+      <span class="article-card-desc">Letting a GARCH model learn its own news-impact curve &middot; with Daniel Suijdendorp, Robbert Schnitzeler &amp; Gijs Vermeulen</span>
+    </span>
+  </a>
 </div>
 
 <h2 id="events">Events</h2>

@@ -41,7 +41,7 @@ permalink: /projects/
 
   <a class="article-card" href="{{ '/projects/functional-stationarity-test/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+      <img src="{{ '/images/stationarity_background.jpg' | relative_url }}" alt="">
     </span>
     <span class="article-card-body">
       <span class="article-card-date">2024</span>
