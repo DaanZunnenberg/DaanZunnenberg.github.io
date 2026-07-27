@@ -107,8 +107,8 @@ high-frequency trading, market making, and quantitative investing. Explore the s
       <span class="stat-label">Quantitative Developer &amp; Operational Trader, QuantFi</span>
     </div>
     <div class="stat-item">
-      <span class="stat-value">5.8%</span>
-      <span class="stat-label">Average slippage reduction from a live smart-order-routing model</span>
+      <span class="stat-value">Magna Cum Laude</span>
+      <span class="stat-label">Honours Programme, MSc Econometrics and Operations Research, VU Amsterdam</span>
     </div>
     <div class="stat-item">
       <span class="stat-value">Rotterdam</span>
