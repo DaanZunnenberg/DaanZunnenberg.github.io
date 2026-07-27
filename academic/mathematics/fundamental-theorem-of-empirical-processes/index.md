@@ -14,6 +14,8 @@ permalink: /academic/mathematics/fundamental-theorem-of-empirical-processes/
   </div>
 </section>
 
+<div class="article-body">
+
 <h2>Introduction</h2>
 
 <p>
@@ -756,5 +758,6 @@ L\,\mathsf{E}1_{\Xi_i}\Big|\sum_{j\le N}\varepsilon_j t(X_j)\Big|,
 This closes the chain running from the Latała&ndash;Bednorz theorem through the Main Lemma, the majorizing measure, the partitions, the General Lower Bound, and the Giné&ndash;Zinn theorem, to the Fundamental Theorem of Empirical Processes. Chaining against no cancellation, first isolated for linear sums of signs, governs the size of sums of independent random functions in full generality, and the machinery built for the Bernoulli conjecture is the machinery that proves it.
 </p>
 
+</div>
 
 <p><a href="{{ '/academic/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>

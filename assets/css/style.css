@@ -1679,7 +1679,7 @@ a:hover { color: var(--blue-300); }
    styled like a typeset LaTeX theorem block rather than a boxed callout. */
 .math-env {
   max-width: 700px;
-  margin: 14px 0;
+  margin: 14px auto;
   padding: 10px 14px;
   border-left: 3px solid var(--blue-400);
   background: var(--bg-1);

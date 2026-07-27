@@ -14,6 +14,8 @@ permalink: /academic/mathematics/majorizing-measure-theorem/
   </div>
 </section>
 
+<div class="article-body">
+
 <h2>Introduction</h2>
 
 <p>
@@ -746,5 +748,6 @@ X_t\Big) = L\, \mathsf{E}\sup_{t\in T} X_t,
 Let us retrace the argument once more. Admissible sequences of partitions and the functional \(\gamma_\alpha(T,d)\) are defined first. A functional and the growth condition with parameters \(r\) and \(c^*\) are defined next. Talagrand's partitioning theorem then shows that any decreasing sequence of functionals satisfying the growth condition controls \(\gamma_2(T,d)\) through \(F_0(T)\) and \(\mathit{\Delta}(T)\). This theorem is proved by an explicit greedy construction of an admissible sequence of partitions, resting on the decomposition lemma, together with a summability argument that isolates a sparse well separated subsequence of scales, and a telescoping estimate along that subsequence. For a Gaussian process the functionals \(F(H^*) = \sup_{H\subset H^*} \mathsf{E}\sup_{t\in H} X_t\), with \(H\) finite, satisfy the growth condition, as a consequence of Sudakov's lemma combined with Borell's inequality, assembled in the proposition above. Plugging these functionals into the partitioning theorem, and bounding \(\mathit{\Delta}(T)\) by \(\mathsf{E}\sup_{t\in T} X_t\), yields the lower bound \(\gamma_2(T,d) \le L\,\mathsf{E}\sup_{t\in T} X_t\).
 </p>
 
+</div>
 
 <p><a href="{{ '/academic/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>

@@ -14,6 +14,8 @@ permalink: /academic/mathematics/bousquet-talagrand-inequality/
   </div>
 </section>
 
+<div class="article-body">
+
 <h2>Introduction</h2>
 
 <p>
@@ -582,5 +584,7 @@ G(\lambda) \le f(\lambda)\cdot\frac v2\Big(2-\frac{\lambda}{f(\lambda)}\Big)
 <p>
 Sub-additivity of entropy tensorises the entropy of \(Z=f(X)\) into single-coordinate contributions. The duality formula turns this into the variational bound of Corollary 5, applied conditionally to give the modified logarithmic Sobolev inequality. For self-bounding functions this inequality integrates directly into a Poissonian bound on the logarithmic moment generating function. For the supremum of an empirical process, the increments \(Z-Z_i\) are not self-bounding in the strict sense, but Lemma 8, itself an application of the Efron&ndash;Stein inequality, controls their conditional second moment by \(2(Z-Z_i)+Y_i^2\). Lemma 13, proved by the same monotone-ratio argument as Lemma 10, converts this control into the differential inequality of Lemma 14, which Lemma 10 then integrates exactly, giving Bousquet's inequality.
 </p>
+
+</div>
 
 <p><a href="{{ '/academic/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>
