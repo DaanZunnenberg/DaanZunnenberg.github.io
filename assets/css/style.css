@@ -139,7 +139,10 @@ main h2,
    the blocks beneath it, so it's left-aligned and uncapped like them
    instead of centered to the 700px reading column. */
 .blogposts-index main > h2,
-.blogposts-index main > p {
+.blogposts-index main > p,
+.projects-index main > p.lede,
+.contact-index main > p.lede,
+.resume-index main > p.tagline {
   max-width: none;
   margin-left: 0;
   margin-right: 0;
@@ -1303,46 +1306,6 @@ a:hover { color: var(--blue-300); }
   .section-break { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; }
 }
 
-/* Resume's h2s sit in the narrower resume-main grid column, so the
-   full-bleed negative margins above would only bleed to the edge of that
-   column, not the page. Keep the label/heading text aligned with the
-   column, but paint the dark-blue band on a pseudo-element offset by the
-   known fixed distance from resume-main's edges to the page edges (the
-   .wrap gutter on the left; the grid gap + 280px aside + .wrap gutter on
-   the right), so it runs edge to edge and passes behind the sticky
-   "At a Glance" sidebar. Above 860px resume-layout is two columns, so the
-   right offset has to clear the aside too; at and below 860px the layout
-   collapses to one column and both sides just need the .wrap gutter. */
-.resume-main .section-break {
-  position: relative;
-  margin: 40px 0 24px;
-  padding: 18px 24px;
-  background: none;
-}
-
-.resume-main .section-break::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  bottom: 0;
-  left: -64px;
-  right: -392px;
-  background: var(--blue-950);
-}
-
-@media (max-width: 900px) {
-  .resume-main .section-break::before { left: -40px; right: -368px; }
-}
-
-@media (max-width: 860px) {
-  .resume-main .section-break::before { left: -40px; right: -40px; }
-}
-
-@media (max-width: 640px) {
-  .resume-main .section-break::before { left: -16px; right: -16px; }
-}
-
 .section-break-label {
   font-family: var(--mono);
   font-size: 11px;
@@ -1529,71 +1492,10 @@ a:hover { color: var(--blue-300); }
   .timeline-item::before { left: -25px; }
 }
 
-/* Resume layout: a main reverse-chronological column plus a narrower,
-   sticky sidebar for the things you actually scan a resume for at a
-   glance (skills, quick facts) rather than read top to bottom. */
-.resume-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
-  gap: 12px 48px;
-  align-items: start;
-}
-
-.resume-main { min-width: 0; }
-
-.resume-aside {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  position: sticky;
-  top: 32px;
-}
-
-.resume-aside-card {
-  padding: 20px 22px;
-  border: 1px solid var(--line-soft);
-  border-radius: 2px;
-  background: var(--bg-raised);
-}
-
-.resume-aside-card h3 {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  margin: 0 0 12px;
-}
-
-.resume-aside-card ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.resume-aside-card li {
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.resume-facts li {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  color: var(--ink-soft);
-}
-
-.resume-facts li span:first-child {
-  color: var(--ink-faint);
-}
-
-/* Sub-headings inside the Skills card. First one sits directly under the
-   card's own h3 (no extra gap or rule above it); the rest get a rule plus
-   breathing room, marking the boundary between groups while staying
-   inside the one card. */
+/* Sub-headings inside the Skills entry. First one sits directly under
+   the entry's own top edge (no extra gap or rule above it); the rest get
+   a rule plus breathing room, marking the boundary between groups while
+   staying inside the one entry. */
 .resume-glance-group {
   font-family: var(--mono);
   font-size: 11px;
@@ -1630,16 +1532,6 @@ a:hover { color: var(--blue-300); }
   border: 1px solid var(--line-soft);
   border-radius: 2px;
   padding: 3px 8px;
-}
-
-@media (max-width: 860px) {
-  .resume-layout { grid-template-columns: 1fr; }
-  .resume-aside { position: static; flex-direction: row; flex-wrap: wrap; }
-  .resume-aside-card { flex: 1 1 240px; }
-}
-
-@media (max-width: 560px) {
-  .resume-aside { flex-direction: column; }
 }
 
 /* Entry blocks (experience / education / projects) */

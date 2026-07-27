@@ -2,6 +2,7 @@
 layout: default
 title: Contact
 permalink: /contact/
+body_class: contact-index
 ---
 
 <section class="hero hero-scroll">

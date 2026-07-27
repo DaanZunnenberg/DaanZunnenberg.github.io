@@ -2,6 +2,7 @@
 layout: default
 title: Projects
 permalink: /projects/
+body_class: projects-index
 ---
 
 <section class="hero">

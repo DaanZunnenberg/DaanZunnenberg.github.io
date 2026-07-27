@@ -2,6 +2,7 @@
 layout: default
 title: Resume
 permalink: /resume/
+body_class: resume-index
 ---
 
 <section class="hero hero-scroll">
@@ -19,7 +20,6 @@ permalink: /resume/
 
 <p class="tagline">For the theory and code behind this work, see <a href="{{ '/projects/' | relative_url }}">Projects</a>.</p>
 
-<div class="resume-layout">
 <div class="resume-main">
 
 <div class="section-break">
@@ -201,39 +201,31 @@ permalink: /resume/
   </ul>
 </div>
 
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;06</span>
+  <h2 id="skills">Skills</h2>
 </div>
 
-<div class="resume-aside">
-  <div class="resume-aside-card">
-    <h3>At a Glance</h3>
-    <ul class="resume-facts">
-      <li><span>Based in</span><span>Rotterdam, NL</span></li>
-      <li><span>PhD</span><span>Leiden, exp. 2028</span></li>
-      <li><span>Focus</span><span>Probability &amp; quant finance</span></li>
-    </ul>
-  </div>
-  <div class="resume-aside-card">
-    <h3>Skills</h3>
-    <h4 class="resume-glance-group">Programming &amp; Tools</h4>
-    <ul class="resume-skills">
-      <li>Python</li>
-      <li>numba</li>
-      <li>asyncio</li>
-      <li>ccxt</li>
-      <li>NumPy &amp; SciPy</li>
-      <li>SAS</li>
-      <li>Bash</li>
-      <li>Tardis.dev</li>
-    </ul>
-    <h4 class="resume-glance-group">Mathematics &amp; Statistics</h4>
-    <ul class="resume-skills">
-      <li>Stochastic processes</li>
-      <li>Empirical process theory</li>
-      <li>Generic chaining</li>
-      <li>Time series &amp; volatility modelling</li>
-      <li>Statistical estimation</li>
-    </ul>
-  </div>
+<div class="entry">
+  <h4 class="resume-glance-group">Programming &amp; Tools</h4>
+  <ul class="resume-skills">
+    <li>Python</li>
+    <li>numba</li>
+    <li>asyncio</li>
+    <li>ccxt</li>
+    <li>NumPy &amp; SciPy</li>
+    <li>SAS</li>
+    <li>Bash</li>
+    <li>Tardis.dev</li>
+  </ul>
+  <h4 class="resume-glance-group">Mathematics &amp; Statistics</h4>
+  <ul class="resume-skills">
+    <li>Stochastic processes</li>
+    <li>Empirical process theory</li>
+    <li>Generic chaining</li>
+    <li>Time series &amp; volatility modelling</li>
+    <li>Statistical estimation</li>
+  </ul>
 </div>
 
 </div>
