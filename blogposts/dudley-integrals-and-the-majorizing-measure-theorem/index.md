@@ -947,7 +947,11 @@ This is the whole construction: split the ellipsoid's coordinates into dyadic bl
 </p>
 
 <p>
-Now compare this with what Dudley's bound sees. Writing \(e_n(E)\) for the entropy numbers of \(E\) (the radius of the smallest cover by \(N_n = 2^{2^n}\) balls, so that the Dudley integral is equivalent, up to universal constants, to \(\sum_n 2^{n/2} e_n(E)\)), one can show
+Now compare this with what Dudley's bound sees. For a metric space \((T,d)\) and \(n\ge 0\), write \(e_n(T) = \inf\{\epsilon>0\ ;\ N(T,d,\epsilon) \le N_n\}\) for the \(n\)-th entropy number of \(T\), using the same covering number \(N(T,d,\epsilon)\) and the same \(N_n=2^{2^n}\) from the definitions above: \(e_n(T)\) is just the radius needed to cover \(T\) by \(N_n\) balls. Since \(\epsilon \mapsto N(T,d,\epsilon)\) is non-increasing and jumps between the values \(N_n\) precisely at the scales \(e_n(T)\), splitting the Dudley integral over the dyadic blocks \([e_{n+1}(T),e_n(T)]\) shows that it is equivalent, up to universal constants, to the discrete sum \(\sum_{n\ge 0} 2^{n/2} e_n(T)\):
+\[
+\int_0^\infty \sqrt{\log N(T,d,\epsilon)}\ d\epsilon \le L\sum_{n\ge 0} 2^{n/2} e_n(T) \le L \int_0^\infty \sqrt{\log N(T,d,\epsilon)}\ d\epsilon.
+\]
+For the ellipsoid \(E\), one can show
 </p>
 
 <div class="math-env">
