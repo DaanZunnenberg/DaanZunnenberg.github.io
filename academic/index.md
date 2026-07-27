@@ -5,7 +5,7 @@ permalink: /academic/
 ---
 
 <section class="hero">
-  <img class="hero-img" src="{{ '/images/back_thinking.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher &middot; Probability &amp; Empirical Processes</div>
