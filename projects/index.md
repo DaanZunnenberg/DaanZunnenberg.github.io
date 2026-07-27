@@ -70,8 +70,17 @@ permalink: /projects/
   <p class="tagline">Smaller, single-purpose builds &mdash; each one focused on doing one specific job well.</p>
 </div>
 
-<div class="article-grid-empty">
-  Nothing published here yet &mdash; check back soon.
+<div class="article-grid">
+  <a class="article-card" href="{{ '/projects/tardis-dev-fetcher/' | relative_url }}">
+    <span class="article-card-img" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+    </span>
+    <span class="article-card-body">
+      <span class="article-card-date">2024</span>
+      <span class="article-card-title">Tardis.dev Data Fetcher</span>
+      <span class="article-card-desc">Command-line client for downloading historical crypto market data from Tardis.dev &middot; Python</span>
+    </span>
+  </a>
 </div>
 
 <p>More on <a href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener noreferrer">GitHub</a>. Work history, education, and skills are on the <a href="{{ '/resume/' | relative_url }}">Resume</a> page.</p>

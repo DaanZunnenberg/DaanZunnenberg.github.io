@@ -1273,30 +1273,32 @@ a:hover { color: var(--blue-300); }
   .article-grid { grid-template-columns: 1fr; gap: 14px; }
 }
 
-/* Page break between project sections: a thin rule with a small mono
-   eyebrow label, matching the .hero-eyebrow / .tagline vocabulary used
-   elsewhere so a new section reads as a distinct group, not a new page. */
+/* Page break between project sections: a full-width strip in the site's
+   dark blue, breaking out of .wrap's padding the same way .hero does, so
+   it reads as a hard section boundary rather than a hairline rule. */
 .section-break {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin: 44px 0 24px;
+  justify-content: center;
+  margin: 56px -64px 32px;
+  padding: 14px 64px;
+  background: var(--blue-950);
 }
 
-.section-break::before,
-.section-break::after {
-  content: "";
-  flex: 1;
-  height: 2px;
-  background: var(--blue-600);
+@media (max-width: 900px) {
+  .section-break { margin-left: -40px; margin-right: -40px; padding-left: 40px; padding-right: 40px; }
+}
+
+@media (max-width: 640px) {
+  .section-break { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; }
 }
 
 .section-break-label {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--blue-600);
+  color: var(--blue-800);
   white-space: nowrap;
 }
 
