@@ -55,7 +55,7 @@ relaxed.
   <p>
     In short: I study how to bound the supremum of a stochastic process from its geometry alone, and how much
     of that machinery survives once you drop independence. My favorite result in the toolkit is Talagrand's
-    majorizing measure theorem. <a href="{{ '/academic/mathematics/majorizing-measure-theorem/' | relative_url }}">The full proof is
+    majorizing measure theorem. <a href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">The full proof is
     written up here</a>.
   </p>
 

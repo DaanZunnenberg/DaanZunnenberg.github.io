@@ -28,6 +28,16 @@ body_class: blogposts-index
 </div>
 
 <div class="article-grid">
+  <a class="article-card" href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">
+    <span class="article-card-img" aria-hidden="true">
+      <img src="{{ '/images/chalk.png' | relative_url }}" alt="">
+    </span>
+    <span class="article-card-body">
+      <span class="article-card-title">Dudley Integrals and the Majorizing Measure Theorem</span>
+      <span class="article-card-desc">Why covering numbers aren't always enough, and Talagrand's sharp fix for Gaussian processes</span>
+    </span>
+  </a>
+
   <a class="article-card" href="{{ '/blogposts/the-mathematics-of-market-liquidity/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <img src="{{ '/images/chart_image.jpg' | relative_url }}" alt="">

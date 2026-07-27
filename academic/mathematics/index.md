@@ -35,24 +35,14 @@ specific results below show how these ideas shape my current work.
 </p>
 
 <p>
-Three pieces, building on each other. The Majorizing Measure Theorem is the sharp version of the
-generic chaining bound for Gaussian processes. The Fundamental Theorem of Empirical Processes takes
-the same idea and makes it work for sums of independent functions. The Bousquet&ndash;Talagrand
-inequality comes at the same problem from a different angle: concentration of measure via the
-entropy method. Full proofs:
+Two pieces, building on each other. The Fundamental Theorem of Empirical Processes extends the
+generic chaining bound for Gaussian processes to sums of independent functions. The
+Bousquet&ndash;Talagrand inequality comes at the same problem from a different angle: concentration
+of measure via the entropy method. Full proofs (the writeup of the Majorizing Measure Theorem itself
+has moved to the <a href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">blog</a>):
 </p>
 
 <div class="nav-cards nav-cards-single">
-  <a class="nav-card" href="{{ '/academic/mathematics/majorizing-measure-theorem/' | relative_url }}">
-    <span class="nav-card-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M2 19h20v2H2v-2Zm2-1c1.7-7.2 3.6-12.5 8-12.5s6.3 5.3 8 12.5H4Z"/></svg>
-    </span>
-    <span class="nav-card-body">
-      <span class="nav-card-title">The Majorizing Measure Theorem</span>
-      <span class="nav-card-hint">The sharp, two-sided version of that bound, for Gaussian processes.</span>
-    </span>
-    <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
-  </a>
   <a class="nav-card" href="{{ '/academic/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M4 20v-8h3v8H4Zm6.5 0V5h3v15h-3ZM17 20v-5h3v5h-3Z"/></svg>

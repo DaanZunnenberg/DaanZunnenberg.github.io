@@ -1,22 +1,73 @@
 ---
 layout: default
-title: Proof of the Majorizing Measure Theorem
-permalink: /academic/mathematics/majorizing-measure-theorem/
+title: Dudley Integrals and the Majorizing Measure Theorem
+permalink: /blogposts/dudley-integrals-and-the-majorizing-measure-theorem/
 ---
 
 <section class="hero">
-  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
+  <img class="hero-img" src="{{ '/images/chalk.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Talagrand &middot; Gaussian Processes</div>
-    <h1 class="hero-name">The Majorizing Measure Theorem</h1>
-    <p class="hero-lede">My favorite proof: Talagrand's two-sided bound on the supremum of a Gaussian process.</p>
+    <h1 class="hero-name">Dudley Integrals and the Majorizing Measure Theorem</h1>
+    <p class="hero-lede">My favorite proof: Talagrand's two-sided bound on the supremum of a Gaussian process, and why the simpler covering-number bound that precedes it isn't always sharp.</p>
   </div>
 </section>
 
 <div class="article-body">
 
-<h2>Introduction</h2>
+<h2 id="the-dudley-integral">The Dudley integral</h2>
+
+<p>
+Before reaching for the machinery of generic chaining, the first thing anyone tries when bounding the supremum of a process is to cover the index set at every scale and pay a chaining cost for each covering. For a metric space \((T,d)\) and \(\epsilon>0\), let \(N(T,d,\epsilon)\) denote the covering number: the smallest number of closed \(d\)-balls of radius \(\epsilon\) needed to cover \(T\). Dudley's theorem says that for a process \((X_t)_{t\in T}\) satisfying the sub-Gaussian increment condition
+</p>
+
+<p>
+\[
+\forall s,t\in T,\ \forall u>0,\qquad
+\mathsf{P}(|X_s-X_t|\ge u) \le 2\exp\!\Big(-\frac{u^2}{2 d(s,t)^2}\Big),
+\]
+</p>
+
+<p>
+and \(\mathsf{E}X_t = 0\) for each \(t\), we have the bound
+</p>
+
+<p>
+\[
+\mathsf{E}\sup_{t\in T} X_t \le L \int_0^\infty \sqrt{\log N(T,d,\epsilon)}\ \dd{\epsilon}.
+\]
+</p>
+
+<p>
+The idea is a single-scale-at-a-time chaining argument. Fix a decreasing sequence of scales \(\epsilon_n = 2^{-n}\Delta(T)\), and for each \(n\) choose an \(\epsilon_n\)-net \(T_n\subset T\) of size \(N(T,d,\epsilon_n)\). Chaining a point \(t\in T\) through its nearest neighbors in \(T_0,T_1,T_2,\dots\) and summing the increments across successive nets gives, after optimizing constants,
+</p>
+
+<p>
+\[
+\mathsf{E}\sup_{t\in T} X_t \le L \sum_{n\ge 0} \epsilon_n \sqrt{\log N(T,d,\epsilon_n)},
+\]
+</p>
+
+<p>
+and comparing this dyadic sum to the integral \(\int_0^\infty\sqrt{\log N(T,d,\epsilon)}\,\dd{\epsilon}\) &mdash; which decreases in \(\epsilon\) and is roughly constant over each dyadic block \([\epsilon_{n+1},\epsilon_n]\) &mdash; recovers the Dudley bound stated above, up to the universal constant \(L\).
+</p>
+
+<h2 id="why-covering-numbers-are-not-always-enough">Why covering numbers are not always enough</h2>
+
+<p>
+The Dudley bound only depends on \(T\) through the single function \(\epsilon\mapsto N(T,d,\epsilon)\), a single real-valued summary of how \(T\) is covered at each scale. This is exactly the source of its slack: covering numbers describe how many balls of a given radius you need in the worst case, uniformly over \(T\), but they say nothing about where those balls are needed. A set can be genuinely large at some scale in one region and essentially empty at that same scale everywhere else, and the covering number will still report the large count, even though most points of \(T\) never actually feel that complexity.
+</p>
+
+<p>
+The canonical example is Talagrand's construction of an ellipsoid-like set, or more simply a countable set \(T=\{t_0,t_1,t_2,\dots\}\) with \(d(t_0,t_n) \asymp 1/\sqrt{\log n}\) for \(n\ge 2\), together with \(t_1\) far from the rest. Here the covering numbers force the Dudley integral to diverge logarithmically past what \(\mathsf{E}\sup_t X_t\) actually is, because at each scale the count of balls needed is dominated by a small cluster of points near \(t_0\), yet almost every point of \(T\) sits well away from that cluster and contributes essentially nothing to the supremum. The covering number sees only the size of the worst region at each scale; it cannot see that this worst region is small and isolated, nor that most of \(T\) is comparatively tame. Any bound built from covering numbers alone inherits this blindness, and no choice of nets in a single-scale argument can fix it, because the deficiency is not in the chaining argument but in the one-number-per-scale summary of \(T\) that the argument is fed.
+</p>
+
+<p>
+What is needed instead is a summary of \(T\) that can vary over the space itself: a way of saying that some points of \(T\) are surrounded by a great deal of complexity at every scale, while others are not, rather than reporting only the single worst case at each scale. This is exactly what a majorizing measure supplies, and it is what makes the resulting bound, unlike Dudley's, sharp in both directions.
+</p>
+
+<h2 id="introduction">Introduction</h2>
 
 <p>
 We reproduce, following Talagrand's notation and arguments, the proof of the lower bound
@@ -141,7 +192,7 @@ The right-hand side inequality follows from the generic chaining bound above, ap
 </p>
 
 <p>
-We may summarize this by saying that chaining suffices to explain the size of a Gaussian process. By this we simply mean that, as witnessed by the left-hand side inequality above, the natural chaining bound for the size of a Gaussian process, as witnessed by the right-hand side inequality above, is of correct order, provided of course one uses the best possible chaining.
+We may summarize this by saying that chaining suffices to explain the size of a Gaussian process. By this we simply mean that, as witnessed by the left-hand side inequality above, the natural chaining bound for the size of a Gaussian process, as witnessed by the right-hand side inequality above, is of correct order, provided of course one uses the best possible chaining. This is precisely the sense in which \(\gamma_2\) succeeds where the Dudley integral does not: it replaces the single covering-number summary of \(T\) with an object, the admissible sequence of partitions, that can adapt to where the complexity of \(T\) actually sits.
 </p>
 
 <p>
@@ -745,9 +796,9 @@ X_t\Big) = L\, \mathsf{E}\sup_{t\in T} X_t,
 </div>
 
 <p>
-Let us retrace the argument once more. Admissible sequences of partitions and the functional \(\gamma_\alpha(T,d)\) are defined first. A functional and the growth condition with parameters \(r\) and \(c^*\) are defined next. Talagrand's partitioning theorem then shows that any decreasing sequence of functionals satisfying the growth condition controls \(\gamma_2(T,d)\) through \(F_0(T)\) and \(\mathit{\Delta}(T)\). This theorem is proved by an explicit greedy construction of an admissible sequence of partitions, resting on the decomposition lemma, together with a summability argument that isolates a sparse well separated subsequence of scales, and a telescoping estimate along that subsequence. For a Gaussian process the functionals \(F(H^*) = \sup_{H\subset H^*} \mathsf{E}\sup_{t\in H} X_t\), with \(H\) finite, satisfy the growth condition, as a consequence of Sudakov's lemma combined with Borell's inequality, assembled in the proposition above. Plugging these functionals into the partitioning theorem, and bounding \(\mathit{\Delta}(T)\) by \(\mathsf{E}\sup_{t\in T} X_t\), yields the lower bound \(\gamma_2(T,d) \le L\,\mathsf{E}\sup_{t\in T} X_t\).
+Let us retrace the argument once more. Admissible sequences of partitions and the functional \(\gamma_\alpha(T,d)\) are defined first. A functional and the growth condition with parameters \(r\) and \(c^*\) are defined next. Talagrand's partitioning theorem then shows that any decreasing sequence of functionals satisfying the growth condition controls \(\gamma_2(T,d)\) through \(F_0(T)\) and \(\mathit{\Delta}(T)\). This theorem is proved by an explicit greedy construction of an admissible sequence of partitions, resting on the decomposition lemma, together with a summability argument that isolates a sparse well separated subsequence of scales, and a telescoping estimate along that subsequence. For a Gaussian process the functionals \(F(H^*) = \sup_{H\subset H^*} \mathsf{E}\sup_{t\in H} X_t\), with \(H\) finite, satisfy the growth condition, as a consequence of Sudakov's lemma combined with Borell's inequality, assembled in the proposition above. Plugging these functionals into the partitioning theorem, and bounding \(\mathit{\Delta}(T)\) by \(\mathsf{E}\sup_{t\in T} X_t\), yields the lower bound \(\gamma_2(T,d) \le L\,\mathsf{E}\sup_{t\in T} X_t\), the missing half of the Fernique&ndash;Talagrand theorem, and the sense in which \(\gamma_2\) succeeds, sharply and in both directions, where the Dudley integral we started from could only ever give an upper bound.
 </p>
 
 </div>
 
-<p><a href="{{ '/academic/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>
+<p><a href="{{ '/blogposts/' | relative_url }}">&larr; Back to Blogposts</a></p>
