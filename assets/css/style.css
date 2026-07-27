@@ -982,10 +982,6 @@ a:hover { color: var(--blue-300); }
   color: rgba(243, 241, 234, 0.85);
 }
 
-.contact-panel .contact-lede {
-  margin-bottom: 40px;
-}
-
 .contact-panel h2 {
   /* The sitewide main h2 rule centers headings to a 700px column, but
      .tagline, .stat-strip, .dest-grid, and .nav-cards right below it in

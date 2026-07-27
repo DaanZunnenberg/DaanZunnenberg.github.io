@@ -17,12 +17,18 @@ permalink: /contact/
   </div>
 </section>
 
-<div class="contact-panel">
-
-<p class="lede contact-lede">
+<p class="lede">
 I'm doing a Mathematics PhD alongside quantitative finance work, at the intersection of market making,
 estimation under uncertainty, and production trading systems.
 </p>
+
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;01</span>
+  <h2>Get in Touch</h2>
+  <p>Pick a channel below, or use the form to reach me directly.</p>
+</div>
+
+<div class="contact-panel">
 
 <div class="dest-grid">
   <button type="button" class="dest-card copy-email" data-u="dw.zunnenberg" data-d="gmail.com">
