@@ -347,7 +347,10 @@ bound, scalar_gauss = test.transform_1D_gauss()
   <div class="tags">Research assistantship contribution</div>
 </div>
 
-<h3>Software</h3>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;05</span>
+  <h2 id="software">Software</h2>
+</div>
 
 <div class="entry">
   <div class="entry-head">

@@ -22,7 +22,7 @@ or reading group invitation, a question about a proof or a dataset, or just a co
 process theory and where it meets applied statistics.
 </p>
 
-<h2>Research Interests</h2>
+<h2 id="research-interests">Research Interests</h2>
 
 <div class="entry">
   <ul>
@@ -33,7 +33,7 @@ process theory and where it meets applied statistics.
   </ul>
 </div>
 
-<h2>Current Work</h2>
+<h2 id="current-work">Current Work</h2>
 
 <div class="entry">
   <div class="entry-head">
