@@ -1283,11 +1283,12 @@ a:hover { color: var(--blue-300); }
   margin: 44px 0 24px;
 }
 
+.section-break::before,
 .section-break::after {
   content: "";
   flex: 1;
-  height: 1px;
-  background: var(--line);
+  height: 2px;
+  background: var(--blue-600);
 }
 
 .section-break-label {
@@ -1295,7 +1296,7 @@ a:hover { color: var(--blue-300); }
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--blue-600);
   white-space: nowrap;
 }
 
