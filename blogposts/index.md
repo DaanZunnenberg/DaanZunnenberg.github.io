@@ -27,6 +27,8 @@ body_class: blogposts-index
   <p>Occasional writing on markets, mathematics, and the overlap between them.</p>
 </div>
 
+<div class="filterable-section">
+
 <div class="tag-filter" role="group" aria-label="Filter blogposts by topic">
   <button type="button" class="tag-filter-btn is-active" data-tag="all" aria-pressed="true">All</button>
   <button type="button" class="tag-filter-btn tag-filter-btn-finance" data-tag="finance" aria-pressed="false">Finance</button>
@@ -77,6 +79,8 @@ body_class: blogposts-index
 
 <div class="article-grid-more">
   <button type="button" class="article-grid-more-btn" data-show-more hidden>Show more</button>
+</div>
+
 </div>
 
 <div class="section-break">
