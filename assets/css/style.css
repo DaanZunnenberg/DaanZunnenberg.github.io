@@ -1392,6 +1392,37 @@ a:hover { color: var(--blue-300); }
 
 .article-card[hidden] { display: none; }
 
+/* "Show more" control below the grid, revealed by blog-filter.js only
+   once there are more matching posts than currently fit on screen. */
+.article-grid-more {
+  display: flex;
+  justify-content: center;
+  margin: -10px 0 32px;
+}
+
+.article-grid-more-btn {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 26px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--bg-raised);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.article-grid-more-btn:hover {
+  border-color: var(--blue-600);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.article-grid-more-btn[hidden] { display: none; }
+
 /* Events timeline: a vertical thread of dated entries, deliberately a
    different shape from the Blogposts card grid above it on the same page,
    since these are read as a chronological record rather than browsed as

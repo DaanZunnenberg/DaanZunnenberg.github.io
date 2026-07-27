@@ -1,21 +1,37 @@
 (function () {
+  var PAGE_SIZE = 4;
+
   var filterBar = document.querySelector(".tag-filter");
   var grid = document.querySelector(".article-grid[data-filterable]");
   if (!filterBar || !grid) return;
 
   var buttons = filterBar.querySelectorAll(".tag-filter-btn");
-  var cards = grid.querySelectorAll(".article-card");
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(".article-card"));
   var empty = document.querySelector("[data-filter-empty]");
+  var moreBtn = document.querySelector("[data-show-more]");
 
-  function applyFilter(tag) {
-    var anyVisible = false;
-    cards.forEach(function (card) {
-      var tags = (card.getAttribute("data-tags") || "").split(" ");
-      var match = tag === "all" || tags.indexOf(tag) !== -1;
-      card.hidden = !match;
-      if (match) anyVisible = true;
+  var activeTag = "all";
+  var visibleCount = PAGE_SIZE;
+
+  function matches(card, tag) {
+    var tags = (card.getAttribute("data-tags") || "").split(" ");
+    return tag === "all" || tags.indexOf(tag) !== -1;
+  }
+
+  function render() {
+    var matching = cards.filter(function (card) {
+      return matches(card, activeTag);
     });
-    if (empty) empty.hidden = anyVisible;
+
+    matching.forEach(function (card, i) {
+      card.hidden = i >= visibleCount;
+    });
+    cards.forEach(function (card) {
+      if (matching.indexOf(card) === -1) card.hidden = true;
+    });
+
+    if (empty) empty.hidden = matching.length > 0;
+    if (moreBtn) moreBtn.hidden = matching.length <= visibleCount;
   }
 
   buttons.forEach(function (btn) {
@@ -26,7 +42,18 @@
       });
       btn.classList.add("is-active");
       btn.setAttribute("aria-pressed", "true");
-      applyFilter(btn.getAttribute("data-tag"));
+      activeTag = btn.getAttribute("data-tag");
+      visibleCount = PAGE_SIZE;
+      render();
     });
   });
+
+  if (moreBtn) {
+    moreBtn.addEventListener("click", function () {
+      visibleCount += PAGE_SIZE;
+      render();
+    });
+  }
+
+  render();
 })();

@@ -75,6 +75,10 @@ body_class: blogposts-index
 
 <p class="article-grid-empty" data-filter-empty hidden>No blogposts tagged with this topic yet &mdash; check back soon, or pick another filter above.</p>
 
+<div class="article-grid-more">
+  <button type="button" class="article-grid-more-btn" data-show-more hidden>Show more</button>
+</div>
+
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;02</span>
   <h2 id="events">Events</h2>
