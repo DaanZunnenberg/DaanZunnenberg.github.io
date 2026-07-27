@@ -825,6 +825,128 @@ The right-hand side is immediate from Cauchy&ndash;Schwarz, since \(\sup_{t\in E
 </p>
 
 <p>
+This was proved above as a corollary of the abstract machinery: it follows from the Fernique&ndash;Talagrand theorem, applied through \(\gamma_2(E,d)\). But the abstract route obscures a natural question: can one exhibit, by hand, an actual admissible-type sequence on \(E\) that achieves this rate, without going through majorizing measures at all? Talagrand does exactly this in the section of the book this post is named after, remarking that the computation is &ldquo;surprisingly non-trivial.&rdquo; We reproduce it in full, both because it is the most concrete illustration in the book of what an admissible sequence on an infinite-dimensional set actually looks like, and because it is the construction being fed into the Dudley-versus-\(\gamma_2\) comparison that follows it.
+</p>
+
+<h3>An explicit chaining on the ellipsoid</h3>
+
+<p>
+Assume \((a_i)\) is non-increasing, and for \(n\ge 0\) let \(I_n = \{i\, ;\, 2^n\le i<2^{n+1}\}\), so \(\operatorname{card} I_n = 2^n\). Set \(c_n = 2^n a_{2^n}^2\), so that, as just observed, \(\sum_{n\ge 0} c_n \le 3\sum_{i\ge 1} a_i^2\). Since \(a_i\ge a_{2^n}\) for \(i\in I_n\), the ellipsoid \(E\) is contained in the coarser ellipsoid
+</p>
+
+<p>
+\[
+E' = \Big\{ t\in\ell^2\ ;\ \sum_{n\ge 0} \frac{1}{a_{2^n}^2} \sum_{i\in I_n} t_i^2 \le 1 \Big\} = \Big\{ t\in \ell^2\ ;\ \sum_{n\ge 0} \frac{2^n}{c_n} \sum_{i\in I_n} t_i^2 \le 1 \Big\},
+\]
+</p>
+
+<p>
+which only depends on \(t\) through its dyadic blocks of coordinates. We will construct, for this ellipsoid \(E'\), sets \(U_n\subset \ell^2\) with \(\operatorname{card} U_n \le N_{n+n_0}\), for a universal constant \(n_0\), such that
+</p>
+
+<p>
+\[
+\forall t\in E',\qquad \sum_{n\ge 0} 2^{n/2} d(t,U_n) \le L\Big(\sum_{n\ge 0} c_n\Big)^{1/2}.
+\]
+</p>
+
+<p>
+Let us first see why this gives what we want for \(E\) itself. Consider a map \(\varphi:\ell^2\to E\) with \(d(x,\varphi(x))\le 2\,d(x,E)\) for every \(x\); for \(t\in E\) and \(x\in\ell^2\), \(d(x,E)\le d(x,t)\), so \(d(x,\varphi(x))\le 2d(x,t)\) and hence \(d(t,\varphi(x)) \le d(t,x) + d(x,\varphi(x)) \le 3d(t,x)\). Consequently \(d(t,\varphi(U_n)) \le 3d(t,U_n)\), and the sets \(\varphi(U_n)\subset E\) satisfy \(\operatorname{card}\varphi(U_n) \le \operatorname{card} U_n \le N_{n+n_0}\). Setting \(T_n = \{0\}\) for \(n\le n_0\) and \(T_n = \varphi(U_{n-n_0})\) for \(n>n_0\), we get \(\operatorname{card} T_n\le N_n\) and, since \(E\subset E'\) with \(\sum_n c_n \le L\sum_i a_i^2\),
+</p>
+
+<p>
+\[
+\forall t\in E,\qquad \sum_{n\ge 0} 2^{n/2} d(t,T_n) \le L\Big(\sum_{i\ge 1} a_i^2\Big)^{1/2}.
+\]
+</p>
+
+<p>
+This is precisely the rate of Proposition 2.13.1 above, this time certified by an explicit admissible-type sequence \((T_n)\) rather than by the abstract partitioning theorem. It remains to construct the sets \(U_n\). There is no loss of generality in assuming \(\sum_{n\ge 0}c_n=1\).
+</p>
+
+<div class="math-env">
+  <p><span class="math-env-label">Lemma.</span>
+  Given \(t\in E'\), we can find a sequence \((p(n,t))_{n\ge 0}\) of integers such that
+  </p>
+\[
+\sum_{i\in I_n} t_i^2 \le 2^{-p(n,t)},
+\qquad
+\sum_{n\ge 0} 2^{n/2-p(n,t)/2} \le L,
+\qquad
+\forall n\ge 0,\ p(n+1,t)\le p(n,t)+2.
+\]
+</div>
+
+<div class="math-env math-env-proof">
+  <p><span class="math-env-label">Proof.</span>
+  Define \(q(n,t)\) as the largest integer \(q\le 2^n\) such that \(\sum_{i\in I_n} t_i^2 \le 2^{-q}\). Let \(A = \{n\ge 0\ ;\ q(n,t)<2^n\}\), so that for \(n\in A\), by definition of \(q(n,t)\), we have \(2^{-q(n,t)} \le 2\sum_{i\in I_n} t_i^2\). Thus, since \(t\in E'\),
+  </p>
+\[
+\sum_{n\in A} \frac{2^{n-q(n,t)}}{c_n} \le 2\sum_{n\ge 0} \frac{2^n}{c_n}\sum_{i\in I_n} t_i^2 \le 2.
+\]
+  <p>
+  Since \(\sum_n c_n=1\), the Cauchy&ndash;Schwarz inequality gives \(\sum_{n\in A} 2^{n/2-q(n,t)/2} \le L\); since \(2^{n/2-q(n,t)/2} = 2^{-n/2}\) for \(n\notin A\), we get \(\sum_{n\ge 0} 2^{n/2-q(n,t)/2} \le L\). Now define \(p(n,t) = \min\{q(k,t)+2(n-k)\ ;\ 0\le k\le n\}\), so that the third property holds by construction. Since \(2^{-p(n,t)/2} \le \sum_{k\le n} 2^{-q(k,t)/2-(n-k)}\), we obtain
+  </p>
+\[
+\sum_{n\ge 0} 2^{n/2-p(n,t)/2}
+\le \sum_{n\ge 0}\sum_{k\le n} 2^{k/2-q(k,t)/2}\, 2^{-(n-k)/2}
+= \sum_{k\ge 0} 2^{k/2-q(k,t)/2} \sum_{n\ge k} 2^{-(n-k)/2}
+\le L.
+\]
+</div>
+
+<p>
+For each \(n\ge 1\) and \(p\ge 0\), let \(B(n,p)\subset\ell^2\) consist of the \(t=(t_i)_{i\ge1}\) with \(t_i=0\) for \(i\ge 2^n\) and \(\|t\|_2 \le 2^{-p/2+2}\): a ball of dimension \(2^n-1\) and radius \(2^{-p/2+2}\). By the standard volumetric covering estimate for balls in \(\mathbb{R}^k\), applied at relative scale \(1/4\), there is a set \(V_{n,p}\subset B(n,p)\) with \(\operatorname{card} V_{n,p} \le L^{2^n}\) such that every point of \(B(n,p)\) is within distance \(2^{-p/2}\) of \(V_{n,p}\). Set \(V_n = \bigcup_{0\le p\le 2^n} V_{n,p}\), so that \(\operatorname{card} V_n \le L^{2^n}\) as well. We set \(U_0=\{0\}\), and let \(U_n\) consist of the elements \(x_0+\dots+x_n\) with \(x_k\in V_k\) for each \(k\le n\); since the \(V_k\) are supported on disjoint, growing blocks of coordinates, \(\operatorname{card} U_n \le \prod_{k\le n}\operatorname{card} V_k \le L^{2^{n+1}} \le N_{n+n_0}\) for a suitable universal \(n_0\).
+</p>
+
+<p>
+For \(t\in\ell^2\) and \(n\ge 0\), let \(t^{(n)}\in\ell^2\) be the truncation \(t_i^{(n)} = t_i\) for \(i<2^n\) and \(t_i^{(n)}=0\) for \(i\ge 2^n\); note that \(t^{(n)}=t\) whenever \(t\in U_n\).
+</p>
+
+<div class="math-env">
+  <p><span class="math-env-label">Lemma.</span>
+  For \(t\in E'\), with \((p(n,t))\) as in the previous lemma, we can find, for each \(n\), an element \(u^{(n)}\in U_n\) with \(d(u^{(n)}, t^{(n)}) \le 2^{-p(n,t)/2}\).
+  </p>
+</div>
+
+<div class="math-env math-env-proof">
+  <p><span class="math-env-label">Proof.</span>
+  By induction on \(n\). For \(n=0\), take \(u^{(0)}=0\), since \(t^{(0)}=0\). For the induction step, write \(t^{(n)} = u^{(n)}+v^{(n)}\) with \(u^{(n)}\in U_n\) and \(\|v^{(n)}\|_2\le 2^{-p(n,t)/2}\), so that \(t^{(n+1)} = u^{(n)} + v'^{(n)}\) where \(v'^{(n)} = v^{(n)} + (t^{(n+1)}-t^{(n)})\). By the first property of the sequence \(p(n,t)\), \(\|t^{(n+1)}-t^{(n)}\|_2 = \big(\sum_{i\in I_n} t_i^2\big)^{1/2} \le 2^{-p(n,t)/2}\), so \(\|v'^{(n)}\|_2 \le 2^{-p(n,t)/2+1} \le 2^{-p(n+1,t)/2+2}\), using the third property in the last step. Since \(v^{(n)}_i=0\) for \(i\ge 2^n\), also \(v'^{(n)}_i=0\) for \(i\ge 2^{n+1}\), so \(v'^{(n)}\in B(n+1,p(n+1,t))\). Hence there is \(w\in V_{n+1,p(n+1,t)}\subset V_{n+1}\) with \(\|v'^{(n)}-w\|_2\le 2^{-p(n+1,t)/2}\). Setting \(u^{(n+1)} := u^{(n)}+w\in U_{n+1}\), we have \(t^{(n+1)}-u^{(n+1)} = v'^{(n)}-w\), which finishes the induction step.
+  </p>
+</div>
+
+<div class="math-env">
+  <p><span class="math-env-label">Corollary.</span>
+  For \(t\in E'\), \(\sum_{n\ge 0} 2^{n/2} d(t,U_n) \le L\).
+  </p>
+</div>
+
+<div class="math-env math-env-proof">
+  <p><span class="math-env-label">Proof.</span>
+  By the first property of the sequence \(p(n,t)\),
+  </p>
+\[
+\|t-t^{(n)}\|_2^2 = \sum_{k>n} \sum_{i\in I_k} t_i^2 \le \sum_{k>n} 2^{-p(k,t)},
+\]
+  <p>
+  so \(\|t-t^{(n)}\|_2 \le \sum_{k>n} 2^{-p(k,t)/2}\). Then
+  </p>
+\[
+\sum_{n\ge 0} 2^{n/2}\|t-t^{(n)}\|_2
+\le \sum_{n\ge 0}\sum_{k>n} 2^{-p(k,t)/2}2^{n/2}
+= \sum_{k\ge 1} 2^{-p(k,t)/2}\sum_{0\le n<k} 2^{n/2}
+\le L\sum_{k\ge 1} 2^{k/2-p(k,t)/2} \le L,
+\]
+  <p>
+  using the second property of \((p(n,t))\) in the last step. Since \(d(t,U_n) \le d(t^{(n)},U_n) + \|t-t^{(n)}\|_2\), the result now follows by combining this with the previous lemma.
+  </p>
+</div>
+
+<p>
+This is the whole construction: split the ellipsoid's coordinates into dyadic blocks, quantize each block at the scale its own \(\ell^2\) mass demands, and glue the quantizations of successive blocks together into the sets \(U_n\). What makes it delicate is exactly what Lemma 2.14.1 is doing &mdash; the scale \(p(n,t)\) at which block \(n\) needs to be resolved depends on \(t\) itself, and has to be smoothed out across nearby blocks (the \(+2\) slack in the third property) before it can be turned into a genuine, \(t\)-independent net at each level \(n\). Once this bookkeeping is in place, undoing the normalization \(\sum_n c_n=1\) turns the corollary into exactly the bound (2.168) claimed at the start of this construction, and hence, via the reduction above, into the explicit chaining on \(E\) that certifies \(\gamma_2(E,d)\le L(\sum_i a_i^2)^{1/2}\) by bare hands, with no appeal to the majorizing measure theorem.
+</p>
+
+<p>
 Now compare this with what Dudley's bound sees. Writing \(e_n(E)\) for the entropy numbers of \(E\) (the radius of the smallest cover by \(N_n = 2^{2^n}\) balls, so that the Dudley integral is equivalent, up to universal constants, to \(\sum_n 2^{n/2} e_n(E)\)), one can show
 </p>
 
