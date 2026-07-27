@@ -1363,6 +1363,7 @@ a:hover { color: var(--blue-300); }
 
 .tag-filter-btn-finance.is-active { background: var(--up); border-color: var(--up); }
 .tag-filter-btn-opinion.is-active { background: var(--metal-gold); border-color: var(--metal-gold); }
+.tag-filter-btn-news.is-active { background: var(--down); border-color: var(--down); }
 
 /* Per-card topic chips, and the shared .tag look they're built from
    (also usable stand-alone wherever a small topic label is needed). */
@@ -1387,6 +1388,7 @@ a:hover { color: var(--blue-300); }
 .tag-finance { background: rgba(31, 122, 92, 0.1); color: var(--up); border-color: rgba(31, 122, 92, 0.32); }
 .tag-mathematical { background: rgba(28, 41, 71, 0.08); color: var(--blue-600); border-color: rgba(28, 41, 71, 0.28); }
 .tag-opinion { background: rgba(183, 160, 102, 0.16); color: #8a7233; border-color: rgba(183, 160, 102, 0.4); }
+.tag-news { background: rgba(162, 58, 68, 0.1); color: var(--down); border-color: rgba(162, 58, 68, 0.32); }
 
 .article-card[hidden] { display: none; }
 

@@ -32,6 +32,7 @@ body_class: blogposts-index
   <button type="button" class="tag-filter-btn tag-filter-btn-finance" data-tag="finance" aria-pressed="false">Finance</button>
   <button type="button" class="tag-filter-btn tag-filter-btn-mathematical" data-tag="mathematical" aria-pressed="false">Mathematical</button>
   <button type="button" class="tag-filter-btn tag-filter-btn-opinion" data-tag="opinion" aria-pressed="false">Opinion</button>
+  <button type="button" class="tag-filter-btn tag-filter-btn-news" data-tag="news" aria-pressed="false">News</button>
 </div>
 
 <div class="article-grid" data-filterable>
