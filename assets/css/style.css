@@ -1904,11 +1904,12 @@ pre.code-block code {
   display: flex;
   align-items: center;
   margin: 0 -64px 40px;
-  /* Tall enough to fit the fullest hero (landing page: eyebrow + two-line
-     headline + lede + CTA row) without that content growing the box past
-     this floor, so every hero on the site renders at the same height
-     instead of the CTA-less pages sitting noticeably shorter. */
-  min-height: 420px;
+  /* Fixed (not min-) height: tall enough to fit the fullest hero (landing
+     page: eyebrow + two-line headline + lede + CTA row). A fixed height
+     stops any page's content from growing its box past this figure, so
+     every hero section renders at exactly the same height instead of
+     just sharing a floor. */
+  height: 420px;
   overflow: hidden;
   border-radius: 2px;
   border: 1px solid var(--line-dark);
@@ -2139,7 +2140,7 @@ body:has(.hero) .hero-content {
 .copy-toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (max-width: 640px) {
-  .hero { margin: 0 -16px 32px; min-height: 380px; }
+  .hero { margin: 0 -16px 32px; height: 380px; }
   .hero-content { max-width: none; padding: 28px 20px; }
   .hero-name { font-size: 32px; }
   .hero-headline { font-size: 27px; }
