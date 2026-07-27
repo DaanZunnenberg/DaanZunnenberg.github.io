@@ -30,13 +30,13 @@ permalink: /projects/functional-stationarity-test/
   by Eric Beutner and Yicong Lin) in Econometrics and Operations Research.
 </p>
 <p>
-  We consider a \(d\)-dimensional It&ocirc; diffusion process \((X_t)_{t\ge0}\) defined as the strong solution
-  of
-  \[X_t = X_0 + \int_0^t b(X_s)\,ds + \int_0^t \sigma(X_s)\,dW_s, \qquad t \ge 0,\]
-  where \(b\) is the drift function, \(\sigma\) is the diffusion coefficient, and \(W\) is a multivariate
-  Brownian motion. The problem this test solves is simple to state. Given only a single, discretely observed
-  trajectory of \(X\), and without assuming any specific parametric drift or diffusion function, decide
-  whether \(X\) is stationary.
+  We consider a \(d\)-dimensional It&ocirc; diffusion process \((S_t)_{t\ge0}\), with state space
+  \(\mathbb{R}^d\), defined as the strong solution of the time-homogeneous stochastic differential equation
+  \[S_0 = S, \qquad \mathrm{d}S_t = b(S_t)\,\mathrm{d}t + \sigma(S_t)\,\mathrm{d}W_t, \qquad t \ge 0,\]
+  where \(b\) is the drift function, \(\sigma\) is the diffusion coefficient, and \(W\) is a
+  \(d\)-dimensional Brownian motion. The problem this test solves is simple to state. Given only a single,
+  discretely observed trajectory of \(S\), and without assuming any specific parametric drift or diffusion
+  function, decide whether \(S\) is stationary.
 </p>
 <p>
   Three regularity conditions make the test possible. First, \(b\) and \(\sigma\) must be Borel measurable and
@@ -65,7 +65,7 @@ permalink: /projects/functional-stationarity-test/
 </p>
 <p>
   To turn that question into a usable statistic, the test compares two independently motivated estimators of
-  the diffusion matrix, both consistent regardless of whether \(X\) is stationary, but which behave very
+  the diffusion matrix, both consistent regardless of whether \(S\) is stationary, but which behave very
   differently as estimators depending on stationarity. The first is a <em>time-domain</em> estimator, a local,
   EWMA-style average of squared increments in a shrinking window around a fixed point in time. Its convergence
   rate does not depend on whether the process is stationary, because it only uses information in the immediate
@@ -79,7 +79,7 @@ permalink: /projects/functional-stationarity-test/
 <p>
   This sets up something structurally similar to a Durbin&ndash;Wu&ndash;Hausman test, two estimators that
   target the same quantity, coincide asymptotically under the null, and diverge in behaviour under the
-  alternative. The null is that \(X\) is stationary, the alternative that it is not, operationalised through
+  alternative. The null is that \(S\) is stationary, the alternative that it is not, operationalised through
   the standardised difference between the two diffusion-matrix estimators. Under the null this standardised
   difference converges to a mean-zero Gaussian sequence. Under the alternative it diverges, because the
   state-domain estimator's convergence rate is strictly slower than the rate implied by stationarity, while
@@ -109,10 +109,7 @@ permalink: /projects/functional-stationarity-test/
   The package lives under <code>src/mht/</code>. <code>testing/kernel_test.py</code> holds the core test,
   <code>Kernel</code>, <code>KernelTest</code>, <code>Simulator</code>, <code>TestPlotter</code>.
   <code>testing/hypothesis.py</code> adds <code>MultipleHypTest</code> for Benjamini&ndash;Hochberg/Yekutieli
-  FDR control, an alternative multiple-hypothesis baseline to the running-maximum approach, and
-  <code>UnitRootTest</code> for batch KPSS and Leybourne&ndash;McCabe comparisons, the parametric benchmarks
-  the test is validated against. <code>testing/leybourne_mccabe.py</code> is a standalone Leybourne&ndash;McCabe
-  unit-root test, fitting an ARIMA(p,1,1) and interpolating p-values off Monte Carlo critical-value tables.
+  FDR control, an alternative multiple-hypothesis baseline to the running-maximum approach used above.
   <code>models/processes.py</code> holds four SDE simulators, including a bivariate correlated diffusion using
   a Milstein scheme with an explicit correction term for its polynomial diffusion coefficient.
   <code>io/reader.py</code> loads precomputed simulation CSVs.
@@ -125,7 +122,32 @@ permalink: /projects/functional-stationarity-test/
   <strong>Data preparation.</strong> A bivariate trajectory, either simulated by
   <code>BivariateOUProcess</code>/<code>BivariateCorrelatedBM</code> or read from CSV, is discretised on a
   grid of \(n\) observations over horizon \(T\), giving the effective sampling interval \(\Delta_n = T/n\).
+  The class itself is a thin, stateful container. It stores the two configuration dictionaries and
+  accumulates each estimator's output in <code>time_estimates</code> and <code>kernel_estimates</code> as the
+  four steps below are called in sequence.
 </p>
+<pre class="code-block" data-lang="python"><code>class KernelTest:
+    """Kernel-based test for time-homogeneity of the diffusion matrix.
+
+    Compares a state-domain smoother against a time-domain smoother of the
+    integrated diffusion matrix. Under H0 (time-homogeneous diffusion) the
+    standardised difference converges to a Gaussian process whose running
+    maximum has a known Gumbel-type limit distribution.
+    """
+
+    def __init__(
+        self,
+        data: pd.DataFrame,        # columns ['process 1', 'process 2']
+        kernel_params: dict,       # {'bandwidth', 'n', 'T', 'kernel'}
+        time_params: dict,         # {'bandwidth', 'n', 'T'}
+        disable: bool = False,     # suppress tqdm progress bars
+    ) -> None:
+        self.data = data
+        self.kernel_params = kernel_params
+        self.time_params = time_params
+        self.disable = disable
+        self.kernel_estimates: dict = {}
+        self.time_estimates: dict = {}</code></pre>
 <p>
   <strong>Kernel and bandwidth selection.</strong> The state-domain smoother needs a kernel, the package
   defaults to <code>Kernel.BaseKernel</code>, a boxcar kernel, and a bandwidth, while the time-domain smoother
@@ -133,6 +155,37 @@ permalink: /projects/functional-stationarity-test/
   <code>Simulator</code> auto-selects them from a lookup table keyed on horizon length, so a user does not
   have to hand-tune the constants for every new dataset.
 </p>
+<pre class="code-block" data-lang="python"><code>class Kernel:
+    """Kernel functions for the state-domain (Nadaraya-Watson) smoother."""
+
+    def __init__(self, *, kernel_params: dict) -> None:
+        self.kernel_params = kernel_params
+
+    def BaseKernel(self) -> Callable:
+        """Boxcar/indicator kernel, K(x) = 1{|x| <= h}."""
+        def k(x: np.ndarray) -> np.ndarray:
+            return np.where(np.abs(x) <= 1, 1.0, 0.0)
+        return k</code></pre>
+<p>
+  A test is instantiated by passing in the observed trajectory alongside the two configuration dictionaries.
+  The bandwidths below follow the near-optimal rate \(h_{n,T} = C/(n^{1/6}\log n)\) of Bandi &amp; Moloche
+  (2018), the constant \(C\) tuned once per horizon length.
+</p>
+<pre class="code-block" data-lang="python"><code>from mht.testing.kernel_test import KernelTest, Kernel
+
+n, T = 3000, 150.0
+bandwidth = np.sqrt(3) * 6 / (n ** (1 / 6) * np.log(n))
+
+test = KernelTest(
+    data=trajectory,                                  # DataFrame, shape (n, 2)
+    kernel_params={
+        'bandwidth': bandwidth,
+        'n': n, 'T': T,
+        'kernel': Kernel.BaseKernel,
+    },
+    time_params={'bandwidth': 100 * T / n, 'n': n, 'T': T},
+    disable=True,
+)</code></pre>
 <p>
   <strong>Test statistic computation.</strong> <code>time_domain_smoother</code> builds the EWMA-weighted
   time-domain estimator with a decay parameter. <code>state_domain_smoother</code> builds the
@@ -143,6 +196,19 @@ permalink: /projects/functional-stationarity-test/
   worth being upfront about, since a spike from a single ill-conditioned inversion could otherwise masquerade
   as evidence against the null.
 </p>
+<pre class="code-block" data-lang="python"><code>test.time_domain_smoother(lamb=0.94)     # EWMA time-domain estimator ĉ_TD
+test.state_domain_smoother(dist=False)   # Nadaraya-Watson state-domain estimator ĉ_SD
+test.gauss()                             # standardised difference, stored in test.gaussian</code></pre>
+<p>
+  The two resulting volatility estimates track the same underlying diffusion coefficient, but from different
+  data. Plotting them side by side against time is the diagnostic to run before ever computing a test
+  statistic, since a visible, structural gap between the two curves is exactly what the test statistic below
+  is built to detect.
+</p>
+<img src="{{ '/images/stationarity/volatility_stationary.png' | relative_url }}" alt="State-domain versus time-domain volatility estimate for a simulated stationary bivariate Ornstein-Uhlenbeck process" class="entry-figure">
+<p class="form-hint">Stationary bivariate OU process, \(T=150\), \(n=3000\). The two estimators track each other closely throughout, exactly what the null hypothesis predicts.</p>
+<img src="{{ '/images/stationarity/volatility_nonstationary.png' | relative_url }}" alt="State-domain versus time-domain volatility estimate for a simulated time-inhomogeneous bivariate diffusion" class="entry-figure">
+<p class="form-hint">Time-inhomogeneous bivariate diffusion with the same \(T\) and \(n\). The state-domain smoother, which pools observations across the whole trajectory, overshoots the time-domain smoother whenever the true diffusion coefficient is moving, since it is implicitly averaging over states visited at very different points in time.</p>
 <p>
   <strong>Critical value generation.</strong> <code>transform_1D_gauss</code> reduces the sequence of
   standardised differences to a single scalar running maximum and compares it against the analytic
@@ -151,6 +217,33 @@ permalink: /projects/functional-stationarity-test/
   multiplier resampling, which keeps the test cheap to run repeatedly in a simulation study, at the cost of
   relying on the asymptotic extreme-value approximation holding well enough in the sample size at hand.
 </p>
+<pre class="code-block" data-lang="python"><code>def transform_1D_gauss(self, alpha: float = 0.95) -> tuple:
+    """Reduce the Gaussian process to a scalar running maximum and its
+    Gumbel-type critical bound at confidence level alpha."""
+    x = np.log(1 / np.log(1 / alpha))
+    n = len(self.gaussian)
+    a_n = [np.sqrt(2 * np.log(z)) for z in range(1, n + 1)]
+    b_n = [
+        np.sqrt(2 * np.log(z))
+        - np.log(np.pi * np.log(z)) / (2 * np.sqrt(2 * np.log(z)))
+        for z in range(1, n + 1)
+    ]
+    bound = [np.nan] + [(x / a_n[i]) + b_n[i] for i in range(1, n)]
+    scalar_gauss = [float(np.sum(g) / np.sqrt(3)) for g in self.gaussian]
+    return bound, scalar_gauss</code></pre>
+<pre class="code-block" data-lang="python"><code>bound, z = test.transform_1D_gauss(alpha=0.95)
+rejects = running_maximum(z)[-1] > bound[-1]</code></pre>
+<p>
+  Running this on the same two simulated trajectories shows the test doing exactly what it is supposed to.
+  On the stationary process the running maximum settles well below the critical bound and stays there; on the
+  time-inhomogeneous process it blows straight through it within the first few hundred observations and never
+  comes back down, since the standardised difference between the two estimators diverges rather than
+  stabilising once the true diffusion coefficient starts moving.
+</p>
+<img src="{{ '/images/stationarity/running_max_stationary.png' | relative_url }}" alt="Running maximum test statistic for the stationary Ornstein-Uhlenbeck process, staying below the Gumbel critical bound" class="entry-figure">
+<p class="form-hint">The standardised Gaussian process \(Z_t\) (grey) and its running maximum \(\phi_j\) (blue) against the 95% Gumbel critical bound (dashed). The running maximum never exceeds the bound, so the test fails to reject stationarity.</p>
+<img src="{{ '/images/stationarity/running_max_nonstationary.png' | relative_url }}" alt="Running maximum test statistic for the nonstationary time-inhomogeneous diffusion, sharply exceeding the Gumbel critical bound" class="entry-figure">
+<p class="form-hint">The same construction on the time-inhomogeneous diffusion. The running maximum crosses the critical bound almost immediately and diverges, a clear rejection of stationarity.</p>
 <p>
   Each helper function was factored out for a specific reason. <code>time_domain_smoother</code> and
   <code>state_domain_smoother</code> are kept as separate methods rather than one combined estimator because
@@ -174,23 +267,21 @@ permalink: /projects/functional-stationarity-test/
   that simulated paths are finite and correctly shaped, and that the full pipeline runs end to end and returns
   a finite bound, they don't assert anything about actual rejection rates. <code>simulations/</code> holds
   precomputed CSVs of Gaussian-process paths under the null for two sample sizes, feeding a batch
-  rejection-rate comparison against KPSS and Leybourne&ndash;McCabe. In the thesis's own simulation study, the
-  running-maximum test converges close to its nominal 5% rejection rate on a stationary bivariate
-  Ornstein&ndash;Uhlenbeck process as the sample grows, is quick to reject a nonstationary planar Brownian
-  motion, and, on a time-inhomogeneous bivariate diffusion, correctly identifies nonstationarity while
-  illustrating a genuine limitation of the fixed-\(\Delta_n\) design. Power falls as \(T\) grows with the
-  sampling interval held fixed, because the process locally comes to resemble a stationary
-  Ornstein&ndash;Uhlenbeck process at any fixed timescale, exactly the caveat from the Test Definition section
-  above about the running-maximum approximation needing a sample large enough for the extreme-value
-  asymptotics to bite.
+  rejection-rate study of the running-maximum test itself. In the thesis's own simulation study, the test
+  converges close to its nominal 5% rejection rate on a stationary bivariate Ornstein&ndash;Uhlenbeck process
+  as the sample grows, is quick to reject a nonstationary planar Brownian motion, and, on a time-inhomogeneous
+  bivariate diffusion, correctly identifies nonstationarity while illustrating a genuine limitation of the
+  fixed-\(\Delta_n\) design. Power falls as \(T\) grows with the sampling interval held fixed, because the
+  process locally comes to resemble a stationary Ornstein&ndash;Uhlenbeck process at any fixed timescale,
+  exactly the caveat from the Test Definition section above about the running-maximum approximation needing a
+  sample large enough for the extreme-value asymptotics to bite.
 </p>
 
 <h2 id="repository-structure">Repository Structure</h2>
 <pre class="code-block" data-lang="txt"><code>src/mht/
     testing/
         kernel_test.py        # KernelTest, Simulator, TestPlotter
-        hypothesis.py         # MultipleHypTest, UnitRootTest, LaTeXTable
-        leybourne_mccabe.py   # Leybourne-McCabe test (single canonical copy)
+        hypothesis.py         # MultipleHypTest, LaTeXTable
     models/
         processes.py          # BivariateOUProcess, BivariateCorrelatedBM, ...
     io/
@@ -205,7 +296,7 @@ tests/
     test_processes.py
     test_kernel_test.py
 </code></pre>
-<p class="form-hint">Requires Python &ge; 3.10. Also includes batch KPSS and Leybourne&ndash;McCabe tests for comparison, and BH/BY FDR procedures for simulation studies.</p>
+<p class="form-hint">Requires Python &ge; 3.10. Also includes BH/BY FDR procedures as an alternative multiple-hypothesis baseline for simulation studies.</p>
 
 </div>
 
