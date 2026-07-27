@@ -80,6 +80,17 @@ permalink: /projects/
       <span class="article-card-desc">Command-line client for downloading historical crypto market data from Tardis.dev &middot; Python</span>
     </span>
   </a>
+
+  <a class="article-card" href="{{ '/projects/foreign-exchange-data/' | relative_url }}">
+    <span class="article-card-img" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/></svg>
+    </span>
+    <span class="article-card-body">
+      <span class="article-card-date">2025</span>
+      <span class="article-card-title">Foreign Exchange Data</span>
+      <span class="article-card-desc">Sandbox EUR/USD 2-minute OHLCV dataset with loading and plotting scripts &middot; Python</span>
+    </span>
+  </a>
 </div>
 
 <p>More on <a href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener noreferrer">GitHub</a>. Work history, education, and skills are on the <a href="{{ '/resume/' | relative_url }}">Resume</a> page.</p>
