@@ -18,113 +18,106 @@ permalink: /projects/functional-stationarity-test/
 
 <p class="tagline"><code>Python</code> &middot; <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">FunctionalMH on GitHub</a></p>
 
-<h2 id="overview">Theoretical Foundations</h2>
+<h2 id="overview">The problem</h2>
 <p>
-  Most tests for whether a time series is stationary are univariate and assume a specific parametric model,
-  a unit-root test on an AR(1), say. That approach becomes fragile once the underlying process is genuinely
-  nonlinear or multidimensional. Fitting a misspecified parametric model and then testing for a unit root in
-  that model tells you very little about whether the true, unknown process is stationary. This project builds
-  a nonparametric test that sidesteps parametric model choice entirely, for a broad class of multidimensional
-  It&ocirc; diffusion processes. It became the open-source <code>FunctionalMH</code> library, packaged for my
-  MSc thesis (<em>Testing Multidimensional Diffusion Processes for Stationarity</em>, VU Amsterdam, supervised
-  by Eric Beutner and Yicong Lin) in Econometrics and Operations Research.
+  Most stationarity tests are built for one-dimensional series and one specific parametric model. A unit-root
+  test on an AR(1), say. That breaks down once the true process is nonlinear or multidimensional. Fitting the
+  wrong model and then testing that model for a unit root tells you very little about the real process.
 </p>
 <p>
-  We consider a \(d\)-dimensional It&ocirc; diffusion process \((S_t)_{t\ge0}\), with state space
-  \(\mathbb{R}^d\), defined as the strong solution of the time-homogeneous stochastic differential equation
+  This project takes a different route. It builds a nonparametric test that works for a broad class of
+  multidimensional It&ocirc; diffusions, without assuming any parametric drift or diffusion function up front.
+  It became the open-source <code>FunctionalMH</code> library, written for my MSc thesis
+  (<em>Testing Multidimensional Diffusion Processes for Stationarity</em>, VU Amsterdam, supervised by Eric
+  Beutner and Yicong Lin) in Econometrics and Operations Research.
+</p>
+<p>
+  The setting: a \(d\)-dimensional It&ocirc; diffusion process \((S_t)_{t\ge0}\), with state space
+  \(\mathbb{R}^d\), given as the strong solution of
   \[S_0 = S, \qquad \mathrm{d}S_t = b(S_t)\,\mathrm{d}t + \sigma(S_t)\,\mathrm{d}W_t, \qquad t \ge 0,\]
-  where \(b\) is the drift function, \(\sigma\) is the diffusion coefficient, and \(W\) is a
-  \(d\)-dimensional Brownian motion. The problem this test solves is simple to state. Given only a single,
-  discretely observed trajectory of \(S\), and without assuming any specific parametric drift or diffusion
-  function, decide whether \(S\) is stationary.
+  where \(b\) is the drift, \(\sigma\) is the diffusion coefficient, and \(W\) is a \(d\)-dimensional Brownian
+  motion. You observe one trajectory of \(S\), sampled at discrete times. You don't know \(b\) or \(\sigma\).
+  The question: is \(S\) stationary?
 </p>
 <p>
-  Three regularity conditions make the test possible. First, \(b\) and \(\sigma\) must be Borel measurable and
-  satisfy Lipschitz and linear-growth conditions, the standard requirement for a unique, non-exploding strong
-  solution of the SDE to exist. Second, the diffusion coefficient must be <em>uniformly elliptic</em>, the
-  process must be able to move in every direction with comparable local variance everywhere, no direction can
-  be degenerate. This rules out cyclic sample-path behaviour and guarantees that the process is aperiodic and
-  that any invariant measure it possesses is absolutely continuous with everywhere-positive density. Third,
-  the process must be <em>Harris recurrent</em>, every set of positive Lebesgue measure is visited infinitely
-  often. This guarantees the existence of an invariant measure in the first place, and it is the condition
-  that forces the process's <em>occupation measure</em>, a running count of how much time the process has
-  spent in a given region of its state space, to diverge to infinity. That is exactly the quantity the test
-  statistic exploits. Together these three conditions cover a very wide class of financial and physical
-  diffusion models while still ruling out pathologies such as Brownian motion with drift, which visits some
-  region of its state space only finitely often and would break the argument below.
+  Three conditions make the test work. First, \(b\) and \(\sigma\) satisfy Lipschitz and linear-growth
+  conditions, so a unique, non-exploding solution exists. Second, the diffusion coefficient is
+  <em>uniformly elliptic</em>: the process moves with comparable variance in every direction, no direction is
+  degenerate. This rules out cyclic paths and keeps the process aperiodic. Third, the process is
+  <em>Harris recurrent</em>: every region of positive measure gets visited infinitely often. This guarantees an
+  invariant measure exists, and it forces the process's <em>occupation measure</em>, a running count of how
+  long the process has spent near a given point, to grow without bound. That growth rate is what the test
+  statistic actually measures. Together, these three conditions cover a wide class of financial and physical
+  diffusion models, while ruling out edge cases like Brownian motion with drift, which only visits most of its
+  state space finitely often.
 </p>
 
-<h2 id="test-statistic">Test Definition</h2>
+<h2 id="test-statistic">How the test works</h2>
 <p>
-  The central idea, due to Darling &amp; Kac (1957) and sharpened for this setting by Lazi&#263; &amp; Sandri&#263;
-  (2021) and Lee &amp; Trutnau (2022), is that stationarity of a Harris recurrent, uniformly elliptic diffusion
-  is equivalent to its occupation measure growing <em>linearly</em> in time. A nonstationary process's
-  occupation measure grows more slowly than linearly. Rather than testing a parametric hypothesis about drift
-  or mean reversion directly, the test asks a more structural question. Does the rate at which the process
-  revisits regions of its state space look linear in time, or does it look sub-linear?
+  The key result, due to Darling &amp; Kac (1957) and sharpened by Lazi&#263; &amp; Sandri&#263; (2021) and
+  Lee &amp; Trutnau (2022): for a Harris recurrent, uniformly elliptic diffusion, stationarity is equivalent to
+  the occupation measure growing <em>linearly</em> in time. A nonstationary process grows sub-linearly instead.
+  So instead of testing a parametric hypothesis about drift or mean reversion, the test asks a simpler
+  question. Does the process revisit its own state space at a linear rate, or slower?
 </p>
 <p>
-  To turn that question into a usable statistic, the test compares two independently motivated estimators of
-  the diffusion matrix, both consistent regardless of whether \(S\) is stationary, but which behave very
-  differently as estimators depending on stationarity. The first is a <em>time-domain</em> estimator, a local,
-  EWMA-style average of squared increments in a shrinking window around a fixed point in time. Its convergence
-  rate does not depend on whether the process is stationary, because it only uses information in the immediate
-  temporal vicinity of the point being estimated. The second is a <em>state-domain</em> estimator, a
-  Nadaraya&ndash;Watson-style kernel regression that averages squared increments over all observations that
-  fall within a bandwidth of a given state, regardless of when in the sample they occurred. This second
-  estimator's convergence rate is governed by the occupation measure at that state. It converges faster
-  exactly when the process has spent more time nearby, which happens at a linear rate if and only if the
-  process is stationary.
+  To turn that into a number, the test compares two estimators of the diffusion matrix. Both are consistent
+  whether or not the process is stationary, but they get there at different speeds.
+</p>
+<ul>
+  <li>A <strong>time-domain</strong> estimator: a local, EWMA-style average of squared increments in a
+  shrinking window around a fixed point in time. Its convergence speed doesn't depend on stationarity, since
+  it only looks at data close in time to the point being estimated.</li>
+  <li>A <strong>state-domain</strong> estimator: a Nadaraya&ndash;Watson kernel regression that averages
+  squared increments over every observation near a given state, regardless of when it happened. Its speed
+  depends on the occupation measure at that state. It converges faster once the process has spent more time
+  nearby, and that only happens at a linear rate if the process is stationary.</li>
+</ul>
+<p>
+  This is the same idea as a Durbin&ndash;Wu&ndash;Hausman test: two estimators of the same thing that agree
+  under the null and diverge under the alternative. Here, the null is that \(S\) is stationary. Under the
+  null, the standardised difference between the two estimators converges to a mean-zero Gaussian sequence.
+  Under the alternative, it diverges, because the state-domain estimator slows down while the time-domain
+  estimator keeps its usual speed.
 </p>
 <p>
-  This sets up something structurally similar to a Durbin&ndash;Wu&ndash;Hausman test, two estimators that
-  target the same quantity, coincide asymptotically under the null, and diverge in behaviour under the
-  alternative. The null is that \(S\) is stationary, the alternative that it is not, operationalised through
-  the standardised difference between the two diffusion-matrix estimators. Under the null this standardised
-  difference converges to a mean-zero Gaussian sequence. Under the alternative it diverges, because the
-  state-domain estimator's convergence rate is strictly slower than the rate implied by stationarity, while
-  the time-domain estimator keeps converging at its usual rate regardless. Because the diffusion matrix is
-  estimated pointwise across a whole trajectory, this comparison produces not one test statistic but a whole
-  sequence of them, one for approximately every observed time point. The test needs a way to summarise a
-  sequence of correlated, asymptotically Gaussian statistics into a single global decision. The solution here
-  borrows from extreme value theory. Under the null the sequence of standardised differences behaves like a
-  stationary Gaussian process, whose running maximum has a known limiting Gumbel-type distribution once
-  properly normalised. The global test rejects stationarity if the observed running maximum exceeds the
-  corresponding Gumbel critical value, a closed-form, analytic bound rather than anything simulated or
-  tabulated, which keeps the test cheap to apply even though it is built from an entire sequence of local
-  comparisons.
+  Because the diffusion matrix is estimated at every point along the trajectory, this comparison doesn't give
+  one test statistic. It gives a whole sequence of them, roughly one per observed time point. The test needs
+  one number to make a decision from that sequence, so it borrows an idea from extreme value theory. Under the
+  null, the sequence behaves like a stationary Gaussian process, and the running maximum of such a process has
+  a known, closed-form Gumbel-type limit. The test rejects stationarity if the observed running maximum
+  crosses that limit. No bootstrap, no simulated critical values, just an analytic bound.
 </p>
 
-<h2 id="implementation">Code Architecture &amp; Bivariate Restriction</h2>
+<h2 id="implementation">How the code is organised</h2>
 <p class="form-hint">
-  <strong>Disclaimer.</strong> The code implementation described in this section is strictly applicable to
-  <em>bivariate</em> processes (\(d=2\)). The theory above is stated for general dimension \(d\), and the
-  package's simulators (<code>models/processes.py</code>) include higher- and lower-dimensional examples for
-  reference, but the estimators and test statistic in <code>testing/kernel_test.py</code> are written against
-  \(2\times2\) diffusion matrices specifically. The <code>vech</code> half-vectorisation to a 3-vector, the
-  matrix square-root inverse, and the density estimation used inside the state-domain smoother are not
-  dimension-generic.
+  <strong>Note.</strong> Everything below is written for <em>bivariate</em> processes (\(d=2\)). The theory
+  above holds for any dimension \(d\), and <code>models/processes.py</code> includes simulators in other
+  dimensions for reference, but the estimator and test statistic in <code>testing/kernel_test.py</code> are
+  built specifically around \(2\times2\) diffusion matrices. The <code>vech</code> half-vectorisation, the
+  matrix square-root inverse, and the density estimate inside the state-domain smoother all assume \(d=2\).
 </p>
 <p>
-  The package lives under <code>src/mht/</code>. <code>testing/kernel_test.py</code> holds the core test,
+  The package lives under <code>src/mht/</code>. <code>testing/kernel_test.py</code> has the core test:
   <code>Kernel</code>, <code>KernelTest</code>, <code>Simulator</code>, <code>TestPlotter</code>.
-  <code>testing/hypothesis.py</code> adds <code>MultipleHypTest</code> for Benjamini&ndash;Hochberg/Yekutieli
-  FDR control, an alternative multiple-hypothesis baseline to the running-maximum approach used above.
-  <code>models/processes.py</code> holds four SDE simulators, including a bivariate correlated diffusion using
-  a Milstein scheme with an explicit correction term for its polynomial diffusion coefficient.
-  <code>io/reader.py</code> loads precomputed simulation CSVs.
+  <code>testing/hypothesis.py</code> adds <code>MultipleHypTest</code>, a Benjamini&ndash;Hochberg/Yekutieli
+  FDR-control alternative to the running-maximum approach below. <code>models/processes.py</code> has four SDE
+  simulators, including a bivariate correlated diffusion with a Milstein scheme and an explicit correction term
+  for its polynomial diffusion coefficient. <code>io/reader.py</code> loads precomputed simulation CSVs.
 </p>
 <p>
-  <code>KernelTest(data, kernel_params, time_params)</code> is the master object that orchestrates the full
-  flow, from a raw bivariate trajectory to a rejection decision, through four steps.
+  Everything runs through one object, <code>KernelTest</code>. You give it a trajectory and two configuration
+  dictionaries, and it takes you from raw data to a rejection decision in four steps: prepare the data, pick a
+  kernel and bandwidth, compute the two estimators, then reduce them to one test statistic. The walkthrough
+  below follows those four steps in order, with the actual code at each step.
 </p>
+
+<h4 id="step-1-data">Step 1. Load the trajectory</h4>
 <p>
-  <strong>Data preparation.</strong> A bivariate trajectory, either simulated by
-  <code>BivariateOUProcess</code>/<code>BivariateCorrelatedBM</code> or read from CSV, is discretised on a
-  grid of \(n\) observations over horizon \(T\), giving the effective sampling interval \(\Delta_n = T/n\).
-  The class itself is a thin, stateful container. It stores the two configuration dictionaries and
-  accumulates each estimator's output in <code>time_estimates</code> and <code>kernel_estimates</code> as the
-  four steps below are called in sequence.
+  <code>KernelTest</code> is a thin, stateful container. Pass it a bivariate trajectory, either simulated with
+  <code>BivariateOUProcess</code>/<code>BivariateCorrelatedBM</code> or read from a CSV, and it stores the
+  configuration for the two estimators. Nothing gets computed yet, the estimates only fill in once you call
+  the methods in steps 3 and 4.
 </p>
 <pre class="code-block" data-lang="python"><code>class KernelTest:
     """Kernel-based test for time-homogeneity of the diffusion matrix.
@@ -149,11 +142,17 @@ permalink: /projects/functional-stationarity-test/
         self.kernel_estimates: dict = {}
         self.time_estimates: dict = {}</code></pre>
 <p>
-  <strong>Kernel and bandwidth selection.</strong> The state-domain smoother needs a kernel, the package
-  defaults to <code>Kernel.BaseKernel</code>, a boxcar kernel, and a bandwidth, while the time-domain smoother
-  needs its own, separately tuned bandwidth. Both follow the near-optimal rates of Bandi &amp; Moloche (2018).
-  <code>Simulator</code> auto-selects them from a lookup table keyed on horizon length, so a user does not
-  have to hand-tune the constants for every new dataset.
+  If the data is simulated on a grid of \(n\) observations over horizon \(T\), the effective sampling
+  interval is \(\Delta_n = T/n\). That is the number every bandwidth below is tuned against.
+</p>
+
+<h4 id="step-2-kernel">Step 2. Pick a kernel and bandwidth</h4>
+<p>
+  The state-domain smoother needs a kernel and a bandwidth. The default kernel is
+  <code>Kernel.BaseKernel</code>, a plain boxcar: weight 1 inside the bandwidth, 0 outside. The time-domain
+  smoother needs its own, separately tuned bandwidth. Both follow the near-optimal rates from Bandi &amp;
+  Moloche (2018), so you don't have to hand-tune a new constant for every dataset, <code>Simulator</code>
+  looks them up from a table keyed on horizon length.
 </p>
 <pre class="code-block" data-lang="python"><code>class Kernel:
     """Kernel functions for the state-domain (Nadaraya-Watson) smoother."""
@@ -167,9 +166,9 @@ permalink: /projects/functional-stationarity-test/
             return np.where(np.abs(x) <= 1, 1.0, 0.0)
         return k</code></pre>
 <p>
-  A test is instantiated by passing in the observed trajectory alongside the two configuration dictionaries.
-  The bandwidths below follow the near-optimal rate \(h_{n,T} = C/(n^{1/6}\log n)\) of Bandi &amp; Moloche
-  (2018), the constant \(C\) tuned once per horizon length.
+  Putting steps 1 and 2 together, this is what setting up a test looks like in practice. The bandwidth here
+  follows the near-optimal rate \(h_{n,T} = C/(n^{1/6}\log n)\) from Bandi &amp; Moloche (2018), with the
+  constant \(C\) tuned once per horizon length.
 </p>
 <pre class="code-block" data-lang="python"><code>from mht.testing.kernel_test import KernelTest, Kernel
 
@@ -186,36 +185,39 @@ test = KernelTest(
     time_params={'bandwidth': 100 * T / n, 'n': n, 'T': T},
     disable=True,
 )</code></pre>
+
+<h4 id="step-3-estimators">Step 3. Compute both estimators</h4>
 <p>
-  <strong>Test statistic computation.</strong> <code>time_domain_smoother</code> builds the EWMA-weighted
-  time-domain estimator with a decay parameter. <code>state_domain_smoother</code> builds the
-  Nadaraya&ndash;Watson state-domain estimator, optionally using a kernel density estimate of the bivariate
-  state density rather than the raw occupation count. <code>gauss</code> computes the standardised difference
-  between the two estimators through a matrix square-root inverse of the combined asymptotic covariance. This
-  step falls back to <code>NaN</code> on numerical failure of the matrix inversion, a real fragility point
-  worth being upfront about, since a spike from a single ill-conditioned inversion could otherwise masquerade
-  as evidence against the null.
+  Three calls do the real work of this step. <code>time_domain_smoother</code> builds the EWMA-weighted
+  time-domain estimator. <code>state_domain_smoother</code> builds the Nadaraya&ndash;Watson state-domain
+  estimator, optionally using a kernel density estimate of the state instead of a raw occupation count.
+  <code>gauss</code> then takes the standardised difference between the two, through a matrix square-root
+  inverse of their combined covariance. If that matrix inversion fails numerically, it falls back to
+  <code>NaN</code> rather than crashing, worth knowing, since a bad inversion could otherwise look like
+  evidence against the null.
 </p>
 <pre class="code-block" data-lang="python"><code>test.time_domain_smoother(lamb=0.94)     # EWMA time-domain estimator ĉ_TD
 test.state_domain_smoother(dist=False)   # Nadaraya-Watson state-domain estimator ĉ_SD
 test.gauss()                             # standardised difference, stored in test.gaussian</code></pre>
 <p>
-  The two resulting volatility estimates track the same underlying diffusion coefficient, but from different
-  data. Plotting them side by side against time is the diagnostic to run before ever computing a test
-  statistic, since a visible, structural gap between the two curves is exactly what the test statistic below
-  is built to detect.
+  Before computing any test statistic, plot the two estimates against each other. They track the same
+  diffusion coefficient, just from different data, so any real structural gap between them is exactly what the
+  test is built to pick up later. The two figures below run this on two simulated bivariate trajectories:
+  a stationary Ornstein&ndash;Uhlenbeck process, and a time-inhomogeneous diffusion where the true volatility
+  drifts over time.
 </p>
 <img src="{{ '/images/stationarity/volatility_stationary.png' | relative_url }}" alt="State-domain versus time-domain volatility estimate, one panel per process component, for a simulated stationary bivariate Ornstein-Uhlenbeck process" class="entry-figure">
-<p class="form-hint">Stationary bivariate OU process, \(T=150\), \(n=3000\), one panel per component. The two estimators track each other closely throughout, exactly what the null hypothesis predicts.</p>
+<p class="form-hint">Stationary bivariate OU process, \(T=150\), \(n=3000\), one panel per component. The two estimators track each other closely throughout. Exactly what the null hypothesis predicts.</p>
 <img src="{{ '/images/stationarity/volatility_nonstationary.png' | relative_url }}" alt="State-domain versus time-domain volatility estimate, one panel per process component, for a simulated time-inhomogeneous bivariate diffusion" class="entry-figure">
-<p class="form-hint">Time-inhomogeneous bivariate diffusion with the same \(T\) and \(n\). The state-domain smoother, which pools observations across the whole trajectory, overshoots the time-domain smoother whenever the true diffusion coefficient is moving, since it is implicitly averaging over states visited at very different points in time.</p>
+<p class="form-hint">Time-inhomogeneous bivariate diffusion, same \(T\) and \(n\). The state-domain smoother pools observations across the whole trajectory, so it overshoots the time-domain smoother whenever the true diffusion coefficient is moving.</p>
+
+<h4 id="step-4-statistic">Step 4. Reduce to one test statistic</h4>
 <p>
-  <strong>Critical value generation.</strong> <code>transform_1D_gauss</code> reduces the sequence of
-  standardised differences to a single scalar running maximum and compares it against the analytic
-  Pickands&ndash;Berman Gumbel bound, rejecting stationarity if the observed running maximum exceeds the
-  corresponding critical value. Critical values are obtained analytically rather than by bootstrap or
-  multiplier resampling, which keeps the test cheap to run repeatedly in a simulation study, at the cost of
-  relying on the asymptotic extreme-value approximation holding well enough in the sample size at hand.
+  <code>gauss</code> leaves you with a sequence of standardised differences, one per observed time point, not
+  a single number. <code>transform_1D_gauss</code> is the last step: it collapses that sequence into a scalar
+  running maximum and pairs it with the analytic Pickands&ndash;Berman Gumbel bound at a given confidence
+  level. If the running maximum crosses the bound, the test rejects stationarity. No simulation or bootstrap is
+  needed for the critical value, it comes out of the extreme-value theory directly.
 </p>
 <pre class="code-block" data-lang="python"><code>def transform_1D_gauss(self, alpha: float = 0.95) -> tuple:
     """Reduce the Gaussian process to a scalar running maximum and its
@@ -231,53 +233,58 @@ test.gauss()                             # standardised difference, stored in te
     bound = [np.nan] + [(x / a_n[i]) + b_n[i] for i in range(1, n)]
     scalar_gauss = [float(np.sum(g) / np.sqrt(3)) for g in self.gaussian]
     return bound, scalar_gauss</code></pre>
+<p>
+  Calling it and checking the result is one line each.
+</p>
 <pre class="code-block" data-lang="python"><code>bound, z = test.transform_1D_gauss(alpha=0.95)
 rejects = running_maximum(z)[-1] > bound[-1]</code></pre>
 <p>
-  Running this on the same two simulated trajectories shows the test doing exactly what it is supposed to.
-  On the stationary process the running maximum settles well below the critical bound and stays there; on the
-  time-inhomogeneous process it blows straight through it within the first few hundred observations and never
-  comes back down, since the standardised difference between the two estimators diverges rather than
-  stabilising once the true diffusion coefficient starts moving.
+  Here is that check on the same two trajectories from step 3. On the stationary process, the running maximum
+  settles below the critical bound early and stays there. On the time-inhomogeneous process, it crosses the
+  bound within the first few hundred observations and keeps climbing, since the standardised difference
+  between the two estimators never stabilises once the true diffusion coefficient starts moving.
 </p>
 <img src="{{ '/images/stationarity/running_max_stationary.png' | relative_url }}" alt="Running maximum test statistic for the stationary Ornstein-Uhlenbeck process, staying below the Gumbel critical bounds at every confidence level" class="entry-figure">
-<p class="form-hint">The standardised Gaussian process \(Z_t\) (grey), its empirical running maximum \(\phi_j\) (red), and the Pickands&ndash;Berman critical bound at four confidence levels. The running maximum never exceeds even the loosest (50%) bound, so the test fails to reject stationarity.</p>
+<p class="form-hint">The standardised Gaussian process \(Z_t\) (grey), its empirical running maximum \(\phi_j\) (red), and the Pickands&ndash;Berman critical bound at four confidence levels. The running maximum never crosses even the loosest (50%) bound, so the test fails to reject stationarity.</p>
 <img src="{{ '/images/stationarity/running_max_nonstationary.png' | relative_url }}" alt="Running maximum test statistic for the nonstationary time-inhomogeneous diffusion, sharply exceeding all Gumbel critical bounds" class="entry-figure">
-<p class="form-hint">The same construction on the time-inhomogeneous diffusion. The running maximum clears every critical bound within the first few hundred observations and never returns, a clear rejection of stationarity.</p>
+<p class="form-hint">Same construction on the time-inhomogeneous diffusion. The running maximum clears every bound within the first few hundred observations and never comes back. A clear rejection of stationarity.</p>
+
+<h4 id="design-notes">Why the code is split this way</h4>
 <p>
-  Each helper function was factored out for a specific reason. <code>time_domain_smoother</code> and
-  <code>state_domain_smoother</code> are kept as separate methods rather than one combined estimator because
-  they are estimated from different amounts of data and at different rates, and keeping them separate makes it
-  possible to swap in alternative smoothers without touching the rest of the pipeline. <code>gauss</code> is
-  isolated because it is the one step that performs a numerically fragile matrix inversion, so isolating it
-  makes the failure mode easy to catch and reason about. <code>transform_1D_gauss</code> is kept separate from
-  <code>gauss</code> because the running-maximum reduction and the choice of confidence level are a modelling
-  decision distinct from the estimation of the standardised difference itself. <code>Simulator</code> drives
-  Monte Carlo replication and auto-selects bandwidths so repeated simulation studies do not need manual
-  bandwidth tuning for every replication. <code>TestPlotter</code> subclasses <code>KernelTest</code> to add
-  plotting methods, so the diagnostic plots always stay in sync with whatever configuration produced the
-  underlying test object. Numerical safety nets are used throughout, matrix inversions that can fail are
-  wrapped to return <code>NaN</code> rather than raise, and a caching decorator gracefully falls back when
-  passed unhashable arguments like DataFrames.
+  Each piece was pulled apart for a reason. <code>time_domain_smoother</code> and
+  <code>state_domain_smoother</code> stay separate methods, not one combined estimator, because they use
+  different amounts of data at different rates. Keeping them apart also makes it easy to swap in a different
+  smoother later, without touching the rest of the pipeline. <code>gauss</code> is its own method because it
+  is the one step doing a numerically fragile matrix inversion, so isolating it makes that failure mode easy to
+  spot. <code>transform_1D_gauss</code> is kept separate from <code>gauss</code> because picking a confidence
+  level and reducing to a running maximum is a modelling choice, distinct from estimating the standardised
+  difference itself. <code>Simulator</code> drives Monte Carlo replication and picks bandwidths automatically,
+  so a simulation study doesn't need manual tuning for every run. <code>TestPlotter</code> subclasses
+  <code>KernelTest</code> to add the plotting methods used for the figures above, so a plot always reflects
+  whatever configuration produced the underlying test object. Numerical safety nets run throughout: fragile
+  matrix inversions return <code>NaN</code> instead of raising, and a caching decorator falls back gracefully
+  when it's handed something unhashable, like a DataFrame.
 </p>
 
-<h2 id="testing">Testing &amp; Validation</h2>
+<h2 id="testing">Testing and validation</h2>
 <p>
   <code>tests/test_processes.py</code> and <code>tests/test_kernel_test.py</code> are smoke tests. They check
-  that simulated paths are finite and correctly shaped, and that the full pipeline runs end to end and returns
-  a finite bound, they don't assert anything about actual rejection rates. <code>simulations/</code> holds
-  precomputed CSVs of Gaussian-process paths under the null for two sample sizes, feeding a batch
-  rejection-rate study of the running-maximum test itself. In the thesis's own simulation study, the test
-  converges close to its nominal 5% rejection rate on a stationary bivariate Ornstein&ndash;Uhlenbeck process
-  as the sample grows, is quick to reject a nonstationary planar Brownian motion, and, on a time-inhomogeneous
-  bivariate diffusion, correctly identifies nonstationarity while illustrating a genuine limitation of the
-  fixed-\(\Delta_n\) design. Power falls as \(T\) grows with the sampling interval held fixed, because the
-  process locally comes to resemble a stationary Ornstein&ndash;Uhlenbeck process at any fixed timescale,
-  exactly the caveat from the Test Definition section above about the running-maximum approximation needing a
-  sample large enough for the extreme-value asymptotics to bite.
+  that simulated paths are finite and correctly shaped, and that the pipeline runs end to end and returns a
+  finite bound. They don't check actual rejection rates. <code>simulations/</code> holds precomputed CSVs of
+  Gaussian-process paths under the null, at two sample sizes, used for a batch rejection-rate study of the
+  test itself.
+</p>
+<p>
+  In the thesis's own simulation study, the test lands close to its nominal 5% rejection rate on a stationary
+  bivariate Ornstein&ndash;Uhlenbeck process as the sample grows. It rejects a nonstationary planar Brownian
+  motion quickly. On a time-inhomogeneous bivariate diffusion, it correctly flags nonstationarity, but with a
+  real limitation: power falls as \(T\) grows while the sampling interval \(\Delta_n\) is held fixed. That
+  happens because the process, viewed at any single fixed timescale, starts to look like a stationary
+  Ornstein&ndash;Uhlenbeck process locally. It's the same caveat from the theory section above: the
+  running-maximum approximation needs a big enough sample for the extreme-value asymptotics to actually hold.
 </p>
 
-<h2 id="repository-structure">Repository Structure</h2>
+<h2 id="repository-structure">Repository structure</h2>
 <pre class="code-block" data-lang="txt"><code>src/mht/
     testing/
         kernel_test.py        # KernelTest, Simulator, TestPlotter
