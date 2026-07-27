@@ -1273,6 +1273,53 @@ a:hover { color: var(--blue-300); }
   .article-grid { grid-template-columns: 1fr; gap: 14px; }
 }
 
+/* Page break between project sections: a thin rule with a small mono
+   eyebrow label, matching the .hero-eyebrow / .tagline vocabulary used
+   elsewhere so a new section reads as a distinct group, not a new page. */
+.section-break {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 44px 0 24px;
+}
+
+.section-break::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.section-break-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.section-heading {
+  margin-bottom: 24px;
+}
+
+.section-heading h2 {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+
+.article-grid-empty {
+  border: 1px dashed var(--line);
+  border-radius: 3px;
+  padding: 32px 20px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
 /* Events timeline: a vertical thread of dated entries, deliberately a
    different shape from the Blogposts card grid above it on the same page,
    since these are read as a chronological record rather than browsed as

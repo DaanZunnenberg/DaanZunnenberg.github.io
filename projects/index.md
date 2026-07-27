@@ -16,6 +16,15 @@ permalink: /projects/
 
 <p class="tagline">Open any project for the full theory, code, and results behind it.</p>
 
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;01</span>
+</div>
+
+<div class="section-heading">
+  <h2>Research Libraries</h2>
+  <p class="tagline">Larger, ongoing bodies of work &mdash; each one a package spanning theory, estimation, and reusable code.</p>
+</div>
+
 <div class="article-grid">
   <a class="article-card" href="{{ '/projects/functional-volatility-surface-modelling/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
@@ -50,6 +59,19 @@ permalink: /projects/
     </span>
   </a>
 
+</div>
+
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;02</span>
+</div>
+
+<div class="section-heading">
+  <h2>Tools &amp; Utilities</h2>
+  <p class="tagline">Smaller, single-purpose builds &mdash; each one focused on doing one specific job well.</p>
+</div>
+
+<div class="article-grid-empty">
+  Nothing published here yet &mdash; check back soon.
 </div>
 
 <p>More on <a href="https://github.com/DaanZunnenberg" target="_blank" rel="noopener noreferrer">GitHub</a>. Work history, education, and skills are on the <a href="{{ '/resume/' | relative_url }}">Resume</a> page.</p>
