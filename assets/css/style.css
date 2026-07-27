@@ -1303,14 +1303,30 @@ a:hover { color: var(--blue-300); }
   .section-break { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; }
 }
 
-/* Resume's h2s sit in the narrower resume-main column rather than a
-   full-bleed page section, so the full-bleed negative margins above
-   would blow out into the aside column. Keep the same dark-blue treatment,
-   just contained to the column instead. */
+/* Resume's h2s sit in the narrower resume-main grid column, so the
+   full-bleed negative margins above would only bleed to the edge of that
+   column, not the page. Keep the label/heading text aligned with the
+   column, but paint the dark-blue band itself on a full-viewport-width
+   pseudo-element so it runs edge to edge, passing behind the sticky
+   "At a Glance" sidebar (its glass background still shows through). */
 .resume-main .section-break {
+  position: relative;
+  z-index: 0;
   margin: 40px 0 24px;
   padding: 18px 24px;
-  border-radius: 4px;
+  background: none;
+}
+
+.resume-main .section-break::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: var(--blue-950);
 }
 
 .section-break-label {
