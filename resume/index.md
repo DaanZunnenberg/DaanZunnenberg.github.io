@@ -22,7 +22,11 @@ permalink: /resume/
 <div class="resume-layout">
 <div class="resume-main">
 
-<h2 id="work-experience">Work Experience</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;01</span>
+  <h2 id="work-experience">Work Experience</h2>
+  <p>Roles in algorithmic market-making, execution, and quantitative research.</p>
+</div>
 
 <div class="entry" id="experience-quantfi-quantitative-developer">
   <div class="entry-head">
@@ -64,7 +68,11 @@ permalink: /resume/
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code> &middot; <a href="{{ '/projects/functional-scale-estimation/' | relative_url }}">Full writeup &rarr;</a></div>
 </div>
 
-<h2 id="education">Education</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;02</span>
+  <h2 id="education">Education</h2>
+  <p>PhD, Master's, and Bachelor's, from applied mathematics to probability theory.</p>
+</div>
 
 <div class="entry">
   <div class="entry-head">
@@ -103,7 +111,11 @@ permalink: /resume/
   </ul>
 </div>
 
-<h2 id="projects">Projects</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;03</span>
+  <h2 id="projects">Projects</h2>
+  <p>Selected work; full theory and code are on the Projects page.</p>
+</div>
 
 <div class="entry">
   <div class="entry-head">
