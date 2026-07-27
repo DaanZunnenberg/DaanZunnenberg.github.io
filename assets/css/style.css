@@ -1590,10 +1590,10 @@ a:hover { color: var(--blue-300); }
   color: var(--ink-faint);
 }
 
-/* Sub-headings inside the merged Experience/Education/Projects card. First
-   one sits directly under the card's own h3 (no extra gap or rule above
-   it); the rest get a rule plus breathing room, marking the boundary
-   between groups while staying inside the one card. */
+/* Sub-headings inside the Skills card. First one sits directly under the
+   card's own h3 (no extra gap or rule above it); the rest get a rule plus
+   breathing room, marking the boundary between groups while staying
+   inside the one card. */
 .resume-glance-group {
   font-family: var(--mono);
   font-size: 11px;
@@ -1611,41 +1611,25 @@ a:hover { color: var(--blue-300); }
   border-top: none;
 }
 
-/* At-a-glance Experience/Education/Projects lists: title wraps freely but
-   the date always sits flush right on its own baseline, so dates line up
-   at the same right edge across every card regardless of title length. */
-
-.resume-glance {
+/* Skills card: a wrapping row of compact tag chips per group, rather than
+   a list, since skills read as a set rather than a sequence. */
+.resume-skills {
   margin: 0;
   padding: 0;
   list-style: none;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.resume-glance li {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 4px 12px;
   flex-wrap: wrap;
-  font-size: 13px;
-  line-height: 1.4;
+  gap: 6px 8px;
 }
 
-.resume-glance-title {
-  color: var(--ink-soft);
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.resume-glance-date {
+.resume-skills li {
   font-family: var(--mono);
-  font-size: 11.5px;
-  color: var(--ink-faint);
-  white-space: nowrap;
-  margin-left: auto;
+  font-size: 12px;
+  color: var(--ink-soft);
+  background: var(--bg-1);
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+  padding: 3px 8px;
 }
 
 @media (max-width: 860px) {

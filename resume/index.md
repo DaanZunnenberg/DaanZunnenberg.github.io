@@ -141,6 +141,66 @@ permalink: /resume/
   <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
 </div>
 
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;04</span>
+  <h2 id="publications">Publications</h2>
+  <p>Full list, including forthcoming and in-preparation work, is on <a href="{{ '/academic/research/' | relative_url }}">Research &amp; Publications</a>.</p>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>The Tukey depth under dependence</h3>
+    <span class="entry-date">2026 &middot; forthcoming</span>
+  </div>
+  <div class="entry-org">Zunnenberg, D. &amp; D&uuml;rre, A. &middot; <em>Bernoulli</em></div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>Absolute regularity and maximal moment inequalities</h3>
+    <span class="entry-date">2026 &middot; in preparation</span>
+  </div>
+  <div class="entry-org">Zunnenberg, D. &amp; D&uuml;rre, A. &middot; Unpublished manuscript</div>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>Functional location-scale models with robust observation-driven dynamics</h3>
+    <span class="entry-date">2025</span>
+  </div>
+  <div class="entry-org">Lin, Y. &amp; Lucas, A. &middot; Tinbergen Institute Discussion Paper</div>
+  <div class="tags">Research assistantship contribution</div>
+</div>
+
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;05</span>
+  <h2 id="leadership-and-activities">Leadership and Activities</h2>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>Mathematical Institute, Leiden University &middot; Board Member, Institute Council</h3>
+    <span class="entry-date">September 2024 &ndash; August 2025</span>
+  </div>
+  <div class="entry-org">Leiden, Netherlands</div>
+  <ul>
+    <li>Represented the interests, opinions, and concerns of the PhD candidates.</li>
+    <li>Contributed to improvements in budgeting, strategic planning, and day-to-day matters.</li>
+  </ul>
+</div>
+
+<div class="entry">
+  <div class="entry-head">
+    <h3>Department of Econometrics and Data Science, VU Amsterdam &middot; Student Ambassador</h3>
+    <span class="entry-date">October 2023 &ndash; April 2024</span>
+  </div>
+  <div class="entry-org">Amsterdam, Netherlands</div>
+  <ul>
+    <li>Participated in live Q&amp;A sessions and (virtual) educational fairs.</li>
+    <li>Assisted prospective students by answering questions on the online chat platform.</li>
+  </ul>
+</div>
+
 </div>
 
 <div class="resume-aside">
@@ -152,24 +212,26 @@ permalink: /resume/
       <li><span>Focus</span><span>Probability &amp; quant finance</span></li>
     </ul>
   </div>
-  <div class="resume-aside-card" id="glance-timeline">
-    <h3>Experience, Education &amp; Projects</h3>
-    <h4 class="resume-glance-group">Experience</h4>
-    <ul class="resume-glance">
-      <li><span class="resume-glance-title">QuantFi &middot; Quantitative Developer</span><span class="resume-glance-date">Mar 2023 &ndash; Aug 2024</span></li>
-      <li><span class="resume-glance-title">QuantFi &middot; Operational Trader</span><span class="resume-glance-date">Oct 2022 &ndash; Mar 2023</span></li>
-      <li><span class="resume-glance-title">VU Econometrics &amp; Data Science &middot; Research Assistant</span><span class="resume-glance-date">Jan 2024 &ndash; Jun 2024</span></li>
+  <div class="resume-aside-card">
+    <h3>Skills</h3>
+    <h4 class="resume-glance-group">Programming &amp; Tools</h4>
+    <ul class="resume-skills">
+      <li>Python</li>
+      <li>numba</li>
+      <li>asyncio</li>
+      <li>ccxt</li>
+      <li>NumPy &amp; SciPy</li>
+      <li>SAS</li>
+      <li>Bash</li>
+      <li>Tardis.dev</li>
     </ul>
-    <h4 class="resume-glance-group">Education</h4>
-    <ul class="resume-glance">
-      <li><span class="resume-glance-title">Leiden University &middot; PhD, Mathematics</span><span class="resume-glance-date">Exp. Sep 2028</span></li>
-      <li><span class="resume-glance-title">Vrije Universiteit Amsterdam &middot; MSc, Econometrics &amp; OR</span><span class="resume-glance-date">Aug 2024</span></li>
-      <li><span class="resume-glance-title">Amsterdam University of Applied Sciences &middot; BSc, Applied Mathematics</span><span class="resume-glance-date">Aug 2022</span></li>
-    </ul>
-    <h4 class="resume-glance-group">Projects</h4>
-    <ul class="resume-glance">
-      <li><span class="resume-glance-title">Functional Volatility Surface Modelling</span><span class="resume-glance-date">Sep 2024 &ndash; present</span></li>
-      <li><span class="resume-glance-title">HRP Portfolio Allocation &middot; Coinmerce Capital</span><span class="resume-glance-date">Oct 2023 &ndash; Aug 2024</span></li>
+    <h4 class="resume-glance-group">Mathematics &amp; Statistics</h4>
+    <ul class="resume-skills">
+      <li>Stochastic processes</li>
+      <li>Empirical process theory</li>
+      <li>Generic chaining</li>
+      <li>Time series &amp; volatility modelling</li>
+      <li>Statistical estimation</li>
     </ul>
   </div>
 </div>
