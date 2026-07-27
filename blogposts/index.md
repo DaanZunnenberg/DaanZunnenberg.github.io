@@ -41,6 +41,7 @@ body_class: blogposts-index
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
+      <span class="article-card-date">March 11, 2026</span>
       <span class="article-card-title">The Mathematics of Market Liquidity</span>
       <span class="article-card-desc">Market making is a solved problem. That does not mean you can win at it. &middot; with Nicos Starreveld</span>
     </span>
@@ -52,6 +53,7 @@ body_class: blogposts-index
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
+      <span class="article-card-date">February 23, 2023</span>
       <span class="article-card-title">Sieve-M Estimation for Conditional Heteroskedasticity</span>
       <span class="article-card-desc">Letting a GARCH model learn its own news-impact curve</span>
     </span>
@@ -63,6 +65,7 @@ body_class: blogposts-index
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-mathematical">Mathematical</span></span>
+      <span class="article-card-date">July 27, 2026</span>
       <span class="article-card-title">Dudley Integrals and the Majorizing Measure Theorem</span>
       <span class="article-card-desc">Why covering numbers aren't always enough, and Talagrand's sharp fix for Gaussian processes</span>
     </span>
