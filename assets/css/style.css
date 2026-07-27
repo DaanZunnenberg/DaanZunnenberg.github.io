@@ -1678,6 +1678,7 @@ a:hover { color: var(--blue-300); }
 /* Definition / theorem / proposition environments inside a .readme panel,
    styled like a typeset LaTeX theorem block rather than a boxed callout. */
 .math-env {
+  max-width: 700px;
   margin: 14px 0;
   padding: 10px 14px;
   border-left: 3px solid var(--blue-400);
