@@ -1327,6 +1327,69 @@ a:hover { color: var(--blue-300); }
   color: var(--ink-faint);
 }
 
+/* Blogpost topic filter: a row of pill toggles above the article grid.
+   Only "All" is ever active at once (single-select), so this is a plain
+   radio-like button group rather than a multi-select checkbox pattern. */
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 20px;
+}
+
+.tag-filter-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 7px 15px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-raised);
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tag-filter-btn:hover { border-color: var(--blue-600); color: var(--ink); }
+
+.tag-filter-btn.is-active {
+  background: var(--blue-950);
+  border-color: var(--blue-950);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.tag-filter-btn-finance.is-active { background: var(--up); border-color: var(--up); }
+.tag-filter-btn-opinion.is-active { background: var(--metal-gold); border-color: var(--metal-gold); }
+
+/* Per-card topic chips, and the shared .tag look they're built from
+   (also usable stand-alone wherever a small topic label is needed). */
+.article-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.tag-finance { background: rgba(31, 122, 92, 0.1); color: var(--up); border-color: rgba(31, 122, 92, 0.32); }
+.tag-mathematical { background: rgba(28, 41, 71, 0.08); color: var(--blue-600); border-color: rgba(28, 41, 71, 0.28); }
+.tag-opinion { background: rgba(183, 160, 102, 0.16); color: #8a7233; border-color: rgba(183, 160, 102, 0.4); }
+
+.article-card[hidden] { display: none; }
+
 /* Events timeline: a vertical thread of dated entries, deliberately a
    different shape from the Blogposts card grid above it on the same page,
    since these are read as a chronological record rather than browsed as

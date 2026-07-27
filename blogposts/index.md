@@ -27,37 +27,49 @@ body_class: blogposts-index
   <p>Occasional writing on markets, mathematics, and the overlap between them.</p>
 </div>
 
-<div class="article-grid">
-  <a class="article-card" href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">
+<div class="tag-filter" role="group" aria-label="Filter blogposts by topic">
+  <button type="button" class="tag-filter-btn is-active" data-tag="all" aria-pressed="true">All</button>
+  <button type="button" class="tag-filter-btn tag-filter-btn-finance" data-tag="finance" aria-pressed="false">Finance</button>
+  <button type="button" class="tag-filter-btn tag-filter-btn-mathematical" data-tag="mathematical" aria-pressed="false">Mathematical</button>
+  <button type="button" class="tag-filter-btn tag-filter-btn-opinion" data-tag="opinion" aria-pressed="false">Opinion</button>
+</div>
+
+<div class="article-grid" data-filterable>
+  <a class="article-card" data-tags="mathematical" href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <img src="{{ '/images/chalk.png' | relative_url }}" alt="">
     </span>
     <span class="article-card-body">
+      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-mathematical">Mathematical</span></span>
       <span class="article-card-title">Dudley Integrals and the Majorizing Measure Theorem</span>
       <span class="article-card-desc">Why covering numbers aren't always enough, and Talagrand's sharp fix for Gaussian processes</span>
     </span>
   </a>
 
-  <a class="article-card" href="{{ '/blogposts/the-mathematics-of-market-liquidity/' | relative_url }}">
+  <a class="article-card" data-tags="finance mathematical" href="{{ '/blogposts/the-mathematics-of-market-liquidity/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <img src="{{ '/images/chart_image.jpg' | relative_url }}" alt="">
     </span>
     <span class="article-card-body">
+      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
       <span class="article-card-title">The Mathematics of Market Liquidity</span>
       <span class="article-card-desc">Market making is a solved problem. That does not mean you can win at it. &middot; with Nicos Starreveld</span>
     </span>
   </a>
 
-  <a class="article-card" href="{{ '/blogposts/sieve-estimation-of-volatility/' | relative_url }}">
+  <a class="article-card" data-tags="finance mathematical" href="{{ '/blogposts/sieve-estimation-of-volatility/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <img src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
     </span>
     <span class="article-card-body">
+      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
       <span class="article-card-title">Sieve-M Estimation for Conditional Heteroskedasticity</span>
       <span class="article-card-desc">Letting a GARCH model learn its own news-impact curve</span>
     </span>
   </a>
 </div>
+
+<p class="article-grid-empty" data-filter-empty hidden>No blogposts tagged with this topic yet &mdash; check back soon, or pick another filter above.</p>
 
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;02</span>
