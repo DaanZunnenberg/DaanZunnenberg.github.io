@@ -105,10 +105,17 @@ permalink: /projects/functional-volatility-surface-modelling/
   <li><code>scripts/taq_cleaner.py</code> &mdash; reshapes raw WRDS TAQ CSV exports into the <code>(n_grid, n_days)</code> matrix the core package expects.</li>
 </ul>
 <p>
+  The worked example runs in four steps: simulate a surface with a known shape, run the score-driven filter
+  over it, fit the model to recover its parameters, then check the fit. The walkthrough below follows that
+  order.
+</p>
+
+<h4 id="step-1-simulate">Step 1. Simulate a surface with a known shape</h4>
+<p>
   <code>simulate_vol_surface</code> builds the test bed. It generates a known, time-varying intraday volatility
   surface with a U-shaped profile whose trough drifts sinusoidally across the sample, then draws Gaussian
-  returns scaled by its square root, so the true surface is known exactly and can be compared against whatever
-  the estimator recovers.
+  returns scaled by its square root. Since the true surface is known exactly, whatever the estimator recovers
+  in step 3 can be checked directly against it.
 </p>
 <pre class="code-block" data-lang="python"><code>def simulate_vol_surface(n: int, T: int, seed: int = 0) -> tuple[np.ndarray, np.ndarray]:
     rng = np.random.default_rng(seed)
@@ -123,11 +130,13 @@ permalink: /projects/functional-volatility-surface-modelling/
         )
     mY = np.sqrt(sigma2) * rng.standard_normal((n, T))
     return mY, sigma2</code></pre>
+
+<h4 id="step-2-filter">Step 2. Run the score-driven filter</h4>
 <p>
-  <code>_gas_filter</code> is where the score-driven update is actually coded. At each day it computes the
+  <code>_gas_filter</code> is where the score-driven update actually happens. At each day it computes the
   current log-volatility curve from the B-spline coefficients, standardises the previous day's return against
   it and the OU covariance kernel to get the Student-\(t\) quadratic form, projects the resulting error term
-  back onto the B-spline basis to get the score, and then advances the coefficient vector by the diagonal GAS
+  back onto the B-spline basis to get the score, then advances the coefficient vector by the diagonal GAS
   recursion \(b_t = \omega + b*b_{t-1} + a*s_{t-1}\), where \(*\) is element-wise multiplication.
 </p>
 <pre class="code-block" data-lang="python"><code>for t in range(1, T):
@@ -155,14 +164,15 @@ permalink: /projects/functional-volatility-surface-modelling/
     vb_now = omega + vb * vb_now + va * score
     vy_now = mY[:, t].reshape(n, 1)</code></pre>
 <p>
-  <code>cov_inv</code> is the inverse of the \(N\times N\) Ornstein&ndash;Uhlenbeck kernel matrix, computed
-  once per optimizer step rather than once per day, since it does not depend on \(t\). This matters over a
-  sample of hundreds or thousands of trading days. Without hoisting the inversion out of the day loop, a
-  single SLSQP call would need to invert an \(N\times N\) matrix on every day, for every function evaluation
-  the optimizer needs. <code>A1</code> is the Student-\(t\) quadratic form that sits in the denominator of the
-  score gain, so a day with a large standardised residual automatically produces a smaller score update. That
-  is the outlier-robustness mechanism the theory predicts.
+  Two details are worth knowing. <code>cov_inv</code> is the inverse of the \(N\times N\) Ornstein&ndash;Uhlenbeck
+  kernel matrix. It's computed once per optimizer step, not once per day, since it doesn't depend on \(t\).
+  Without hoisting it out of the loop, a single SLSQP call would invert an \(N\times N\) matrix on every day,
+  for every function evaluation. <code>A1</code> is the Student-\(t\) quadratic form sitting in the denominator
+  of the score gain, so a day with a large standardised residual automatically produces a smaller score
+  update. That's the outlier-robustness mechanism the theory predicts.
 </p>
+
+<h4 id="step-3-fit">Step 3. Fit the model</h4>
 <p>
   <code>fit_gas</code> wraps the filter in a <code>scipy.optimize.minimize</code> call. The parameter vector is
   laid out as <code>[nu, delta, omega (M) | b (M) | a (M)]</code>, length \(2+3M\), with box bounds keeping
@@ -196,18 +206,20 @@ permalink: /projects/functional-volatility-surface-modelling/
     _, log_sigma2_hat = _gas_filter(mY, vb0, dK, basis_mat, opt.x)
     return opt.x, np.exp(log_sigma2_hat / 2), basis_mat</code></pre>
 <p>
-  Running the worked example end to end is three calls: simulate a surface, fit the diagonal GAS model against
-  it, and score the fit.
+  Running steps 1 to 3 end to end is three calls: simulate a surface, fit the diagonal GAS model against it,
+  then score the fit.
 </p>
 <pre class="code-block" data-lang="python"><code>mY, sigma2_true = simulate_vol_surface(n=25, T=500, seed=42)
 vtheta_hat, sigma_hat, basis_mat = fit_gas(mY)
 
 nu_hat, delta_hat = vtheta_hat[0], vtheta_hat[1]
 metrics = goodness_of_fit(mY, sigma_hat, sigma2_true, nu_hat)</code></pre>
+
+<h4 id="step-4-check">Step 4. Check the fit</h4>
 <p>
-  <code>goodness_of_fit</code> is the direct empirical check of the theory above. Under correct specification
-  the standardised residuals \(z_t(u) = y_t(u)/\hat\sigma_t(u)\) should behave like draws from a Student-\(t(
-  \hat\nu)\) distribution, so alongside RMSE, MAE, Pearson correlation and \(R^2\) between the fitted and true
+  <code>goodness_of_fit</code> is the direct empirical check of the theory above. Under correct specification,
+  the standardised residuals \(z_t(u) = y_t(u)/\hat\sigma_t(u)\) should look like draws from a Student-\(t(
+  \hat\nu)\) distribution. Alongside RMSE, MAE, Pearson correlation and \(R^2\) between the fitted and true
   volatility, it checks the second moment of \(z\) against its theoretical value \(\hat\nu/(\hat\nu-2)\) and
   runs a Kolmogorov&ndash;Smirnov test of \(z\) against \(t(\hat\nu)\).
 </p>
@@ -218,55 +230,53 @@ r2   = 1 - np.sum((sigma_hat - np.sqrt(sigma2_true)) ** 2) \
 
 resid_var = np.mean(z ** 2)                        # should be close to nu_hat / (nu_hat - 2)
 ks_stat, ks_pval = stats.kstest(z, stats.t(df=nu_hat).cdf)</code></pre>
-<p>
-  Vectorisation avoids Python-level loops over the intraday grid throughout both models. The functional GARCH
-  recursion in <code>garch.py</code> evaluates the Bernstein kernel matrices only once per optimizer step, then
-  reuses them for every day, and its basis-building functions are JIT-compiled with Numba, discussed in detail
-  on the previous page. The GAS filter above stays in plain NumPy instead, since its per-day cost is dominated
-  by matrix products against the \(N\times N\) covariance inverse, work BLAS already vectorises, and it needs
-  to remain an ordinary Python function that <code>scipy.optimize.minimize</code> can call directly with a
-  changing parameter vector on every evaluation.
-</p>
+<p class="form-hint">Vectorisation avoids Python-level loops over the intraday grid in both models. The functional GARCH recursion in <code>garch.py</code> evaluates its Bernstein kernel matrices once per optimizer step, and its basis-building functions are JIT-compiled with Numba, covered on the previous page. The GAS filter above stays in plain NumPy instead, since its per-day cost is dominated by matrix products against the \(N\times N\) covariance inverse, work BLAS already vectorises, and it needs to stay an ordinary Python function that <code>scipy.optimize.minimize</code> can call directly.</p>
 
 <h2 id="results">Results &amp; Interpretation</h2>
 <p>
-  Applying the framework to simulated intraday data with a functional GARCH(1,1) recursion and a
-  Bernstein-basis fit with <em>M</em> = 3 basis functions gives the fitted volatility surface shown below.
-  The estimation recovers the main structure of the true process, while the remaining day-to-day roughness
-  reflects finite-sample effects and the limited flexibility of the chosen basis.
+  Three figures below use the same simulated dataset from steps 1 to 3: a 25&times;500 intraday grid with a
+  known, time-varying U-shaped volatility surface. Each figure isolates one comparison, so start with the
+  plain functional GARCH fit on its own, before the GAS estimate joins it.
+</p>
+<p>
+  First, the Bernstein-basis functional GARCH(1,1) fit from the previous page, with \(M=3\) basis functions,
+  next to the true surface it's trying to recover.
 </p>
 <img src="{{ '/assets/img/garch_vol_surface.png' | relative_url }}" alt="True versus functional GARCH-estimated volatility surface, side by side" class="entry-figure">
 <p class="form-hint">Simulated 25-point intraday grid over 500 trading days. Estimated surface via <code>funcgarch.garch.fit</code> + <code>garch_filter</code>.</p>
 <p>
-  The main worked example simulates a 25&times;500 intraday volatility surface with a time-varying U-shape and
-  fits a diagonal GAS model with SLSQP, reporting RMSE, MAE, Pearson correlation, \(R^2\), the moments of the
-  standardized residuals against their theoretical Student-t values, and a Kolmogorov&ndash;Smirnov test. That
-  is a direct empirical check of the theoretical guarantee that the score-driven filter should recover
-  Student-\(t\) distributed standardised innovations under correct specification. Because the score-driven
-  update adapts its B-spline coefficients every day rather than fitting one static operator to the whole
-  sample, the GAS-GARCH fit tracks the true surface considerably more tightly than the plain functional GARCH
-  fit above.
+  It gets the main shape right. The day-to-day roughness left over comes from finite-sample noise and the
+  limited flexibility of a basis with only three functions, not from a mistake in the estimator.
+</p>
+<p>
+  Next, the same true surface against the diagonal GAS-GARCH fit from step 3 above, using the same simulated
+  data.
 </p>
 <img src="{{ '/assets/img/gas_vol_surface.png' | relative_url }}" alt="True versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
 <p class="form-hint">The GAS-GARCH volatility surface against the true surface, assessing recovery of the underlying dynamics.</p>
 <p>
-  Placing the two estimators' fitted surfaces directly next to each other, rather than each against the true
-  surface separately, makes the score-driven adaptation's smoothing effect easier to see.
+  The <code>goodness_of_fit</code> checks from step 4 back this up directly: the standardised residuals land
+  close to their theoretical Student-\(t\) moments, and the Kolmogorov&ndash;Smirnov test doesn't reject.
+  Because the score-driven update adapts its B-spline coefficients every day, instead of fitting one static
+  operator to the whole sample, this fit tracks the true surface more tightly than the plain GARCH fit above.
+</p>
+<p>
+  Finally, put the two fitted surfaces next to each other directly, instead of each against the truth
+  separately. This makes the score-driven adaptation's smoothing effect easier to see.
 </p>
 <img src="{{ '/assets/img/garch_vs_gas_vol_surface.png' | relative_url }}" alt="Functional GARCH-estimated versus GAS-GARCH-estimated volatility surface, side by side" class="entry-figure">
 <p class="form-hint">Functional GARCH versus GAS-GARCH, showing the increased flexibility of the score-driven specification.</p>
 <p>
-  This finite-sample pattern is exactly what the theory predicts. A static functional GARCH operator, however
-  well fit, is a single point in operator space and cannot track a surface whose shape itself evolves. A
-  score-driven update, by construction, adjusts its basis coefficients every day in the direction that locally
-  improves the fit to the latest observation, and the outlier-downweighting mechanism built into the Student-t
-  score keeps that adaptation from overreacting to any single noisy day. In Lin &amp; Lucas's own empirical
-  applications, intraday volatility of Pfizer stock during the COVID-19 pandemic and PM<sub>2.5</sub>
-  concentrations from sparse, noisy citizen-science sensors across Europe, the same robust score-driven
-  mechanism outperforms the non-robust functional GARCH benchmark specifically during periods of market or
-  measurement stress. That is the empirical signature of the theoretical robustness result, outlying
-  observations are downweighted in the parameter update rather than absorbed uncritically into the fitted
-  surface.
+  This is exactly what the theory predicts. A static functional GARCH operator, however well fit, is a single
+  point in operator space. It can't track a surface whose shape itself evolves. A score-driven update, by
+  construction, adjusts its basis coefficients every day in the direction that locally improves the fit to the
+  latest observation, and the outlier-downweighting mechanism built into the Student-\(t\) score keeps that
+  adaptation from overreacting to any single noisy day. In Lin &amp; Lucas's own empirical applications,
+  intraday volatility of Pfizer stock during the COVID-19 pandemic and PM<sub>2.5</sub> concentrations from
+  sparse, noisy citizen-science sensors across Europe, the same robust score-driven mechanism outperforms the
+  non-robust functional GARCH benchmark specifically during periods of market or measurement stress. That's
+  the empirical signature of the theoretical robustness result: outlying observations get downweighted in the
+  parameter update, rather than absorbed uncritically into the fitted surface.
 </p>
 
 <h2 id="data-flow">Data Flow</h2>

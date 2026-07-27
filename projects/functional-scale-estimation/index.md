@@ -119,24 +119,24 @@ permalink: /projects/functional-scale-estimation/
 
 <h2 id="code">Code Structure &amp; Walkthrough</h2>
 <p>
-  The package lives in <code>funcgarch/garch.py</code>, and this project is scoped to exactly that file, the
-  Bernstein-basis functional GARCH(1,1) model, its filter, and its estimator. Five pieces do the work.
-  <code>bernstein_basis</code> and <code>kernel_operator</code> build the basis and the operators from a
-  parameter vector, <code>_build_operators</code> unpacks a flat parameter vector into those operators once
-  per optimizer step, the day loop inside <code>garch_estimator</code>/<code>garch_filter</code> runs the
-  recursion, and <code>loss_func</code> scores each day's fit. The design question running through all five is
-  which of them are worth JIT-compiling with Numba, and which are better left as plain NumPy calling into BLAS.
+  The whole project lives in one file, <code>funcgarch/garch.py</code>: the Bernstein-basis functional
+  GARCH(1,1) model, its filter, and its estimator. Five pieces do the work, and they run in this order every
+  time you fit the model: build the basis functions, build the kernel operators from a parameter guess, run
+  the day loop, score each day's fit, then hand the whole thing to an optimizer. The walkthrough below follows
+  that order. At each step, the question is the same one: is this piece worth JIT-compiling with Numba, or is
+  it better left as plain NumPy calling into BLAS?
 </p>
+
+<h4 id="step-1-basis">Step 1. The Bernstein basis</h4>
 <p>
-  <code>bernstein_basis</code> is called \(O(M)\) times per grid point on every objective-function evaluation,
-  a scalar-heavy Python loop with no matrix algebra to hand off to BLAS, exactly the code shape Numba is built
-  for. It is decorated with <code>@jit(nopython=True)</code>, Numba's <code>nopython</code> mode, which compiles
-  the function to machine code with no fallback to the (slow) Python interpreter if compilation fails; this is
-  equivalent to the shorthand <code>@njit</code> used elsewhere in the package. Numba cannot call SciPy's
-  <code>comb</code>, since it only compiles a restricted subset of Python and NumPy, so the binomial coefficient
-  is hand-rolled from factorials instead, a small but deliberate trade for speed at the innermost loop of the
-  estimator. This is a direct implementation of \(\varphi_k^M(u) = \binom{M-1}{k-1}u^{k-1}(1-u)^{M-k}\) from
-  the theory above.
+  <code>bernstein_basis</code> computes \(\varphi_k^M(u) = \binom{M-1}{k-1}u^{k-1}(1-u)^{M-k}\), one Bernstein
+  polynomial from the theory above. It gets called \(O(M)\) times per grid point, on every single evaluation of
+  the objective function. That's a scalar-heavy Python loop with no matrix algebra to hand off to BLAS, exactly
+  the shape of code Numba is built for. It's decorated with <code>@jit(nopython=True)</code>, Numba's
+  <code>nopython</code> mode: compile to machine code, no fallback to the slow Python interpreter if
+  compilation fails. This is the same as the shorthand <code>@njit</code> used elsewhere in the package. One
+  catch: Numba can't call SciPy's <code>comb</code>, since it only compiles a restricted subset of Python and
+  NumPy. So the binomial coefficient is hand-rolled from factorials instead.
 </p>
 <pre class="code-block" data-lang="python"><code>@jit(nopython=True)
 def bernstein_basis(u: typing.Any, n_basis: int, k: int) -> float:
@@ -153,11 +153,11 @@ def bernstein_basis(u: typing.Any, n_basis: int, k: int) -> float:
     v = k - 1
     return comb(n_basis - 1, k - 1) * (u ** v) * (1 - u) ** (degree - v)</code></pre>
 <p>
-  <code>delta</code>, the level operator, is the same idea applied to a single sum rather than a double one. It
-  accumulates \(M\) Bernstein terms into an <code>init</code> array passed in by the caller, rather than
-  allocating a fresh array itself, since Numba's <code>nopython</code> mode is strict about array shapes and
-  this lets the same compiled function serve both a scalar evaluation and a vectorised one over the whole
-  intraday grid.
+  <code>delta</code>, the level operator, uses the same basis function to build \(\delta(u) = \sum_{k=1}^M c_k
+  \varphi_k^M(u)\), a single sum rather than a double one. It accumulates its \(M\) terms into an
+  <code>init</code> array passed in by the caller, instead of allocating a new array itself. Numba's
+  <code>nopython</code> mode is strict about array shapes, and this trick lets the same compiled function
+  handle a scalar evaluation and a vectorised one over the whole intraday grid.
 </p>
 <pre class="code-block" data-lang="python"><code>@njit
 def delta(coefs: np.ndarray, u: float, n_basis: int, init: float = 0.0) -> float:
@@ -166,13 +166,14 @@ def delta(coefs: np.ndarray, u: float, n_basis: int, init: float = 0.0) -> float
     for k, c in enumerate(coefs):
         acc = acc + c * bernstein_basis(u, n_basis, k + 1)
     return acc</code></pre>
+
+<h4 id="step-2-operators">Step 2. Building the kernel operators</h4>
 <p>
   <code>kernel_operator</code> builds the dense \(N\times N\) kernel matrix as a sum of \(M^2\) rank-one outer
-  products of Bernstein column vectors. This is exactly the double sum in the theoretical parametrisation of
-  \(\alpha_i,\beta_j\) above, materialised once per objective-function call rather than
-  once per day. It is also JIT-compiled, for the same reason as <code>bernstein_basis</code>, a nested Python
-  loop over \(k,j \in \{1,\dots,M\}\) that Numba turns into a tight compiled loop instead of paying interpreter
-  overhead \(M^2\) times per call.
+  products of Bernstein column vectors, the double sum behind \(\alpha_i,\beta_j\) in the theory above, now
+  written out on a grid. It's also JIT-compiled, for the same reason as <code>bernstein_basis</code>: a nested
+  Python loop over \(k,j \in \{1,\dots,M\}\), which Numba turns into a tight compiled loop instead of paying
+  interpreter overhead \(M^2\) times per call.
 </p>
 <pre class="code-block" data-lang="python"><code>@jit(nopython=True)
 def kernel_operator(
@@ -191,14 +192,13 @@ def kernel_operator(
             idx += 1
     return acc</code></pre>
 <p>
-  <code>_build_operators</code> is the boundary between the JIT-compiled basis code above and the plain-NumPy
-  day loop below. It slices a flat parameter vector into the delta, alpha and beta coefficient blocks, then
-  calls the (compiled) basis functions exactly once per optimizer step to materialise
-  <code>delta_hat</code>, <code>alpha_hat</code> and <code>beta_hat</code> as plain grid-space arrays. Every day
-  in the loop that follows reuses these same arrays rather than re-touching the basis functions, which is the
-  single biggest win in the whole pipeline. Rebuilding an \(N\times N\) kernel matrix is \(O(N^2 M^2)\) work;
-  paying that cost once per evaluation instead of once per day, over hundreds of trading days, is most of where
-  the speed comes from.
+  <code>_build_operators</code> ties the basis functions to a specific parameter guess. It slices a flat
+  parameter vector into the delta, alpha and beta coefficient blocks, then calls the compiled basis functions
+  exactly once to build <code>delta_hat</code>, <code>alpha_hat</code> and <code>beta_hat</code> as plain
+  grid-space arrays. This is the boundary between the JIT-compiled code above and the plain NumPy day loop
+  below. Every day in that loop reuses these same three arrays instead of touching the basis functions again.
+  Rebuilding an \(N\times N\) kernel matrix costs \(O(N^2 M^2)\). Paying that cost once per optimizer step,
+  instead of once per day, over hundreds of trading days, is the single biggest win in the whole pipeline.
 </p>
 <pre class="code-block" data-lang="python"><code>def _build_operators(
     params: np.ndarray,
@@ -215,17 +215,19 @@ def kernel_operator(
     alpha_hat = kernel_fn(grid, alpha_coefs, n_basis=n_basis, init=np.zeros((n_grid, n_grid))).T
     beta_hat  = kernel_fn(grid, beta_coefs,  n_basis=n_basis, init=np.zeros((n_grid, n_grid))).T
     return grid, delta_hat, alpha_hat, beta_hat</code></pre>
+
+<h4 id="step-3-recursion">Step 3. Running the day loop</h4>
 <p>
-  The day loop itself, inside <code>garch_estimator</code> and <code>garch_filter</code>, is the discretised
-  Riemann-sum version of \(\sigma_t^2 = \delta + \alpha(y_{t-1}^2) + \beta(\sigma_{t-1}^2)\), where each
-  integral becomes an elementwise-weighted matrix-vector product divided by the grid size. Deliberately, this
-  loop is <em>not</em> JIT-compiled. Its per-iteration cost is dominated by \(N\times N\) matrix-vector
-  products, work that NumPy already dispatches to BLAS, a hand-tuned, multi-threaded linear-algebra library
-  that Numba's own compiled code cannot beat. JIT-compiling a loop whose real cost lives inside a BLAS call
-  would add compilation overhead for no speed gain, and would also have to give up calling
-  <code>loss_fn</code> as an ordinary Python callable, since <code>garch_estimator</code> needs to accept
-  arbitrary Python functions for <code>delta_fn</code>, <code>kernel_fn</code> and <code>loss_fn</code> so that
-  the B-spline variant elsewhere in the package can reuse the same call signature.
+  With <code>delta_hat</code>, <code>alpha_hat</code> and <code>beta_hat</code> fixed, the recursion
+  \(\sigma_t^2 = \delta + \alpha(y_{t-1}^2) + \beta(\sigma_{t-1}^2)\) becomes a simple loop over trading days.
+  Each integral turns into an elementwise-weighted matrix-vector product, divided by the grid size. This loop
+  is, on purpose, <em>not</em> JIT-compiled. Its cost per iteration is dominated by \(N\times N\)
+  matrix-vector products, and NumPy already sends that work to BLAS, a hand-tuned, multi-threaded
+  linear-algebra library that Numba's own compiled code can't beat. Compiling a loop whose real cost sits
+  inside a BLAS call would add compile time for no speed gain. It would also stop the loop from calling
+  <code>loss_fn</code> as an ordinary Python function, and <code>garch_estimator</code> needs that flexibility,
+  since <code>delta_fn</code>, <code>kernel_fn</code> and <code>loss_fn</code> can all be swapped for a
+  different basis.
 </p>
 <pre class="code-block" data-lang="python"><code>for t in range(1, n_days):
     variance = (
@@ -234,14 +236,17 @@ def kernel_operator(
         +  (beta_hat  * variance)               @ np.ones(n_grid_obs)) / n_grid_obs
     )
     total_loss += loss_fn(returns[:, t], variance, n_basis, grid)</code></pre>
+
+<h4 id="step-4-loss">Step 4. Scoring each day's fit</h4>
 <p>
-  <code>loss_func</code> is a Bernstein-projected mean squared error between the squared returns and the
+  <code>loss_func</code> computes a Bernstein-projected mean squared error between the squared returns and the
   fitted variance, summed across the \(M\) basis functions,
-  \(L_t = \sum_{k=1}^M \frac1N\sum_i \bigl[(y_t^2(u_i)-\sigma_t^2(u_i))\varphi_k^M(u_i)\bigr]^2\). It is a
-  deliberately cheaper stand-in for the formal QMLE criterion above, trading some statistical efficiency for a
-  criterion that is fast to evaluate and easy to differentiate numerically. It is JIT-compiled too, since it
-  loops over the \(M\) basis functions on every single day, so it is called \(M\) times per day, times hundreds
-  of days, times thousands of optimizer evaluations.
+  \(L_t = \sum_{k=1}^M \frac1N\sum_i \bigl[(y_t^2(u_i)-\sigma_t^2(u_i))\varphi_k^M(u_i)\bigr]^2\). It's a
+  cheaper stand-in for the formal QMLE criterion from the theory section, trading some statistical efficiency
+  for something fast to evaluate and easy to differentiate numerically. This one is JIT-compiled too. It loops
+  over the \(M\) basis functions on every single day, so it runs \(M\) times a day, times hundreds of days,
+  times thousands of optimizer evaluations. That's where the interpreter overhead would add up fastest if left
+  uncompiled.
 </p>
 <pre class="code-block" data-lang="python"><code>@jit(nopython=True)
 def loss_func(
@@ -255,13 +260,15 @@ def loss_func(
         w = bernstein_basis(grid, n_basis, k)
         total += np.mean(((returns ** 2 - variance) * w) ** 2)
     return total</code></pre>
+
+<h4 id="step-5-fit">Step 5. Fitting the model</h4>
 <p>
-  <code>garch_estimator</code> wraps the day loop and is what gets handed to <code>scipy.optimize.minimize</code>.
-  <code>garch_filter</code> runs the identical recursion but returns the full <code>(n_grid, n_days)</code>
-  variance surface instead of a scalar loss, and is used once fitting is complete to recover the fitted
-  volatility surface for the whole sample. <code>fit</code> is the outermost layer, a thin wrapper around
-  <code>scipy.optimize.minimize</code> that closes over the data and hyperparameters so the optimizer only ever
-  sees a function of the parameter vector.
+  <code>garch_estimator</code> wraps the day loop above and returns a single scalar loss, the thing
+  <code>scipy.optimize.minimize</code> actually needs. <code>garch_filter</code> runs the identical recursion
+  but returns the full <code>(n_grid, n_days)</code> variance surface instead, and is used once fitting is
+  done, to recover the fitted volatility surface for the whole sample. <code>fit</code> sits on top of both: a
+  thin wrapper around <code>scipy.optimize.minimize</code> that closes over the data and hyperparameters, so
+  the optimizer only ever sees a function of the parameter vector.
 </p>
 <pre class="code-block" data-lang="python"><code>def fit(
     returns: np.ndarray,
@@ -288,8 +295,8 @@ def loss_func(
     return ResultContainer(**{k: opt[k] for k in opt.__dir__()})</code></pre>
 <p class="form-hint">Non-negative Bernstein coefficients guarantee a positive volatility surface directly, without constrained optimization over the full operator. <code>ResultContainer</code> is a small key-value wrapper that exposes every field of the underlying <code>scipy.optimize.OptimizeResult</code> as an attribute, so <code>result.x</code>, <code>result.fun</code> and <code>result.success</code> all work as expected.</p>
 <p>
-  Calling <code>fit</code> looks like an ordinary SciPy optimisation, because that is exactly what it is under
-  the JIT-compiled basis code. <code>x0</code> and <code>bounds</code> are laid out as
+  Putting it together, fitting the model and recovering the surface takes two calls. <code>x0</code> and
+  <code>bounds</code> are laid out as
   <code>[delta_coefs (n_basis) | alpha_coefs (n_basis&sup2;) | beta_coefs (n_basis&sup2;)]</code>, matching the
   slicing inside <code>_build_operators</code> above.
 </p>
@@ -309,28 +316,33 @@ sigma2_hat = garch_filter(
 
 <h2 id="results">Results &amp; Empirical Discussion</h2>
 <p>
-  Applying this framework to simulated intraday data generated from a known functional GARCH(1,1) recursion,
-  via <code>funcgarch.simulate.simulate</code>, which reuses the exact same Bernstein operator builders as the
-  estimator, and estimating with Bernstein-basis QMLE at <em>M</em>&nbsp;=&nbsp;3 basis functions, gives the
-  fitted volatility surface shown below. The estimation recovers the main structure of the true process, while
-  the remaining day-to-day roughness reflects finite-sample effects and the limited flexibility of the chosen
-  basis.
+  Running steps 1 to 5 on simulated intraday data, generated from a known functional GARCH(1,1) recursion via
+  <code>funcgarch.simulate.simulate</code> (which reuses the same Bernstein operator builders as the estimator
+  itself), gives the fitted volatility surface below, using <em>M</em>&nbsp;=&nbsp;3 basis functions.
 </p>
 <img src="{{ '/assets/img/garch_vol_surface.png' | relative_url }}" alt="True versus functional GARCH-estimated volatility surface, side by side" class="entry-figure">
 <p class="form-hint">Simulated 25-point intraday grid over 500 trading days. Estimated surface via <code>funcgarch.garch.fit</code> + <code>garch_filter</code>.</p>
 <p>
+  The estimation recovers the main structure of the true process. The remaining day-to-day roughness comes
+  from finite-sample effects and the limited flexibility of a basis with only three functions, not from a flaw
+  in the estimator.
+</p>
+<p>
   This mirrors the theoretical picture from the underlying paper's own simulation study. On a functional
-  GARCH(1,1) with a low-dimensional true kernel spanned by the fitting basis, the QMLE reduces both standard
-  deviation and bias by roughly a factor of 2&ndash;3 relative to the least-squares estimator of Aue,
-  Horv&aacute;th &amp; Pellatt (2016), and remains close to its target even when the instrumental functions
-  are chosen by a data-driven functional-PCA-style routine rather than fixed in advance. That is empirical
-  confirmation that the consistency and asymptotic normality guarantees above hold up at realistic sample
-  sizes, not just asymptotically. In the real-data application to the S&amp;P100 index, the fitted volatility
-  curves track both the sensitivity of volatility to shocks at the intraday scale and its day-to-day
-  persistence. The corresponding one-day-ahead realised-volatility forecasts, obtained by summing the
-  predicted variance curve over the intraday grid, track the true realised volatility closely across sample
-  periods of varying turbulence, the practical payoff of having a fast enough estimator to actually run this
-  recursion on ten years of minutely data.
+  GARCH(1,1) with a low-dimensional true kernel spanned by the fitting basis, the QMLE cuts both standard
+  deviation and bias by roughly a factor of 2&ndash;3, relative to the least-squares estimator of Aue,
+  Horv&aacute;th &amp; Pellatt (2016). It stays close to its target even when the instrumental functions are
+  chosen by a data-driven functional-PCA-style routine, rather than fixed in advance. That's empirical
+  confirmation that the consistency and asymptotic normality guarantees above hold at realistic sample sizes,
+  not just asymptotically.
+</p>
+<p>
+  In the real-data application to the S&amp;P100 index, the fitted volatility curves track both the
+  sensitivity of volatility to shocks at the intraday scale and its day-to-day persistence. The corresponding
+  one-day-ahead realised-volatility forecasts, obtained by summing the predicted variance curve over the
+  intraday grid, track the true realised volatility closely across sample periods of varying turbulence. That
+  is the practical payoff of having an estimator fast enough to actually run this recursion on ten years of
+  minutely data.
 </p>
 
 </div>
