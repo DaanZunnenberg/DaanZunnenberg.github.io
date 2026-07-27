@@ -1282,6 +1282,19 @@ a:hover { color: var(--blue-300); }
   background: var(--blue-950);
 }
 
+/* When a section-break leads straight into another dark-blue panel
+   (e.g. the contact page's dest-grid panel), they're the same color, so
+   the default spacing above/below just reads as an odd light gap between
+   two halves of one continuous band. Close it so they read as one panel. */
+.section-break:has(+ .contact-panel) {
+  margin-bottom: 0;
+  padding-bottom: 22px;
+}
+
+.section-break + .contact-panel {
+  margin-top: 0;
+}
+
 @media (max-width: 900px) {
   .section-break { margin-left: -40px; margin-right: -40px; padding-left: 40px; padding-right: 40px; }
 }
