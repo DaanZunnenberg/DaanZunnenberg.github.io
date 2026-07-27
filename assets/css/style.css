@@ -1306,12 +1306,15 @@ a:hover { color: var(--blue-300); }
 /* Resume's h2s sit in the narrower resume-main grid column, so the
    full-bleed negative margins above would only bleed to the edge of that
    column, not the page. Keep the label/heading text aligned with the
-   column, but paint the dark-blue band itself on a full-viewport-width
-   pseudo-element so it runs edge to edge, passing behind the sticky
-   "At a Glance" sidebar (its glass background still shows through). */
+   column, but paint the dark-blue band on a pseudo-element offset by the
+   known fixed distance from resume-main's edges to the page edges (the
+   .wrap gutter on the left; the grid gap + 280px aside + .wrap gutter on
+   the right), so it runs edge to edge and passes behind the sticky
+   "At a Glance" sidebar. Above 860px resume-layout is two columns, so the
+   right offset has to clear the aside too; at and below 860px the layout
+   collapses to one column and both sides just need the .wrap gutter. */
 .resume-main .section-break {
   position: relative;
-  z-index: 0;
   margin: 40px 0 24px;
   padding: 18px 24px;
   background: none;
@@ -1323,10 +1326,21 @@ a:hover { color: var(--blue-300); }
   z-index: -1;
   top: 0;
   bottom: 0;
-  left: 50%;
-  width: 100vw;
-  transform: translateX(-50%);
+  left: -64px;
+  right: -392px;
   background: var(--blue-950);
+}
+
+@media (max-width: 900px) {
+  .resume-main .section-break::before { left: -40px; right: -368px; }
+}
+
+@media (max-width: 860px) {
+  .resume-main .section-break::before { left: -40px; right: -40px; }
+}
+
+@media (max-width: 640px) {
+  .resume-main .section-break::before { left: -16px; right: -16px; }
 }
 
 .section-break-label {
@@ -1539,9 +1553,7 @@ a:hover { color: var(--blue-300); }
   padding: 20px 22px;
   border: 1px solid var(--line-soft);
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+  background: var(--bg-raised);
 }
 
 .resume-aside-card h3 {
