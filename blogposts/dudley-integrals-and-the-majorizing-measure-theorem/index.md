@@ -35,22 +35,12 @@ and \(\mathsf{E}X_t = 0\) for each \(t\), we have the bound
 
 <p>
 \[
-\mathsf{E}\sup_{t\in T} X_t \le L \int_0^\infty \sqrt{\log N(T,d,\epsilon)}\ \dd{\epsilon}.
+\mathsf{E}\sup_{t\in T} X_t \le L \int_0^\infty \sqrt{\log N(T,d,\epsilon)}\ d\epsilon.
 \]
 </p>
 
 <p>
-The idea is a single-scale-at-a-time chaining argument. Fix a decreasing sequence of scales \(\epsilon_n = 2^{-n}\Delta(T)\), and for each \(n\) choose an \(\epsilon_n\)-net \(T_n\subset T\) of size \(N(T,d,\epsilon_n)\). Chaining a point \(t\in T\) through its nearest neighbors in \(T_0,T_1,T_2,\dots\) and summing the increments across successive nets gives, after optimizing constants,
-</p>
-
-<p>
-\[
-\mathsf{E}\sup_{t\in T} X_t \le L \sum_{n\ge 0} \epsilon_n \sqrt{\log N(T,d,\epsilon_n)},
-\]
-</p>
-
-<p>
-and comparing this dyadic sum to the integral \(\int_0^\infty\sqrt{\log N(T,d,\epsilon)}\,\dd{\epsilon}\) &mdash; which decreases in \(\epsilon\) and is roughly constant over each dyadic block \([\epsilon_{n+1},\epsilon_n]\) &mdash; recovers the Dudley bound stated above, up to the universal constant \(L\).
+For many metric spaces \((T,d)\) this bound is suboptimal.
 </p>
 
 <h2 id="why-covering-numbers-are-not-always-enough">Why covering numbers are not always enough</h2>
@@ -797,6 +787,75 @@ X_t\Big) = L\, \mathsf{E}\sup_{t\in T} X_t,
 
 <p>
 Let us retrace the argument once more. Admissible sequences of partitions and the functional \(\gamma_\alpha(T,d)\) are defined first. A functional and the growth condition with parameters \(r\) and \(c^*\) are defined next. Talagrand's partitioning theorem then shows that any decreasing sequence of functionals satisfying the growth condition controls \(\gamma_2(T,d)\) through \(F_0(T)\) and \(\mathit{\Delta}(T)\). This theorem is proved by an explicit greedy construction of an admissible sequence of partitions, resting on the decomposition lemma, together with a summability argument that isolates a sparse well separated subsequence of scales, and a telescoping estimate along that subsequence. For a Gaussian process the functionals \(F(H^*) = \sup_{H\subset H^*} \mathsf{E}\sup_{t\in H} X_t\), with \(H\) finite, satisfy the growth condition, as a consequence of Sudakov's lemma combined with Borell's inequality, assembled in the proposition above. Plugging these functionals into the partitioning theorem, and bounding \(\mathit{\Delta}(T)\) by \(\mathsf{E}\sup_{t\in T} X_t\), yields the lower bound \(\gamma_2(T,d) \le L\,\mathsf{E}\sup_{t\in T} X_t\), the missing half of the Fernique&ndash;Talagrand theorem, and the sense in which \(\gamma_2\) succeeds, sharply and in both directions, where the Dudley integral we started from could only ever give an upper bound.
+</p>
+
+<h2 id="the-logm-gap-chaining-on-ellipsoids">The \(\log m\) gap: chaining on ellipsoids</h2>
+
+<p>
+The following, adapted closely from Talagrand's own treatment of ellipsoids in <em>Upper and Lower Bounds for Stochastic Processes</em>, makes the gap between Dudley's bound and the sharp bound \(\gamma_2\) completely explicit, in the simplest setting where it already shows up: ellipsoids in Hilbert space.
+</p>
+
+<p>
+Given a sequence \((a_i)_{i\ge 1}\), \(a_i>0\), consider the ellipsoid
+</p>
+
+<p>
+\[
+E = \Big\{ t\in \ell^2 \ ;\ \sum_{i\ge 1} \frac{t_i^2}{a_i^2} \le 1 \Big\}.
+\]
+</p>
+
+<div class="math-env">
+  <p><span class="math-env-label">Proposition.</span>
+  When \(\sum_{i\ge 1} a_i^2 <\infty\), we have
+  </p>
+\[
+\frac{1}{L}\Big(\sum_{i\ge 1} a_i^2\Big)^{1/2} \le \mathsf{E}\sup_{t\in E} X_t \le \Big(\sum_{i\ge 1} a_i^2\Big)^{1/2}.
+\]
+</div>
+
+<p>
+The right-hand side is immediate from Cauchy&ndash;Schwarz, since \(\sup_{t\in E} \sum_i t_i g_i \le (\sum_i a_i^2 g_i^2)^{1/2}\), and is in fact an equality for the choice \(t_i = a_i^2 g_i/(\sum_j a_j^2 g_j^2)^{1/2}\); the left-hand side follows by comparing the second moment of this same supremum, using \(\sigma := \max_i |a_i| \le L\,\mathsf{E}\sup_{t\in E}X_t\), to a variance bound coming from Gaussian concentration. Assuming \((a_i)\) non-increasing and grouping indices into the dyadic blocks \(2^n\le i<2^{n+1}\), this rewrites as
+</p>
+
+<p>
+\[
+\frac{1}{L}\Big(\sum_{n\ge 0} 2^n a_{2^n}^2\Big)^{1/2} \le \mathsf{E}\sup_{t\in E} X_t \le \Big(\sum_{n\ge 0} 2^n a_{2^n}^2\Big)^{1/2}.
+\]
+</p>
+
+<p>
+Now compare this with what Dudley's bound sees. Writing \(e_n(E)\) for the entropy numbers of \(E\) (the radius of the smallest cover by \(N_n = 2^{2^n}\) balls, so that the Dudley integral is equivalent, up to universal constants, to \(\sum_n 2^{n/2} e_n(E)\)), one can show
+</p>
+
+<div class="math-env">
+  <p><span class="math-env-label">Proposition.</span>
+  \[
+  \frac{1}{L} \sum_{n\ge 0} 2^{n/2} a_{2^n} \le \sum_{n\ge 0} 2^{n/2} e_n(E) \le L \sum_{n\ge 0} 2^{n/2} a_{2^n}.
+  \]
+  </p>
+</div>
+
+<p>
+The right-hand sides of the two displayed bounds above are genuinely different quantities: one is \(\big(\sum_n 2^n a_{2^n}^2\big)^{1/2}\), a Euclidean-type norm of the sequence \((a_{2^n})\), while the other is \(\sum_n 2^{n/2}a_{2^n}\), an \(\ell^1\)-type norm of the same weighted sequence. By Cauchy&ndash;Schwarz the first is always at most the second, but the second can be made arbitrarily larger than the first &mdash; spread the same total \(\ell^2\) mass over more and more dyadic blocks of comparable size, and the sum of square roots grows while the square root of the sum of squares does not. Dudley's bound, built entirely out of entropy numbers, simply cannot see this: an ellipsoid is smaller, as far as a Gaussian process living on it is concerned, than its covering numbers alone would predict.
+</p>
+
+<p>
+This gap can be pinned down exactly, and the book proves it in general, not just for ellipsoids: for any \(T\subset \mathbb{R}^m\),
+</p>
+
+<p>
+\[
+\sum_{n\ge 0} 2^{n/2} e_n(T) \le L\sqrt{\log(m+1)}\ \gamma_2(T,d).
+\]
+</p>
+
+<p>
+The proof (given as Exercise 2.7.9 in the book, with the solution recorded in the solutions appendix) is short: if \(n_0\) is the smallest integer with \(2^{n_0}\ge m\), a volumetric argument on \(\mathbb{R}^m\) shows the entropy numbers \(e_n(T)\) essentially stop shrinking past scale \(n_0\), so the tail of the sum \(\sum_{n\ge n_0} 2^{n/2}e_n(T)\) is controlled by its first term \(2^{n_0/2}e_{n_0}(T)\), while each of the \(n_0+1\approx L\sqrt{\log(m+1)}\) remaining terms with \(n\le n_0\) is at most \(L\gamma_2(T,d)\) by the elementary bound \(2^{n/2}e_n(T)\le L\gamma_2(T,d)\) that holds in any metric space. And the book shows, immediately afterward, that this is not a defect of the proof: a construction using \(2^M\) well-separated points packed inside the unit ball of \(\mathbb{R}^M\) produces a set \(T\) with \(\gamma_2(T,d)\le L\) but \(\sum_n 2^{n/2}e_n(T) \ge (\log M)/L\), so the \(\sqrt{\log(m+1)}\) factor genuinely cannot be removed.
+</p>
+
+<p>
+Putting the two facts together: the Dudley integral is, up to universal constants, exactly the entropy sum \(\sum_n 2^{n/2}e_n(T)\), and \(\gamma_2(T,d)\) is, by the Fernique&ndash;Talagrand theorem proved above, exactly the size of \(\mathsf{E}\sup_{t\in T}X_t\). The bound just proved says these two quantities can differ by a factor of order \(\sqrt{\log m}\) in \(\mathbb{R}^m\), and no more &mdash; so this is precisely how far off the Dudley integral can be from the truth, in any dimension \(m\), and the ellipsoid example above is exactly what makes that slack bite in practice.
 </p>
 
 </div>
