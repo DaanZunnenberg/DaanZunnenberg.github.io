@@ -14,7 +14,10 @@ permalink: /academic/notes/
   </div>
 </section>
 
-<h2 id="latest">Latest</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;01</span>
+  <h2 id="latest">Latest</h2>
+</div>
 
 <div class="entry">
   <div class="entry-head">

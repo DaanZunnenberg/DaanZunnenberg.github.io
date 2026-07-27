@@ -14,7 +14,10 @@ permalink: /academic/mathematics/
   </div>
 </section>
 
-<h2 id="introduction">Introduction</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;01</span>
+  <h2 id="introduction">Introduction</h2>
+</div>
 
 <p class="lede">
 What really draws me to math is finding sharp order in high-dimensional randomness. My main focus

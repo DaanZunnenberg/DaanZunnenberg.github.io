@@ -14,7 +14,10 @@ permalink: /academic/schools-workshops/
   </div>
 </section>
 
-<h2 id="summer-winter-schools">Summer &amp; Winter Schools</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;01</span>
+  <h2 id="summer-winter-schools">Summer &amp; Winter Schools</h2>
+</div>
 
 <div class="readme-toggle is-open">
   <button type="button" class="readme-summary" aria-expanded="true">
@@ -31,7 +34,10 @@ permalink: /academic/schools-workshops/
   </div>
 </div>
 
-<h2 id="workshops">Workshops</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;02</span>
+  <h2 id="workshops">Workshops</h2>
+</div>
 
 <div class="readme-toggle is-open">
   <button type="button" class="readme-summary" aria-expanded="true">

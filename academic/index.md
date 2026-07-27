@@ -21,6 +21,11 @@ and short-form notes. For projects, work experience, and industry contact, see t
 <a href="{{ '/' | relative_url }}">professional site</a>.
 </p>
 
+<section class="contact-panel landing-panel">
+  <div class="hero-eyebrow">Site Map</div>
+  <h2>Explore Academic</h2>
+  <p class="tagline">Five places to start, depending on what you&rsquo;re after.</p>
+
 <div class="nav-cards">
   <a class="nav-card" href="{{ '/academic/research/' | relative_url }}">
     <span class="nav-card-icon" aria-hidden="true">
@@ -73,5 +78,6 @@ and short-form notes. For projects, work experience, and industry contact, see t
     <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
   </a>
 </div>
+</section>
 
 <p><a href="{{ '/' | relative_url }}">&larr; Back to the professional site</a></p>

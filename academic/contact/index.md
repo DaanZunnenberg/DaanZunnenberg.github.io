@@ -14,9 +14,9 @@ permalink: /academic/contact/
   </div>
 </section>
 
-<p class="tagline">Collaboration proposals, seminar invitations, and questions about the work.</p>
+<div class="contact-panel">
 
-<p class="lede">
+<p class="lede contact-lede">
 I'm always glad to hear from other researchers, whether that's a concrete collaboration idea, a seminar
 or reading group invitation, a question about a proof or a dataset, or just a conversation about empirical
 process theory and where it meets applied statistics.
@@ -95,5 +95,7 @@ process theory and where it meets applied statistics.
 </form>
 
 <p id="sent-note" class="sent-note">Thanks, your message was sent. I'll get back to you by email.</p>
+
+</div>
 
 <p><a href="{{ '/academic/' | relative_url }}">&larr; Back to Academic</a></p>

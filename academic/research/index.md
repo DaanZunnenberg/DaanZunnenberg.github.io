@@ -23,7 +23,10 @@ techniques extend to weak convergence and statistical estimation when the indepe
 relaxed.
 </p>
 
-<h2 id="research-interests">Research Interests</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;01</span>
+  <h2 id="research-interests">Research Interests</h2>
+</div>
 <div class="entry">
   <ul>
     <li>Generic chaining theory, geometric functional analysis, maximal inequalities, and majorizing measures for controlling suprema of stochastic processes.</li>
@@ -33,7 +36,10 @@ relaxed.
   </ul>
 </div>
 
-<h2 id="current-work">Current Work</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;02</span>
+  <h2 id="current-work">Current Work</h2>
+</div>
 <div class="entry">
   <div class="entry-head">
     <h3>PhD Research &middot; Leiden University</h3>
@@ -168,7 +174,10 @@ relaxed.
   </div>
 </div>
 
-<h2 id="past-research">Past Research</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;03</span>
+  <h2 id="past-research">Past Research</h2>
+</div>
 
 <div class="entry">
   <div class="entry-head">
@@ -304,7 +313,10 @@ bound, scalar_gauss = test.transform_1D_gauss()
   </div>
 </div>
 
-<h2 id="publications">Publications</h2>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;04</span>
+  <h2 id="publications">Publications</h2>
+</div>
 
 <div class="entry">
   <div class="entry-head">
