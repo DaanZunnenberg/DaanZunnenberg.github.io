@@ -48,30 +48,30 @@ permalink: /projects/functional-volatility-surface-modelling/
 <p>
   As before, we work in \(H = L^2([0,1])\) with the functional scale model
   \[y_t(u) = \sigma_t(u)\,\eta_t(u), \qquad
-  \sigma_t^2 = \delta + \sum_{i=1}^q \boldsymbol\alpha_i(y_{t-i}^2) + \sum_{j=1}^p \boldsymbol\beta_j(\sigma_{t-j}^2),\]
-  the functional GARCH(1,1) model from the previous page. Projecting \(\delta\), \(\boldsymbol\alpha_i\) and
-  \(\boldsymbol\beta_j\) onto a finite basis turns this recursion into a recursion for the basis-coefficient
-  vector \(\boldsymbol\gamma_i\) itself,
-  \[\boldsymbol\gamma_{i+1} = \boldsymbol\omega + \bar{\boldsymbol B}\,\boldsymbol\gamma_i + \boldsymbol A \int \varphi(s)\,y_i^2(s)\,ds,\]
+  \sigma_t^2 = \delta + \sum_{i=1}^q \alpha_i(y_{t-i}^2) + \sum_{j=1}^p \beta_j(\sigma_{t-j}^2),\]
+  the functional GARCH(1,1) model from the previous page. Projecting \(\delta\), \(\alpha_i\) and
+  \(\beta_j\) onto a finite basis turns this recursion into a recursion for the basis-coefficient
+  vector \(\gamma_i\) itself,
+  \[\gamma_{i+1} = \omega + \bar{B}\,\gamma_i + A \int \varphi(s)\,y_i^2(s)\,ds,\]
   an update driven purely by the previous day's squared-return curve. The GAS extension changes only the
   driving term. Instead of feeding in the raw squared-return projection, it feeds in the score of a fat-tailed
-  log-likelihood, so the size of today's update to \(\boldsymbol\gamma_i\) depends on how surprising today's
+  log-likelihood, so the size of today's update to \(\gamma_i\) depends on how surprising today's
   observation was, not just on its magnitude.
 </p>
 
 <h2 id="implementation">Estimation Procedure</h2>
 <p>
-  The GAS recursion for the B-spline coefficient vector \(\boldsymbol\gamma_i\) is
-  \[\boldsymbol\gamma_{i+1} = \boldsymbol\omega + \boldsymbol A\,\boldsymbol s_i + \boldsymbol B\,\boldsymbol\gamma_i,\]
-  where \(\boldsymbol s_i\) is the scaled score of the model's log-likelihood at day \(i\), \(\boldsymbol\omega\)
-  is a constant, \(\boldsymbol B\) governs persistence, and \(\boldsymbol A\) governs the sensitivity of the
+  The GAS recursion for the B-spline coefficient vector \(\gamma_i\) is
+  \[\gamma_{i+1} = \omega + A\,s_i + B\,\gamma_i,\]
+  where \(s_i\) is the scaled score of the model's log-likelihood at day \(i\), \(\omega\)
+  is a constant, \(B\) governs persistence, and \(A\) governs the sensitivity of the
   update to new information. Returns are modelled as a zero-mean Student-\(t\) process rather than Gaussian, so
   a day with an unusually large or noisy intraday return is automatically downweighted when the score is
   computed. This is the same robustness property that makes score-driven models attractive in the classical,
   finite-dimensional case, carried over to the functional setting. The covariance across intraday grid points
   is itself modelled as a Student-\(t\) Ornstein&ndash;Uhlenbeck process, so grid points close together in
   intraday time are allowed to be more strongly correlated than distant ones. The static parameters
-  \(\boldsymbol\omega,\boldsymbol A,\boldsymbol B\), together with the Student-\(t\) degrees of freedom and the
+  \(\omega,A,B\), together with the Student-\(t\) degrees of freedom and the
   OU decay parameter, are estimated by maximising the resulting average log-likelihood over the sample. Lin
   &amp; Lucas establish stationarity, ergodicity, filter invertibility, strong consistency and asymptotic
   normality of this estimator under regularity conditions analogous to those used for the functional GARCH
@@ -81,7 +81,7 @@ permalink: /projects/functional-volatility-surface-modelling/
   The <code>funcgarch</code> package's GAS-GARCH implementation is this scale-only case. It replaces the
   Bernstein basis with a general B-spline basis, more flexible for smoothing a curve that is expected to drift
   over the sample, and uses the Ornstein&ndash;Uhlenbeck kernel for the Student-\(t\) covariance across the
-  intraday grid. The B-spline coefficient vector plays the role of \(\boldsymbol\gamma_i\) above, and its
+  intraday grid. The B-spline coefficient vector plays the role of \(\gamma_i\) above, and its
   score-driven update lets the fitted curve track a volatility pattern that itself changes shape over the
   sample, rather than fitting one static operator to the whole sample as the plain functional GARCH model does.
 </p>
@@ -89,66 +89,143 @@ permalink: /projects/functional-volatility-surface-modelling/
 <h2 id="code-structure">Code Structure &amp; Explanation</h2>
 <p>
   The package (<code>funcgarch</code>) splits into a numerics core and a data pipeline that never touch each
-  other. <code>fit</code>, <code>garch_filter</code> and <code>gas_garch_estimator</code> only ever see a
-  plain <code>(n_grid, n_days)</code> numpy matrix of intraday returns, regardless of where that matrix came
-  from. This separation keeps the performance-critical numerical core free of I/O or pandas overhead.
+  other. This project's own focus, and the worked example the site figures below come from, is
+  <code>scripts/gas_vol_surface.py</code>, a self-contained diagonal restriction of the general score-driven
+  model. The general, full-matrix version, <code>gas_estimator</code> in <code>gas.py</code>, lets the
+  persistence and gain terms be arbitrary \(M\times M\) matrices \(B,A\); the diagonal restriction used here
+  instead learns one persistence coefficient and one gain coefficient per basis function, \(b,a \in
+  \mathbb{R}^M\) applied element-wise, a much smaller parameter count that is easier to identify from a single
+  simulated or empirical panel.
 </p>
 <ul>
-  <li><code>basis.py</code> &mdash; <code>bernstein_basis</code> (numba-jitted) and <code>cubic_bspline_basis</code>, plus an Ornstein&ndash;Uhlenbeck kernel used for the GAS model's residual covariance.</li>
-  <li><code>garch.py</code> &mdash; the Bernstein-basis functional GARCH(1,1), covered on the previous page.</li>
-  <li><code>gas.py</code> &mdash; the B-spline models, <code>gas_garch_estimator</code> for the full GAS recursion with a Student-t score, and <code>func_garch_estimator</code> as a non-score-driven B-spline GARCH baseline for comparison.</li>
-  <li><code>simulate.py</code> &mdash; Monte Carlo generation using the same Bernstein recursion, for building test surfaces with a known ground truth.</li>
+  <li><code>basis.py</code> &mdash; <code>cubic_bspline_basis</code> builds the B-spline basis matrix \(\Phi\), and <code>ou_kernel</code> builds the Ornstein&ndash;Uhlenbeck covariance used for the Student-\(t\) likelihood below.</li>
+  <li><code>garch.py</code> &mdash; the Bernstein-basis functional GARCH(1,1), covered on the previous page; reused here only as the non-score-driven benchmark in the comparison figure.</li>
+  <li><code>gas.py</code> &mdash; <code>gas_estimator</code>, the general full-matrix GAS recursion with a Student-\(t\) score.</li>
+  <li><code>scripts/gas_vol_surface.py</code> &mdash; <code>simulate_vol_surface</code>, <code>_gas_filter</code>, <code>fit_gas</code> and <code>goodness_of_fit</code>, the diagonal GAS worked example used for this project's figures.</li>
   <li><code>scripts/taq_cleaner.py</code> &mdash; reshapes raw WRDS TAQ CSV exports into the <code>(n_grid, n_days)</code> matrix the core package expects.</li>
 </ul>
 <p>
-  The GAS-GARCH log-likelihood loop in <code>gas_garch_estimator</code> is where the score-driven update is
-  actually coded. At each day it computes the current log-volatility curve from the B-spline coefficients,
-  standardises the previous day's return against it and the OU covariance kernel to get the Student-\(t\)
-  quadratic form, projects the resulting error term back onto the B-spline basis to get the score, and then
-  advances the coefficient vector by the GAS recursion \(b_t = \omega + Bb_{t-1} + As_{t-1}\).
+  <code>simulate_vol_surface</code> builds the test bed. It generates a known, time-varying intraday volatility
+  surface with a U-shaped profile whose trough drifts sinusoidally across the sample, then draws Gaussian
+  returns scaled by its square root, so the true surface is known exactly and can be compared against whatever
+  the estimator recovers.
 </p>
-<pre class="code-block" data-lang="python"><code>for t in range(1, n_days):
-    log_vol = basis_mat.T @ coef_vec          # (n_grid, 1)
-    log_vol_surface[:, t] = log_vol[:, 0]
+<pre class="code-block" data-lang="python"><code>def simulate_vol_surface(n: int, T: int, seed: int = 0) -> tuple[np.ndarray, np.ndarray]:
+    rng = np.random.default_rng(seed)
+    grid_i = np.arange(n)
+    sigma2 = np.zeros((n, T))
+    for t in range(T):
+        centre = n / 2 + (n / 4) * np.sin(t * 3 * np.pi / T)
+        sigma2[:, t] = (
+            4
+            + 10 * (grid_i - centre) ** 2 / (0.75 * n) ** 2
+            + 2 * np.sin(t * 2 * np.pi / T)
+        )
+    mY = np.sqrt(sigma2) * rng.standard_normal((n, T))
+    return mY, sigma2</code></pre>
+<p>
+  <code>_gas_filter</code> is where the score-driven update is actually coded. At each day it computes the
+  current log-volatility curve from the B-spline coefficients, standardises the previous day's return against
+  it and the OU covariance kernel to get the Student-\(t\) quadratic form, projects the resulting error term
+  back onto the B-spline basis to get the score, and then advances the coefficient vector by the diagonal GAS
+  recursion \(b_t = \omega + b*b_{t-1} + a*s_{t-1}\), where \(*\) is element-wise multiplication.
+</p>
+<pre class="code-block" data-lang="python"><code>for t in range(1, T):
+    sigma_now = basis_mat.T @ vb_now       # (n, 1) — log sigma2_t at each grid point
+    log_sigma2[:, t] = sigma_now[:, 0]
 
-    std_dev   = np.exp(log_vol / 2)           # sigma_t at each grid point
-    scale_inv = np.eye(n_grid) / std_dev      # diag(1/sigma_t)
+    S = np.exp(sigma_now / 2)              # (n, 1) — sigma_t (conditional std dev)
+    R = np.eye(n) / S                      # (n, n) — diag(1/sigma_t)
+    Y = vy_now                             # (n, 1) — returns on day t-1
 
-    student_denom = float(np.sum(
-        1 + (returns_prev.T @ (scale_inv @ (cov_inv @ (scale_inv @ returns_prev)))) / nu
-    ))
-    score_a = (returns_prev / std_dev).T * basis_mat   # (n_basis, n_grid)
-    score_b = score_a @ (cov_inv @ (scale_inv @ returns_prev))
-
-    score    = (
+    A1 = float(np.sum(1 + Y.T @ R @ cov_inv @ R @ Y / nu))
+    A2 = (Y / S).T * basis_mat
+    A3 = A2 @ (cov_inv @ (R @ Y))
+    score = (
         -0.5 * basis_mat.sum(axis=1, keepdims=True)
-        + (nu_scale / student_denom) * score_b
+        + (nu_scale / A1) * A3
     )
-    coef_vec     = omega + persistence_mat @ coef_vec + score_gain_mat @ score
-    returns_prev = returns[:, t].reshape(n_grid, 1)</code></pre>
+
+    if t > 5:
+        log_lik += (
+            -0.5 * float(np.sum(sigma_now))
+            - (n + nu) / 2 * np.log(A1)
+        )
+
+    vb_now = omega + vb * vb_now + va * score
+    vy_now = mY[:, t].reshape(n, 1)</code></pre>
 <p>
   <code>cov_inv</code> is the inverse of the \(N\times N\) Ornstein&ndash;Uhlenbeck kernel matrix, computed
   once per optimizer step rather than once per day, since it does not depend on \(t\). This matters over a
   sample of hundreds or thousands of trading days. Without hoisting the inversion out of the day loop, a
   single SLSQP call would need to invert an \(N\times N\) matrix on every day, for every function evaluation
-  the optimizer needs. <code>student_denom</code> is the Student-\(t\) quadratic form that sits in the
-  denominator of the score gain, so a day with a large standardised residual automatically produces a smaller
-  score update. That is the outlier-robustness mechanism the theory predicts. <code>gas_garch_estimator</code>
-  is called directly inside a <code>scipy.optimize.minimize</code> loop and returns both the negative average
-  log-likelihood and the fitted log-volatility surface, so a single call after optimisation recovers the fitted
-  volatility for the whole sample.
+  the optimizer needs. <code>A1</code> is the Student-\(t\) quadratic form that sits in the denominator of the
+  score gain, so a day with a large standardised residual automatically produces a smaller score update. That
+  is the outlier-robustness mechanism the theory predicts.
 </p>
 <p>
-  Vectorisation avoids Python-level loops over the intraday grid throughout. The functional GARCH recursion in
-  <code>garch.py</code> evaluates the Bernstein kernel matrices only once per optimizer step, then reuses them
-  for every day. <code>kernel_operator</code>, <code>bernstein_basis</code>, <code>delta</code> and
-  <code>loss_func</code> are all <code>@jit(nopython=True)</code>, letting Numba compile the day loop's
-  numerical core to machine code rather than paying Python's interpreter overhead on every grid point. The
-  remaining per-day cost in either model is dominated by matrix-vector products of size \(N\), which SciPy and
-  BLAS already dispatch to vectorised routines. JIT compilation for the basis functions plus BLAS-backed
-  linear algebra for the recursion is what keeps a full SLSQP fit over hundreds of trading days tractable on a
-  laptop, in line with the fast and scalable design goal shared with Lucas and Lin's broader research
-  programme.
+  <code>fit_gas</code> wraps the filter in a <code>scipy.optimize.minimize</code> call. The parameter vector is
+  laid out as <code>[nu, delta, omega (M) | b (M) | a (M)]</code>, length \(2+3M\), with box bounds keeping
+  \(\nu>1\) (finite Student-\(t\) mean), the OU length-scale in \((0,1]\), and the diagonal persistence and gain
+  terms inside \((-1,1)\) and \((-0.5,0.5)\) respectively, standard stability ranges for a score-driven
+  recursion.
+</p>
+<pre class="code-block" data-lang="python"><code>def fit_gas(
+    mY: np.ndarray,
+    dK: int = DK,
+    n_int_knots: int = N_INT_KNOTS,
+    maxiter: int = MAXITER,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    n = mY.shape[0]
+    M = dK + 1
+    vtau      = np.linspace(0, 1, n)
+    basis_mat = cubic_bspline_basis(vtau, order=dK - 2, n_interior_knots=n_int_knots)
+
+    vb0     = np.ones((M, 1))
+    vtheta0 = np.concatenate((
+        [2.1, 0.5], np.ones(M), 0.5 * np.ones(M), 0.05 * np.ones(M)
+    ))
+    LB = np.concatenate(([1.05, 1e-5], -5 * np.ones(M), -0.99 * np.ones(M), -0.5 * np.ones(M)))
+    UB = np.concatenate(([50,   1.0],  15 * np.ones(M),  0.99 * np.ones(M),  0.5 * np.ones(M)))
+
+    opt = minimize(
+        lambda vtheta: _gas_filter(mY, vb0, dK, basis_mat, vtheta)[0],
+        vtheta0, bounds=list(zip(LB, UB)),
+        method='SLSQP', options={'maxiter': maxiter, 'ftol': 1e-9},
+    )
+    _, log_sigma2_hat = _gas_filter(mY, vb0, dK, basis_mat, opt.x)
+    return opt.x, np.exp(log_sigma2_hat / 2), basis_mat</code></pre>
+<p>
+  Running the worked example end to end is three calls: simulate a surface, fit the diagonal GAS model against
+  it, and score the fit.
+</p>
+<pre class="code-block" data-lang="python"><code>mY, sigma2_true = simulate_vol_surface(n=25, T=500, seed=42)
+vtheta_hat, sigma_hat, basis_mat = fit_gas(mY)
+
+nu_hat, delta_hat = vtheta_hat[0], vtheta_hat[1]
+metrics = goodness_of_fit(mY, sigma_hat, sigma2_true, nu_hat)</code></pre>
+<p>
+  <code>goodness_of_fit</code> is the direct empirical check of the theory above. Under correct specification
+  the standardised residuals \(z_t(u) = y_t(u)/\hat\sigma_t(u)\) should behave like draws from a Student-\(t(
+  \hat\nu)\) distribution, so alongside RMSE, MAE, Pearson correlation and \(R^2\) between the fitted and true
+  volatility, it checks the second moment of \(z\) against its theoretical value \(\hat\nu/(\hat\nu-2)\) and
+  runs a Kolmogorov&ndash;Smirnov test of \(z\) against \(t(\hat\nu)\).
+</p>
+<pre class="code-block" data-lang="python"><code>z    = (mY[:, warmup:] / sigma_hat[:, warmup:]).ravel()
+rmse = np.sqrt(np.mean((sigma_hat[:, warmup:] - np.sqrt(sigma2_true[:, warmup:])) ** 2))
+r2   = 1 - np.sum((sigma_hat - np.sqrt(sigma2_true)) ** 2) \
+         / np.sum((np.sqrt(sigma2_true) - np.sqrt(sigma2_true).mean()) ** 2)
+
+resid_var = np.mean(z ** 2)                        # should be close to nu_hat / (nu_hat - 2)
+ks_stat, ks_pval = stats.kstest(z, stats.t(df=nu_hat).cdf)</code></pre>
+<p>
+  Vectorisation avoids Python-level loops over the intraday grid throughout both models. The functional GARCH
+  recursion in <code>garch.py</code> evaluates the Bernstein kernel matrices only once per optimizer step, then
+  reuses them for every day, and its basis-building functions are JIT-compiled with Numba, discussed in detail
+  on the previous page. The GAS filter above stays in plain NumPy instead, since its per-day cost is dominated
+  by matrix products against the \(N\times N\) covariance inverse, work BLAS already vectorises, and it needs
+  to remain an ordinary Python function that <code>scipy.optimize.minimize</code> can call directly with a
+  changing parameter vector on every evaluation.
 </p>
 
 <h2 id="results">Results &amp; Interpretation</h2>
@@ -198,14 +275,14 @@ permalink: /projects/functional-volatility-surface-modelling/
   then passed into the estimators above. The <code>funcgarch</code> core stays fully decoupled from this
   pipeline. It never imports anything WRDS- or TAQ-specific, only ever consuming a plain numpy matrix.
 </p>
-<pre class="code-block" data-lang="txt"><code>wrds/*.sas                    scripts/taq_cleaner.py           funcgarch/*.py
+<pre class="code-block" data-lang="txt"><code>wrds/*.sas                    scripts/taq_cleaner.py           funcgarch/* + scripts/gas_vol_surface.py
 ┌─────────────────┐           ┌────────────────────┐           ┌──────────────────────┐
 │ WRDS TAQ pull   │  raw CSV  │ DataCleaner.clean()│  mY (N,T) │ fit() / garch_filter │
-│ (data_fetcher,  │ ────────► │  - align to grid   │ ────────► │ gas_garch_estimator  │
-│  taq_cleaner,   │           │  - compute returns │           │ func_garch_estimator │
-│  nbbo/dynamic_  │           │  - reshape to      │           │                      │
-│  taq_minute,    │           │    (N, T) matrix   │           │  -> vtheta_hat,      │
-│  export)        │           │                    │           │     sigma2 surface   │
+│ (data_fetcher,  │ ────────► │  - align to grid   │ ────────► │ fit_gas / _gas_filter│
+│  taq_cleaner,   │           │  - compute returns │           │                      │
+│  nbbo/dynamic_  │           │  - reshape to      │           │  -> vtheta_hat,      │
+│  taq_minute,    │           │    (N, T) matrix   │           │     sigma_hat        │
+│  export)        │           │                    │           │                      │
 └─────────────────┘           └────────────────────┘           └──────────────────────┘
 </code></pre>
 <p class="form-hint">Requires Python &ge; 3.9. Pytest smoke tests cover Bernstein partition-of-unity, positive-definiteness of the OU kernel, and shape/finiteness of the GARCH filter output.</p>
