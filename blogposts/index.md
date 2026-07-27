@@ -15,8 +15,17 @@ body_class: blogposts-index
   </div>
 </section>
 
-<h2 id="blogposts">Blogposts</h2>
-<p>Occasional writing on markets, mathematics, and the overlap between them.</p>
+<p class="lede">
+  This page collects two kinds of thing. The first is writing: posts on markets and mathematics, published
+  here. The second is a record of talks, posters, and conferences &mdash; where I presented or attended,
+  and what the talk was about.
+</p>
+
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;01</span>
+  <h2 id="blogposts">Blogposts</h2>
+  <p>Occasional writing on markets, mathematics, and the overlap between them.</p>
+</div>
 
 <div class="article-grid">
   <a class="article-card" href="{{ '/blogposts/the-mathematics-of-market-liquidity/' | relative_url }}">
@@ -40,8 +49,11 @@ body_class: blogposts-index
   </a>
 </div>
 
-<h2 id="events">Events</h2>
-<p>Conferences, talks, and posters I&rsquo;m giving or attending, upcoming and past, newest first &mdash; the date on each entry is the only thing that tells them apart.</p>
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;02</span>
+  <h2 id="events">Events</h2>
+  <p>Conferences, talks, and posters I&rsquo;m giving or attending, upcoming and past, newest first &mdash; the date on each entry is the only thing that tells them apart.</p>
+</div>
 
 <div class="timeline">
 
