@@ -1361,14 +1361,6 @@ a:hover { color: var(--blue-300); }
   transform: translateY(-1px);
 }
 
-.tag-filter-btn-finance.is-active { background: var(--up); border-color: var(--up); }
-.tag-filter-btn-opinion.is-active { background: var(--metal-gold); border-color: var(--metal-gold); }
-.tag-filter-btn-news.is-active { background: var(--down); border-color: var(--down); }
-.tag-filter-btn-volatility.is-active { background: var(--down); border-color: var(--down); }
-.tag-filter-btn-statistics.is-active { background: var(--blue-600); border-color: var(--blue-600); }
-.tag-filter-btn-crypto.is-active { background: var(--metal-gold); border-color: var(--metal-gold); }
-.tag-filter-btn-fx.is-active { background: var(--up); border-color: var(--up); }
-
 /* Per-card topic chips, and the shared .tag look they're built from
    (also usable stand-alone wherever a small topic label is needed). */
 .article-card-tags {
