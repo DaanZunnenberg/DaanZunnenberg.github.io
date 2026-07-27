@@ -35,17 +35,6 @@ body_class: blogposts-index
 </div>
 
 <div class="article-grid" data-filterable>
-  <a class="article-card" data-tags="mathematical" href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">
-    <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/chalk.png' | relative_url }}" alt="">
-    </span>
-    <span class="article-card-body">
-      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-mathematical">Mathematical</span></span>
-      <span class="article-card-title">Dudley Integrals and the Majorizing Measure Theorem</span>
-      <span class="article-card-desc">Why covering numbers aren't always enough, and Talagrand's sharp fix for Gaussian processes</span>
-    </span>
-  </a>
-
   <a class="article-card" data-tags="finance mathematical" href="{{ '/blogposts/the-mathematics-of-market-liquidity/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <img src="{{ '/images/chart_image.jpg' | relative_url }}" alt="">
@@ -65,6 +54,17 @@ body_class: blogposts-index
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
       <span class="article-card-title">Sieve-M Estimation for Conditional Heteroskedasticity</span>
       <span class="article-card-desc">Letting a GARCH model learn its own news-impact curve</span>
+    </span>
+  </a>
+
+  <a class="article-card" data-tags="mathematical" href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">
+    <span class="article-card-img" aria-hidden="true">
+      <img src="{{ '/images/chalk.png' | relative_url }}" alt="">
+    </span>
+    <span class="article-card-body">
+      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-mathematical">Mathematical</span></span>
+      <span class="article-card-title">Dudley Integrals and the Majorizing Measure Theorem</span>
+      <span class="article-card-desc">Why covering numbers aren't always enough, and Talagrand's sharp fix for Gaussian processes</span>
     </span>
   </a>
 </div>
