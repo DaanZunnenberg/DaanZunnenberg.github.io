@@ -72,7 +72,7 @@ permalink: /projects/
 <div class="article-grid">
   <a class="article-card" href="{{ '/projects/tardis-dev-fetcher/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      <img src="{{ '/images/terminal.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
     </span>
     <span class="article-card-body">
       <span class="article-card-date">2024</span>
@@ -83,7 +83,7 @@ permalink: /projects/
 
   <a class="article-card" href="{{ '/projects/foreign-exchange-data/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/></svg>
+      <img src="{{ '/images/forex.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
     </span>
     <span class="article-card-body">
       <span class="article-card-date">2025</span>
