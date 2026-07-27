@@ -205,9 +205,9 @@ test.gauss()                             # standardised difference, stored in te
   statistic, since a visible, structural gap between the two curves is exactly what the test statistic below
   is built to detect.
 </p>
-<img src="{{ '/images/stationarity/volatility_stationary.png' | relative_url }}" alt="State-domain versus time-domain volatility estimate for a simulated stationary bivariate Ornstein-Uhlenbeck process" class="entry-figure">
-<p class="form-hint">Stationary bivariate OU process, \(T=150\), \(n=3000\). The two estimators track each other closely throughout, exactly what the null hypothesis predicts.</p>
-<img src="{{ '/images/stationarity/volatility_nonstationary.png' | relative_url }}" alt="State-domain versus time-domain volatility estimate for a simulated time-inhomogeneous bivariate diffusion" class="entry-figure">
+<img src="{{ '/images/stationarity/volatility_stationary.png' | relative_url }}" alt="State-domain versus time-domain volatility estimate, one panel per process component, for a simulated stationary bivariate Ornstein-Uhlenbeck process" class="entry-figure">
+<p class="form-hint">Stationary bivariate OU process, \(T=150\), \(n=3000\), one panel per component. The two estimators track each other closely throughout, exactly what the null hypothesis predicts.</p>
+<img src="{{ '/images/stationarity/volatility_nonstationary.png' | relative_url }}" alt="State-domain versus time-domain volatility estimate, one panel per process component, for a simulated time-inhomogeneous bivariate diffusion" class="entry-figure">
 <p class="form-hint">Time-inhomogeneous bivariate diffusion with the same \(T\) and \(n\). The state-domain smoother, which pools observations across the whole trajectory, overshoots the time-domain smoother whenever the true diffusion coefficient is moving, since it is implicitly averaging over states visited at very different points in time.</p>
 <p>
   <strong>Critical value generation.</strong> <code>transform_1D_gauss</code> reduces the sequence of
@@ -240,10 +240,10 @@ rejects = running_maximum(z)[-1] > bound[-1]</code></pre>
   comes back down, since the standardised difference between the two estimators diverges rather than
   stabilising once the true diffusion coefficient starts moving.
 </p>
-<img src="{{ '/images/stationarity/running_max_stationary.png' | relative_url }}" alt="Running maximum test statistic for the stationary Ornstein-Uhlenbeck process, staying below the Gumbel critical bound" class="entry-figure">
-<p class="form-hint">The standardised Gaussian process \(Z_t\) (grey) and its running maximum \(\phi_j\) (blue) against the 95% Gumbel critical bound (dashed). The running maximum never exceeds the bound, so the test fails to reject stationarity.</p>
-<img src="{{ '/images/stationarity/running_max_nonstationary.png' | relative_url }}" alt="Running maximum test statistic for the nonstationary time-inhomogeneous diffusion, sharply exceeding the Gumbel critical bound" class="entry-figure">
-<p class="form-hint">The same construction on the time-inhomogeneous diffusion. The running maximum crosses the critical bound almost immediately and diverges, a clear rejection of stationarity.</p>
+<img src="{{ '/images/stationarity/running_max_stationary.png' | relative_url }}" alt="Running maximum test statistic for the stationary Ornstein-Uhlenbeck process, staying below the Gumbel critical bounds at every confidence level" class="entry-figure">
+<p class="form-hint">The standardised Gaussian process \(Z_t\) (grey), its empirical running maximum \(\phi_j\) (red), and the Pickands&ndash;Berman critical bound at four confidence levels. The running maximum never exceeds even the loosest (50%) bound, so the test fails to reject stationarity.</p>
+<img src="{{ '/images/stationarity/running_max_nonstationary.png' | relative_url }}" alt="Running maximum test statistic for the nonstationary time-inhomogeneous diffusion, sharply exceeding all Gumbel critical bounds" class="entry-figure">
+<p class="form-hint">The same construction on the time-inhomogeneous diffusion. The running maximum clears every critical bound within the first few hundred observations and never returns, a clear rejection of stationarity.</p>
 <p>
   Each helper function was factored out for a specific reason. <code>time_domain_smoother</code> and
   <code>state_domain_smoother</code> are kept as separate methods rather than one combined estimator because
