@@ -1275,13 +1275,14 @@ a:hover { color: var(--blue-300); }
 
 /* Page break between project sections: a full-width strip in the site's
    dark blue, breaking out of .wrap's padding the same way .hero does, so
-   it reads as a hard section boundary rather than a hairline rule. */
+   it reads as a hard section boundary and carries the section title,
+   rather than sitting there as a purely decorative divider. */
 .section-break {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
   margin: 56px -64px 32px;
-  padding: 14px 64px;
+  padding: 22px 64px;
   background: var(--blue-950);
 }
 
@@ -1302,15 +1303,18 @@ a:hover { color: var(--blue-300); }
   white-space: nowrap;
 }
 
-.section-heading {
-  margin-bottom: 24px;
+.section-break h2 {
+  font-family: var(--serif);
+  font-size: 24px;
+  color: #fff;
+  margin: 0;
 }
 
-.section-heading h2 {
-  font-family: var(--serif);
-  font-size: 22px;
-  color: var(--ink);
-  margin: 0 0 6px;
+.section-break p {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--blue-800);
+  margin: 0;
 }
 
 .article-grid-empty {

@@ -14,15 +14,17 @@ permalink: /projects/
   </div>
 </section>
 
+<p class="lede">
+  This page collects two kinds of work. The first is research: longer-running libraries built around a
+  specific model or method, developed alongside papers and theses. The second is smaller tools, built to
+  do one job in a data or trading pipeline.
+</p>
 <p class="tagline">Open any project for the full theory, code, and results behind it.</p>
 
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;01</span>
-</div>
-
-<div class="section-heading">
   <h2>Research Libraries</h2>
-  <p class="tagline">Larger, ongoing bodies of work &mdash; each one a package spanning theory, estimation, and reusable code.</p>
+  <p>Larger, ongoing bodies of work &mdash; each one a package spanning theory, estimation, and reusable code.</p>
 </div>
 
 <div class="article-grid">
@@ -63,11 +65,8 @@ permalink: /projects/
 
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;02</span>
-</div>
-
-<div class="section-heading">
   <h2>Tools &amp; Utilities</h2>
-  <p class="tagline">Smaller, single-purpose builds &mdash; each one focused on doing one specific job well.</p>
+  <p>Smaller, single-purpose builds &mdash; each one focused on doing one specific job well.</p>
 </div>
 
 <div class="article-grid">
