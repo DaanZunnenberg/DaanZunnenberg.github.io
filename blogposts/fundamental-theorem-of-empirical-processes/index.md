@@ -5,7 +5,7 @@ permalink: /blogposts/fundamental-theorem-of-empirical-processes/
 ---
 
 <section class="hero">
-  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
+  <img class="hero-img" src="{{ '/images/flow-hero.jpg' | relative_url }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Latała&ndash;Bednorz &middot; Empirical Processes</div>

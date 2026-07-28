@@ -104,7 +104,7 @@ body_class: blogposts-index
 
   <a class="article-card" data-tags="chaining empirical-processes" href="{{ '/blogposts/fundamental-theorem-of-empirical-processes/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/TalagrandOil.png' | relative_url }}" alt="">
+      <img src="{{ '/images/flow.jpg' | relative_url }}" alt="">
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-chaining">Chaining</span><span class="tag tag-empirical-processes">Empirical Processes</span></span>
@@ -115,7 +115,7 @@ body_class: blogposts-index
 
   <a class="article-card" data-tags="concentration empirical-processes" href="{{ '/blogposts/bousquet-talagrand-inequality/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/Math.png' | relative_url }}" alt="">
+      <img src="{{ '/images/lines.png' | relative_url }}" alt="">
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-concentration">Concentration</span><span class="tag tag-empirical-processes">Empirical Processes</span></span>

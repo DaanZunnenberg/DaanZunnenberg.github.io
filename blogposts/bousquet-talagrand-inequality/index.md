@@ -5,7 +5,7 @@ permalink: /blogposts/bousquet-talagrand-inequality/
 ---
 
 <section class="hero">
-  <canvas id="signal-widget-canvas" class="hero-canvas" aria-label="Animated network of connections" aria-hidden="true"></canvas>
+  <img class="hero-img" src="{{ '/images/lines-hero.png' | relative_url }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Concentration of Measure &middot; Entropy Method</div>
