@@ -72,24 +72,68 @@
     border-radius: inherit;
     overflow: hidden;
     z-index: 0;
+    background:
+      radial-gradient(140% 120% at 88% -10%, rgba(183,160,102,0.16) 0%, rgba(183,160,102,0) 45%),
+      radial-gradient(90% 90% at 10% 110%, rgba(35,50,79,0.55) 0%, rgba(35,50,79,0) 55%),
+      linear-gradient(122deg, #0a1220 0%, #0d1726 42%, #141d33 78%, #0d1726 100%);
   }
 
-  #book {
+  /* Fine hairline grid, the same restrained "market data" texture as the
+     rest of the site, kept purely decorative and static here. */
+  .card-bg::before {
+    content: "";
     position: absolute;
     inset: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
+    background-image:
+      linear-gradient(rgba(220,223,230,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(220,223,230,0.05) 1px, transparent 1px);
+    background-size: 34px 34px;
+    -webkit-mask-image: radial-gradient(120% 100% at 82% 20%, #000 0%, rgba(0,0,0,0.5) 45%, transparent 78%);
+            mask-image: radial-gradient(120% 100% at 82% 20%, #000 0%, rgba(0,0,0,0.5) 45%, transparent 78%);
+  }
+
+  /* Slow gold sheen drifting across the panel: the one piece of motion,
+     kept subtle and continuous rather than data-driven. */
+  .sheen {
+    position: absolute;
+    inset: -20%;
+    z-index: 1;
+    background: linear-gradient(100deg, transparent 42%, rgba(183,160,102,0.14) 50%, transparent 58%);
+    background-size: 220% 220%;
+    background-position: 0% 0%;
+    animation: sheen-drift 14s ease-in-out infinite;
     pointer-events: none;
+  }
+  @keyframes sheen-drift {
+    0%, 100% { background-position: 0% 0%; }
+    50% { background-position: 100% 60%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sheen { animation: none; background-position: 60% 20%; }
+  }
+
+  /* Oversized monogram watermark, echoing the site-wide footer mark. */
+  .monogram {
+    position: absolute;
+    z-index: 1;
+    right: clamp(-6%, -2vw, 2%);
+    bottom: clamp(-14%, -6vw, -4%);
+    width: clamp(220px, 34vw, 420px);
+    height: auto;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .monogram text {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-weight: 600;
   }
 
   .scrim {
     position: absolute;
     inset: 0;
-    z-index: 1;
+    z-index: 2;
     background:
-      linear-gradient(60deg, rgba(13,23,38,1) 0%, rgba(13,23,38,0.98) 30%, rgba(13,23,38,0.9) 48%, rgba(13,23,38,0.6) 62%, rgba(13,23,38,0.24) 80%, rgba(13,23,38,0.12) 100%);
+      linear-gradient(78deg, rgba(13,23,38,1) 0%, rgba(13,23,38,0.97) 34%, rgba(13,23,38,0.86) 50%, rgba(13,23,38,0.48) 66%, rgba(13,23,38,0.16) 82%, rgba(13,23,38,0.05) 100%);
     pointer-events: none;
   }
 
@@ -279,7 +323,8 @@
       background: linear-gradient(150deg, rgba(183,160,102,0.5), rgba(183,160,102,0.18) 10%, rgba(0,0,0,0) 22%);
       box-shadow: 0 30px 80px rgba(0,0,0,0.5);
     }
-    .scrim { background: rgba(13, 23, 38, 0.4); }
+    .scrim { background: rgba(13, 23, 38, 0.55); }
+    .monogram { opacity: 0.35; }
     .content {
       position: absolute;
       top: 0; left: 0; right: 0;
@@ -319,7 +364,10 @@
 <div class="frame">
   <div class="card">
     <div class="card-bg">
-      <canvas id="book"></canvas>
+      <div class="sheen" aria-hidden="true"></div>
+      <svg class="monogram" viewBox="0 0 100 100" aria-hidden="true">
+        <text x="100" y="78" text-anchor="end" font-size="92" fill="none" stroke="rgba(183,160,102,0.5)" stroke-width="0.6">DZ</text>
+      </svg>
       <div class="scrim"></div>
     </div>
 
@@ -363,18 +411,6 @@
 </div>
 
 <script>
-  // ---- seeded PRNG so the starting numbers are the same on every refresh ----
-  (function () {
-    let seed = 0x2f6e2b1;
-    function mulberry32() {
-      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
-      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    }
-    Math.random = mulberry32;
-  })();
-
   // ---- copy to clipboard ----
   const emailLink = document.getElementById('email-link');
   const toast = document.getElementById('toast');
@@ -432,395 +468,6 @@
   window.addEventListener('resize', syncSiteLinkWidth);
   window.addEventListener('load', syncSiteLinkWidth);
   syncSiteLinkWidth();
-
-  // ---- background, ported directly from the homepage's
-  // orderflow-ladder.js: a DOM ladder fused with order flow, resting book
-  // size either side of mid (FLOW / BID / PRICE / ASK / CVD columns), same
-  // heat scale, same header/column-header treatment, same POC box, driven
-  // by synthetic (offline) data instead of Binance depth/aggTrade sockets. ----
-  const canvas = document.getElementById('book');
-  const ctx = canvas.getContext('2d');
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const MONO_FONT = "'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace";
-
-  const AMBER = "rgba(183, 160, 102, 0.75)";
-  const UP_TEXT = "rgba(122, 181, 155, 0.9)";
-  const DOWN_TEXT = "rgba(201, 112, 122, 0.9)";
-  const MID_LINE = "rgba(243, 241, 234, 0.35)";
-
-  const ASK_HEAT = "35, 22, 24";
-  const ASK_HOT  = "162, 90, 90";
-  const BID_HEAT = "18, 30, 27";
-  const BID_HOT  = "78, 140, 118";
-
-  function heatColor(base, hot, t) {
-    const b = base.split(",").map(Number);
-    const h = hot.split(",").map(Number);
-    const r = b[0] + (h[0] - b[0]) * t;
-    const g = b[1] + (h[1] - b[1]) * t;
-    const bl = b[2] + (h[2] - b[2]) * t;
-    return "rgb(" + (r | 0) + "," + (g | 0) + "," + (bl | 0) + ")";
-  }
-
-  const SYMBOL_DEFS = [
-    { label: "XLM/USDT", base: 0.1234, tick: 0.0001, prec: 4 },
-    { label: "SOL/USDT", base: 176.32, tick: 0.02,   prec: 2 },
-    { label: "XRP/USDT", base: 1.0899, tick: 0.0001, prec: 4 },
-    { label: "ADA/USDT", base: 0.612,  tick: 0.0002, prec: 4 },
-  ];
-
-  const TARGET_ROW_H = 15; // rows are re-derived from panel height so the price/qty text always tiles exactly
-  let SYMBOLS = [];
-  let LAYOUT = { orientation: "row", count: 4 };
-
-  function buildSymbol(def, rowsHalf) {
-    var bookByTick = {}, tradesByTick = {}, poc = null, pocVol = -1, cumDelta = 0;
-    for (var i = -rowsHalf; i <= rowsHalf; i++) {
-      var lvl = def.base + i * def.tick;
-      if (i !== 0) {
-        var bid = i < 0 ? Math.random() * 55 + 4 : 0;
-        var ask = i > 0 ? Math.random() * 55 + 4 : 0;
-        bookByTick[lvl] = { bid: bid, ask: ask };
-      }
-      var buy = Math.random() * 30 * Math.random();
-      var sell = Math.random() * 30 * Math.random();
-      tradesByTick[lvl] = { buy: buy, sell: sell };
-      cumDelta += buy - sell;
-      var total = buy + sell;
-      if (total > pocVol) { pocVol = total; poc = lvl; }
-    }
-    return {
-      label: def.label, tick: def.tick, prec: def.prec,
-      bookByTick: bookByTick, tradesByTick: tradesByTick,
-      cumDelta: cumDelta, poc: poc, pocVol: pocVol,
-      bestBid: def.base - def.tick, bestAsk: def.base + def.tick,
-      rowsHalf: rowsHalf,
-      live: false
-    };
-  }
-
-  function fmtQty(v) {
-    if (v >= 1000) return (v / 1000).toFixed(1) + "k";
-    if (v >= 10) return v.toFixed(1);
-    return v.toFixed(2);
-  }
-
-  var COLS = [
-    { key: "flow", w: 0.22, align: "center" },
-    { key: "bid", w: 0.18, align: "right" },
-    { key: "price", w: 0.16, align: "center" },
-    { key: "ask", w: 0.22, align: "left" },
-    { key: "cvd", w: 0.22, align: "center" }
-  ];
-
-  function drawPanel(sym, rect) {
-    var x0 = rect.x, y0 = rect.y, panelW = rect.w, panelH = rect.h;
-    var headerH = Math.max(20, panelH * 0.09), colHeadH = Math.max(9, panelH * 0.04);
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(x0, y0, panelW, panelH);
-    ctx.clip();
-
-    ctx.fillStyle = "rgba(13, 23, 38, 0.35)";
-    ctx.fillRect(x0, y0, panelW, panelH);
-    ctx.strokeStyle = "rgba(183, 160, 102, 0.16)";
-    ctx.lineWidth = 1;
-    ctx.strokeRect(x0 + 0.5, y0 + 0.5, panelW - 1, panelH - 1);
-
-    ctx.fillStyle = "rgba(183, 160, 102, 0.09)";
-    ctx.fillRect(x0, y0, panelW, headerH);
-    ctx.fillStyle = AMBER;
-    ctx.fillRect(x0, y0, 2, headerH);
-
-    ctx.textAlign = "left";
-    ctx.font = "bold 11px " + MONO_FONT;
-    ctx.fillStyle = "rgba(243, 241, 234, 0.85)";
-    ctx.fillText(sym.label, x0 + 8, y0 + 13);
-    ctx.font = "8px " + MONO_FONT;
-    ctx.fillStyle = "rgba(154, 164, 178, 0.5)";
-    ctx.fillText("○ SIM", x0 + 8, y0 + 25);
-
-    ctx.textAlign = "right";
-    ctx.font = "bold 10px " + MONO_FONT;
-    ctx.fillStyle = sym.cumDelta >= 0 ? UP_TEXT : DOWN_TEXT;
-    ctx.fillText((sym.cumDelta >= 0 ? "Δ +" : "Δ ") + fmtQty(Math.abs(sym.cumDelta)), x0 + panelW - 8, y0 + 13);
-
-    var totalBid = 0, totalAsk = 0;
-    Object.keys(sym.bookByTick).forEach(function (k) {
-      totalBid += sym.bookByTick[k].bid;
-      totalAsk += sym.bookByTick[k].ask;
-    });
-    var imb = totalBid + totalAsk > 0 ? totalBid / (totalBid + totalAsk) : 0.5;
-    ctx.font = "8px " + MONO_FONT;
-    ctx.fillStyle = "rgba(154, 164, 178, 0.55)";
-    ctx.fillText("IMB " + (imb * 100).toFixed(0) + "% BID", x0 + panelW - 8, y0 + 25);
-
-    var colX = [];
-    var cursor = x0;
-    COLS.forEach(function (c) { colX.push(cursor); cursor += c.w * panelW; });
-
-    ["FLOW Δ", "BID", "PRICE", "ASK", "CVD"].forEach(function (label, i) {
-      ctx.font = "8px " + MONO_FONT;
-      ctx.textAlign = COLS[i].align === "left" ? "left" : COLS[i].align === "right" ? "right" : "center";
-      var tx = COLS[i].align === "right" ? colX[i] + COLS[i].w * panelW - 4
-        : COLS[i].align === "left" ? colX[i] + 4
-        : colX[i] + (COLS[i].w * panelW) / 2;
-      ctx.fillStyle = "rgba(154, 164, 178, 0.4)";
-      ctx.fillText(label, tx, y0 + headerH + colHeadH - 3);
-    });
-
-    var rowsHalf = sym.rowsHalf;
-    var digits = sym.prec;
-    var rowsTop = y0 + headerH + colHeadH;
-    var rowsH = panelH - headerH - colHeadH;
-    var rowCount = rowsHalf * 2 + 1;
-    var rowH = rowsH / rowCount;
-    var fontPx = rowH < 15 ? 8 : 9.5;
-
-    var maxBook = 1e-9, maxFlow = 1e-9;
-    for (var i0 = -rowsHalf; i0 <= rowsHalf; i0++) {
-      var lvl0 = sym.bestBid + sym.tick + i0 * sym.tick;
-      var book0 = sym.bookByTick[lvl0];
-      if (book0) { if (book0.bid > maxBook) maxBook = book0.bid; if (book0.ask > maxBook) maxBook = book0.ask; }
-      var t0 = sym.tradesByTick[lvl0];
-      if (t0) { var d0 = Math.abs(t0.buy - t0.sell); if (d0 > maxFlow) maxFlow = d0; }
-    }
-
-    var cvdByOffset = {};
-    var runningCvd = 0;
-    var maxAbsCvd = 1e-9;
-    for (var iC = -rowsHalf; iC <= rowsHalf; iC++) {
-      var lvlC = sym.bestBid + sym.tick + iC * sym.tick;
-      var tC = sym.tradesByTick[lvlC];
-      runningCvd += tC ? tC.buy - tC.sell : 0;
-      cvdByOffset[iC] = runningCvd;
-      if (Math.abs(runningCvd) > maxAbsCvd) maxAbsCvd = Math.abs(runningCvd);
-    }
-
-    for (var i = -rowsHalf; i <= rowsHalf; i++) {
-      var lvl = sym.bestBid + sym.tick + i * sym.tick;
-      var ry = rowsTop + (i + rowsHalf) * rowH;
-      var isMid = i === 0;
-      var isPoc = sym.poc === lvl;
-
-      if (isMid) {
-        ctx.fillStyle = "rgba(183, 160, 102, 0.1)";
-        ctx.fillRect(x0, ry, panelW, rowH - 1);
-      } else if ((i + rowsHalf) % 2 === 0) {
-        ctx.fillStyle = "rgba(243, 241, 234, 0.02)";
-        ctx.fillRect(x0, ry, panelW, rowH - 1);
-      }
-
-      var book = sym.bookByTick[lvl];
-      var bidSize = book ? book.bid : 0;
-      var askSize = book ? book.ask : 0;
-      var flow = sym.tradesByTick[lvl];
-      var flowDelta = flow ? flow.buy - flow.sell : 0;
-
-      var flowT = Math.min(1, Math.abs(flowDelta) / maxFlow);
-      ctx.fillStyle = flowDelta >= 0 ? heatColor(BID_HEAT, BID_HOT, flowT * 0.7) : heatColor(ASK_HEAT, ASK_HOT, flowT * 0.7);
-      ctx.fillRect(colX[0] + 2, ry + 1, COLS[0].w * panelW - 4, rowH - 3);
-      if (flow) {
-        ctx.font = fontPx + "px " + MONO_FONT;
-        ctx.textAlign = "center";
-        ctx.fillStyle = flowDelta >= 0 ? UP_TEXT : DOWN_TEXT;
-        ctx.fillText((flowDelta >= 0 ? "+" : "") + fmtQty(flowDelta), colX[0] + (COLS[0].w * panelW) / 2, ry + rowH - rowH * 0.3);
-      }
-
-      var bidT = bidSize / maxBook;
-      ctx.fillStyle = heatColor(BID_HEAT, BID_HOT, bidT);
-      ctx.fillRect(colX[1], ry + 1, COLS[1].w * panelW - 2, rowH - 3);
-      if (bidSize > 0) {
-        ctx.font = fontPx + "px " + MONO_FONT;
-        ctx.textAlign = "right";
-        ctx.fillStyle = "rgba(122, 181, 155, 0.9)";
-        ctx.fillText(fmtQty(bidSize), colX[1] + COLS[1].w * panelW - 5, ry + rowH - rowH * 0.3);
-      }
-
-      var askT = askSize / maxBook;
-      ctx.fillStyle = heatColor(ASK_HEAT, ASK_HOT, askT);
-      ctx.fillRect(colX[3], ry + 1, COLS[3].w * panelW - 2, rowH - 3);
-      if (askSize > 0) {
-        ctx.font = fontPx + "px " + MONO_FONT;
-        ctx.textAlign = "left";
-        ctx.fillStyle = "rgba(201, 112, 122, 0.9)";
-        ctx.fillText(fmtQty(askSize), colX[3] + 5, ry + rowH - rowH * 0.3);
-      }
-
-      ctx.font = (isMid ? "bold " : "") + fontPx + "px " + MONO_FONT;
-      ctx.textAlign = "center";
-      ctx.fillStyle = isMid ? AMBER : "rgba(243, 241, 234, 0.75)";
-      ctx.fillText(lvl.toFixed(digits), colX[2] + (COLS[2].w * panelW) / 2, ry + rowH - rowH * 0.3);
-      if (isPoc) {
-        ctx.strokeStyle = AMBER;
-        ctx.lineWidth = 1.25;
-        ctx.strokeRect(colX[2] + 2, ry + 1.5, COLS[2].w * panelW - 4, rowH - 4);
-      }
-
-      var cvd = cvdByOffset[i];
-      var cvdT = Math.min(1, Math.abs(cvd) / maxAbsCvd);
-      ctx.fillStyle = cvd >= 0 ? heatColor(BID_HEAT, BID_HOT, cvdT * 0.6) : heatColor(ASK_HEAT, ASK_HOT, cvdT * 0.6);
-      ctx.fillRect(colX[4] + 2, ry + 1, COLS[4].w * panelW - 4, rowH - 3);
-      ctx.font = fontPx + "px " + MONO_FONT;
-      ctx.textAlign = "center";
-      ctx.fillStyle = cvd >= 0 ? UP_TEXT : DOWN_TEXT;
-      ctx.fillText((cvd >= 0 ? "+" : "") + fmtQty(cvd), colX[4] + (COLS[4].w * panelW) / 2, ry + rowH - rowH * 0.3);
-    }
-
-    ctx.strokeStyle = MID_LINE;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(x0, rowsTop + rowsHalf * rowH);
-    ctx.lineTo(x0 + panelW, rowsTop + rowsHalf * rowH);
-    ctx.stroke();
-
-    ctx.strokeStyle = "rgba(13, 23, 38, 0.4)";
-    for (var r = 0; r <= rowCount; r++) {
-      var ly = rowsTop + r * rowH;
-      ctx.beginPath();
-      ctx.moveTo(x0, ly + 0.5);
-      ctx.lineTo(x0 + panelW, ly + 0.5);
-      ctx.stroke();
-    }
-    [1, 2, 3, 4].forEach(function (i) {
-      ctx.beginPath();
-      ctx.moveTo(colX[i] + 0.5, rowsTop);
-      ctx.lineTo(colX[i] + 0.5, rowsTop + rowCount * rowH);
-      ctx.strokeStyle = "rgba(183, 160, 102, 0.1)";
-      ctx.stroke();
-    });
-
-    ctx.restore();
-  }
-
-  // Panel-count picker: try 4 side-by-side panels; if the FLOW/BID/PRICE/
-  // ASK/CVD sub-columns would be too narrow for their own numbers at that
-  // width, drop to 3; if 3 still collides, fall back to stacking the
-  // panels vertically (full card width per panel, so the column-width
-  // constraint disappears).
-  function rowsHalfFor(panelH) {
-    var headerH = Math.max(20, panelH * 0.09), colHeadH = Math.max(9, panelH * 0.04);
-    var availableRows = panelH - headerH - colHeadH;
-    return Math.max(5, Math.floor(availableRows / (2 * TARGET_ROW_H)));
-  }
-  function fontPxFor(panelH, rowsHalf) {
-    var headerH = Math.max(20, panelH * 0.09), colHeadH = Math.max(9, panelH * 0.04);
-    var rowH = (panelH - headerH - colHeadH) / (rowsHalf * 2 + 1);
-    return rowH < 15 ? 8 : 9.5;
-  }
-  function columnsFit(panelW, fontPx) {
-    ctx.font = fontPx + "px " + MONO_FONT;
-    var flowW = ctx.measureText("+300.0").width + 10;
-    var bidAskW = ctx.measureText("59.0").width + 10;
-    var priceW = ctx.measureText("176.32").width + 6;
-    var need = { flow: flowW, bid: bidAskW, price: priceW, ask: bidAskW, cvd: flowW };
-    return COLS.every(function (c) { return c.w * panelW >= need[c.key]; });
-  }
-
-  let W, H;
-  var MOBILE_QUERY = window.matchMedia('(max-width: 640px), (max-aspect-ratio: 3/4), (max-height: 500px) and (orientation: landscape)');
-  function computeLayout() {
-    var candidates = MOBILE_QUERY.matches
-      ? [{ orientation: "col", count: 4 }]
-      : [
-          { orientation: "row", count: 4 },
-          { orientation: "row", count: 3 },
-          { orientation: "col", count: 3 }
-        ];
-    for (var i = 0; i < candidates.length; i++) {
-      var cand = candidates[i];
-      var panelW = cand.orientation === "row" ? W / cand.count : W;
-      var panelH = cand.orientation === "row" ? H : H / cand.count;
-      var rowsHalf = rowsHalfFor(panelH);
-      var fontPx = fontPxFor(panelH, rowsHalf);
-      if (cand.orientation === "col" || columnsFit(panelW, fontPx)) {
-        return { orientation: cand.orientation, count: cand.count, rowsHalf: rowsHalf };
-      }
-    }
-  }
-
-  function resize() {
-    W = canvas.parentElement.clientWidth;
-    H = canvas.parentElement.clientHeight;
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    canvas.style.width = W + "px";
-    canvas.style.height = H + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    LAYOUT = computeLayout();
-    SYMBOLS = SYMBOL_DEFS.slice(0, LAYOUT.count).map(function (def) {
-      return buildSymbol(def, LAYOUT.rowsHalf);
-    });
-  }
-  window.addEventListener("resize", function () { resize(); draw(); });
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    var isRow = LAYOUT.orientation === "row";
-    var panelW = isRow ? W / SYMBOLS.length : W;
-    var panelH = isRow ? H : H / SYMBOLS.length;
-    SYMBOLS.forEach(function (sym, i) {
-      var rect = isRow ? { x: i * panelW, y: 0, w: panelW, h: panelH } : { x: 0, y: i * panelH, w: panelW, h: panelH };
-      drawPanel(sym, rect);
-    });
-  }
-
-  function jitter(sym, intensity) {
-    var p = intensity || 0.18;
-    Object.keys(sym.bookByTick).forEach(function (k) {
-      var cell = sym.bookByTick[k];
-      if (cell.bid && Math.random() < p) cell.bid = Math.max(2, cell.bid + (Math.random() - 0.5) * 18);
-      if (cell.ask && Math.random() < p) cell.ask = Math.max(2, cell.ask + (Math.random() - 0.5) * 18);
-    });
-    Object.keys(sym.tradesByTick).forEach(function (k) {
-      var cell = sym.tradesByTick[k];
-      if (Math.random() < p) cell.buy = Math.max(0, cell.buy + (Math.random() - 0.5) * 10);
-      if (Math.random() < p) cell.sell = Math.max(0, cell.sell + (Math.random() - 0.5) * 10);
-    });
-    var cumDelta = 0, poc = null, pocVol = -1;
-    Object.keys(sym.tradesByTick).forEach(function (k) {
-      var cell = sym.tradesByTick[k];
-      cumDelta += cell.buy - cell.sell;
-      var total = cell.buy + cell.sell;
-      if (total > pocVol) { pocVol = total; poc = Number(k); }
-    });
-    sym.cumDelta = cumDelta;
-    sym.poc = poc;
-    sym.pocVol = pocVol;
-  }
-
-  // Normal cadence changes only a handful of cells per tick (low intensity);
-  // occasionally a short burst of rapid, higher-intensity ticks simulates a
-  // flurry of order-flow activity before settling back to the calm pace.
-  function scheduleTick() {
-    setTimeout(function () {
-      if (Math.random() < 0.15) {
-        runBurst();
-      } else {
-        SYMBOLS.forEach(function (s) { jitter(s, 0.14 + Math.random() * 0.1); });
-        draw();
-        scheduleTick();
-      }
-    }, 800 + Math.random() * 400);
-  }
-
-  function runBurst() {
-    var stepsLeft = 3 + Math.floor(Math.random() * 4);
-    function step() {
-      SYMBOLS.forEach(function (s) { jitter(s, 0.45 + Math.random() * 0.25); });
-      draw();
-      stepsLeft--;
-      if (stepsLeft > 0) setTimeout(step, 100 + Math.random() * 100);
-      else scheduleTick();
-    }
-    step();
-  }
-
-  resize();
-  draw();
-  scheduleTick();
 </script>
 
 </body>
