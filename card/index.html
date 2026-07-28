@@ -112,22 +112,6 @@
     .sheen { animation: none; background-position: 60% 20%; }
   }
 
-  /* Oversized monogram watermark, echoing the site-wide footer mark. */
-  .monogram {
-    position: absolute;
-    z-index: 1;
-    right: clamp(-6%, -2vw, 2%);
-    bottom: clamp(-14%, -6vw, -4%);
-    width: clamp(220px, 34vw, 420px);
-    height: auto;
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  .monogram text {
-    font-family: 'IBM Plex Serif', Georgia, serif;
-    font-weight: 600;
-  }
-
   .scrim {
     position: absolute;
     inset: 0;
@@ -324,7 +308,6 @@
       box-shadow: 0 30px 80px rgba(0,0,0,0.5);
     }
     .scrim { background: rgba(13, 23, 38, 0.55); }
-    .monogram { opacity: 0.35; }
     .content {
       position: absolute;
       top: 0; left: 0; right: 0;
@@ -365,9 +348,6 @@
   <div class="card">
     <div class="card-bg">
       <div class="sheen" aria-hidden="true"></div>
-      <svg class="monogram" viewBox="0 0 100 100" aria-hidden="true">
-        <text x="100" y="78" text-anchor="end" font-size="92" fill="none" stroke="rgba(183,160,102,0.5)" stroke-width="0.6">DZ</text>
-      </svg>
       <div class="scrim"></div>
     </div>
 
