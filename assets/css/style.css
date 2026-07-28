@@ -256,13 +256,26 @@ body:has(.hero) .site-header {
 /* Personal page's hero is a photo slideshow, not art meant to read
    full-bleed behind the nav, so unlike every other hero page it keeps the
    header in normal document flow above the hero (not overlaid) with a
-   solid dark-blue bar instead of the transparent photo-scrim gradient. */
+   solid dark-blue bar instead of the transparent photo-scrim gradient.
+   Still bleeds edge-to-edge like the hero below it (margin/padding trick
+   instead of the absolute positioning used to achieve that above), so the
+   dark-blue bar spans the full viewport width rather than stopping at
+   .wrap's own padding. */
 body.personal-index:has(.hero) .site-header {
   position: relative;
   left: auto;
   right: auto;
+  margin: 0 -64px;
   background: var(--blue-950);
   padding-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  body.personal-index:has(.hero) .site-header { margin: 0 -40px; }
+}
+
+@media (max-width: 640px) {
+  body.personal-index:has(.hero) .site-header { margin: 0 -16px; }
 }
 
 @media (max-width: 900px) {
@@ -1857,6 +1870,14 @@ pre.code-block code {
   object-position: 50% 30%;
   opacity: 1;
   filter: brightness(1.55) contrast(1.05);
+}
+
+/* Personal page's hero is a real photo of the person, shown as-is rather
+   than art brightened to stay legible under overlaid text (its header no
+   longer overlays the photo, so that brightening just washes the photo
+   out). */
+.personal-index .hero-img {
+  filter: none;
 }
 
 .hero-fade.hero-fade-soft {
