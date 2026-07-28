@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Proof of the Fundamental Theorem of Empirical Processes
-permalink: /academic/mathematics/fundamental-theorem-of-empirical-processes/
+permalink: /blogposts/fundamental-theorem-of-empirical-processes/
 ---
 
 <section class="hero">
@@ -760,4 +760,4 @@ This closes the chain running from the Latała&ndash;Bednorz theorem through the
 
 </div>
 
-<p><a href="{{ '/academic/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>
+<p><a href="{{ '/blogposts/#articles' | relative_url }}">&larr; Back to Articles</a></p>

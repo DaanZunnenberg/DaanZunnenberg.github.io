@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Proof of Bousquet's Inequality
-permalink: /academic/mathematics/bousquet-talagrand-inequality/
+permalink: /blogposts/bousquet-talagrand-inequality/
 ---
 
 <section class="hero">
@@ -587,4 +587,4 @@ Sub-additivity of entropy tensorises the entropy of \(Z=f(X)\) into single-coord
 
 </div>
 
-<p><a href="{{ '/academic/mathematics/' | relative_url }}">&larr; Back to Mathematics</a></p>
+<p><a href="{{ '/blogposts/#articles' | relative_url }}">&larr; Back to Articles</a></p>

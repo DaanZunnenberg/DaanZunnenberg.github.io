@@ -22,53 +22,7 @@
       </button>
       <div class="nav-overlay" id="nav-overlay"></div>
 
-      {% if page.url contains '/academic/' %}
-        {% assign is_academic = true %}
-      {% else %}
-        {% assign is_academic = false %}
-      {% endif %}
-
       <!-- Desktop: grouped hierarchy to keep the top-level item count down -->
-      {% if is_academic %}
-      <nav class="site-nav site-nav-desktop" aria-hidden="true">
-        <div class="nav-item">
-          <a href="{{ '/academic/' | relative_url }}" {% if page.url == '/academic/' %}class="active"{% endif %}>Academic</a>
-        </div>
-        <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/academic/research/' | relative_url }}" {% if page.url == '/academic/research/' %}class="active"{% endif %}>Research</a>
-          <div class="nav-dropdown">
-            <a href="{{ '/academic/research/#research-interests' | relative_url }}">Research interests</a>
-            <a href="{{ '/academic/research/#current-work' | relative_url }}">Current work</a>
-            <a href="{{ '/academic/research/#past-research' | relative_url }}">Past research</a>
-            <a href="{{ '/academic/research/#publications' | relative_url }}">Publications</a>
-          </div>
-        </div>
-        <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/academic/mathematics/' | relative_url }}" {% if page.url contains '/academic/mathematics' %}class="active"{% endif %}>Math</a>
-          <div class="nav-dropdown">
-            <a href="{{ '/academic/mathematics/#introduction' | relative_url }}">Introduction</a>
-            <a href="{{ '/academic/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
-            <a href="{{ '/academic/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
-          </div>
-        </div>
-        <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/academic/schools-workshops/' | relative_url }}" {% if page.url == '/academic/schools-workshops/' %}class="active"{% endif %}>Schools &amp; Workshops</a>
-          <div class="nav-dropdown">
-            <a href="{{ '/academic/schools-workshops/#summer-winter-schools' | relative_url }}">Summer &amp; winter schools</a>
-            <a href="{{ '/academic/schools-workshops/#workshops' | relative_url }}">Workshops</a>
-          </div>
-        </div>
-        <div class="nav-item">
-          <a href="{{ '/academic/notes/' | relative_url }}" {% if page.url == '/academic/notes/' %}class="active"{% endif %}>Notes</a>
-        </div>
-        <div class="nav-item">
-          <a href="{{ '/academic/contact/' | relative_url }}" {% if page.url == '/academic/contact/' %}class="active"{% endif %}>Contact</a>
-        </div>
-        <div class="nav-item nav-switch">
-          <a href="{{ '/' | relative_url }}">Professional site &rarr;</a>
-        </div>
-      </nav>
-      {% else %}
       <nav class="site-nav site-nav-desktop site-nav-main" aria-hidden="true">
         <div class="nav-item">
           <a href="{{ '/projects/' | relative_url }}" {% if page.url == '/projects/' %}class="active"{% endif %}>Projects</a>
@@ -86,6 +40,7 @@
           <a href="{{ '/blogposts/' | relative_url }}" {% if page.url == '/blogposts/' %}class="active"{% endif %}>Blogposts</a>
           <div class="nav-dropdown">
             <a href="{{ '/blogposts/#blogposts' | relative_url }}">Blogposts</a>
+            <a href="{{ '/blogposts/#articles' | relative_url }}">Articles</a>
             <a href="{{ '/blogposts/#events' | relative_url }}">Events</a>
           </div>
         </div>
@@ -99,44 +54,12 @@
           <div class="nav-dropdown">
             <a href="{{ '/personal/#padel' | relative_url }}">Padel</a>
             <a href="{{ '/personal/#travel' | relative_url }}">Travel</a>
+            <a href="{{ '/personal/#math' | relative_url }}">Math</a>
           </div>
         </div>
       </nav>
-      {% endif %}
 
       <!-- Mobile: flat list -->
-      {% if is_academic %}
-      <nav class="site-nav site-nav-mobile" id="site-nav">
-        <a href="{{ '/academic/' | relative_url }}" {% if page.url == '/academic/' %}class="active"{% endif %}>Academic</a>
-        <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/academic/research/' | relative_url }}" {% if page.url == '/academic/research/' %}class="active"{% endif %}>Research</a>
-          <div class="nav-dropdown">
-            <a href="{{ '/academic/research/#research-interests' | relative_url }}">Research interests</a>
-            <a href="{{ '/academic/research/#current-work' | relative_url }}">Current work</a>
-            <a href="{{ '/academic/research/#past-research' | relative_url }}">Past research</a>
-            <a href="{{ '/academic/research/#publications' | relative_url }}">Publications</a>
-          </div>
-        </div>
-        <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/academic/mathematics/' | relative_url }}" {% if page.url contains '/academic/mathematics' %}class="active"{% endif %}>Math</a>
-          <div class="nav-dropdown">
-            <a href="{{ '/academic/mathematics/#introduction' | relative_url }}">Introduction</a>
-            <a href="{{ '/academic/mathematics/fundamental-theorem-of-empirical-processes/' | relative_url }}">Fundamental Theorem of Empirical Processes</a>
-            <a href="{{ '/academic/mathematics/bousquet-talagrand-inequality/' | relative_url }}">Bousquet&ndash;Talagrand Inequality</a>
-          </div>
-        </div>
-        <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/academic/schools-workshops/' | relative_url }}" {% if page.url == '/academic/schools-workshops/' %}class="active"{% endif %}>Schools &amp; Workshops</a>
-          <div class="nav-dropdown">
-            <a href="{{ '/academic/schools-workshops/#summer-winter-schools' | relative_url }}">Summer &amp; winter schools</a>
-            <a href="{{ '/academic/schools-workshops/#workshops' | relative_url }}">Workshops</a>
-          </div>
-        </div>
-        <a href="{{ '/academic/notes/' | relative_url }}" {% if page.url == '/academic/notes/' %}class="active"{% endif %}>Notes</a>
-        <a href="{{ '/academic/contact/' | relative_url }}" {% if page.url == '/academic/contact/' %}class="active"{% endif %}>Contact</a>
-        <a href="{{ '/' | relative_url }}" class="nav-switch">Professional site &rarr;</a>
-      </nav>
-      {% else %}
       <nav class="site-nav site-nav-mobile" id="site-nav">
         <a href="{{ '/projects/' | relative_url }}" {% if page.url == '/projects/' %}class="active"{% endif %}>Projects</a>
         <div class="nav-item nav-has-dropdown">
@@ -152,6 +75,7 @@
           <a href="{{ '/blogposts/' | relative_url }}" {% if page.url == '/blogposts/' %}class="active"{% endif %}>Blogposts</a>
           <div class="nav-dropdown">
             <a href="{{ '/blogposts/#blogposts' | relative_url }}">Blogposts</a>
+            <a href="{{ '/blogposts/#articles' | relative_url }}">Articles</a>
             <a href="{{ '/blogposts/#events' | relative_url }}">Events</a>
           </div>
         </div>
@@ -161,10 +85,10 @@
           <div class="nav-dropdown">
             <a href="{{ '/personal/#padel' | relative_url }}">Padel</a>
             <a href="{{ '/personal/#travel' | relative_url }}">Travel</a>
+            <a href="{{ '/personal/#math' | relative_url }}">Math</a>
           </div>
         </div>
       </nav>
-      {% endif %}
     </header>
 
     <main>
@@ -187,41 +111,6 @@
           </a>
         </div>
 
-        {% if is_academic %}
-        <div class="footer-col">
-          <div class="footer-col-label">Navigate</div>
-          <a href="{{ '/academic/' | relative_url }}">Academic</a>
-          <a href="{{ '/academic/research/' | relative_url }}">Research &amp; Publications</a>
-          <a href="{{ '/academic/mathematics/' | relative_url }}">Math</a>
-          <a href="{{ '/academic/schools-workshops/' | relative_url }}">Schools &amp; Workshops</a>
-          <a href="{{ '/academic/notes/' | relative_url }}">Notes</a>
-          <a href="{{ '/academic/contact/' | relative_url }}">Contact</a>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-label">Connect</div>
-          <a data-u="{{ site.email | split: '@' | first }}" data-d="{{ site.email | split: '@' | last }}">Email</a>
-          <a href="https://github.com/{{ site.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/{{ site.linkedin }}/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="https://scholar.google.com/citations?user={{ site.scholar }}" target="_blank" rel="noopener noreferrer">Scholar</a>
-          <a href="{{ '/card/' | relative_url }}">Save Contact (Digital Card)</a>
-          <a href="{{ '/' | relative_url }}">Professional site &rarr;</a>
-        </div>
-        <div class="footer-col footer-contact-col">
-          <div class="footer-contact">
-            <p>Collaboration proposals, seminar invitations, or questions about the PhD work.</p>
-            <form class="footer-message-form" data-u="{{ site.email | split: '@' | first }}" data-d="{{ site.email | split: '@' | last }}" method="POST">
-              <input type="hidden" name="_subject" value="New message from the footer, daanzunnenberg.com">
-              <input type="hidden" name="_template" value="table">
-              <input type="hidden" name="_captcha" value="true">
-              <input type="hidden" name="_next" value="{{ '/academic/contact/' | absolute_url }}?sent=1">
-              <input type="text" name="_honey" style="display:none">
-              <input type="email" name="email" placeholder="Your email" required>
-              <textarea name="message" rows="2" placeholder="Quick message..." required></textarea>
-              <button type="submit">Send message &rarr;</button>
-            </form>
-          </div>
-        </div>
-        {% else %}
         <div class="footer-col">
           <div class="footer-col-label">Navigate</div>
           <a href="{{ '/' | relative_url }}">About</a>
@@ -238,7 +127,6 @@
           <a href="https://www.linkedin.com/in/{{ site.linkedin }}/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href="https://scholar.google.com/citations?user={{ site.scholar }}" target="_blank" rel="noopener noreferrer">Scholar</a>
           <a href="{{ '/card/' | relative_url }}">Save Contact (Digital Card)</a>
-          <a href="{{ '/academic/' | relative_url }}">Academic site &rarr;</a>
         </div>
         <div class="footer-col footer-contact-col">
           <div class="footer-contact">
@@ -255,7 +143,6 @@
             </form>
           </div>
         </div>
-        {% endif %}
       </div>
 
       <div class="footer-bottom">

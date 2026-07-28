@@ -16,7 +16,7 @@ permalink: /projects/functional-scale-estimation/
 
 <div class="article-body">
 
-<p class="tagline"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code> &middot; see <a href="{{ '/academic/research/' | relative_url }}">Publications</a></p>
+<p class="tagline"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code></p>
 
 <h2 id="overview">Context &amp; Motivation</h2>
 <p>

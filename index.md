@@ -120,29 +120,10 @@ high-frequency trading, market making, and quantitative investing. Explore the s
 <section class="contact-panel landing-panel">
   <div class="hero-eyebrow">Get In Touch</div>
   <h2 id="working-together">Working Together</h2>
-  <p class="tagline">Here for a collaboration or a career opportunity? Pick the path that fits.</p>
+  <p class="tagline">Here for a collaboration or a career opportunity? Roles, consulting, or an invitation to meet up.</p>
 
-  <div class="nav-cards">
-    <a class="nav-card" href="{{ '/academic/contact/' | relative_url }}">
-      <span class="nav-card-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Zm0 8L2 15l10 5 10-5-10-5Z"/></svg>
-      </span>
-      <span class="nav-card-body">
-        <span class="nav-card-title">Research &amp; Academic</span>
-        <span class="nav-card-hint">Collaboration proposals, seminar invitations, or questions about the PhD work.</span>
-      </span>
-      <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
-    </a>
-    <a class="nav-card" href="{{ '/contact/' | relative_url }}">
-      <span class="nav-card-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M3 12.5h18"/></svg>
-      </span>
-      <span class="nav-card-body">
-        <span class="nav-card-title">Recruiters &amp; Professional</span>
-        <span class="nav-card-hint">Roles, consulting, or an invitation to meet up. For industry and professional contact.</span>
-      </span>
-      <span class="nav-card-arrow" aria-hidden="true">&rarr;</span>
-    </a>
+  <div class="hero-cta">
+    <a class="cta-button" href="{{ '/contact/' | relative_url }}">Get In Touch &rarr;</a>
   </div>
 </section>
 

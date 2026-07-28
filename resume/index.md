@@ -84,7 +84,7 @@ body_class: resume-index
     <li>Researching decomposition theorems, generic chaining, majorizing measures, weak convergence, and Donsker&ndash;Skorokhod theorems for stochastic processes satisfying absolute regularity.</li>
     <li>Organized and led a weekly graduate seminar on weak convergence and empirical process theory.</li>
   </ul>
-  <p class="form-hint">The full technical writeup, including a walkthrough of the \(\gamma_2\) functional and the majorizing measure theorem, is on the <a href="{{ '/academic/research/' | relative_url }}">Research</a> page.</p>
+  <p class="form-hint">The full technical writeup, including a walkthrough of the \(\gamma_2\) functional and the majorizing measure theorem, is on the <a href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">Blogposts</a> page.</p>
 </div>
 
 <div class="entry">
@@ -144,7 +144,6 @@ body_class: resume-index
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;04</span>
   <h2 id="publications">Publications</h2>
-  <p>Full list, including forthcoming and in-preparation work, is on <a href="{{ '/academic/research/' | relative_url }}">Research &amp; Publications</a>.</p>
 </div>
 
 <div class="entry">

@@ -19,9 +19,9 @@ body_class: blogposts-index
 </section>
 
 <p class="lede">
-  This page collects two kinds of thing. The first is writing: posts on markets and mathematics, published
-  here. The second is a record of talks, posters, and conferences &mdash; where I presented or attended,
-  and what the talk was about.
+  This page collects three kinds of thing. The first is writing: posts on markets and mathematics, published
+  here. The second is full proofs of some of my favourite results in probability. The third is a record of
+  talks, posters, and conferences &mdash; where I presented or attended, and what the talk was about.
 </p>
 
 <div class="section-break">
@@ -88,6 +88,36 @@ body_class: blogposts-index
 
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;02</span>
+  <h2 id="articles">Articles</h2>
+  <p>Full proofs of my favourite results in generic chaining and empirical process theory.</p>
+</div>
+
+<div class="article-grid">
+  <a class="article-card" href="{{ '/blogposts/fundamental-theorem-of-empirical-processes/' | relative_url }}">
+    <span class="article-card-img" aria-hidden="true">
+      <img src="{{ '/images/TalagrandOil.png' | relative_url }}" alt="">
+    </span>
+    <span class="article-card-body">
+      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-mathematical">Mathematical</span></span>
+      <span class="article-card-title">The Fundamental Theorem of Empirical Processes</span>
+      <span class="article-card-desc">The generic chaining bound for Gaussian processes, extended to sums of independent random functions.</span>
+    </span>
+  </a>
+
+  <a class="article-card" href="{{ '/blogposts/bousquet-talagrand-inequality/' | relative_url }}">
+    <span class="article-card-img" aria-hidden="true">
+      <img src="{{ '/images/Math.png' | relative_url }}" alt="">
+    </span>
+    <span class="article-card-body">
+      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-mathematical">Mathematical</span></span>
+      <span class="article-card-title">The Bousquet&ndash;Talagrand Inequality</span>
+      <span class="article-card-desc">A sharp concentration bound for the supremum of an empirical process, via the entropy method.</span>
+    </span>
+  </a>
+</div>
+
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;03</span>
   <h2 id="events">Events</h2>
   <p>Conferences, talks, and posters I&rsquo;m giving or attending, upcoming and past, newest first &mdash; the date on each entry is the only thing that tells them apart.</p>
 </div>
