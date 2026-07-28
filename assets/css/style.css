@@ -253,6 +253,18 @@ body:has(.hero) .site-header {
   padding-bottom: 32px;
 }
 
+/* Personal page's hero is a photo slideshow, not art meant to read
+   full-bleed behind the nav, so unlike every other hero page it keeps the
+   header in normal document flow above the hero (not overlaid) with a
+   solid dark-blue bar instead of the transparent photo-scrim gradient. */
+body.personal-index:has(.hero) .site-header {
+  position: relative;
+  left: auto;
+  right: auto;
+  background: var(--blue-950);
+  padding-bottom: 20px;
+}
+
 @media (max-width: 900px) {
   body:has(.hero) .site-header {
     padding-left: 40px;
@@ -1809,6 +1821,13 @@ pre.code-block code {
   pointer-events: none;
 }
 
+/* Only needed to keep the transparent overlaid header legible; personal
+   page's header sits solid above its hero instead, so this scrim would
+   just darken the top of the photo for no reason. */
+.personal-index .hero::before {
+  display: none;
+}
+
 .hero #market-widget-canvas,
 .hero-canvas {
   position: absolute;
@@ -1882,8 +1901,11 @@ pre.code-block code {
 }
 
 /* Clears the transparent header floating on top of the hero (roughly
-   70-75px tall) so its nav text never overlaps the hero copy. */
-body:has(.hero) .hero-content {
+   70-75px tall) so its nav text never overlaps the hero copy. Personal
+   page's header sits in normal flow above its hero instead of overlaid
+   (see the .site-header override above), so it needs none of this
+   clearance. */
+body:has(.hero):not(.personal-index) .hero-content {
   padding-top: 110px;
 }
 
@@ -1950,6 +1972,15 @@ body:has(.hero) .hero-content {
 .hero-lede em {
   font-style: italic;
   color: var(--accent-bright);
+}
+
+/* Personal page's hero text sits on a solid dark-blue header/scrim rather
+   than directly over photo art, so it doesn't need the drop-shadow "glow"
+   the other heroes use to stay legible over arbitrary image content. */
+.personal-index .hero-eyebrow,
+.personal-index .hero-name,
+.personal-index .hero-lede {
+  text-shadow: none;
 }
 
 .hero-cta {
