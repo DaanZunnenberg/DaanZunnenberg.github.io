@@ -5,7 +5,7 @@ permalink: /personal/
 body_class: personal-index
 ---
 
-<section class="hero">
+<section class="hero hero-lg">
   <div id="profile-slideshow" aria-hidden="true">
     {%- assign personal_photos = site.static_files | where_exp: "f", "f.path contains '/assets/img/personal/'" | sort: "path" -%}
     {%- if personal_photos.size > 0 -%}
