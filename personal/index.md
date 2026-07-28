@@ -26,22 +26,6 @@ body_class: personal-index
 
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;01</span>
-  <h2 id="padel">Padel</h2>
-</div>
-<p>
-I picked up padel recently and I'm hooked. Up for a game? Let me know.
-</p>
-
-<div class="section-break">
-  <span class="section-break-label">&sect;&nbsp;02</span>
-  <h2 id="travel">Travel</h2>
-</div>
-<p>
-I like winter, and I like travelling.
-</p>
-
-<div class="section-break">
-  <span class="section-break-label">&sect;&nbsp;03</span>
   <h2 id="math">Math</h2>
 </div>
 <p>
@@ -61,6 +45,21 @@ tight, structural characterizations.
 </ul>
 <p>
 Full proofs of the results I care about most are on the <a href="{{ '/blogposts/#articles' | relative_url }}">Blogposts</a> page.
+</p>
+
+<div class="section-break">
+  <span class="section-break-label">&sect;&nbsp;02</span>
+  <h2 id="hobbies">Hobbies</h2>
+</div>
+
+<h3 id="padel">Padel</h3>
+<p>
+I picked up padel recently and I'm hooked. Up for a game? Let me know.
+</p>
+
+<h3 id="travel">Travel</h3>
+<p>
+I like winter, and I like travelling.
 </p>
 
 <div class="links">
