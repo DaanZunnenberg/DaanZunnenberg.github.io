@@ -986,4 +986,4 @@ Putting the two facts together: the Dudley integral is, up to universal constant
 
 </div>
 
-<p><a href="{{ '/blogposts/' | relative_url }}">&larr; Back to Blogposts</a></p>
+<p><a href="{{ '/blogposts/#articles' | relative_url }}">&larr; Back to Articles</a></p>

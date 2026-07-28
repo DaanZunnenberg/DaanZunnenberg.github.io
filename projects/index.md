@@ -5,7 +5,7 @@ permalink: /projects/
 body_class: projects-index
 ---
 
-<section class="hero">
+<section class="hero hero-lg">
   <img class="hero-img" src="{{ '/images/hero_wide.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <!-- Animated live options-chain background, kept for later use: uncomment to restore it in place of the static image above.
   <canvas id="market-widget-canvas" class="hero-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain" aria-hidden="true"></canvas>

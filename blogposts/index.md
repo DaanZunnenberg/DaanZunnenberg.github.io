@@ -5,7 +5,7 @@ permalink: /blogposts/
 body_class: blogposts-index
 ---
 
-<section class="hero hero-scroll">
+<section class="hero hero-lg hero-scroll">
   <img class="hero-img" src="{{ '/images/hero_wide.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <!-- Animated live order-flow ladder background, kept for later use: uncomment to restore it in place of the static image above.
   <canvas id="orderflow-ladder-canvas" class="hero-canvas" aria-label="Live combined depth-of-market and order-flow ladder for Binance XLM/USDT, SOL/USDT, and XRP/USDT: each row is a price level showing resting bid and ask book size, the net executed buy/sell delta traded at that level, and a running cumulative delta down the visible price levels (scroll horizontally on narrow screens)" aria-hidden="true"></canvas>
@@ -65,17 +65,6 @@ body_class: blogposts-index
     </span>
   </a>
 
-  <a class="article-card" data-tags="mathematical" href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">
-    <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/chalk.png' | relative_url }}" alt="">
-    </span>
-    <span class="article-card-body">
-      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-mathematical">Mathematical</span></span>
-      <span class="article-card-date">July 27, 2026</span>
-      <span class="article-card-title">Dudley Integrals and the Majorizing Measure Theorem</span>
-      <span class="article-card-desc">Why covering numbers aren't always enough, and Talagrand's sharp fix for Gaussian processes</span>
-    </span>
-  </a>
 </div>
 
 <p class="article-grid-empty" data-filter-empty hidden>No blogposts tagged with this topic yet &mdash; check back soon, or pick another filter above.</p>
@@ -92,28 +81,56 @@ body_class: blogposts-index
   <p>Full proofs of my favourite results in generic chaining and empirical process theory.</p>
 </div>
 
-<div class="article-grid">
-  <a class="article-card" href="{{ '/blogposts/fundamental-theorem-of-empirical-processes/' | relative_url }}">
+<div class="filterable-section">
+
+<div class="tag-filter" role="group" aria-label="Filter articles by topic">
+  <button type="button" class="tag-filter-btn is-active" data-tag="all" aria-pressed="true">All</button>
+  <button type="button" class="tag-filter-btn tag-filter-btn-chaining" data-tag="chaining" aria-pressed="false">Chaining</button>
+  <button type="button" class="tag-filter-btn tag-filter-btn-empirical-processes" data-tag="empirical-processes" aria-pressed="false">Empirical Processes</button>
+  <button type="button" class="tag-filter-btn tag-filter-btn-concentration" data-tag="concentration" aria-pressed="false">Concentration</button>
+</div>
+
+<div class="article-grid" data-filterable>
+  <a class="article-card" data-tags="chaining" href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">
+    <span class="article-card-img" aria-hidden="true">
+      <img src="{{ '/images/chalk.png' | relative_url }}" alt="">
+    </span>
+    <span class="article-card-body">
+      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-chaining">Chaining</span></span>
+      <span class="article-card-title">Dudley Integrals and the Majorizing Measure Theorem</span>
+      <span class="article-card-desc">Why covering numbers aren't always enough, and Talagrand's sharp fix for Gaussian processes.</span>
+    </span>
+  </a>
+
+  <a class="article-card" data-tags="chaining empirical-processes" href="{{ '/blogposts/fundamental-theorem-of-empirical-processes/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <img src="{{ '/images/TalagrandOil.png' | relative_url }}" alt="">
     </span>
     <span class="article-card-body">
-      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-mathematical">Mathematical</span></span>
+      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-chaining">Chaining</span><span class="tag tag-empirical-processes">Empirical Processes</span></span>
       <span class="article-card-title">The Fundamental Theorem of Empirical Processes</span>
       <span class="article-card-desc">The generic chaining bound for Gaussian processes, extended to sums of independent random functions.</span>
     </span>
   </a>
 
-  <a class="article-card" href="{{ '/blogposts/bousquet-talagrand-inequality/' | relative_url }}">
+  <a class="article-card" data-tags="concentration empirical-processes" href="{{ '/blogposts/bousquet-talagrand-inequality/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <img src="{{ '/images/Math.png' | relative_url }}" alt="">
     </span>
     <span class="article-card-body">
-      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-mathematical">Mathematical</span></span>
+      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-concentration">Concentration</span><span class="tag tag-empirical-processes">Empirical Processes</span></span>
       <span class="article-card-title">The Bousquet&ndash;Talagrand Inequality</span>
       <span class="article-card-desc">A sharp concentration bound for the supremum of an empirical process, via the entropy method.</span>
     </span>
   </a>
+</div>
+
+<p class="article-grid-empty" data-filter-empty hidden>No articles tagged with this topic yet &mdash; check back soon, or pick another filter above.</p>
+
+<div class="article-grid-more">
+  <button type="button" class="article-grid-more-btn" data-show-more hidden>Show more</button>
+</div>
+
 </div>
 
 <div class="section-break">

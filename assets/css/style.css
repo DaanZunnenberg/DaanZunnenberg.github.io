@@ -142,7 +142,10 @@ main h2,
 .blogposts-index main > p,
 .projects-index main > p.lede,
 .contact-index main > p.lede,
-.resume-index main > p.tagline {
+.resume-index main > p.tagline,
+.personal-index main > h2,
+.personal-index main > p,
+.personal-index main > ul {
   max-width: none;
   margin-left: 0;
   margin-right: 0;
@@ -656,72 +659,20 @@ body.nav-locked {
   }
 }
 
-/* Profile cover: a full-width 16:9 banner photo, bleeding out of the reading
-   column the same way the hero does, with the name/tagline/intro following
-   directly underneath it rather than squeezed alongside. */
-.profile-cover {
-  position: relative;
-  margin: 0 -64px 24px;
-  border-radius: 2px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-}
-
-.profile-cover img {
-  display: block;
-  width: 100%;
-  /* A fixed height made the crop width-driven on desktop (cropping the
-     photo's headroom away) but height-driven on narrow phones, where the
-     container is nearly square, there's no vertical room left to crop and
-     the photo's own headroom above the subject shows through as "blank"
-     space. A fixed aspect ratio keeps the crop width-driven at every
-     viewport width, so the same headroom is trimmed everywhere. */
-  aspect-ratio: 2.4 / 1;
-  height: auto;
-  object-fit: cover;
-  object-position: 50% calc(50% + 40px);
-}
-
-.profile-cover img.slide {
+/* Personal page's hero photo cross-fades between multiple images (unlike
+   every other hero's single static .hero-img), so the slides need their own
+   absolute-stack-with-opacity treatment layered on top of the shared
+   .hero-img sizing/position rules. */
+.hero .slide {
   position: absolute;
   inset: 0;
   opacity: 0;
   transition: opacity 1.2s ease;
 }
 
-.profile-cover img.slide:first-child {
-  position: relative;
-}
-
-.profile-cover img.slide.is-active {
+.hero .slide.is-active {
   opacity: 1;
   z-index: 1;
-}
-
-.profile-cover::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(12, 16, 26, 0.16) 0%, rgba(12, 16, 26, 0.04) 100%);
-  pointer-events: none;
-}
-
-.profile-intro { margin-bottom: 4px; }
-
-/* The intro block's own h1/lede would otherwise pick up the sitewide
-   centered-and-inset h1/.lede rule above, while its .tagline right
-   between them has no such rule and stays flush left, so the three lines
-   would sit at different left edges. Keep all three flush left instead,
-   matching the resume page's analogous override. */
-.profile-intro h1,
-.profile-intro .lede {
-  max-width: none;
-  margin-left: 0;
-  margin-right: 0;
-}
-
-@media (max-width: 640px) {
-  .profile-cover { margin: 0 -16px 20px; }
 }
 
 /* Typography */
@@ -1827,16 +1778,23 @@ pre.code-block code {
   display: flex;
   align-items: center;
   margin: 0 -64px 40px;
-  /* Fixed (not min-) height: tall enough to fit the fullest hero (landing
-     page: eyebrow + two-line headline + lede + CTA row). A fixed height
-     stops any page's content from growing its box past this figure, so
-     every hero section renders at exactly the same height instead of
-     just sharing a floor. */
-  height: 420px;
+  /* Height follows .hero-content's own content by default, so a short
+     detail-page hero (eyebrow + title + one-line lede) doesn't render as
+     mostly empty photo. A floor keeps very short content from collapsing
+     the image into a sliver. */
+  min-height: 220px;
   overflow: hidden;
   border-radius: 2px;
   border: 1px solid var(--line-dark);
   background: var(--blue-950);
+}
+
+/* The four section-index pages (landing, Projects, Resume, Blogposts) share
+   this fixed height instead, so their heroes line up with each other and
+   have room for the fullest hero (landing page: eyebrow + two-line headline
+   + lede + CTA row). */
+.hero-lg {
+  height: 420px;
 }
 
 /* Scrim so the site title/nav stay legible when the transparent header
@@ -2063,7 +2021,8 @@ body:has(.hero) .hero-content {
 .copy-toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (max-width: 640px) {
-  .hero { margin: 0 -16px 32px; height: 380px; }
+  .hero { margin: 0 -16px 32px; }
+  .hero-lg { height: 380px; }
   .hero-content { max-width: none; padding: 28px 20px; }
   .hero-name { font-size: 32px; }
   .hero-headline { font-size: 27px; }
