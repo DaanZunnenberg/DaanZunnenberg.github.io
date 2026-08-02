@@ -29,7 +29,7 @@ body_class: personal-index
   <h2 id="math">Math</h2>
 </div>
 <p>
-What really draws me to math is finding sharp order in high-dimensional randomness &mdash; concentration of
+What really draws me to mathematics is finding sharp order in high-dimensional randomness &mdash; concentration of
 measure and generic chaining theory, working with structural tools like Bobkov-Ledoux modified logarithmic
 Sobolev inequalities, Latała-Oleszkiewicz tensorization, and the Latała-Mendelson bound to extend classical
 Fernique comparison principles. Much of this traces back to Michel Talagrand's work on generic chaining and
