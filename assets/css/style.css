@@ -1878,6 +1878,7 @@ pre.code-block code {
    out). */
 .personal-index .hero-img {
   filter: none;
+  object-position: 50% 20%;
 }
 
 .hero-fade.hero-fade-soft {
