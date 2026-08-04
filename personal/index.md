@@ -24,6 +24,13 @@ body_class: personal-index
   </div>
 </section>
 
+<p>
+Rotterdam has been home for a while now. When I'm not buried in a proof or staring at a screen full of order
+books, I'm probably out on the padel court, catching up on a series, or planning the next trip somewhere cold.
+I like the mix: hours of quiet, technical work balanced against people, movement, and the occasional bad decision
+on a menu abroad.
+</p>
+
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;01</span>
   <h2 id="math">Math</h2>
