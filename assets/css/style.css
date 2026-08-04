@@ -2009,6 +2009,7 @@ body:has(.hero):not(.personal-index) .hero-content {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
+  margin-top: 8px;
 }
 
 /* Generic reset so a <button class="copy-email"> reads like the plain
@@ -2077,6 +2078,7 @@ body:has(.hero):not(.personal-index) .hero-content {
   .hero { margin: 0 -16px 32px; }
   .hero-lg { height: 380px; }
   .hero-content { max-width: none; padding: 28px 20px; }
+  .hero-cta { margin-top: 22px; }
   .hero-name { font-size: 32px; }
   .hero-headline { font-size: 27px; }
   .hero-fade {
