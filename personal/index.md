@@ -25,10 +25,9 @@ body_class: personal-index
 </section>
 
 <p>
-Rotterdam has been home for a while now. When I'm not buried in a proof or staring at a screen full of order
-books, I'm probably out on the padel court, catching up on a series, or planning the next trip somewhere cold.
-I like the mix: hours of quiet, technical work balanced against people, movement, and the occasional bad decision
-on a menu abroad.
+I'm from Rotterdam. I have a BSc in Applied Mathematics and an MSc in Econometrics and Operations Research, both
+from Amsterdam, and I'm currently finishing a PhD in Mathematics in Leiden. Outside of work I like padel, watching
+series, and travelling, especially somewhere cold.
 </p>
 
 <div class="section-break">
