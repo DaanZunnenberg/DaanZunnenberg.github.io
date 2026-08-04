@@ -608,6 +608,11 @@ body:has(.hero) .site-header .nav-item-personal > a.active {
   background: var(--ink-soft);
 }
 
+.nav-toggle.open {
+  background: var(--bg-raised);
+  border-color: var(--ink-soft);
+}
+
 body.nav-locked {
   overflow: hidden;
 }
