@@ -29,12 +29,11 @@ body_class: personal-index
   <h2 id="math">Math</h2>
 </div>
 <p>
-What really draws me to mathematics is finding sharp order in high-dimensional randomness &mdash; concentration of
-measure and generic chaining theory, working with structural tools like Bobkov-Ledoux modified logarithmic
-Sobolev inequalities, Latała-Oleszkiewicz tensorization, and the Latała-Mendelson bound to extend classical
-Fernique comparison principles. Much of this traces back to Michel Talagrand's work on generic chaining and
-isoperimetric inequalities, which reshaped how we handle stochastic processes, turning coarse bounds into
-tight, structural characterizations.
+What draws me to mathematics is finding sharp order in high-dimensional randomness. I mostly work in concentration
+of measure and generic chaining theory, using structural tools like Bobkov-Ledoux modified logarithmic Sobolev
+inequalities, Latała-Oleszkiewicz tensorization, and the Latała-Mendelson bound to extend classical Fernique
+comparison principles. A lot of this traces back to Michel Talagrand's work on generic chaining and isoperimetric
+inequalities, which turned coarse bounds into tight, structural characterizations of stochastic processes.
 </p>
 <p>Broadly, my interests are:</p>
 <ul>
