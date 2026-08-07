@@ -789,6 +789,13 @@ a:hover { color: var(--blue-300); }
   margin-bottom: 28px;
 }
 
+/* Projects page: the tagline sits right under the intro paragraph with only
+   the lede's 8px margin between them, reading cramped next to the 28px gap
+   below it. Give it matching breathing room on top. */
+.projects-index main > p.tagline {
+  margin-top: 28px;
+}
+
 .lede {
   font-size: 18px;
   color: var(--ink-soft);
