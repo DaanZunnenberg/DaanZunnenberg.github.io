@@ -143,6 +143,49 @@ body_class: blogposts-index
 
   <div class="timeline-item">
     <div class="timeline-head">
+      <span class="timeline-date">October 5, 2026</span>
+      <span class="timeline-title">Seminar &middot; Susanne Ditlevsen and Johannes Ruf</span>
+    </div>
+    <div class="timeline-org">Vrije Universiteit Amsterdam &middot; room HG-15A16, Hoofdgebouw</div>
+    <div class="readme-toggle">
+      <button type="button" class="readme-summary" aria-expanded="false">
+        <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
+      </button>
+      <div class="readme-collapse">
+        <div class="readme">
+          <p>
+            An upcoming seminar with two speakers, Susanne Ditlevsen (University of Copenhagen) and Johannes
+            Ruf (London School of Economics), each giving an introductory talk in the morning and an
+            in-depth talk in the afternoon.
+          </p>
+          <h4>Programme</h4>
+          <p>
+            10:00&ndash;11:00 Introductory talk, Susanne Ditlevsen<br>
+            11:00&ndash;11:15 Coffee break<br>
+            11:15&ndash;12:15 Introductory talk, Johannes Ruf<br>
+            12:15&ndash;14:00 Lunch break<br>
+            14:00&ndash;15:00 In-depth talk, Susanne Ditlevsen<br>
+            15:00&ndash;15:15 Coffee break<br>
+            15:15&ndash;16:15 In-depth talk, Johannes Ruf<br>
+            16:15&ndash; Drinks
+          </p>
+          <h4>Susanne Ditlevsen</h4>
+          <p>
+            Talk 1: TBA<br>
+            Talk 2: TBA
+          </p>
+          <h4>Johannes Ruf</h4>
+          <p>
+            Talk 1: TBA<br>
+            Talk 2: TBA
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-head">
       <span class="timeline-date">November 2026</span>
       <span class="timeline-title">54th Annual Meeting of the Dutch Probability and Statistics Community</span>
     </div>
