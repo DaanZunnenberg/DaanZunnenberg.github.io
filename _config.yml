@@ -10,6 +10,7 @@ scholar: JLg2KjEAAAAJ
 markdown: kramdown
 plugins:
   - jekyll-seo-tag
+  - jekyll-sitemap
 
 exclude:
   - README.md
