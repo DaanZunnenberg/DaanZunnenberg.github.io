@@ -5,19 +5,10 @@ permalink: /resume/
 body_class: resume-index
 ---
 
-<section class="hero hero-lg hero-scroll">
-  <img class="hero-img" src="{{ '/images/Rotterdam.avif' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
-  <!-- Animated scrolling time-and-sales background, kept for later use: uncomment to restore it in place of the static image above.
-  <canvas id="trade-process-canvas" class="hero-canvas" aria-label="Live scrolling time-and-sales tables side by side, for Binance ETH/USDT, SOL/USDT, and BTC/USDT spot trades (scroll horizontally on narrow screens to see all three), each row showing price, trade amount in the coin's own units, trade amount in USD, and trade time" aria-hidden="true"></canvas>
-  -->
-  <div class="hero-fade" aria-hidden="true"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">Work Experience<span class="hero-eyebrow-extra"> &middot; Education &middot; Skills</span></div>
-    <h1 class="hero-name">Resume</h1>
-    <p class="hero-lede">The short version: roles, education, and skills, impact first.</p>
-  </div>
-</section>
+<div class="page-eyebrow">Work Experience &middot; Education &middot; Skills</div>
+<h1 class="page-title">Resume</h1>
 
+<p class="lede">The short version: roles, education, and skills, impact first.</p>
 <p class="tagline">For the theory and code behind this work, see <a href="{{ '/projects/' | relative_url }}">Projects</a>.</p>
 
 <div class="resume-main">

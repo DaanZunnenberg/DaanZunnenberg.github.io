@@ -152,6 +152,7 @@ main h2,
 .blogposts-index main > p,
 .projects-index main > p.lede,
 .contact-index main > p.lede,
+.resume-index main > p.lede,
 .resume-index main > p.tagline,
 .personal-index main > h2,
 .personal-index main > p,
@@ -160,6 +161,27 @@ main h2,
   margin-left: 0;
   margin-right: 0;
   text-align: left;
+}
+
+/* Conventional page-top for the four section-index pages that used to
+   open with a full-bleed photo hero: a small mono eyebrow over the plain
+   h1, sitting directly in the page's own reading column instead of a
+   separate full-width component. Landing page keeps the photo hero since
+   it's doing real first-impression work there; these pages don't need it
+   to say "Projects" or "Resume". */
+.page-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue-400);
+  margin: 4px 0 8px;
+}
+
+h1.page-title {
+  max-width: none;
+  margin: 0 0 4px;
 }
 
 /* Resume's headings sit in the two-column layout's main reading column

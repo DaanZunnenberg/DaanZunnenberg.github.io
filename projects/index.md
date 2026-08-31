@@ -5,18 +5,8 @@ permalink: /projects/
 body_class: projects-index
 ---
 
-<section class="hero hero-lg">
-  <img class="hero-img" src="{{ '/images/Rotterdam.avif' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
-  <!-- Animated live options-chain background, kept for later use: uncomment to restore it in place of the static image above.
-  <canvas id="market-widget-canvas" class="hero-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain" aria-hidden="true"></canvas>
-  -->
-  <div class="hero-fade" aria-hidden="true"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">Functional Volatility<span class="hero-eyebrow-extra"> &middot; Market Microstructure &middot; Dynamic Modelling</span></div>
-    <h1 class="hero-name">Projects</h1>
-    <p class="hero-lede">Research and side projects at the intersection of statistics, execution, and market-making.</p>
-  </div>
-</section>
+<div class="page-eyebrow">Functional Volatility &middot; Market Microstructure &middot; Dynamic Modelling</div>
+<h1 class="page-title">Projects</h1>
 
 <p class="lede">
   This page collects two kinds of work. The first is research: longer-running libraries built around a

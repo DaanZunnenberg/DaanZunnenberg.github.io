@@ -5,18 +5,8 @@ permalink: /contact/
 body_class: contact-index
 ---
 
-<section class="hero hero-scroll">
-  <img class="hero-img" src="{{ '/images/Rotterdam.avif' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
-  <!-- Animated scrolling time-and-sales background, kept for later use: uncomment to restore it in place of the static image above.
-  <canvas id="trade-process-canvas" class="hero-canvas" aria-label="Live scrolling time-and-sales tables side by side, for Binance ETH/USDT, SOL/USDT, and BTC/USDT spot trades (scroll horizontally on narrow screens to see all three), each row showing price, trade amount in the coin's own units, trade amount in USD, and trade time" aria-hidden="true"></canvas>
-  -->
-  <div class="hero-fade" aria-hidden="true"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">For Recruiters &amp; Industry<span class="hero-eyebrow-extra"> &middot; Quant Finance &amp; Market-Making</span></div>
-    <h1 class="hero-name">Contact</h1>
-    <p class="hero-lede">Roles, consulting, and professional or industry conversations.</p>
-  </div>
-</section>
+<div class="page-eyebrow">For Recruiters &amp; Industry &middot; Quant Finance &amp; Market-Making</div>
+<h1 class="page-title">Contact</h1>
 
 <p class="lede">
 I'm doing a Mathematics PhD alongside quantitative finance work, at the intersection of market making,
