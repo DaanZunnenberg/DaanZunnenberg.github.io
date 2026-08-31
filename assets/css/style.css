@@ -1843,12 +1843,19 @@ pre.code-block code {
   background: var(--blue-950);
 }
 
-/* The four section-index pages (landing, Projects, Resume, Blogposts) share
-   this fixed height instead, so their heroes line up with each other and
-   have room for the fullest hero (landing page: eyebrow + two-line headline
-   + lede + CTA row). */
+/* Landing and Personal share this taller fixed height, since both carry
+   a full eyebrow + headline + lede (+ CTA row, for landing). */
 .hero-lg {
   height: 420px;
+}
+
+/* Landing's hero is the fullest of the two (eyebrow, two-line headline,
+   lede, and a CTA row), and at the base 420px it reads cramped - the CTA
+   row sits close to the bottom edge with little breathing room below it.
+   Taller here, just for landing, rather than growing .hero-lg itself and
+   changing Personal's photo hero to match. */
+.landing-page .hero-lg {
+  height: 500px;
 }
 
 /* Scrim so the site title/nav stay legible when the transparent header
@@ -1941,7 +1948,7 @@ pre.code-block code {
    the far-right edge any more than the default fade already does. */
 .hero-fade.hero-fade-long {
   background:
-    linear-gradient(100deg, rgba(13, 23, 38, 0.9) 0%, rgba(13, 23, 38, 0.78) 40%, rgba(13, 23, 38, 0.4) 58%, rgba(13, 23, 38, 0.02) 72%);
+    linear-gradient(100deg, rgba(13, 23, 38, 0.95) 0%, rgba(13, 23, 38, 0.85) 40%, rgba(13, 23, 38, 0.55) 58%, rgba(13, 23, 38, 0.15) 72%, rgba(13, 23, 38, 0.08) 100%);
 }
 
 .hero-content {
@@ -2123,6 +2130,7 @@ body:has(.hero):not(.personal-index) .hero-content {
 @media (max-width: 640px) {
   .hero { margin-bottom: 32px; }
   .hero-lg { height: 380px; }
+  .landing-page .hero-lg { height: 440px; }
   .hero-content { max-width: none; padding: 28px 20px; }
   .hero-cta { margin-top: 22px; }
   .hero-name { font-size: 32px; }
