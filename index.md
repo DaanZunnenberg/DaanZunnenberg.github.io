@@ -5,7 +5,10 @@ body_class: landing-page
 ---
 
 <section class="hero hero-lg">
+  <img class="hero-img" src="{{ '/images/Rotterdam.avif' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+  <!-- Animated live order-book background, kept for later use: uncomment to restore it in place of the static image above.
   <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live XLM, SOL and XRP spot order books, each with a spot/perp price-difference table for cash-and-carry arbitrage"></canvas>
+  -->
   <div class="hero-fade hero-fade-long" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">PhD Researcher<span class="hero-eyebrow-extra"> &middot; Probability &middot; Quant Finance</span></div>
