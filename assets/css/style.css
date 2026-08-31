@@ -987,12 +987,19 @@ a:hover { color: var(--blue-300); }
   margin-top: 32px;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding: 44px 40px 64px;
+  padding-top: 44px;
+  padding-bottom: 64px;
+  /* Grows past 40px on wide screens so this panel's content (most of the
+     landing page lives inside one of these) lines up with .wrap's own
+     centred, capped edge instead of sitting a flat 40px from the true
+     viewport edge, the same reasoning as .section-break's padding. */
+  padding-left: max(40px, calc((100vw - 1280px) / 2 + 40px));
+  padding-right: max(40px, calc((100vw - 1280px) / 2 + 40px));
   background: var(--blue-950);
 }
 
 @media (max-width: 640px) {
-  .contact-panel { margin-top: 24px; padding: 32px 16px 48px; }
+  .contact-panel { margin-top: 24px; padding-top: 32px; padding-bottom: 48px; padding-left: 16px; padding-right: 16px; }
 }
 
 .contact-panel .lede {
@@ -2556,7 +2563,14 @@ code {
   margin-top: 88px;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding: 48px 40px 60px;
+  padding-top: 48px;
+  padding-bottom: 60px;
+  /* Same reasoning as .section-break/.contact-panel: grows past 40px on
+     wide screens so the footer's columns line up with .wrap's own
+     centred, capped edge instead of sitting a flat 40px from the true
+     viewport edge. */
+  padding-left: max(40px, calc((100vw - 1280px) / 2 + 40px));
+  padding-right: max(40px, calc((100vw - 1280px) / 2 + 40px));
   background: var(--blue-950);
   font-family: var(--mono);
   font-size: 13px;
@@ -2564,7 +2578,7 @@ code {
 }
 
 @media (max-width: 640px) {
-  .site-footer { padding: 40px 16px 52px; }
+  .site-footer { padding-top: 40px; padding-bottom: 52px; padding-left: 16px; padding-right: 16px; }
 }
 
 .footer-grid {
