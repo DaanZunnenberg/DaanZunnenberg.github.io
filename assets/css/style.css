@@ -1116,12 +1116,13 @@ a:hover { color: var(--blue-300); }
   margin-top: 64px;
 }
 
-/* The closing CTA panel sits directly above the footer, which is the same
-   dark surface, so its own top margin is dropped here to merge the two
-   into one continuous dark close instead of leaving a thin light seam
-   between them. */
+/* The closing CTA panel and the footer are both the same dark surface;
+   give the gap between them the same 64px rhythm as the gaps between the
+   landing page's other dark panels (.landing-panel above), instead of
+   the base .site-footer's larger 88px meant for footers that follow
+   ordinary light content. */
 .landing-page .site-footer {
-  margin-top: 0;
+  margin-top: 64px;
 }
 
 .contact-panel .nav-card {
