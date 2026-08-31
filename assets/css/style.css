@@ -163,27 +163,6 @@ main h2,
   text-align: left;
 }
 
-/* Conventional page-top for the four section-index pages that used to
-   open with a full-bleed photo hero: a small mono eyebrow over the plain
-   h1, sitting directly in the page's own reading column instead of a
-   separate full-width component. Landing page keeps the photo hero since
-   it's doing real first-impression work there; these pages don't need it
-   to say "Projects" or "Resume". */
-.page-eyebrow {
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--blue-400);
-  margin: 4px 0 8px;
-}
-
-h1.page-title {
-  max-width: none;
-  margin: 0 0 4px;
-}
-
 /* Resume's headings sit in the two-column layout's main reading column
    alongside its (left-aligned, not centered) .entry blocks, so they need
    to stay flush left rather than pick up the sitewide h1/h2 centering
@@ -1943,10 +1922,10 @@ pre.code-block code {
     linear-gradient(100deg, rgba(13, 23, 38, 0.9) 0%, rgba(13, 23, 38, 0.74) 28%, rgba(13, 23, 38, 0.22) 52%, rgba(13, 23, 38, 0.02) 72%);
 }
 
-/* Darker, wider scrim used by the four photo-hero pages (landing,
-   Projects, Resume, Blogposts): carries further right than the default
-   .hero-fade and keeps a small residual darkening even at the far edge,
-   for stronger text contrast against the Rotterdam photo. */
+/* Darker, wider scrim used by the five photo-hero pages (landing,
+   Projects, Resume, Blogposts, Contact): carries further right than the
+   default .hero-fade and keeps a small residual darkening even at the
+   far edge, for stronger text contrast against the Rotterdam photo. */
 .hero-fade.hero-fade-long {
   background:
     linear-gradient(100deg, rgba(13, 23, 38, 0.95) 0%, rgba(13, 23, 38, 0.85) 40%, rgba(13, 23, 38, 0.55) 58%, rgba(13, 23, 38, 0.15) 72%, rgba(13, 23, 38, 0.08) 100%);
@@ -1959,13 +1938,13 @@ pre.code-block code {
   animation: hero-fade-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Hero text on the four photo-hero pages (landing, Projects, Resume,
-   Blogposts) sits flush against the same 44px inset as every hero, but
-   the hero itself is full-bleed (true viewport edge), so that reads
-   noticeably tighter than the rest of the page's own 64px gutter. Widen
-   just the text inset here; the hero art stays full-bleed either way
-   since only the text padding changes. Max-width grows by the same 40px
-   the extra padding adds, so the actual text column stays the same
+/* Hero text on the five photo-hero pages (landing, Projects, Resume,
+   Blogposts, Contact) sits flush against the same 44px inset as every
+   hero, but the hero itself is full-bleed (true viewport edge), so that
+   reads noticeably tighter than the rest of the page's own 64px gutter.
+   Widen just the text inset here; the hero art stays full-bleed either
+   way since only the text padding changes. Max-width grows by the same
+   40px the extra padding adds, so the actual text column stays the same
    width instead of narrowing and wrapping onto an extra line, which on
    the landing page was pushing its CTA row past the hero's fixed
    height. */
@@ -1973,7 +1952,8 @@ pre.code-block code {
   .landing-page .hero-content,
   .projects-index .hero-content,
   .resume-index .hero-content,
-  .blogposts-index .hero-content {
+  .blogposts-index .hero-content,
+  .contact-index .hero-content {
     max-width: 540px;
     padding-left: 64px;
     padding-right: 64px;
