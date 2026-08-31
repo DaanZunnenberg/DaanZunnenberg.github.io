@@ -2400,15 +2400,26 @@ code {
   margin-top: 88px;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding: 48px 40px 60px;
+  padding-top: 48px;
+  padding-bottom: 60px;
+  /* Same three-tier horizontal inset as .wrap/.site-header (64px, then
+     40px, then 16px), so the footer's columns line up with the header
+     and every other section on the page instead of using a flat 40px
+     that only happened to match in the middle tier. */
+  padding-left: 64px;
+  padding-right: 64px;
   background: var(--blue-950);
   font-family: var(--mono);
   font-size: 13px;
   color: rgba(233, 236, 243, 0.7);
 }
 
+@media (max-width: 900px) {
+  .site-footer { padding-left: 40px; padding-right: 40px; }
+}
+
 @media (max-width: 640px) {
-  .site-footer { padding: 40px 16px 52px; }
+  .site-footer { padding-top: 40px; padding-bottom: 52px; padding-left: 16px; padding-right: 16px; }
 }
 
 .footer-grid {
