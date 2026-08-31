@@ -931,68 +931,72 @@ a:hover { color: var(--blue-300); }
   line-height: 1.45;
 }
 
-/* Homepage site map: a plain ledger list rather than a grid of icon
-   cards, reusing the same index / dotted-leader / label language as the
-   article tiles (.article-card-img) elsewhere on the site instead of
-   inventing a second "explore" pattern. One column, no icons, no hover
-   lift &mdash; a list of five real destinations doesn't need card chrome. */
-.site-links {
+/* Homepage site map: a plain table-of-contents index, not a card grid
+   and not the article tiles' ticker/dotted-leader motif &mdash; that device
+   reads as market data, which fits a project tile but not a plain "go to
+   this page" link. Three aligned columns (number, title, description) so
+   it reads as an index page, and a small arrow on hover is the only
+   affordance, no lift or icon. */
+.site-index {
   display: flex;
   flex-direction: column;
 }
 
-.site-link {
-  display: flex;
+.site-index-row {
+  display: grid;
+  grid-template-columns: 28px minmax(120px, 160px) 1fr 16px;
   align-items: baseline;
-  gap: 14px;
-  padding: 16px 0;
+  gap: 18px;
+  padding: 18px 0;
   border-bottom: 1px solid var(--line-dark);
   text-decoration: none;
   color: inherit;
 }
 
-.site-links .site-link:last-child {
+.site-index .site-index-row:last-child {
   border-bottom: none;
 }
 
-.site-link-index {
+.site-index-num {
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.06em;
   color: rgba(245, 247, 251, 0.4);
 }
 
-.site-link-leader {
-  flex: 1 1 auto;
-  min-width: 12px;
-  border-bottom: 1px dotted rgba(245, 247, 251, 0.22);
-  transform: translateY(-4px);
-}
-
-.site-link-title {
+.site-index-title {
   font-family: var(--serif);
-  font-size: 18px;
+  font-size: 19px;
   color: #f5f7fb;
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.site-link:hover .site-link-title {
+.site-index-row:hover .site-index-title {
   color: var(--term-blue);
 }
 
-.site-link-desc {
-  flex: none;
-  max-width: 320px;
-  font-size: 13px;
+.site-index-desc {
+  font-size: 13.5px;
   color: rgba(233, 236, 243, 0.55);
-  text-align: right;
-  line-height: 1.4;
+  line-height: 1.5;
+}
+
+.site-index-arrow {
+  color: var(--term-blue);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.site-index-row:hover .site-index-arrow {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 @media (max-width: 640px) {
-  .site-link { flex-wrap: wrap; }
-  .site-link-leader { display: none; }
-  .site-link-desc { max-width: none; text-align: left; flex-basis: 100%; }
+  .site-index-row { grid-template-columns: 24px 1fr; row-gap: 4px; }
+  .site-index-desc { grid-column: 2; }
+  .site-index-arrow { display: none; }
 }
 
 /* Contact page: a full-bleed dark panel holding just the contact channels,
@@ -1023,7 +1027,7 @@ a:hover { color: var(--blue-300); }
 
 .contact-panel h2 {
   /* The sitewide main h2 rule centers headings to a 700px column, but
-     .tagline, .dest-grid, and .site-links right below it in these dark
+     .tagline, .dest-grid, and .site-index right below it in these dark
      panels are all flush left and full width, so the h2 was the one line
      in each panel sitting indented differently from everything around
      it. Reset here so it lines up with the rest. */
@@ -1945,6 +1949,18 @@ pre.code-block code {
   max-width: 500px;
   padding: 44px 44px;
   animation: hero-fade-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Landing hero text sits flush against the same 44px inset as every
+   other hero, but the hero itself is full-bleed (true viewport edge),
+   so that reads noticeably tighter than the rest of the page's own
+   64px gutter. Widen just the text inset here; the hero art stays
+   full-bleed either way since only the text padding changes. */
+@media (min-width: 641px) {
+  .landing-page .hero-content {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
 }
 
 /* Clears the transparent header floating on top of the hero (roughly

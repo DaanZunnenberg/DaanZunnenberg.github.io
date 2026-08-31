@@ -31,36 +31,36 @@ high-frequency trading, market making, and quantitative investing. Explore the s
   <h2>Explore the Site</h2>
   <p class="tagline">Five places to go from here.</p>
 
-  <div class="site-links">
-    <a class="site-link" href="{{ '/projects/' | relative_url }}">
-      <span class="site-link-index">01</span>
-      <span class="site-link-title">Projects</span>
-      <span class="site-link-leader" aria-hidden="true"></span>
-      <span class="site-link-desc">Research and side projects in statistics, execution, and market-making.</span>
+  <div class="site-index">
+    <a class="site-index-row" href="{{ '/projects/' | relative_url }}">
+      <span class="site-index-num">01</span>
+      <span class="site-index-title">Projects</span>
+      <span class="site-index-desc">Research and side projects in statistics, execution, and market-making.</span>
+      <span class="site-index-arrow" aria-hidden="true">&rarr;</span>
     </a>
-    <a class="site-link" href="{{ '/blogposts/' | relative_url }}">
-      <span class="site-link-index">02</span>
-      <span class="site-link-title">Blogposts</span>
-      <span class="site-link-leader" aria-hidden="true"></span>
-      <span class="site-link-desc">Writing on markets and mathematics, plus talks and conferences.</span>
+    <a class="site-index-row" href="{{ '/blogposts/' | relative_url }}">
+      <span class="site-index-num">02</span>
+      <span class="site-index-title">Blogposts</span>
+      <span class="site-index-desc">Writing on markets and mathematics, plus talks and conferences.</span>
+      <span class="site-index-arrow" aria-hidden="true">&rarr;</span>
     </a>
-    <a class="site-link" href="{{ '/resume/' | relative_url }}">
-      <span class="site-link-index">03</span>
-      <span class="site-link-title">Resume</span>
-      <span class="site-link-leader" aria-hidden="true"></span>
-      <span class="site-link-desc">Work experience, education, and skills, short and impact-first.</span>
+    <a class="site-index-row" href="{{ '/resume/' | relative_url }}">
+      <span class="site-index-num">03</span>
+      <span class="site-index-title">Resume</span>
+      <span class="site-index-desc">Work experience, education, and skills, short and impact-first.</span>
+      <span class="site-index-arrow" aria-hidden="true">&rarr;</span>
     </a>
-    <a class="site-link" href="{{ '/personal/' | relative_url }}">
-      <span class="site-link-index">04</span>
-      <span class="site-link-title">Personal</span>
-      <span class="site-link-leader" aria-hidden="true"></span>
-      <span class="site-link-desc">Hobbies, and the non-professional version of this site.</span>
+    <a class="site-index-row" href="{{ '/personal/' | relative_url }}">
+      <span class="site-index-num">04</span>
+      <span class="site-index-title">Personal</span>
+      <span class="site-index-desc">Hobbies, and the non-professional version of this site.</span>
+      <span class="site-index-arrow" aria-hidden="true">&rarr;</span>
     </a>
-    <a class="site-link" href="{{ '/contact/' | relative_url }}">
-      <span class="site-link-index">05</span>
-      <span class="site-link-title">Contact</span>
-      <span class="site-link-leader" aria-hidden="true"></span>
-      <span class="site-link-desc">Roles, consulting, or an invitation to meet up.</span>
+    <a class="site-index-row" href="{{ '/contact/' | relative_url }}">
+      <span class="site-index-num">05</span>
+      <span class="site-index-title">Contact</span>
+      <span class="site-index-desc">Roles, consulting, or an invitation to meet up.</span>
+      <span class="site-index-arrow" aria-hidden="true">&rarr;</span>
     </a>
   </div>
 </section>
