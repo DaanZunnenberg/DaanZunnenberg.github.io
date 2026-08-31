@@ -43,6 +43,7 @@ body_class: projects-index
   <a class="article-card" data-tags="volatility statistics" href="{{ '/projects/functional-volatility-surface-modelling/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <span class="article-card-index">01 / 03</span>
+      <span class="article-card-leader" aria-hidden="true"></span>
       <span class="article-card-ticker">FVSM</span>
     </span>
     <span class="article-card-body">
@@ -56,6 +57,7 @@ body_class: projects-index
   <a class="article-card" data-tags="volatility statistics" href="{{ '/projects/functional-scale-estimation/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <span class="article-card-index">02 / 03</span>
+      <span class="article-card-leader" aria-hidden="true"></span>
       <span class="article-card-ticker">FSVE</span>
     </span>
     <span class="article-card-body">
@@ -69,6 +71,7 @@ body_class: projects-index
   <a class="article-card" data-tags="statistics" href="{{ '/projects/functional-stationarity-test/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <span class="article-card-index">03 / 03</span>
+      <span class="article-card-leader" aria-hidden="true"></span>
       <span class="article-card-ticker">FST</span>
     </span>
     <span class="article-card-body">
@@ -107,6 +110,7 @@ body_class: projects-index
   <a class="article-card" data-tags="crypto" href="{{ '/projects/tardis-dev-fetcher/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <span class="article-card-index">01 / 02</span>
+      <span class="article-card-leader" aria-hidden="true"></span>
       <span class="article-card-ticker">TDF</span>
     </span>
     <span class="article-card-body">
@@ -120,6 +124,7 @@ body_class: projects-index
   <a class="article-card" data-tags="fx" href="{{ '/projects/foreign-exchange-data/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <span class="article-card-index">02 / 02</span>
+      <span class="article-card-leader" aria-hidden="true"></span>
       <span class="article-card-ticker">FXD</span>
     </span>
     <span class="article-card-body">

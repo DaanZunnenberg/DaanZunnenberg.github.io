@@ -98,23 +98,19 @@ body::after {
   .site-footer { padding-bottom: 60px; }
 }
 
+/* Single source of truth for the page's content column: capped and
+   centred, so every element left at its default width (paragraphs,
+   grids, entry cards, the timeline, the tag filter row) lines up on the
+   same two edges instead of stretching to fill wide monitors. Elements
+   meant to bleed past this column (.hero, .section-break, .contact-panel,
+   .site-footer, the overlaid hero header) each cancel the centering
+   locally with margin-left/right: calc(50% - 50vw), rather than relying
+   on .wrap itself being unbounded the way they used to. */
 .wrap {
-  max-width: none;
-  padding: 0 64px;
-}
-
-/* Grids and card/list groups that used to stretch edge-to-edge with the
-   viewport on wide monitors (no cap beyond .wrap's own gutters). Full-bleed
-   bands like .hero and .section-break intentionally keep spanning the
-   whole .wrap; this only reins in the content sitting between them, so
-   cards stop ballooning and centre instead once the window gets wide. */
-.dest-grid,
-.article-grid,
-.resume-main,
-.timeline {
-  max-width: 1232px;
+  max-width: 1360px;
   margin-left: auto;
   margin-right: auto;
+  padding: 0 64px;
 }
 
 @media (max-width: 900px) {
@@ -251,12 +247,11 @@ main h2,
    it rather than pinning to the viewport. */
 body:has(.hero) .site-header {
   position: absolute;
-  /* Matches .hero's own -64px bleed below, so the header's scrim spans the
-     same full viewport width as the hero art instead of stopping at the
-     .wrap padding, which previously left it inset with a visible edge and
-     narrower than the hero underneath it. */
-  left: 0;
-  right: 0;
+  /* Matches .hero's own viewport-edge bleed below, so the header's scrim
+     spans the same full viewport width as the hero art instead of
+     stopping at .wrap's own (now capped) width. */
+  left: calc(50% - 50vw);
+  right: calc(50% - 50vw);
   padding-left: 64px;
   padding-right: 64px;
   border: none;
@@ -279,17 +274,10 @@ body.personal-index:has(.hero) .site-header {
   position: relative;
   left: auto;
   right: auto;
-  margin: 0 -64px;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   background: var(--blue-950);
   padding-bottom: 20px;
-}
-
-@media (max-width: 900px) {
-  body.personal-index:has(.hero) .site-header { margin: 0 -40px; }
-}
-
-@media (max-width: 640px) {
-  body.personal-index:has(.hero) .site-header { margin: 0 -16px; }
 }
 
 @media (max-width: 900px) {
@@ -974,13 +962,15 @@ a:hover { color: var(--blue-300); }
    same full-bleed technique as the hero/footer, and the same restrained
    corporate-contact-page feel as the footer's own dark band. */
 .contact-panel {
-  margin: 32px -64px 0;
+  margin-top: 32px;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   padding: 44px 40px 64px;
   background: var(--blue-950);
 }
 
 @media (max-width: 640px) {
-  .contact-panel { margin: 24px -16px 0; padding: 32px 16px 48px; }
+  .contact-panel { margin-top: 24px; padding: 32px 16px 48px; }
 }
 
 .contact-panel .lede {
@@ -1186,15 +1176,10 @@ a:hover { color: var(--blue-300); }
 }
 
 /* Insights-hub card grid (Blogposts / Events on the Blogposts page): same
-   card-with-hover-lift language as .dest-card, but topped with a dark
-   "terminal" panel (the same dark surface as .hero/.market-widget) instead
-   of a photo. Each panel carries a mono "position / total" index (the same
-   family as .section-break's numbering, one level down) and a short ticker
-   code in place of a headline image, with a slow diagonal sheen animating
-   across it, the
-   same "catches the light rather than reading as decoration" idea as the
-   page-wide paper-grain backdrop, just re-used on a dark surface instead
-   of the light one. */
+   card-with-hover-lift language as .dest-card, topped with a short dark
+   ledger-style strip instead of a photo &mdash; a mono "position / total"
+   index (the same family as .section-break's numbering, one level down),
+   a dotted leader rule, and a ticker code. See .article-card-img below. */
 .article-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1221,63 +1206,45 @@ a:hover { color: var(--blue-300); }
   box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.08), 0 24px 46px -26px var(--blue-glow);
 }
 
+/* Ledger-style header strip: a short row (index, a dotted leader rule,
+   ticker code) rather than a tall panel standing in for a missing photo.
+   Static, no motion &mdash; the dotted leader is the same device a printed
+   table of contents or invoice line uses to tie a label to a value, which
+   reads as intentional typography instead of decoration standing in for
+   an image. */
 .article-card-img {
   position: relative;
-  aspect-ratio: 16 / 9;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 14px 16px;
+  align-items: baseline;
+  gap: 10px;
+  padding: 14px 20px;
   background: var(--blue-950);
   border-bottom: 1px solid var(--line-dark);
-  color: rgba(245, 247, 251, 0.5);
-  overflow: hidden;
-}
-
-/* Slow diagonal sheen, always running (not hover-gated), so the panel
-   reads as a quietly "live" surface at rest &mdash; the same restraint as
-   the hero canvases (no jump on hover, nothing that looks like a button). */
-.article-card-img::before {
-  content: "";
-  position: absolute;
-  inset: -50% -20%;
-  background: linear-gradient(75deg,
-    transparent 42%,
-    rgba(159, 176, 201, 0.05) 47%,
-    rgba(159, 176, 201, 0.12) 50%,
-    rgba(159, 176, 201, 0.05) 53%,
-    transparent 58%);
-  transform: translateX(-30%);
-  animation: card-sheen 9s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes card-sheen {
-  0%, 100% { transform: translateX(-30%); }
-  50% { transform: translateX(30%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .article-card-img::before { animation: none; }
 }
 
 .article-card-index {
-  position: relative;
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   color: rgba(245, 247, 251, 0.4);
+  white-space: nowrap;
+}
+
+.article-card-leader {
+  flex: 1 1 auto;
+  min-width: 12px;
+  border-bottom: 1px dotted rgba(245, 247, 251, 0.22);
+  transform: translateY(-4px);
 }
 
 .article-card-ticker {
-  position: relative;
-  align-self: flex-start;
   font-family: var(--mono);
-  font-size: 26px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: rgba(245, 247, 251, 0.72);
-  transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.06em;
+  color: rgba(245, 247, 251, 0.75);
+  white-space: nowrap;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .article-card:hover .article-card-ticker {
@@ -1327,8 +1294,18 @@ a:hover { color: var(--blue-300); }
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin: 56px -64px 32px;
-  padding: 22px 64px;
+  margin-top: 56px;
+  margin-bottom: 32px;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-top: 22px;
+  padding-bottom: 22px;
+  /* Text inset grows past 64px on wide screens so it lines up with
+     .wrap's own (centred, capped) content edge instead of sitting a flat
+     64px from the true viewport edge, which would drift left of the
+     content below it once the window is wider than .wrap's cap. */
+  padding-left: max(64px, calc((100vw - 1360px) / 2 + 64px));
+  padding-right: max(64px, calc((100vw - 1360px) / 2 + 64px));
   background: var(--blue-950);
 }
 
@@ -1346,11 +1323,11 @@ a:hover { color: var(--blue-300); }
 }
 
 @media (max-width: 900px) {
-  .section-break { margin-left: -40px; margin-right: -40px; padding-left: 40px; padding-right: 40px; }
+  .section-break { padding-left: 40px; padding-right: 40px; }
 }
 
 @media (max-width: 640px) {
-  .section-break { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; }
+  .section-break { padding-left: 16px; padding-right: 16px; }
 }
 
 .section-break-label {
@@ -1874,7 +1851,11 @@ pre.code-block code {
   position: relative;
   display: flex;
   align-items: center;
-  margin: 0 -64px 40px;
+  /* Bleeds to the true viewport edge (not just .wrap's own padding), so it
+     stays full-bleed at any width regardless of how .wrap is capped. */
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-bottom: 40px;
   /* Height follows .hero-content's own content by default, so a short
      detail-page hero (eyebrow + title + one-line lede) doesn't render as
      mostly empty photo. A floor keeps very short content from collapsing
@@ -2147,7 +2128,7 @@ body:has(.hero):not(.personal-index) .hero-content {
 .copy-toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (max-width: 640px) {
-  .hero { margin: 0 -16px 32px; }
+  .hero { margin-bottom: 32px; }
   .hero-lg { height: 380px; }
   .hero-content { max-width: none; padding: 28px 20px; }
   .hero-cta { margin-top: 22px; }
@@ -2547,10 +2528,12 @@ code {
 }
 
 /* Full-bleed dark band, same idea as the hero: the footer isn't part of
-   the reading column, so it takes over the negative margin trick to run
-   edge to edge regardless of viewport width. */
+   the reading column, so it cancels .wrap's centering to run edge to edge
+   regardless of viewport width. */
 .site-footer {
-  margin: 88px -64px 0;
+  margin-top: 88px;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   padding: 48px 40px 60px;
   background: var(--blue-950);
   font-family: var(--mono);
@@ -2559,7 +2542,7 @@ code {
 }
 
 @media (max-width: 640px) {
-  .site-footer { margin: 88px -16px 0; padding: 40px 16px 52px; }
+  .site-footer { padding: 40px 16px 52px; }
 }
 
 .footer-grid {

@@ -44,6 +44,7 @@ body_class: blogposts-index
   <a class="article-card" data-tags="finance mathematical" href="{{ '/blogposts/the-mathematics-of-market-liquidity/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <span class="article-card-index">01 / 02</span>
+      <span class="article-card-leader" aria-hidden="true"></span>
       <span class="article-card-ticker">MKTL</span>
     </span>
     <span class="article-card-body">
@@ -57,6 +58,7 @@ body_class: blogposts-index
   <a class="article-card" data-tags="finance mathematical" href="{{ '/blogposts/sieve-estimation-of-volatility/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <span class="article-card-index">02 / 02</span>
+      <span class="article-card-leader" aria-hidden="true"></span>
       <span class="article-card-ticker">SMCH</span>
     </span>
     <span class="article-card-body">
@@ -96,6 +98,7 @@ body_class: blogposts-index
   <a class="article-card" data-tags="chaining" href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <span class="article-card-index">01 / 03</span>
+      <span class="article-card-leader" aria-hidden="true"></span>
       <span class="article-card-ticker">DIMM</span>
     </span>
     <span class="article-card-body">
@@ -108,6 +111,7 @@ body_class: blogposts-index
   <a class="article-card" data-tags="chaining empirical-processes" href="{{ '/blogposts/fundamental-theorem-of-empirical-processes/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <span class="article-card-index">02 / 03</span>
+      <span class="article-card-leader" aria-hidden="true"></span>
       <span class="article-card-ticker">FTEP</span>
     </span>
     <span class="article-card-body">
@@ -120,6 +124,7 @@ body_class: blogposts-index
   <a class="article-card" data-tags="concentration empirical-processes" href="{{ '/blogposts/bousquet-talagrand-inequality/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
       <span class="article-card-index">03 / 03</span>
+      <span class="article-card-leader" aria-hidden="true"></span>
       <span class="article-card-ticker">BTI</span>
     </span>
     <span class="article-card-body">
