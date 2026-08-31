@@ -42,31 +42,25 @@ body_class: blogposts-index
 
 <div class="article-grid" data-filterable>
   <a class="article-card" data-tags="finance mathematical" href="{{ '/blogposts/the-mathematics-of-market-liquidity/' | relative_url }}">
-    <span class="article-card-img" aria-hidden="true">
-      <span class="article-card-index">01 / 02</span>
-      <span class="article-card-leader" aria-hidden="true"></span>
-      <span class="article-card-ticker">MKTL</span>
-    </span>
+    <span class="article-card-index">01</span>
+    <span class="article-card-ticker">MKTL</span>
     <span class="article-card-body">
-      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
-      <span class="article-card-date">March 11, 2026</span>
       <span class="article-card-title">The Mathematics of Market Liquidity</span>
       <span class="article-card-desc">Market making is a solved problem. That does not mean you can win at it. &middot; with Nicos Starreveld</span>
     </span>
+    <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
+    <span class="article-card-date">Mar 11, 2026</span>
   </a>
 
   <a class="article-card" data-tags="finance mathematical" href="{{ '/blogposts/sieve-estimation-of-volatility/' | relative_url }}">
-    <span class="article-card-img" aria-hidden="true">
-      <span class="article-card-index">02 / 02</span>
-      <span class="article-card-leader" aria-hidden="true"></span>
-      <span class="article-card-ticker">SMCH</span>
-    </span>
+    <span class="article-card-index">02</span>
+    <span class="article-card-ticker">SMCH</span>
     <span class="article-card-body">
-      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
-      <span class="article-card-date">February 23, 2023</span>
       <span class="article-card-title">Sieve-M Estimation for Conditional Heteroskedasticity</span>
       <span class="article-card-desc">Letting a GARCH model learn its own news-impact curve</span>
     </span>
+    <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
+    <span class="article-card-date">Feb 23, 2023</span>
   </a>
 
 </div>
@@ -96,42 +90,33 @@ body_class: blogposts-index
 
 <div class="article-grid" data-filterable>
   <a class="article-card" data-tags="chaining" href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">
-    <span class="article-card-img" aria-hidden="true">
-      <span class="article-card-index">01 / 03</span>
-      <span class="article-card-leader" aria-hidden="true"></span>
-      <span class="article-card-ticker">DIMM</span>
-    </span>
+    <span class="article-card-index">01</span>
+    <span class="article-card-ticker">DIMM</span>
     <span class="article-card-body">
-      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-chaining">Chaining</span></span>
       <span class="article-card-title">Dudley Integrals and the Majorizing Measure Theorem</span>
       <span class="article-card-desc">Why covering numbers aren't always enough, and Talagrand's sharp fix for Gaussian processes.</span>
     </span>
+    <span class="article-card-tags" aria-hidden="true"><span class="tag tag-chaining">Chaining</span></span>
   </a>
 
   <a class="article-card" data-tags="chaining empirical-processes" href="{{ '/blogposts/fundamental-theorem-of-empirical-processes/' | relative_url }}">
-    <span class="article-card-img" aria-hidden="true">
-      <span class="article-card-index">02 / 03</span>
-      <span class="article-card-leader" aria-hidden="true"></span>
-      <span class="article-card-ticker">FTEP</span>
-    </span>
+    <span class="article-card-index">02</span>
+    <span class="article-card-ticker">FTEP</span>
     <span class="article-card-body">
-      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-chaining">Chaining</span><span class="tag tag-empirical-processes">Empirical Processes</span></span>
       <span class="article-card-title">The Fundamental Theorem of Empirical Processes</span>
       <span class="article-card-desc">The generic chaining bound for Gaussian processes, extended to sums of independent random functions.</span>
     </span>
+    <span class="article-card-tags" aria-hidden="true"><span class="tag tag-chaining">Chaining</span><span class="tag tag-empirical-processes">Empirical Processes</span></span>
   </a>
 
   <a class="article-card" data-tags="concentration empirical-processes" href="{{ '/blogposts/bousquet-talagrand-inequality/' | relative_url }}">
-    <span class="article-card-img" aria-hidden="true">
-      <span class="article-card-index">03 / 03</span>
-      <span class="article-card-leader" aria-hidden="true"></span>
-      <span class="article-card-ticker">BTI</span>
-    </span>
+    <span class="article-card-index">03</span>
+    <span class="article-card-ticker">BTI</span>
     <span class="article-card-body">
-      <span class="article-card-tags" aria-hidden="true"><span class="tag tag-concentration">Concentration</span><span class="tag tag-empirical-processes">Empirical Processes</span></span>
       <span class="article-card-title">The Bousquet&ndash;Talagrand Inequality</span>
       <span class="article-card-desc">A sharp concentration bound for the supremum of an empirical process, via the entropy method.</span>
     </span>
+    <span class="article-card-tags" aria-hidden="true"><span class="tag tag-concentration">Concentration</span><span class="tag tag-empirical-processes">Empirical Processes</span></span>
   </a>
 </div>
 

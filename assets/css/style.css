@@ -1130,74 +1130,55 @@ a:hover { color: var(--blue-300); }
   margin-bottom: 24px;
 }
 
-/* Insights-hub card grid (Blogposts / Events on the Blogposts page): same
-   card-with-hover-lift language as .dest-card, topped with a short dark
-   ledger-style strip instead of a photo &mdash; a mono "position / total"
-   index (the same family as .section-break's numbering, one level down),
-   a dotted leader rule, and a ticker code. See .article-card-img below. */
+/* Insights-hub list (Blogposts / Events on the Blogposts page): a single
+   ledger of one-line rows rather than a card grid &mdash; a mono
+   "position" index (same family as .section-break's numbering, one level
+   down), a ticker code, title and description run together on one line,
+   topic tags, and a right-aligned date, the way a table of contents or a
+   trade blotter lists entries. */
 .article-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
+  display: flex;
+  flex-direction: column;
   margin: 8px 0 32px;
+  border-top: 1px solid var(--line-soft);
 }
 
 .article-card {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 30px 62px minmax(0, 1fr) auto auto;
+  align-items: baseline;
+  column-gap: 18px;
   min-width: 0;
-  border: 1px solid var(--line-soft);
-  border-radius: 3px;
-  background: var(--bg-raised);
+  padding: 15px 6px;
+  border-bottom: 1px solid var(--line-soft);
   text-decoration: none;
-  overflow: hidden;
-  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  background: transparent;
+  transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1), padding-left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .article-card:hover {
-  border-color: var(--blue-600);
-  transform: translateY(-3px);
-  box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.08), 0 24px 46px -26px var(--blue-glow);
-}
-
-/* Ledger-style header strip: a short row (index, a dotted leader rule,
-   ticker code) rather than a tall panel standing in for a missing photo.
-   Static, no motion &mdash; the dotted leader is the same device a printed
-   table of contents or invoice line uses to tie a label to a value, which
-   reads as intentional typography instead of decoration standing in for
-   an image. */
-.article-card-img {
-  position: relative;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding: 14px 20px;
-  background: var(--blue-950);
-  border-bottom: 1px solid var(--line-dark);
+  background: var(--bg-raised);
+  padding-left: 12px;
 }
 
 .article-card-index {
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.08em;
-  color: rgba(245, 247, 251, 0.4);
+  color: var(--ink-faint);
   white-space: nowrap;
 }
 
-.article-card-leader {
-  flex: 1 1 auto;
-  min-width: 12px;
-  border-bottom: 1px dotted rgba(245, 247, 251, 0.22);
-  transform: translateY(-4px);
-}
+/* Dotted leader rule, kept for the header-strip look on pages still using
+   it; hidden on the one-line row layout. */
+.article-card-leader { display: none; }
 
 .article-card-ticker {
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  color: rgba(245, 247, 251, 0.75);
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
   white-space: nowrap;
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1208,22 +1189,25 @@ a:hover { color: var(--blue-300); }
 
 .article-card-body {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 18px 20px 22px;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
 }
 
 .article-card-date {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   color: var(--ink-faint);
+  white-space: nowrap;
+  text-align: right;
 }
 
 .article-card-title {
   font-family: var(--serif);
-  font-size: 19px;
+  font-size: 16px;
   color: var(--ink);
+  white-space: nowrap;
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1232,13 +1216,33 @@ a:hover { color: var(--blue-300); }
 }
 
 .article-card-desc {
-  font-size: 14px;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 13px;
   color: var(--ink-faint);
-  line-height: 1.45;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.article-card-desc::before {
+  content: "\2014\a0";
+}
+
+@media (max-width: 720px) {
+  .article-card {
+    grid-template-columns: 26px 1fr auto;
+    row-gap: 4px;
+  }
+  .article-card-body { grid-column: 1 / -1; order: 3; flex-wrap: wrap; }
+  .article-card-title { white-space: normal; }
+  .article-card-desc { white-space: normal; }
+  .article-card-tags { order: 2; }
 }
 
 @media (max-width: 560px) {
-  .article-grid { grid-template-columns: 1fr; gap: 14px; }
+  .article-card { padding: 14px 4px; }
+  .article-card:hover { padding-left: 10px; }
 }
 
 /* Page break between project sections: a full-width strip in the site's
