@@ -6,7 +6,7 @@ body_class: resume-index
 ---
 
 <section class="hero hero-lg hero-scroll">
-  <img class="hero-img" src="{{ '/images/skyline.jpeg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+  <img class="hero-img" src="{{ '/images/ultra_skyline.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <!-- Animated scrolling time-and-sales background, kept for later use: uncomment to restore it in place of the static image above.
   <canvas id="trade-process-canvas" class="hero-canvas" aria-label="Live scrolling time-and-sales tables side by side, for Binance ETH/USDT, SOL/USDT, and BTC/USDT spot trades (scroll horizontally on narrow screens to see all three), each row showing price, trade amount in the coin's own units, trade amount in USD, and trade time" aria-hidden="true"></canvas>
   -->

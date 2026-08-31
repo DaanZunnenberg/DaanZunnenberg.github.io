@@ -5,7 +5,7 @@ body_class: landing-page
 ---
 
 <section class="hero hero-lg">
-  <img class="hero-img" src="{{ '/images/skyline.jpeg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+  <img class="hero-img" src="{{ '/images/ultra_skyline.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <!-- Animated live order-book background, kept for later use: uncomment to restore it in place of the static image above.
   <canvas id="depth-widget-canvas" class="hero-canvas" aria-label="Live XLM, SOL and XRP spot order books, each with a spot/perp price-difference table for cash-and-carry arbitrage"></canvas>
   -->
