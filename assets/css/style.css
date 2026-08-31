@@ -2563,14 +2563,7 @@ code {
   margin-top: 88px;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding-top: 48px;
-  padding-bottom: 60px;
-  /* Same reasoning as .section-break/.contact-panel: grows past 40px on
-     wide screens so the footer's columns line up with .wrap's own
-     centred, capped edge instead of sitting a flat 40px from the true
-     viewport edge. */
-  padding-left: max(40px, calc((100vw - 1280px) / 2 + 40px));
-  padding-right: max(40px, calc((100vw - 1280px) / 2 + 40px));
+  padding: 48px 40px 60px;
   background: var(--blue-950);
   font-family: var(--mono);
   font-size: 13px;
@@ -2578,7 +2571,7 @@ code {
 }
 
 @media (max-width: 640px) {
-  .site-footer { padding-top: 40px; padding-bottom: 52px; padding-left: 16px; padding-right: 16px; }
+  .site-footer { padding: 40px 16px 52px; }
 }
 
 .footer-grid {
