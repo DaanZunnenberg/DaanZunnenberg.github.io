@@ -26,104 +26,42 @@ I'm a mathematician working in generic chaining theory, with professional experi
 high-frequency trading, market making, and quantitative investing. Explore the site below.
 </p>
 
-<section class="contact-panel landing-panel dest-panel">
+<section class="contact-panel landing-panel">
   <div class="hero-eyebrow">Site Map</div>
   <h2>Explore the Site</h2>
-  <p class="tagline">Two places to start, and three more once you know what you're after.</p>
+  <p class="tagline">Five places to go from here.</p>
 
-  <div class="dest-grid dest-grid-featured">
-    <a class="dest-card dest-card-featured" href="{{ '/projects/' | relative_url }}">
-      <span class="dest-card-accent" aria-hidden="true"></span>
-      <span class="dest-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M3 12.5h18"/></svg>
-      </span>
-      <span class="dest-index">01</span>
-      <span class="dest-text">
-        <span class="dest-title">Projects</span>
-        <span class="dest-desc">Research and side projects in statistics, execution, and market-making.</span>
-      </span>
+  <div class="site-links">
+    <a class="site-link" href="{{ '/projects/' | relative_url }}">
+      <span class="site-link-index">01</span>
+      <span class="site-link-title">Projects</span>
+      <span class="site-link-leader" aria-hidden="true"></span>
+      <span class="site-link-desc">Research and side projects in statistics, execution, and market-making.</span>
     </a>
-    <a class="dest-card dest-card-featured" href="{{ '/blogposts/' | relative_url }}">
-      <span class="dest-card-accent" aria-hidden="true"></span>
-      <span class="dest-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-      </span>
-      <span class="dest-index">02</span>
-      <span class="dest-text">
-        <span class="dest-title">Blogposts</span>
-        <span class="dest-desc">Writing on markets and mathematics, plus talks and conferences.</span>
-      </span>
+    <a class="site-link" href="{{ '/blogposts/' | relative_url }}">
+      <span class="site-link-index">02</span>
+      <span class="site-link-title">Blogposts</span>
+      <span class="site-link-leader" aria-hidden="true"></span>
+      <span class="site-link-desc">Writing on markets and mathematics, plus talks and conferences.</span>
     </a>
-  </div>
-
-  <div class="dest-grid dest-grid-secondary">
-    <a class="dest-card" href="{{ '/resume/' | relative_url }}">
-      <span class="dest-card-accent" aria-hidden="true"></span>
-      <span class="dest-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-      </span>
-      <span class="dest-index">03</span>
-      <span class="dest-text">
-        <span class="dest-title">Resume</span>
-        <span class="dest-desc">Work experience, education, and skills, short and impact-first.</span>
-      </span>
+    <a class="site-link" href="{{ '/resume/' | relative_url }}">
+      <span class="site-link-index">03</span>
+      <span class="site-link-title">Resume</span>
+      <span class="site-link-leader" aria-hidden="true"></span>
+      <span class="site-link-desc">Work experience, education, and skills, short and impact-first.</span>
     </a>
-    <a class="dest-card" href="{{ '/personal/' | relative_url }}">
-      <span class="dest-card-accent" aria-hidden="true"></span>
-      <span class="dest-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
-      </span>
-      <span class="dest-index">04</span>
-      <span class="dest-text">
-        <span class="dest-title">Personal</span>
-        <span class="dest-desc">Hobbies, and the non-professional version of this site.</span>
-      </span>
+    <a class="site-link" href="{{ '/personal/' | relative_url }}">
+      <span class="site-link-index">04</span>
+      <span class="site-link-title">Personal</span>
+      <span class="site-link-leader" aria-hidden="true"></span>
+      <span class="site-link-desc">Hobbies, and the non-professional version of this site.</span>
     </a>
-    <a class="dest-card" href="{{ '/contact/' | relative_url }}">
-      <span class="dest-card-accent" aria-hidden="true"></span>
-      <span class="dest-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
-      </span>
-      <span class="dest-index">05</span>
-      <span class="dest-text">
-        <span class="dest-title">Contact</span>
-        <span class="dest-desc">Roles, consulting, or an invitation to meet up.</span>
-      </span>
+    <a class="site-link" href="{{ '/contact/' | relative_url }}">
+      <span class="site-link-index">05</span>
+      <span class="site-link-title">Contact</span>
+      <span class="site-link-leader" aria-hidden="true"></span>
+      <span class="site-link-desc">Roles, consulting, or an invitation to meet up.</span>
     </a>
-  </div>
-</section>
-
-<section class="contact-panel landing-panel">
-  <div class="hero-eyebrow">By The Numbers</div>
-  <h2 id="by-the-numbers">Quick Facts</h2>
-  <p class="tagline">A few concrete numbers instead of adjectives.</p>
-  <div class="stat-strip">
-    <div class="stat-item">
-      <span class="stat-value">PhD</span>
-      <span class="stat-label">Mathematics, Leiden University &middot; expected 2028</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value">2022&ndash;2024</span>
-      <span class="stat-label">Quantitative Developer &amp; Operational Trader, QuantFi</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value">Magna Cum Laude</span>
-      <span class="stat-label">Honours Programme, MSc Econometrics and Operations Research, VU Amsterdam</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value">Rotterdam</span>
-      <span class="stat-label">Based in the Netherlands, working across global markets</span>
-    </div>
-  </div>
-</section>
-
-<section class="contact-panel landing-panel">
-  <div class="hero-eyebrow">Get In Touch</div>
-  <h2 id="working-together">Working Together</h2>
-  <p class="tagline">Here for a collaboration or a career opportunity? Roles, consulting, or an invitation to meet up.</p>
-
-  <div class="hero-cta">
-    <a class="cta-button" href="{{ '/contact/' | relative_url }}">Get In Touch &rarr;</a>
   </div>
 </section>
 

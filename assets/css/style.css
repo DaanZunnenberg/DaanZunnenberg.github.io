@@ -931,53 +931,68 @@ a:hover { color: var(--blue-300); }
   line-height: 1.45;
 }
 
-/* Home page "site map" panel: the destination grid moved onto its own
-   full-bleed dark band (same technique as the footer/contact panel)
-   instead of sitting on the light page, and split into a bento layout
-   &mdash; two larger featured tiles for the content-heavy sections up top,
-   three smaller ones below &mdash; rather than one flat 5-up grid, so the
-   panel reads as a deliberately laid-out site map rather than a plain
-   link list. */
-.dest-panel .dest-grid {
-  margin: 0;
+/* Homepage site map: a plain ledger list rather than a grid of icon
+   cards, reusing the same index / dotted-leader / label language as the
+   article tiles (.article-card-img) elsewhere on the site instead of
+   inventing a second "explore" pattern. One column, no icons, no hover
+   lift &mdash; a list of five real destinations doesn't need card chrome. */
+.site-links {
+  display: flex;
+  flex-direction: column;
 }
 
-.dest-panel .dest-grid-featured {
-  grid-template-columns: repeat(2, 1fr);
-  margin-bottom: 18px;
+.site-link {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line-dark);
+  text-decoration: none;
+  color: inherit;
 }
 
-.dest-grid-secondary {
-  grid-template-columns: repeat(3, 1fr);
+.site-links .site-link:last-child {
+  border-bottom: none;
 }
 
-/* Featured tiles keep the exact same padding, index-number treatment,
-   and text layout as the secondary cards below &mdash; only the icon and
-   title scale up &mdash; so the two rows read as one consistent card
-   language at two sizes, not two different card designs. */
-.dest-card-featured {
-  padding: 28px 26px 30px;
-  min-height: 168px;
+.site-link-index {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(245, 247, 251, 0.4);
 }
 
-.dest-card-featured .dest-icon {
-  width: 52px;
-  height: 52px;
+.site-link-leader {
+  flex: 1 1 auto;
+  min-width: 12px;
+  border-bottom: 1px dotted rgba(245, 247, 251, 0.22);
+  transform: translateY(-4px);
 }
 
-.dest-card-featured .dest-icon svg {
-  width: 24px;
-  height: 24px;
+.site-link-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: #f5f7fb;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dest-card-featured .dest-title {
-  font-size: 23px;
+.site-link:hover .site-link-title {
+  color: var(--term-blue);
 }
 
-@media (max-width: 760px) {
-  .dest-grid-featured,
-  .dest-grid-secondary { grid-template-columns: 1fr; }
-  .dest-card-featured { min-height: 0; }
+.site-link-desc {
+  flex: none;
+  max-width: 320px;
+  font-size: 13px;
+  color: rgba(233, 236, 243, 0.55);
+  text-align: right;
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .site-link { flex-wrap: wrap; }
+  .site-link-leader { display: none; }
+  .site-link-desc { max-width: none; text-align: left; flex-basis: 100%; }
 }
 
 /* Contact page: a full-bleed dark panel holding just the contact channels,
@@ -1008,10 +1023,10 @@ a:hover { color: var(--blue-300); }
 
 .contact-panel h2 {
   /* The sitewide main h2 rule centers headings to a 700px column, but
-     .tagline, .stat-strip, .dest-grid, and .nav-cards right below it in
-     these dark panels are all flush left and full width, so the h2 was
-     the one line in each panel sitting indented differently from
-     everything around it. Reset here so it lines up with the rest. */
+     .tagline, .dest-grid, and .site-links right below it in these dark
+     panels are all flush left and full width, so the h2 was the one line
+     in each panel sitting indented differently from everything around
+     it. Reset here so it lines up with the rest. */
   max-width: none;
   margin-left: 0;
   margin-right: 0;
@@ -1107,102 +1122,29 @@ a:hover { color: var(--blue-300); }
 }
 
 /* Home page reuses .contact-panel's full-bleed dark band (same technique
-   as the footer) as a general "page break" wrapper, not just for the
-   Contact page, so nav-cards need the same light-on-dark treatment the
-   dest-cards already get above. .landing-panel is just a naming hook for
-   home-page-specific spacing; all the actual dark-surface colors are
-   inherited from .contact-panel. */
+   as the footer) for its site-map section, not just for the Contact
+   page. .landing-panel is just a naming hook for home-page-specific
+   spacing; all the actual dark-surface colors are inherited from
+   .contact-panel. */
 .landing-panel {
   margin-top: 64px;
 }
 
-/* The closing CTA panel and the footer are both the same dark surface;
-   give the gap between them the same 64px rhythm as the gaps between the
-   landing page's other dark panels (.landing-panel above), instead of
-   the base .site-footer's larger 88px meant for footers that follow
-   ordinary light content. */
+/* The site-map panel and the footer are both the same dark surface; give
+   the gap between them the same 64px top margin .landing-panel itself
+   uses, instead of the base .site-footer's larger 88px meant for footers
+   that follow ordinary light content. */
 .landing-page .site-footer {
   margin-top: 64px;
-}
-
-.contact-panel .nav-card {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--line-dark);
-}
-
-.contact-panel .nav-card:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: var(--metal-gold);
-}
-
-.contact-panel .nav-card-icon {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--metal-gold);
-}
-
-.contact-panel .nav-card:hover .nav-card-icon {
-  background: var(--metal-gold);
-  color: var(--blue-950);
-}
-
-.contact-panel .nav-card-title {
-  color: #f5f7fb;
-}
-
-.contact-panel .nav-card-hint {
-  color: rgba(233, 236, 243, 0.55);
-}
-
-.contact-panel .nav-card-arrow {
-  color: var(--metal-gold);
 }
 
 .contact-panel .tagline {
   color: rgba(233, 236, 243, 0.55);
 }
 
-/* Landing-page highlight strip: a row of short stat/label pairs, the kind
-   of quick-scan proof-point block a marketing landing page would open a
-   dark section with, reusing the site's own mono/mixed-serif type pairing
-   rather than borrowing a generic dashboard-stat look. */
 .landing-panel .hero-eyebrow {
   display: block;
   margin-bottom: 24px;
-}
-
-.stat-strip {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.stat-value {
-  font-family: var(--display);
-  font-size: 30px;
-  font-weight: 600;
-  color: #f5f7fb;
-}
-
-.stat-label {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.03em;
-  color: rgba(233, 236, 243, 0.55);
-  line-height: 1.4;
-}
-
-@media (max-width: 640px) {
-  .stat-strip { grid-template-columns: repeat(2, 1fr); gap: 24px 20px; }
-}
-
-@media (max-width: 560px) {
-  .stat-strip { grid-template-columns: 1fr; }
 }
 
 /* Insights-hub card grid (Blogposts / Events on the Blogposts page): same
@@ -2380,122 +2322,6 @@ body:has(.hero):not(.personal-index) .hero-content {
   height: 14px;
   flex: none;
   fill: currentColor;
-}
-
-/* Explore / quick-nav cards */
-.nav-cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-  margin-bottom: 24px;
-}
-
-.nav-cards-single {
-  grid-template-columns: 1fr;
-}
-
-.nav-card {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 24px 26px;
-  border: 1px solid var(--line-soft);
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  text-decoration: none;
-  overflow: hidden;
-  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.nav-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
-  background: linear-gradient(180deg, var(--blue-400), var(--blue-600));
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.25s ease;
-}
-
-.nav-card:hover {
-  border-color: var(--blue-600);
-  background: rgba(255, 255, 255, 0.8);
-  transform: translateY(-3px);
-  box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.1), 0 28px 52px -24px var(--blue-glow);
-}
-
-.nav-card:hover::before {
-  transform: scaleY(1);
-}
-
-.nav-card-icon {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 2px;
-  background: var(--blue-800);
-  color: var(--blue-400);
-  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
-
-.nav-card-icon svg {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
-}
-
-.nav-card:hover .nav-card-icon {
-  background: var(--blue-400);
-  color: var(--bg);
-  transform: scale(1.06);
-}
-
-.nav-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1;
-  min-width: 0;
-}
-
-.nav-card-title {
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.nav-card-hint {
-  font-size: 14px;
-  color: var(--ink-soft);
-  line-height: 1.45;
-}
-
-.nav-card-arrow {
-  flex: none;
-  align-self: center;
-  color: var(--blue-400);
-  font-size: 16px;
-  opacity: 0;
-  transform: translateX(-4px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.nav-card:hover .nav-card-arrow {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-@media (max-width: 560px) {
-  .nav-cards { grid-template-columns: 1fr; }
 }
 
 code {
