@@ -107,7 +107,7 @@ body::after {
    locally with margin-left/right: calc(50% - 50vw), rather than relying
    on .wrap itself being unbounded the way they used to. */
 .wrap {
-  max-width: 1360px;
+  max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
   padding: 0 64px;
@@ -1304,8 +1304,8 @@ a:hover { color: var(--blue-300); }
      .wrap's own (centred, capped) content edge instead of sitting a flat
      64px from the true viewport edge, which would drift left of the
      content below it once the window is wider than .wrap's cap. */
-  padding-left: max(64px, calc((100vw - 1360px) / 2 + 64px));
-  padding-right: max(64px, calc((100vw - 1360px) / 2 + 64px));
+  padding-left: max(64px, calc((100vw - 1280px) / 2 + 64px));
+  padding-right: max(64px, calc((100vw - 1280px) / 2 + 64px));
   background: var(--blue-950);
 }
 
