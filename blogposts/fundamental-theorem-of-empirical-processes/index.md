@@ -5,7 +5,7 @@ permalink: /blogposts/fundamental-theorem-of-empirical-processes/
 ---
 
 <section class="hero">
-  <img class="hero-img" src="{{ '/images/star_background.png' | relative_url }}" alt="">
+  <img class="hero-img" src="{{ '/images/chalk.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Latała&ndash;Bednorz &middot; Empirical Processes</div>

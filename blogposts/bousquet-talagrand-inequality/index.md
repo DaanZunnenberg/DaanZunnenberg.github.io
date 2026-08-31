@@ -5,7 +5,7 @@ permalink: /blogposts/bousquet-talagrand-inequality/
 ---
 
 <section class="hero">
-  <img class="hero-img" src="{{ '/images/lines-hero.png' | relative_url }}" alt="">
+  <img class="hero-img" src="{{ '/images/chalk.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Concentration of Measure &middot; Entropy Method</div>

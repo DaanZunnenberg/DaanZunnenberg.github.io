@@ -5,7 +5,7 @@ permalink: /projects/functional-stationarity-test/
 ---
 
 <section class="hero">
-  <img class="hero-img" src="{{ '/images/stationarity_background.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+  <img class="hero-img" src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Project &middot; 2024</div>
@@ -206,9 +206,9 @@ test.gauss()                             # standardised difference, stored in te
   a stationary Ornstein&ndash;Uhlenbeck process, and a time-inhomogeneous diffusion where the true volatility
   drifts over time.
 </p>
-<img src="{{ '/images/stationarity/volatility_stationary.png' | relative_url }}" alt="State-domain versus time-domain volatility estimate, one panel per process component, for a simulated stationary bivariate Ornstein-Uhlenbeck process" class="entry-figure">
+<img src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="State-domain versus time-domain volatility estimate, one panel per process component, for a simulated stationary bivariate Ornstein-Uhlenbeck process" class="entry-figure">
 <p class="form-hint">Stationary bivariate OU process, \(T=150\), \(n=3000\), one panel per component. The two estimators track each other closely throughout. Exactly what the null hypothesis predicts.</p>
-<img src="{{ '/images/stationarity/volatility_nonstationary.png' | relative_url }}" alt="State-domain versus time-domain volatility estimate, one panel per process component, for a simulated time-inhomogeneous bivariate diffusion" class="entry-figure">
+<img src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="State-domain versus time-domain volatility estimate, one panel per process component, for a simulated time-inhomogeneous bivariate diffusion" class="entry-figure">
 <p class="form-hint">Time-inhomogeneous bivariate diffusion, same \(T\) and \(n\). The state-domain smoother pools observations across the whole trajectory, so it overshoots the time-domain smoother whenever the true diffusion coefficient is moving.</p>
 
 <h4 id="step-4-statistic">Step 4. Reduce to one test statistic</h4>
@@ -244,9 +244,9 @@ rejects = running_maximum(z)[-1] > bound[-1]</code></pre>
   bound within the first few hundred observations and keeps climbing, since the standardised difference
   between the two estimators never stabilises once the true diffusion coefficient starts moving.
 </p>
-<img src="{{ '/images/stationarity/running_max_stationary.png' | relative_url }}" alt="Running maximum test statistic for the stationary Ornstein-Uhlenbeck process, staying below the Gumbel critical bounds at every confidence level" class="entry-figure">
+<img src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="Running maximum test statistic for the stationary Ornstein-Uhlenbeck process, staying below the Gumbel critical bounds at every confidence level" class="entry-figure">
 <p class="form-hint">The standardised Gaussian process \(Z_t\) (grey), its empirical running maximum \(\phi_j\) (red), and the Pickands&ndash;Berman critical bound at four confidence levels. The running maximum never crosses even the loosest (50%) bound, so the test fails to reject stationarity.</p>
-<img src="{{ '/images/stationarity/running_max_nonstationary.png' | relative_url }}" alt="Running maximum test statistic for the nonstationary time-inhomogeneous diffusion, sharply exceeding all Gumbel critical bounds" class="entry-figure">
+<img src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="Running maximum test statistic for the nonstationary time-inhomogeneous diffusion, sharply exceeding all Gumbel critical bounds" class="entry-figure">
 <p class="form-hint">Same construction on the time-inhomogeneous diffusion. The running maximum clears every bound within the first few hundred observations and never comes back. A clear rejection of stationarity.</p>
 
 <h4 id="design-notes">Why the code is split this way</h4>

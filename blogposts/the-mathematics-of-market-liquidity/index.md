@@ -5,7 +5,7 @@ permalink: /blogposts/the-mathematics-of-market-liquidity/
 ---
 
 <section class="hero">
-  <img class="hero-img" src="{{ '/images/chart_image.jpg' | relative_url }}" alt="">
+  <img class="hero-img" src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Blogpost &middot; Market Microstructure</div>
