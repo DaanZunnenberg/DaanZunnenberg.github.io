@@ -41,36 +41,30 @@ body_class: projects-index
 
 <div class="article-grid" data-filterable>
   <a class="article-card" data-tags="volatility statistics" href="{{ '/projects/functional-volatility-surface-modelling/' | relative_url }}">
-    <span class="article-card-index">01</span>
-    <span class="article-card-ticker">FVSM</span>
     <span class="article-card-body">
       <span class="article-card-title">Functional Volatility Surface Modelling</span>
-      <span class="article-card-desc">Functional GARCH and GAS-GARCH for intraday volatility surfaces &middot; Python, numba</span>
+      <span class="article-card-date">Sep 2024 &ndash; present</span>
     </span>
+    <span class="article-card-desc">Functional GARCH and GAS-GARCH for intraday volatility surfaces &middot; Python, numba</span>
     <span class="article-card-tags" aria-hidden="true"><span class="tag tag-volatility">Volatility</span><span class="tag tag-statistics">Statistics</span></span>
-    <span class="article-card-date">Sep 2024 &ndash; present</span>
   </a>
 
   <a class="article-card" data-tags="volatility statistics" href="{{ '/projects/functional-scale-estimation/' | relative_url }}">
-    <span class="article-card-index">02</span>
-    <span class="article-card-ticker">FSVE</span>
     <span class="article-card-body">
       <span class="article-card-title">Functional Scale Volatility Estimation</span>
-      <span class="article-card-desc">Bernstein-basis QMLE for functional GARCH, with Yicong Lin &amp; Andre Lucas &middot; Python, SAS</span>
+      <span class="article-card-date">Jan &ndash; Jun 2024</span>
     </span>
+    <span class="article-card-desc">Bernstein-basis QMLE for functional GARCH, with Yicong Lin &amp; Andre Lucas &middot; Python, SAS</span>
     <span class="article-card-tags" aria-hidden="true"><span class="tag tag-volatility">Volatility</span><span class="tag tag-statistics">Statistics</span></span>
-    <span class="article-card-date">Jan &ndash; Jun 2024</span>
   </a>
 
   <a class="article-card" data-tags="statistics" href="{{ '/projects/functional-stationarity-test/' | relative_url }}">
-    <span class="article-card-index">03</span>
-    <span class="article-card-ticker">FST</span>
     <span class="article-card-body">
       <span class="article-card-title">Functional Stationarity Test</span>
-      <span class="article-card-desc">A nonparametric stationarity test for multivariate diffusions &middot; Python</span>
+      <span class="article-card-date">2024</span>
     </span>
+    <span class="article-card-desc">A nonparametric stationarity test for multivariate diffusions &middot; Python</span>
     <span class="article-card-tags" aria-hidden="true"><span class="tag tag-statistics">Statistics</span></span>
-    <span class="article-card-date">2024</span>
   </a>
 
 </div>
@@ -99,25 +93,21 @@ body_class: projects-index
 
 <div class="article-grid" data-filterable>
   <a class="article-card" data-tags="crypto" href="{{ '/projects/tardis-dev-fetcher/' | relative_url }}">
-    <span class="article-card-index">01</span>
-    <span class="article-card-ticker">TDF</span>
     <span class="article-card-body">
       <span class="article-card-title">Tardis.dev Data Fetcher</span>
-      <span class="article-card-desc">Command-line client for downloading historical crypto market data from Tardis.dev &middot; Python</span>
+      <span class="article-card-date">2024</span>
     </span>
+    <span class="article-card-desc">Command-line client for downloading historical crypto market data from Tardis.dev &middot; Python</span>
     <span class="article-card-tags" aria-hidden="true"><span class="tag tag-crypto">Crypto</span></span>
-    <span class="article-card-date">2024</span>
   </a>
 
   <a class="article-card" data-tags="fx" href="{{ '/projects/foreign-exchange-data/' | relative_url }}">
-    <span class="article-card-index">02</span>
-    <span class="article-card-ticker">FXD</span>
     <span class="article-card-body">
       <span class="article-card-title">Foreign Exchange Data</span>
-      <span class="article-card-desc">Sandbox EUR/USD 2-minute OHLCV dataset with loading and plotting scripts &middot; Python</span>
+      <span class="article-card-date">2025</span>
     </span>
+    <span class="article-card-desc">Sandbox EUR/USD 2-minute OHLCV dataset with loading and plotting scripts &middot; Python</span>
     <span class="article-card-tags" aria-hidden="true"><span class="tag tag-fx">FX</span></span>
-    <span class="article-card-date">2025</span>
   </a>
 </div>
 
