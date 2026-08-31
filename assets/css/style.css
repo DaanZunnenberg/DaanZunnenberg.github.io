@@ -1832,8 +1832,13 @@ pre.code-block code {
    lede, and a CTA row), and at the base 420px it reads cramped - the CTA
    row sits close to the bottom edge with little breathing room below it.
    Taller here, just for landing, rather than growing .hero-lg itself and
-   changing Personal's photo hero to match. */
-.landing-page .hero-lg {
+   changing Personal's photo hero to match. Projects, Resume, Blogposts,
+   and Contact match landing's height for visual consistency across pages. */
+.landing-page .hero-lg,
+.projects-index .hero-lg,
+.resume-index .hero-lg,
+.blogposts-index .hero-lg,
+.contact-index .hero-lg {
   height: 500px;
 }
 
@@ -2115,7 +2120,11 @@ body:has(.hero):not(.personal-index) .hero-content {
 @media (max-width: 640px) {
   .hero { margin-bottom: 32px; }
   .hero-lg { height: 380px; }
-  .landing-page .hero-lg { height: 440px; }
+  .landing-page .hero-lg,
+  .projects-index .hero-lg,
+  .resume-index .hero-lg,
+  .blogposts-index .hero-lg,
+  .contact-index .hero-lg { height: 440px; }
   .hero-content { max-width: none; padding: 28px 20px; }
   .hero-cta { margin-top: 22px; }
   .hero-name { font-size: 32px; }
