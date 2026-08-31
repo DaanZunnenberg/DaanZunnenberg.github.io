@@ -1958,17 +1958,21 @@ pre.code-block code {
   animation: hero-fade-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Landing hero text sits flush against the same 44px inset as every
-   other hero, but the hero itself is full-bleed (true viewport edge),
-   so that reads noticeably tighter than the rest of the page's own
-   64px gutter. Widen just the text inset here; the hero art stays
-   full-bleed either way since only the text padding changes. Max-width
-   grows by the same 40px the extra padding adds, so the actual text
-   column stays the same width instead of narrowing and wrapping onto
-   an extra line, which was pushing the CTA row past the hero's fixed
+/* Hero text on the four photo-hero pages (landing, Projects, Resume,
+   Blogposts) sits flush against the same 44px inset as every hero, but
+   the hero itself is full-bleed (true viewport edge), so that reads
+   noticeably tighter than the rest of the page's own 64px gutter. Widen
+   just the text inset here; the hero art stays full-bleed either way
+   since only the text padding changes. Max-width grows by the same 40px
+   the extra padding adds, so the actual text column stays the same
+   width instead of narrowing and wrapping onto an extra line, which on
+   the landing page was pushing its CTA row past the hero's fixed
    height. */
 @media (min-width: 641px) {
-  .landing-page .hero-content {
+  .landing-page .hero-content,
+  .projects-index .hero-content,
+  .resume-index .hero-content,
+  .blogposts-index .hero-content {
     max-width: 540px;
     padding-left: 64px;
     padding-right: 64px;
