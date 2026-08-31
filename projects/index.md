@@ -6,7 +6,7 @@ body_class: projects-index
 ---
 
 <section class="hero hero-lg">
-  <img class="hero-img" src="{{ '/images/ultra_skyline.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+  <img class="hero-img" src="{{ '/images/Rotterdam.avif' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <!-- Animated live options-chain background, kept for later use: uncomment to restore it in place of the static image above.
   <canvas id="market-widget-canvas" class="hero-canvas" aria-label="Live BTC/USDT and ETH/USDT options chain" aria-hidden="true"></canvas>
   -->
