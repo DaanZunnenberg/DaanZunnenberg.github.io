@@ -42,7 +42,8 @@ body_class: projects-index
 <div class="article-grid" data-filterable>
   <a class="article-card" data-tags="volatility statistics" href="{{ '/projects/functional-volatility-surface-modelling/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <span class="article-card-glyph">FV</span>
+      <span class="article-card-index">01 / 03</span>
+      <span class="article-card-ticker">FVSM</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-volatility">Volatility</span><span class="tag tag-statistics">Statistics</span></span>
@@ -54,7 +55,8 @@ body_class: projects-index
 
   <a class="article-card" data-tags="volatility statistics" href="{{ '/projects/functional-scale-estimation/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <span class="article-card-glyph">FS</span>
+      <span class="article-card-index">02 / 03</span>
+      <span class="article-card-ticker">FSVE</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-volatility">Volatility</span><span class="tag tag-statistics">Statistics</span></span>
@@ -66,7 +68,8 @@ body_class: projects-index
 
   <a class="article-card" data-tags="statistics" href="{{ '/projects/functional-stationarity-test/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <span class="article-card-glyph">ST</span>
+      <span class="article-card-index">03 / 03</span>
+      <span class="article-card-ticker">FST</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-statistics">Statistics</span></span>
@@ -103,7 +106,8 @@ body_class: projects-index
 <div class="article-grid" data-filterable>
   <a class="article-card" data-tags="crypto" href="{{ '/projects/tardis-dev-fetcher/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <span class="article-card-glyph">TD</span>
+      <span class="article-card-index">01 / 02</span>
+      <span class="article-card-ticker">TDF</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-crypto">Crypto</span></span>
@@ -115,7 +119,8 @@ body_class: projects-index
 
   <a class="article-card" data-tags="fx" href="{{ '/projects/foreign-exchange-data/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <span class="article-card-glyph">FX</span>
+      <span class="article-card-index">02 / 02</span>
+      <span class="article-card-ticker">FXD</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-fx">FX</span></span>

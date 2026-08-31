@@ -103,6 +103,20 @@ body::after {
   padding: 0 64px;
 }
 
+/* Grids and card/list groups that used to stretch edge-to-edge with the
+   viewport on wide monitors (no cap beyond .wrap's own gutters). Full-bleed
+   bands like .hero and .section-break intentionally keep spanning the
+   whole .wrap; this only reins in the content sitting between them, so
+   cards stop ballooning and centre instead once the window gets wide. */
+.dest-grid,
+.article-grid,
+.resume-main,
+.timeline {
+  max-width: 1232px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media (max-width: 900px) {
   .wrap { padding: 0 40px; }
 }
@@ -1163,17 +1177,24 @@ a:hover { color: var(--blue-300); }
   line-height: 1.4;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 640px) {
   .stat-strip { grid-template-columns: repeat(2, 1fr); gap: 24px 20px; }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 560px) {
   .stat-strip { grid-template-columns: 1fr; }
 }
 
 /* Insights-hub card grid (Blogposts / Events on the Blogposts page): same
-   card-with-hover-lift language as .dest-card, but topped with a flat-color
-   panel carrying a short text glyph instead of a photo. */
+   card-with-hover-lift language as .dest-card, but topped with a dark
+   "terminal" panel (the same dark surface as .hero/.market-widget) instead
+   of a photo. Each panel carries a mono "position / total" index (the same
+   family as .section-break's numbering, one level down) and a short ticker
+   code in place of a headline image, with a slow diagonal sheen animating
+   across it, the
+   same "catches the light rather than reading as decoration" idea as the
+   page-wide paper-grain backdrop, just re-used on a dark surface instead
+   of the light one. */
 .article-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1204,23 +1225,63 @@ a:hover { color: var(--blue-300); }
   position: relative;
   aspect-ratio: 16 / 9;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px 16px;
   background: var(--blue-950);
+  border-bottom: 1px solid var(--line-dark);
   color: rgba(245, 247, 251, 0.5);
   overflow: hidden;
 }
 
-.article-card-glyph {
-  font-family: var(--serif);
-  font-size: 30px;
-  letter-spacing: 0.04em;
-  color: rgba(245, 247, 251, 0.34);
+/* Slow diagonal sheen, always running (not hover-gated), so the panel
+   reads as a quietly "live" surface at rest &mdash; the same restraint as
+   the hero canvases (no jump on hover, nothing that looks like a button). */
+.article-card-img::before {
+  content: "";
+  position: absolute;
+  inset: -50% -20%;
+  background: linear-gradient(75deg,
+    transparent 42%,
+    rgba(159, 176, 201, 0.05) 47%,
+    rgba(159, 176, 201, 0.12) 50%,
+    rgba(159, 176, 201, 0.05) 53%,
+    transparent 58%);
+  transform: translateX(-30%);
+  animation: card-sheen 9s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes card-sheen {
+  0%, 100% { transform: translateX(-30%); }
+  50% { transform: translateX(30%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-card-img::before { animation: none; }
+}
+
+.article-card-index {
+  position: relative;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(245, 247, 251, 0.4);
+}
+
+.article-card-ticker {
+  position: relative;
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(245, 247, 251, 0.72);
   transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.article-card:hover .article-card-glyph {
-  color: rgba(245, 247, 251, 0.55);
+.article-card:hover .article-card-ticker {
+  color: var(--term-blue);
 }
 
 .article-card-body {
@@ -1584,6 +1645,7 @@ a:hover { color: var(--blue-300); }
 .entry:hover .entry-date { color: var(--blue-400); }
 
 .entry ul {
+  max-width: 700px;
   margin: 10px 0 0;
   padding-left: 18px;
 }
