@@ -46,6 +46,31 @@
   --serif: "IBM Plex Serif", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --display: "Fraunces", "IBM Plex Serif", Georgia, serif;
   --display-hero: Baskerville, "Baskerville Old Face", "Libre Baskerville", "Times New Roman", serif;
+
+  /* Type scale: named steps rather than one-off pixel values, so every
+     small/meta and body-adjacent size on the site draws from the same
+     ladder. Large display sizes (h1, .site-title, hero headings, and
+     their responsive variants) stay literal — they're already a
+     deliberate, verified two-tier scale, not accidental duplicates. */
+  --fs-2xs: 11px;   /* micro labels: tags, mono captions */
+  --fs-xs: 12px;    /* meta text: dates, small mono */
+  --fs-sm: 13px;    /* secondary body / mono */
+  --fs-md: 14px;    /* body-small, description text */
+  --fs-base: 15.5px; /* running body copy */
+  --fs-lg: 18px;    /* lede/h3-level emphasis */
+  --fs-title: 19px; /* card and index titles */
+
+  /* Spacing scale: an 8px-based ladder for gaps, padding, and margins on
+     components built or touched going forward (article rows, buttons,
+     form controls). Existing bespoke layout spacing (hero, section
+     breaks, grid gutters) is left as-is rather than force-fit. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
 }
 
 * { box-sizing: border-box; }
@@ -58,7 +83,7 @@ body {
   background-attachment: fixed;
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 15.5px;
+  font-size: var(--fs-base);
   line-height: 1.6;
   position: relative;
   isolation: isolate;
@@ -188,7 +213,7 @@ main h2,
   max-width: 640px;
   margin-left: auto;
   margin-right: auto;
-  font-size: 14.5px;
+  font-size: var(--fs-md);
 }
 
 .article-body h2 {
@@ -197,7 +222,7 @@ main h2,
 }
 
 .article-body h4 {
-  font-size: 15px;
+  font-size: var(--fs-base);
   margin: 20px 0 8px;
 }
 
@@ -219,7 +244,7 @@ main h2,
 }
 
 .article-figure figcaption {
-  font-size: 12.5px;
+  font-size: var(--fs-xs);
   color: var(--ink-faint);
   margin-top: 8px;
   line-height: 1.5;
@@ -378,7 +403,7 @@ body:has(.hero) .site-header .nav-item-personal > a.active {
 
 .site-nav {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
@@ -487,7 +512,7 @@ body:has(.hero) .site-header .nav-item-personal > a.active {
    A bordered button rather than an underlined link, so it reads as its
    own action instead of another page in the current section. */
 .nav-switch a {
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.06em;
   color: var(--ink-faint);
   opacity: 0.75;
@@ -503,7 +528,7 @@ body:has(.hero) .site-header .nav-item-personal > a.active {
 .nav-dropdown a {
   padding: 8px 10px;
   border-radius: 2px;
-  font-size: 12.5px;
+  font-size: var(--fs-xs);
   white-space: nowrap;
 }
 
@@ -679,7 +704,7 @@ body.nav-locked {
     min-height: 44px;
     padding: 0 4px;
     border-bottom: 1px solid var(--line-soft);
-    font-size: 14px;
+    font-size: var(--fs-md);
   }
 
   .site-nav a:active { background: var(--bg-1); }
@@ -720,7 +745,7 @@ h2 {
   position: relative;
   font-family: var(--mono);
   font-weight: 700;
-  font-size: 13px;
+  font-size: var(--fs-sm);
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--ink);
@@ -742,7 +767,7 @@ h2::before {
 }
 
 h3 {
-  font-size: 18px;
+  font-size: var(--fs-lg);
   margin: 0 0 2px;
   color: var(--ink);
 }
@@ -752,7 +777,7 @@ h3 {
    scoped to the collapsible project blocks. */
 h4 {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--ink-faint);
@@ -787,7 +812,7 @@ a:hover { color: var(--blue-300); }
 
 .tagline {
   font-family: var(--mono);
-  font-size: 14px;
+  font-size: var(--fs-md);
   color: var(--ink-soft);
   margin-bottom: 28px;
 }
@@ -800,7 +825,7 @@ a:hover { color: var(--blue-300); }
 }
 
 .lede {
-  font-size: 18px;
+  font-size: var(--fs-lg);
   color: var(--ink-soft);
   margin-bottom: 8px;
 }
@@ -825,7 +850,7 @@ a:hover { color: var(--blue-300); }
   min-width: 0;
   padding: 24px 24px 26px;
   border: 1px solid var(--line-soft);
-  border-radius: 3px;
+  border-radius: 2px;
   background: var(--bg-raised);
   text-decoration: none;
   overflow: hidden;
@@ -883,7 +908,7 @@ a:hover { color: var(--blue-300); }
   top: 24px;
   right: 22px;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   color: var(--ink-faint);
 }
 
@@ -895,7 +920,7 @@ a:hover { color: var(--blue-300); }
 
 .dest-title {
   font-family: var(--serif);
-  font-size: 20px;
+  font-size: var(--fs-title);
   color: var(--ink);
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -905,7 +930,7 @@ a:hover { color: var(--blue-300); }
 }
 
 .dest-desc {
-  font-size: 14px;
+  font-size: var(--fs-md);
   color: var(--ink-faint);
   line-height: 1.45;
 }
@@ -938,14 +963,14 @@ a:hover { color: var(--blue-300); }
 
 .site-index-num {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.06em;
   color: rgba(245, 247, 251, 0.4);
 }
 
 .site-index-title {
   font-family: var(--serif);
-  font-size: 19px;
+  font-size: var(--fs-title);
   color: #f5f7fb;
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -955,7 +980,7 @@ a:hover { color: var(--blue-300); }
 }
 
 .site-index-desc {
-  font-size: 13.5px;
+  font-size: var(--fs-sm);
   color: rgba(233, 236, 243, 0.55);
   line-height: 1.5;
 }
@@ -1101,7 +1126,7 @@ a:hover { color: var(--blue-300); }
   .dest-card { padding: 20px 20px 22px; }
   .dest-icon { width: 44px; height: 44px; }
   .dest-icon svg { width: 22px; height: 22px; }
-  .dest-title { font-size: 19px; }
+  .dest-title { font-size: var(--fs-title); }
 }
 
 /* Home page reuses .contact-panel's full-bleed dark band (same technique
@@ -1174,7 +1199,7 @@ a:hover { color: var(--blue-300); }
 
 .article-card-title {
   font-family: var(--serif);
-  font-size: 20px;
+  font-size: var(--fs-title);
   line-height: 1.3;
   color: var(--ink);
   transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1187,14 +1212,14 @@ a:hover { color: var(--blue-300); }
 .article-card-date {
   flex: 0 0 auto;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.02em;
   color: var(--ink-faint);
   white-space: nowrap;
 }
 
 .article-card-desc {
-  font-size: 14px;
+  font-size: var(--fs-md);
   color: var(--ink-faint);
   line-height: 1.5;
 }
@@ -1206,7 +1231,7 @@ a:hover { color: var(--blue-300); }
 
 .article-card-tags .tag {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-faint);
@@ -1223,7 +1248,7 @@ a:hover { color: var(--blue-300); }
 @media (max-width: 560px) {
   .article-card { padding: 18px 2px; }
   .article-card-body { flex-direction: column; gap: 2px; }
-  .article-card-title { font-size: 18px; }
+  .article-card-title { font-size: var(--fs-lg); }
 }
 
 /* Page break between project sections: a full-width strip in the site's
@@ -1272,7 +1297,7 @@ a:hover { color: var(--blue-300); }
 
 .section-break-label {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--blue-800);
@@ -1288,18 +1313,18 @@ a:hover { color: var(--blue-300); }
 
 .section-break p {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   color: var(--blue-800);
   margin: 0;
 }
 
 .article-grid-empty {
   border: 1px dashed var(--line);
-  border-radius: 3px;
+  border-radius: 2px;
   padding: 32px 20px;
   text-align: center;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   color: var(--ink-faint);
 }
 
@@ -1315,7 +1340,7 @@ a:hover { color: var(--blue-300); }
 
 .tag-filter-btn {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   padding: 7px 15px;
@@ -1348,7 +1373,7 @@ a:hover { color: var(--blue-300); }
 .tag {
   display: inline-block;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   line-height: 1.5;
@@ -1371,7 +1396,7 @@ a:hover { color: var(--blue-300); }
 
 .article-grid-more-btn {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   padding: 10px 26px;
@@ -1433,20 +1458,20 @@ a:hover { color: var(--blue-300); }
 
 .timeline-date {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.02em;
   color: var(--ink-faint);
 }
 
 .timeline-title {
   font-family: var(--serif);
-  font-size: 18px;
+  font-size: var(--fs-lg);
   color: var(--ink);
 }
 
 .timeline-org {
   font-family: var(--mono);
-  font-size: 12.5px;
+  font-size: var(--fs-xs);
   color: var(--ink-soft);
   margin-top: 2px;
 }
@@ -1462,7 +1487,7 @@ a:hover { color: var(--blue-300); }
    staying inside the one entry. */
 .resume-glance-group {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-faint);
@@ -1490,7 +1515,7 @@ a:hover { color: var(--blue-300); }
 
 .resume-skills li {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   color: var(--ink-soft);
   background: var(--bg-1);
   border: 1px solid var(--line-soft);
@@ -1547,13 +1572,13 @@ a:hover { color: var(--blue-300); }
 
 .entry-org {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   color: var(--ink-soft);
 }
 
 .entry-date {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   color: var(--ink-faint);
   white-space: nowrap;
   transition: color 0.2s ease;
@@ -1576,7 +1601,7 @@ a:hover { color: var(--blue-300); }
 
 .tags {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   color: var(--blue-400);
   margin: 10px 0 0;
 }
@@ -1593,7 +1618,7 @@ a:hover { color: var(--blue-300); }
   display: block;
   cursor: pointer;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   color: var(--blue-400);
   background: none;
   border: none;
@@ -1632,7 +1657,7 @@ a:hover { color: var(--blue-300); }
   .readme-collapse { transition: none; }
 }
 
-.readme { font-size: 15px; color: var(--ink-soft); }
+.readme { font-size: var(--fs-base); color: var(--ink-soft); }
 
 .katex-display {
   margin: 12px 0;
@@ -1643,7 +1668,7 @@ a:hover { color: var(--blue-300); }
 
 .readme h4 {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--ink-faint);
@@ -1675,7 +1700,7 @@ main p {
 
 .math-env-label {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1724,7 +1749,7 @@ pre.code-block {
   border-radius: 2px;
   overflow-x: auto;
   font-family: ui-monospace, var(--mono);
-  font-size: 12.5px;
+  font-size: var(--fs-xs);
   line-height: 1.55;
   text-shadow: none;
 }
@@ -1734,7 +1759,7 @@ pre.code-block[data-lang]::before {
   position: absolute;
   top: 6px;
   right: 12px;
-  font-size: 10px;
+  font-size: var(--fs-2xs);
   color: var(--ink-faint);
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -1980,7 +2005,7 @@ body:has(.hero):not(.personal-index) .hero-content {
 
 .hero-eyebrow {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--accent-bright);
@@ -2011,7 +2036,7 @@ body:has(.hero):not(.personal-index) .hero-content {
 .hero-lede {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 17px;
+  font-size: var(--fs-lg);
   line-height: 1.55;
   max-width: 34ch;
   color: rgba(243, 241, 234, 0.92);
@@ -2086,7 +2111,7 @@ body:has(.hero):not(.personal-index) .hero-content {
   left: 50%;
   transform: translate(-50%, 4px);
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--fs-2xs);
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--blue-950);
@@ -2158,7 +2183,7 @@ body:has(.hero):not(.personal-index) .hero-content {
 
 .contact-form label {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--ink-faint);
@@ -2170,7 +2195,7 @@ body:has(.hero):not(.personal-index) .hero-content {
 .contact-form select,
 .contact-form textarea {
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: var(--fs-base);
   color: var(--ink);
   background: var(--bg-1);
   border: 1px solid var(--line);
@@ -2216,13 +2241,13 @@ body:has(.hero):not(.personal-index) .hero-content {
 }
 
 .form-hint {
-  font-size: 13px;
+  font-size: var(--fs-sm);
   color: var(--ink-faint);
 }
 
 .contact-form button {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--bg);
@@ -2243,7 +2268,7 @@ body:has(.hero):not(.personal-index) .hero-content {
 .cta-button {
   display: inline-block;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--bg);
@@ -2279,7 +2304,7 @@ body:has(.hero):not(.personal-index) .hero-content {
   display: none;
   margin-top: 16px;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   color: var(--up);
 }
 
@@ -2298,7 +2323,7 @@ body:has(.hero):not(.personal-index) .hero-content {
   justify-content: center;
   gap: 10px 18px;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   margin-bottom: 24px;
 }
 
@@ -2397,7 +2422,7 @@ code {
   padding-right: 64px;
   background: var(--blue-950);
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   color: rgba(233, 236, 243, 0.7);
 }
 
@@ -2419,20 +2444,20 @@ code {
 .footer-contact {
   padding: 18px 20px;
   border: 1px solid var(--line-dark);
-  border-radius: 3px;
+  border-radius: 2px;
   background: rgba(255, 255, 255, 0.03);
 }
 
 .footer-contact p {
   margin: 0 0 14px;
   font-family: var(--serif);
-  font-size: 13.5px;
+  font-size: var(--fs-sm);
   line-height: 1.5;
   color: rgba(233, 236, 243, 0.75);
 }
 
 .footer-contact .cta-button {
-  font-size: 12px;
+  font-size: var(--fs-xs);
   padding: 9px 16px;
 }
 
@@ -2448,7 +2473,7 @@ code {
 .footer-message-form input[type="email"],
 .footer-message-form textarea {
   font-family: var(--serif);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   color: #f5f7fb;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--line-dark);
@@ -2473,7 +2498,7 @@ code {
 .footer-message-form button {
   align-self: flex-start;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--bg);
@@ -2499,14 +2524,14 @@ code {
 .footer-col a {
   color: rgba(233, 236, 243, 0.75);
   text-decoration: none;
-  font-size: 12.5px;
+  font-size: var(--fs-xs);
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .footer-col a:hover { color: var(--metal-gold); }
 
 .footer-col-label {
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: rgba(233, 236, 243, 0.4);
@@ -2529,13 +2554,13 @@ code {
 .footer-mark svg rect { fill: rgba(255, 255, 255, 0.92); }
 .footer-mark svg text {
   font-family: var(--serif);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   fill: var(--blue-950);
 }
 
 .footer-mark span {
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: var(--fs-lg);
   color: #f5f7fb;
   letter-spacing: -0.005em;
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -2553,7 +2578,7 @@ code {
 }
 
 .footer-note {
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   color: rgba(233, 236, 243, 0.4);
 }
 
