@@ -1172,10 +1172,8 @@ a:hover { color: var(--blue-300); }
 }
 
 /* Insights-hub card grid (Blogposts / Events on the Blogposts page): same
-   card-with-hover-lift language as .dest-card, but topped with an image
-   instead of a small icon, closer to how asset managers lay out article
-   listings. The image is a CSS-only placeholder gradient + glyph until
-   real photos are supplied, so nothing here depends on an external asset. */
+   card-with-hover-lift language as .dest-card, but topped with a flat-color
+   panel carrying a short text glyph instead of a photo. */
 .article-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1208,21 +1206,21 @@ a:hover { color: var(--blue-300); }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--blue-950) 0%, var(--blue-600) 100%);
+  background: var(--blue-950);
   color: rgba(245, 247, 251, 0.5);
   overflow: hidden;
 }
 
-.article-card-img svg {
-  width: 34px;
-  height: 34px;
-  stroke: currentColor;
+.article-card-glyph {
+  font-family: var(--serif);
+  font-size: 30px;
+  letter-spacing: 0.04em;
+  color: rgba(245, 247, 251, 0.34);
+  transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.article-card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.article-card:hover .article-card-glyph {
+  color: rgba(245, 247, 251, 0.55);
 }
 
 .article-card-body {

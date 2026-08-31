@@ -42,7 +42,7 @@ body_class: projects-index
 <div class="article-grid" data-filterable>
   <a class="article-card" data-tags="volatility statistics" href="{{ '/projects/functional-volatility-surface-modelling/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/volatility/back1.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+      <span class="article-card-glyph">FV</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-volatility">Volatility</span><span class="tag tag-statistics">Statistics</span></span>
@@ -54,7 +54,7 @@ body_class: projects-index
 
   <a class="article-card" data-tags="volatility statistics" href="{{ '/projects/functional-scale-estimation/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/volatility/background.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+      <span class="article-card-glyph">FS</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-volatility">Volatility</span><span class="tag tag-statistics">Statistics</span></span>
@@ -66,7 +66,7 @@ body_class: projects-index
 
   <a class="article-card" data-tags="statistics" href="{{ '/projects/functional-stationarity-test/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/stationarity_background.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+      <span class="article-card-glyph">ST</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-statistics">Statistics</span></span>
@@ -103,7 +103,7 @@ body_class: projects-index
 <div class="article-grid" data-filterable>
   <a class="article-card" data-tags="crypto" href="{{ '/projects/tardis-dev-fetcher/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/terminal.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+      <span class="article-card-glyph">TD</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-crypto">Crypto</span></span>
@@ -115,7 +115,7 @@ body_class: projects-index
 
   <a class="article-card" data-tags="fx" href="{{ '/projects/foreign-exchange-data/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/forex.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+      <span class="article-card-glyph">FX</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-fx">FX</span></span>

@@ -43,7 +43,7 @@ body_class: blogposts-index
 <div class="article-grid" data-filterable>
   <a class="article-card" data-tags="finance mathematical" href="{{ '/blogposts/the-mathematics-of-market-liquidity/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/chart_image.jpg' | relative_url }}" alt="">
+      <span class="article-card-glyph">ML</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
@@ -55,7 +55,7 @@ body_class: blogposts-index
 
   <a class="article-card" data-tags="finance mathematical" href="{{ '/blogposts/sieve-estimation-of-volatility/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+      <span class="article-card-glyph">SM</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-finance">Finance</span><span class="tag tag-mathematical">Mathematical</span></span>
@@ -93,7 +93,7 @@ body_class: blogposts-index
 <div class="article-grid" data-filterable>
   <a class="article-card" data-tags="chaining" href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/chalk.png' | relative_url }}" alt="">
+      <span class="article-card-glyph">DI</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-chaining">Chaining</span></span>
@@ -104,7 +104,7 @@ body_class: blogposts-index
 
   <a class="article-card" data-tags="chaining empirical-processes" href="{{ '/blogposts/fundamental-theorem-of-empirical-processes/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/star_background.png' | relative_url }}" alt="">
+      <span class="article-card-glyph">EP</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-chaining">Chaining</span><span class="tag tag-empirical-processes">Empirical Processes</span></span>
@@ -115,7 +115,7 @@ body_class: blogposts-index
 
   <a class="article-card" data-tags="concentration empirical-processes" href="{{ '/blogposts/bousquet-talagrand-inequality/' | relative_url }}">
     <span class="article-card-img" aria-hidden="true">
-      <img src="{{ '/images/lines.png' | relative_url }}" alt="">
+      <span class="article-card-glyph">BT</span>
     </span>
     <span class="article-card-body">
       <span class="article-card-tags" aria-hidden="true"><span class="tag tag-concentration">Concentration</span><span class="tag tag-empirical-processes">Empirical Processes</span></span>
