@@ -1955,9 +1955,14 @@ pre.code-block code {
    other hero, but the hero itself is full-bleed (true viewport edge),
    so that reads noticeably tighter than the rest of the page's own
    64px gutter. Widen just the text inset here; the hero art stays
-   full-bleed either way since only the text padding changes. */
+   full-bleed either way since only the text padding changes. Max-width
+   grows by the same 40px the extra padding adds, so the actual text
+   column stays the same width instead of narrowing and wrapping onto
+   an extra line, which was pushing the CTA row past the hero's fixed
+   height. */
 @media (min-width: 641px) {
   .landing-page .hero-content {
+    max-width: 540px;
     padding-left: 64px;
     padding-right: 64px;
   }
