@@ -128,6 +128,33 @@ body_class: blogposts-index
 
   <div class="timeline-item">
     <div class="timeline-head">
+      <span class="timeline-date">December 15&ndash;18, 2026</span>
+      <span class="timeline-title">2026 IMS International Conference on Statistics and Data Science (ICSDS) &middot; The Tukey Depth Under Dependence</span>
+    </div>
+    <div class="timeline-org">Institute of Mathematical Statistics &middot; Split, Croatia &middot; own talk</div>
+    <div class="readme-toggle">
+      <button type="button" class="readme-summary" aria-expanded="false">
+        <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
+      </button>
+      <div class="readme-collapse">
+        <div class="readme">
+          <p>
+            We extend the theory of Tukey depth to the setting of absolutely regular (\(\beta\)-mixing)
+            stochastic processes. In particular, we generalize Mass&eacute;'s weak convergence result for the
+            Tukey depth process to dependent observations and establish convergence rates expressed in terms
+            of the mixing coefficients. An application extends the theory developed by Mass&eacute; on depth
+            weighted estimators. First, we show that the assumptions on the weight can be significantly
+            weakened, and secondly we show that the observations can be taken as weakly dependent. A
+            simulation study demonstrates the advantages of depth weighted estimators under heavy tailed
+            innovations.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-head">
       <span class="timeline-date">October 5, 2026</span>
       <span class="timeline-title">The van Dantzig Seminar</span>
     </div>
