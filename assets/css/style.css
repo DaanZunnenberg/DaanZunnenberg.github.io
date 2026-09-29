@@ -1,0 +1,2602 @@
+:root {
+  /* Deep navy hue scale on a warm ivory ground — desaturated from the
+     earlier bright cobalt-on-periwinkle pairing, closer to how a bank's
+     print collateral reads than a fintech dashboard. */
+  --bg: #f8f7f3;
+  --bg-1: #f1efe7;
+  --bg-2: #e9e6db;
+  --bg-raised: #ffffff;
+  --line: #ddd8ca;
+  --line-soft: #e7e3d6;
+
+  --ink: #14181f;
+  --ink-soft: #4b4f57;
+  --ink-faint: #797d84;
+
+  --blue-950: #0d1726;
+  --blue-800: #dfe2e8;
+  --blue-600: #1c2947;
+  --blue-500: #22304f;
+  --blue-400: #23324f;
+  --blue-300: #141d33;
+  --blue-glow: rgba(35, 50, 79, 0.18);
+
+  --up: #1f7a5c;
+  --down: #a23a44;
+
+  /* Muted steel tones on the dark hero overlays, in place of the earlier
+     neon ANSI-style green/cyan. */
+  --term-green: #8fae9c;
+  --term-blue: #9fb0c9;
+
+  /* Platinum accent for section marks and hero eyebrows — a cooler
+     counterpoint to the navy used elsewhere. */
+  --accent: var(--blue-950);
+  --accent-bright: #dcdfe6;
+
+  /* Shared border tone for the dark "terminal" cards (hero, code blocks,
+     market widget), and two restrained metallic tones used sparingly for
+     small accents on those same dark surfaces. */
+  --line-dark: #242c3d;
+  --metal-gold: #b7a066;
+  --metal-silver: #b8c0cc;
+  --code-red: #c9707a;
+
+  --mono: "SF Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
+  --serif: "IBM Plex Serif", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --display: "Fraunces", "IBM Plex Serif", Georgia, serif;
+  --display-hero: Baskerville, "Baskerville Old Face", "Libre Baskerville", "Times New Roman", serif;
+
+  /* Type scale: named steps rather than one-off pixel values, so every
+     small/meta and body-adjacent size on the site draws from the same
+     ladder. Large display sizes (h1, .site-title, hero headings, and
+     their responsive variants) stay literal — they're already a
+     deliberate, verified two-tier scale, not accidental duplicates. */
+  --fs-2xs: 11px;   /* micro labels: tags, mono captions */
+  --fs-xs: 12px;    /* meta text: dates, small mono */
+  --fs-sm: 13px;    /* secondary body / mono */
+  --fs-md: 14px;    /* body-small, description text */
+  --fs-base: 15.5px; /* running body copy */
+  --fs-lg: 18px;    /* lede/h3-level emphasis */
+  --fs-title: 19px; /* card and index titles */
+
+  /* Spacing scale: an 8px-based ladder for gaps, padding, and margins on
+     components built or touched going forward (article rows, buttons,
+     form controls). Existing bespoke layout spacing (hero, section
+     breaks, grid gutters) is left as-is rather than force-fit. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg) 100%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  position: relative;
+  isolation: isolate;
+}
+
+/* Full-page backdrop: a near-invisible paper-fiber grain, static (no motion,
+   no repeating pattern), the way quality letterhead stock catches light
+   rather than reading as decoration. */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(20, 24, 31, 0) 55%, rgba(20, 24, 31, 0.05) 100%),
+    linear-gradient(180deg, var(--bg) 0%, rgba(248, 247, 243, 0) 14%, rgba(248, 247, 243, 0) 78%, var(--bg) 100%);
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 520px) {
+  .site-footer { padding-bottom: 60px; }
+}
+
+/* Single source of truth for the page's content column: capped and
+   centred, so every element left at its default width (paragraphs,
+   grids, entry cards, the timeline, the tag filter row) lines up on the
+   same two edges instead of stretching to fill wide monitors. Elements
+   meant to bleed past this column (.hero, .section-break, .contact-panel,
+   .site-footer, the overlaid hero header) each cancel the centering
+   locally with margin-left/right: calc(50% - 50vw), rather than relying
+   on .wrap itself being unbounded the way they used to. */
+.wrap {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 64px;
+}
+
+@media (max-width: 900px) {
+  .wrap { padding: 0 40px; }
+}
+
+@media (max-width: 640px) {
+  .wrap { padding: 0 16px; }
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Standard reading measure for prose, since .wrap itself is wide. Centered
+   (not just capped) so text gets even, generous margins on both sides
+   instead of hugging the left edge of a full-width page. Layout elements
+   (grids, cards, the timeline) are left alone since their own column/card
+   widths already control their line length. */
+main > p,
+main > ul,
+main > ol,
+main h1,
+main h2,
+.lede {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Blogposts index mixes prose (h2/p, picking up the sitewide narrow
+   centered measure above) with full-width blocks (.article-grid,
+   .timeline), which read as mismatched &mdash; a narrow indented caption
+   sitting above a wide grid. Here the text should run the same width as
+   the blocks beneath it, so it's left-aligned and uncapped like them
+   instead of centered to the 700px reading column. */
+.blogposts-index main > h2,
+.blogposts-index main > p,
+.projects-index main > p.lede,
+.contact-index main > p.lede,
+.resume-index main > p.lede,
+.resume-index main > p.tagline,
+.personal-index main > h2,
+.personal-index main > p,
+.personal-index main > ul {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
+
+/* Resume's headings sit in the two-column layout's main reading column
+   alongside its (left-aligned, not centered) .entry blocks, so they need
+   to stay flush left rather than pick up the sitewide h1/h2 centering
+   above and drift out of line with the entries beneath them. */
+.resume-main h1,
+.resume-main h2 {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.readme p,
+.readme li {
+  max-width: 700px;
+}
+
+/* Project/blogpost long-form pages read as articles, so they get a
+   narrower, smaller-type column than the rest of the site &mdash; closer to
+   a news or insights piece than a landing page. Centering the whole
+   article-body div (not just its paragraphs) keeps headings and text
+   aligned to the same column. */
+.article-body {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: var(--fs-md);
+}
+
+.article-body h2 {
+  font-size: 21px;
+  margin: 36px 0 14px;
+}
+
+.article-body h4 {
+  font-size: var(--fs-base);
+  margin: 20px 0 8px;
+}
+
+.article-body p,
+.article-body li {
+  max-width: none;
+}
+
+.article-figure {
+  margin: 22px 0;
+}
+
+.article-figure img {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--line-dark);
+  border-radius: 2px;
+  background: var(--blue-950);
+}
+
+.article-figure figcaption {
+  font-size: var(--fs-xs);
+  color: var(--ink-faint);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* Header */
+.site-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  gap: 12px;
+  padding: 20px 0;
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 0;
+  position: relative;
+  z-index: 45;
+}
+
+/* Pages with a hero: header floats transparently over the hero's top edge
+   instead of pushing it down, so the hero art reads as full-bleed. It's
+   taken out of flow (nothing above the hero to reserve space for it) and,
+   since it's no longer sticky, simply scrolls away with the hero beneath
+   it rather than pinning to the viewport. */
+body:has(.hero) .site-header {
+  position: absolute;
+  /* Matches .hero's own viewport-edge bleed below, so the header's scrim
+     spans the same full viewport width as the hero art instead of
+     stopping at .wrap's own (now capped) width. */
+  left: calc(50% - 50vw);
+  right: calc(50% - 50vw);
+  padding-left: 64px;
+  padding-right: 64px;
+  border: none;
+  /* Dark-to-light scrim of its own, rather than relying only on the hero
+     image's own fade, so the light nav text reads clearly regardless of
+     what's directly behind the header on any given hero. */
+  background: linear-gradient(180deg, rgba(6, 10, 18, 0.78) 0%, rgba(6, 10, 18, 0) 100%);
+  padding-bottom: 32px;
+}
+
+/* Personal page's hero is a photo slideshow, not art meant to read
+   full-bleed behind the nav, so unlike every other hero page it keeps the
+   header in normal document flow above the hero (not overlaid) with a
+   solid dark-blue bar instead of the transparent photo-scrim gradient.
+   Still bleeds edge-to-edge like the hero below it (margin/padding trick
+   instead of the absolute positioning used to achieve that above), so the
+   dark-blue bar spans the full viewport width rather than stopping at
+   .wrap's own padding. */
+body.personal-index:has(.hero) .site-header {
+  position: relative;
+  left: auto;
+  right: auto;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  background: var(--blue-950);
+  padding-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  body:has(.hero) .site-header {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  body:has(.hero) .site-header {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+body:has(.hero) .site-header .site-title {
+  color: #f5f7fb;
+}
+
+body:has(.hero) .site-header .site-nav a {
+  color: rgba(245, 247, 251, 0.8);
+}
+
+body:has(.hero) .site-header .site-nav a:hover,
+body:has(.hero) .site-header .site-nav a.active {
+  color: #ffffff;
+}
+
+/* The dropdown panel itself stays on its own solid light background
+   regardless of the header being transparent over a dark hero, so its
+   links need to keep their normal (dark-on-light) colors rather than
+   inheriting the light-on-dark treatment above. */
+body:has(.hero) .site-header .nav-dropdown a {
+  color: var(--ink-soft);
+}
+
+body:has(.hero) .site-header .nav-dropdown a:hover,
+body:has(.hero) .site-header .nav-dropdown a.active {
+  color: var(--blue-300);
+}
+
+body:has(.hero) .site-header .nav-toggle span {
+  background: #f5f7fb;
+}
+
+/* Personal's header treatment on hero pages (almost every professional
+   page): the header floats transparently over a dark hero image there, so
+   the same navy used against the light mobile panel would disappear.
+   --metal-gold is the site's existing "small accent on a dark surface"
+   token, already reserved for exactly this kind of contrast. Must come
+   before the mobile override below so the mobile panel (light background)
+   can win back to a dark color at narrow widths. */
+body:has(.hero) .site-header .nav-item-personal > a {
+  color: var(--metal-gold);
+}
+
+body:has(.hero) .site-header .nav-item-personal > a:hover,
+body:has(.hero) .site-header .nav-item-personal > a.active {
+  color: #d4bd85;
+}
+
+/* The mobile slide-out panel always sits on its own solid light background
+   (regardless of the transparent header over the hero above it), so its
+   links need the normal dark-on-light colors rather than the light-on-dark
+   treatment meant for the transparent desktop header. */
+@media (max-width: 680px) {
+  body:has(.hero) .site-header .site-nav a {
+    color: var(--ink-soft);
+  }
+
+  body:has(.hero) .site-header .site-nav a:hover,
+  body:has(.hero) .site-header .site-nav a.active {
+    color: var(--blue-400);
+  }
+
+  body:has(.hero) .site-header .nav-item-personal > a {
+    color: var(--blue-400);
+  }
+}
+
+.site-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 30px;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  opacity: 0.92;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.site-title:hover {
+  color: var(--blue-400);
+  opacity: 1;
+}
+
+.site-nav {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+/* Main nav sits in the header's middle zone and centers itself within the
+   space between the logo and the separate Personal nav, rather than
+   packing right like a plain two-item header would. */
+.site-nav-main {
+  flex: 1;
+  justify-content: center;
+}
+
+.site-nav a {
+  position: relative;
+  color: var(--ink-soft);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding-bottom: 4px;
+}
+
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--blue-400);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  color: var(--blue-300);
+  transition: color 0.3s ease;
+}
+
+.site-nav a:hover::after,
+.site-nav a.active::after {
+  transform: scaleX(1);
+}
+
+/* Personal is the odd one out among the nav destinations (hobbies rather
+   than professional content), so it gets a permanent accent + bold weight
+   instead of the shared muted-until-hover treatment every other item uses. */
+.nav-item-personal > a {
+  color: var(--blue-400);
+  font-weight: 700;
+}
+
+.nav-item-personal > a:hover,
+.nav-item-personal > a.active {
+  color: var(--blue-300);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.nav-has-dropdown {
+  position: relative;
+}
+
+.nav-has-dropdown::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 20px;
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -6px);
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 190px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 30;
+}
+
+.nav-has-dropdown:hover .nav-dropdown,
+.nav-has-dropdown:focus-within .nav-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+/* Cross-link between the professional and academic sections of the site.
+   A bordered button rather than an underlined link, so it reads as its
+   own action instead of another page in the current section. */
+.nav-switch a {
+  font-size: var(--fs-2xs);
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  opacity: 0.75;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-switch a:hover,
+.nav-switch a:focus-visible {
+  color: var(--blue-400);
+  opacity: 1;
+}
+
+.nav-dropdown a {
+  padding: 8px 10px;
+  border-radius: 2px;
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+}
+
+.nav-dropdown a::after {
+  display: none;
+}
+
+.nav-dropdown a:hover {
+  background: var(--bg-1);
+  color: var(--blue-300);
+}
+
+.site-nav-mobile {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .site-nav-desktop {
+    display: none;
+  }
+
+  .site-nav-mobile {
+    display: flex;
+  }
+
+  .nav-has-dropdown::after {
+    content: none;
+  }
+
+  .nav-has-dropdown {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-dropdown {
+    display: none;
+  }
+}
+
+.nav-dropdown-grouped {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  min-width: 340px;
+  max-width: min(760px, calc(100vw - 32px));
+  gap: 8px 22px;
+  padding: 14px;
+}
+
+.nav-dropdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.nav-dropdown-group a {
+  white-space: normal;
+  line-height: 1.3;
+}
+
+.nav-dropdown-heading {
+  display: block;
+  box-sizing: border-box;
+  /* Reserve room for a two-line heading (e.g. "Schools & Workshops") so the
+     divider below lines up across columns whether a heading wraps or not. */
+  min-height: calc(2.6em + 16px);
+  font-weight: 700;
+  color: var(--ink) !important;
+  padding: 8px 10px 8px !important;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--line-soft);
+  border-radius: 2px 2px 0 0 !important;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: none;
+  cursor: pointer;
+  z-index: 41;
+  position: relative;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--ink-soft);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav-toggle.open span {
+  background: var(--ink-soft);
+}
+
+.nav-toggle.open {
+  background: var(--bg-raised);
+  border-color: var(--ink-soft);
+}
+
+body.nav-locked {
+  overflow: hidden;
+}
+
+@media (max-width: 680px) {
+  .site-header {
+    align-items: center;
+    position: relative;
+    z-index: 40;
+  }
+  .nav-toggle { display: flex; }
+
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(12, 20, 36, 0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 39;
+  }
+
+  .nav-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .site-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(320px, 82vw);
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 0;
+    padding: 76px 16px 24px;
+    border-top: 0;
+    border-left: 1px solid var(--line);
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: -18px 0 40px -20px rgba(20, 24, 31, 0.35);
+    transform: translateX(100%);
+    transition: transform 0.28s ease;
+    z-index: 40;
+  }
+
+  .site-nav.open {
+    transform: translateX(0);
+  }
+
+  .site-nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 4px;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: var(--fs-md);
+  }
+
+  .site-nav a:active { background: var(--bg-1); }
+
+  .site-nav a::after { display: none; }
+
+  .nav-item.nav-has-dropdown {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Personal page's hero photo cross-fades between multiple images (unlike
+   every other hero's single static .hero-img), so the slides need their own
+   absolute-stack-with-opacity treatment layered on top of the shared
+   .hero-img sizing/position rules. */
+.hero .slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.hero .slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Typography */
+h1 {
+  font-size: 30px;
+  line-height: 1.25;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+
+h2 {
+  position: relative;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+  margin: 52px 0 20px;
+  padding: 0 0 10px 16px;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 88px;
+}
+
+h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+h3 {
+  font-size: var(--fs-lg);
+  margin: 0 0 2px;
+  color: var(--ink);
+}
+
+/* Compact sub-subheading, e.g. "Talks" / "Workshops" nested under an
+   Upcoming/Past h3 — same faint mono label style as .readme h4, just not
+   scoped to the collapsible project blocks. */
+h4 {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin: 24px 0 10px;
+  scroll-margin-top: 88px;
+}
+
+.entry-head h3 a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.entry-head h3 a:hover {
+  color: var(--blue-400);
+  border-bottom-color: var(--blue-400);
+}
+
+.supplement-note {
+  font-style: italic;
+}
+
+p { margin: 0 0 16px; color: var(--ink); }
+
+a {
+  color: var(--blue-400);
+  text-decoration-color: var(--blue-600);
+}
+
+a:hover { color: var(--blue-300); }
+
+.tagline {
+  font-family: var(--mono);
+  font-size: var(--fs-md);
+  color: var(--ink-soft);
+  margin-bottom: 28px;
+}
+
+/* Projects page: the tagline sits right under the intro paragraph with only
+   the lede's 8px margin between them, reading cramped next to the 28px gap
+   below it. Give it matching breathing room on top. */
+.projects-index main > p.tagline {
+  margin-top: 28px;
+}
+
+.lede {
+  font-size: var(--fs-lg);
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+/* Homepage destination grid: a quiet 2x2 "prospectus" of the site's main
+   sections, each a numbered card with a line-icon, title and one-line
+   description. Static by design — no scrolling, no autoplay, just four
+   destinations laid out at once. */
+.dest-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin: 8px 0 32px;
+}
+
+.dest-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+  padding: 24px 24px 26px;
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+  background: var(--bg-raised);
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dest-card:hover {
+  border-color: var(--blue-600);
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.08), 0 24px 46px -26px var(--blue-glow);
+}
+
+.dest-card-accent {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--blue-400), var(--blue-600));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.25s ease;
+}
+
+.dest-card:hover .dest-card-accent {
+  transform: scaleY(1);
+}
+
+.dest-icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--bg-1);
+  color: var(--blue-400);
+  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dest-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+}
+
+.dest-card:hover .dest-icon {
+  border-color: var(--blue-400);
+  background: var(--blue-800);
+}
+
+.dest-index {
+  position: absolute;
+  top: 24px;
+  right: 22px;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-faint);
+}
+
+.dest-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dest-title {
+  font-family: var(--serif);
+  font-size: var(--fs-title);
+  color: var(--ink);
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dest-card:hover .dest-title {
+  color: var(--blue-400);
+}
+
+.dest-desc {
+  font-size: var(--fs-md);
+  color: var(--ink-faint);
+  line-height: 1.45;
+}
+
+/* Homepage site map: a plain table-of-contents index, not a card grid
+   and not the article tiles' ticker/dotted-leader motif &mdash; that device
+   reads as market data, which fits a project tile but not a plain "go to
+   this page" link. Three aligned columns (number, title, description) so
+   it reads as an index page, and a small arrow on hover is the only
+   affordance, no lift or icon. */
+.site-index {
+  display: flex;
+  flex-direction: column;
+}
+
+.site-index-row {
+  display: grid;
+  grid-template-columns: 28px minmax(120px, 160px) 1fr 16px;
+  align-items: baseline;
+  gap: 18px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line-dark);
+  text-decoration: none;
+  color: inherit;
+}
+
+.site-index .site-index-row:last-child {
+  border-bottom: none;
+}
+
+.site-index-num {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  color: rgba(245, 247, 251, 0.4);
+}
+
+.site-index-title {
+  font-family: var(--serif);
+  font-size: var(--fs-title);
+  color: #f5f7fb;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.site-index-row:hover .site-index-title {
+  color: var(--term-blue);
+}
+
+.site-index-desc {
+  font-size: var(--fs-sm);
+  color: rgba(233, 236, 243, 0.55);
+  line-height: 1.5;
+}
+
+.site-index-arrow {
+  color: var(--term-blue);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.site-index-row:hover .site-index-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 640px) {
+  .site-index-row { grid-template-columns: 24px 1fr; row-gap: 4px; }
+  .site-index-desc { grid-column: 2; }
+  .site-index-arrow { display: none; }
+}
+
+/* Contact page: a full-bleed dark panel holding just the contact channels,
+   same full-bleed technique as the hero/footer, and the same restrained
+   corporate-contact-page feel as the footer's own dark band. */
+.contact-panel {
+  margin-top: 32px;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-top: 44px;
+  padding-bottom: 64px;
+  /* Grows past 40px on wide screens so this panel's content (most of the
+     landing page lives inside one of these) lines up with .wrap's own
+     centred, capped edge instead of sitting a flat 40px from the true
+     viewport edge, the same reasoning as .section-break's padding. */
+  padding-left: max(40px, calc((100vw - 1280px) / 2 + 40px));
+  padding-right: max(40px, calc((100vw - 1280px) / 2 + 40px));
+  background: var(--blue-950);
+}
+
+@media (max-width: 640px) {
+  .contact-panel { margin-top: 24px; padding-top: 32px; padding-bottom: 48px; padding-left: 16px; padding-right: 16px; }
+}
+
+.contact-panel .lede {
+  color: rgba(243, 241, 234, 0.85);
+}
+
+.contact-panel h2 {
+  /* The sitewide main h2 rule centers headings to a 700px column, but
+     .tagline, .dest-grid, and .site-index right below it in these dark
+     panels are all flush left and full width, so the h2 was the one line
+     in each panel sitting indented differently from everything around
+     it. Reset here so it lines up with the rest. */
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  color: #f5f7fb;
+  border-bottom-color: var(--line-dark);
+}
+
+.contact-panel h2::before {
+  background: var(--metal-gold);
+}
+
+.contact-panel .contact-form {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-dark);
+  border-left-color: var(--line-dark);
+}
+
+.contact-panel .contact-form:focus-within {
+  border-color: var(--metal-gold);
+  border-left-color: var(--metal-gold);
+}
+
+.contact-panel .contact-form label {
+  color: rgba(233, 236, 243, 0.45);
+}
+
+.contact-panel .contact-form input[type="text"],
+.contact-panel .contact-form input[type="email"],
+.contact-panel .contact-form select,
+.contact-panel .contact-form textarea {
+  color: #f5f7fb;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--line-dark);
+}
+
+.contact-panel .contact-form input::placeholder,
+.contact-panel .contact-form textarea::placeholder {
+  color: rgba(233, 236, 243, 0.35);
+}
+
+.contact-panel .contact-form input:focus,
+.contact-panel .contact-form select:focus,
+.contact-panel .contact-form textarea:focus {
+  border-color: var(--metal-gold);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.contact-panel .form-footer {
+  border-top-color: var(--line-dark);
+}
+
+.contact-panel .form-hint {
+  color: rgba(233, 236, 243, 0.45);
+}
+
+.contact-panel p a {
+  color: var(--metal-gold);
+}
+
+.contact-panel .dest-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-dark);
+}
+
+.contact-panel .dest-icon {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--line-dark);
+  color: var(--metal-gold);
+}
+
+.contact-panel .dest-title {
+  color: #f5f7fb;
+}
+
+.contact-panel .dest-card:hover .dest-title {
+  color: var(--metal-gold);
+}
+
+.contact-panel .dest-desc {
+  color: rgba(233, 236, 243, 0.55);
+}
+
+.contact-panel .dest-index {
+  color: rgba(233, 236, 243, 0.35);
+}
+
+@media (max-width: 560px) {
+  .dest-grid { grid-template-columns: 1fr; gap: 14px; }
+  .dest-card { padding: 20px 20px 22px; }
+  .dest-icon { width: 44px; height: 44px; }
+  .dest-icon svg { width: 22px; height: 22px; }
+  .dest-title { font-size: var(--fs-title); }
+}
+
+/* Home page reuses .contact-panel's full-bleed dark band (same technique
+   as the footer) for its site-map section, not just for the Contact
+   page. .landing-panel is just a naming hook for home-page-specific
+   spacing; all the actual dark-surface colors are inherited from
+   .contact-panel. */
+.landing-panel {
+  margin-top: 64px;
+}
+
+/* The site-map panel and the footer are both the same dark surface; give
+   the gap between them the same 64px top margin .landing-panel itself
+   uses, instead of the base .site-footer's larger 88px meant for footers
+   that follow ordinary light content. */
+.landing-page .site-footer {
+  margin-top: 64px;
+}
+
+.contact-panel .tagline {
+  color: rgba(233, 236, 243, 0.55);
+}
+
+.landing-panel .hero-eyebrow {
+  display: block;
+  margin-bottom: 24px;
+}
+
+/* Insights-hub list (Blogposts / Events on the Blogposts page): a plain
+   editorial index rather than a card grid &mdash; title and date on one
+   line, a muted byline of description and topic underneath. No badges,
+   pills, or iconography; the typography and a hairline rule between
+   entries carry the whole thing, the way a print contents page or an FT
+   "latest" list is set. */
+.article-grid {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0 32px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 22px 2px;
+  border-bottom: 1px solid var(--line-soft);
+  text-decoration: none;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.article-card:hover {
+  opacity: 0.72;
+}
+
+.article-card-index,
+.article-card-leader,
+.article-card-ticker {
+  display: none;
+}
+
+.article-card-body {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  min-width: 0;
+}
+
+.article-card-title {
+  font-family: var(--serif);
+  font-size: var(--fs-title);
+  line-height: 1.3;
+  color: var(--ink);
+  transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.article-card:hover .article-card-title {
+  color: var(--blue-600);
+}
+
+.article-card-date {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.article-card-desc {
+  font-size: var(--fs-md);
+  color: var(--ink-faint);
+  line-height: 1.5;
+}
+
+.article-card-tags {
+  display: block;
+  margin-top: 2px;
+}
+
+.article-card-tags .tag {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: none;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.article-card-tags .tag + .tag::before {
+  content: "\a0\a0\b7\a0\a0";
+}
+
+@media (max-width: 560px) {
+  .article-card { padding: 18px 2px; }
+  .article-card-body { flex-direction: column; gap: 2px; }
+  .article-card-title { font-size: var(--fs-lg); }
+}
+
+/* Page break between project sections: a full-width strip in the site's
+   dark blue, breaking out of .wrap's padding the same way .hero does, so
+   it reads as a hard section boundary and carries the section title,
+   rather than sitting there as a purely decorative divider. */
+.section-break {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 56px;
+  margin-bottom: 32px;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-top: 22px;
+  padding-bottom: 22px;
+  /* Text inset grows past 64px on wide screens so it lines up with
+     .wrap's own (centred, capped) content edge instead of sitting a flat
+     64px from the true viewport edge, which would drift left of the
+     content below it once the window is wider than .wrap's cap. */
+  padding-left: max(64px, calc((100vw - 1280px) / 2 + 64px));
+  padding-right: max(64px, calc((100vw - 1280px) / 2 + 64px));
+  background: var(--blue-950);
+}
+
+/* When a section-break leads straight into another dark-blue panel
+   (e.g. the contact page's dest-grid panel), they're the same color, so
+   the default spacing above/below just reads as an odd light gap between
+   two halves of one continuous band. Close it so they read as one panel. */
+.section-break:has(+ .contact-panel) {
+  margin-bottom: 0;
+  padding-bottom: 22px;
+}
+
+.section-break + .contact-panel {
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .section-break { padding-left: 40px; padding-right: 40px; }
+}
+
+@media (max-width: 640px) {
+  .section-break { padding-left: 16px; padding-right: 16px; }
+}
+
+.section-break-label {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue-800);
+  white-space: nowrap;
+}
+
+.section-break h2 {
+  font-family: var(--serif);
+  font-size: 24px;
+  color: #fff;
+  margin: 0;
+}
+
+.section-break p {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: var(--blue-800);
+  margin: 0;
+}
+
+.article-grid-empty {
+  border: 1px dashed var(--line);
+  border-radius: 2px;
+  padding: 32px 20px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: var(--ink-faint);
+}
+
+/* Blogpost topic filter: a row of pill toggles above the article grid.
+   Only "All" is ever active at once (single-select), so this is a plain
+   radio-like button group rather than a multi-select checkbox pattern. */
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 20px;
+}
+
+.tag-filter-btn {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 7px 15px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-raised);
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tag-filter-btn:hover { border-color: var(--blue-600); color: var(--ink); }
+
+.tag-filter-btn.is-active {
+  background: var(--blue-950);
+  border-color: var(--blue-950);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Per-card topic chips, and the shared .tag look they're built from
+   (also usable stand-alone wherever a small topic label is needed). */
+.article-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(13, 23, 38, 0.28);
+  background: rgba(13, 23, 38, 0.08);
+  color: var(--blue-950);
+}
+
+.article-card[hidden] { display: none; }
+
+/* "Show more" control below the grid, revealed by blog-filter.js only
+   once there are more matching posts than currently fit on screen. */
+.article-grid-more {
+  display: flex;
+  justify-content: center;
+  margin: -10px 0 32px;
+}
+
+.article-grid-more-btn {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 26px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--bg-raised);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.article-grid-more-btn:hover {
+  border-color: var(--blue-600);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.article-grid-more-btn[hidden] { display: none; }
+
+/* Events timeline: a vertical thread of dated entries, deliberately a
+   different shape from the Blogposts card grid above it on the same page,
+   since these are read as a chronological record rather than browsed as
+   articles. Each item's full detail lives in its own readme-toggle. */
+.timeline {
+  position: relative;
+  margin: 8px 0 32px;
+  padding-left: 28px;
+  border-left: 2px solid var(--line-soft);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -33px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bg-raised);
+  border: 2px solid var(--blue-400);
+}
+
+.timeline-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 14px;
+}
+
+.timeline-date {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
+
+.timeline-title {
+  font-family: var(--serif);
+  font-size: var(--fs-lg);
+  color: var(--ink);
+}
+
+.timeline-org {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+
+@media (max-width: 560px) {
+  .timeline { padding-left: 20px; }
+  .timeline-item::before { left: -25px; }
+}
+
+/* Sub-headings inside the Skills entry. First one sits directly under
+   the entry's own top edge (no extra gap or rule above it); the rest get
+   a rule plus breathing room, marking the boundary between groups while
+   staying inside the one entry. */
+.resume-glance-group {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 16px 0 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.resume-glance-group:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* Skills card: a wrapping row of compact tag chips per group, rather than
+   a list, since skills read as a set rather than a sequence. */
+.resume-skills {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+
+.resume-skills li {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-soft);
+  background: var(--bg-1);
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+  padding: 3px 8px;
+}
+
+/* Entry blocks (experience / education / projects) */
+.entry {
+  position: relative;
+  width: 100%;
+  margin-bottom: 26px;
+  padding: 22px 26px;
+  border: 1px solid var(--line-soft);
+  border-left: 2px solid var(--line-soft);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.entry:hover {
+  border-color: var(--blue-600);
+  border-left-color: var(--blue-400);
+  transform: translateX(2px);
+  box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.12), 0 22px 44px -22px var(--blue-glow);
+}
+
+.entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  padding-bottom: 10px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+/* Entry cards share one padding/border rhythm (.entry above), so titles,
+   dates, and org lines already start at the same left inset in every
+   card; the date is additionally pinned to the far right via margin-left:
+   auto so it lines up on the same right edge across every entry, even
+   when the title is long enough to wrap. */
+.entry-head h3 {
+  margin: 0;
+}
+
+.entry-date {
+  margin-left: auto;
+}
+
+.entry-org {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+.entry-date {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-faint);
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.entry:hover .entry-date { color: var(--blue-400); }
+
+.entry ul {
+  max-width: 700px;
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+
+.entry li {
+  margin-bottom: 6px;
+  color: var(--ink-soft);
+}
+
+.entry li::marker { color: var(--blue-600); }
+
+.tags {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--blue-400);
+  margin: 10px 0 0;
+}
+
+/* Expandable README-style detail within an entry. A plain button + CSS grid
+   height trick instead of native <details>, so the expand/collapse is a
+   single browser-driven transition rather than a JS-measured animation
+   racing the UA's own open/closed rendering. */
+.readme-toggle {
+  margin-top: 10px;
+}
+
+.readme-summary {
+  display: block;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--blue-400);
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
+  user-select: none;
+  text-align: left;
+}
+
+.readme-summary .label-close { display: none; }
+.readme-toggle.is-open > .readme-summary .label-open { display: none; }
+.readme-toggle.is-open > .readme-summary .label-close { display: inline; }
+
+.readme-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 480ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.readme-toggle.is-open > .readme-collapse {
+  grid-template-rows: 1fr;
+}
+
+.readme-collapse > .readme {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.readme {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .readme-collapse { transition: none; }
+}
+
+.readme { font-size: var(--fs-base); color: var(--ink-soft); }
+
+.katex-display {
+  margin: 12px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+}
+
+.readme h4 {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin: 14px 0 6px;
+}
+
+.readme h4:first-child { margin-top: 0; }
+
+/* Definition / theorem / proposition environments inside a .readme panel,
+   styled like a typeset LaTeX theorem block rather than a boxed callout. */
+.math-env {
+  max-width: 700px;
+  margin: 14px auto;
+  padding: 10px 14px;
+  border-left: 3px solid var(--blue-400);
+  background: var(--bg-1);
+  border-radius: 0 2px 2px 0;
+  color: var(--ink-soft);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 140px;
+}
+
+/* Long proof pages carry hundreds of rendered KaTeX formulas; skipping
+   layout/paint for off-screen paragraphs keeps scrolling smooth. */
+main p {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 90px;
+}
+
+.math-env-label {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue-400);
+  margin-right: 6px;
+}
+
+.math-env p {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  color: inherit;
+}
+
+.math-env p + p {
+  margin-top: 8px;
+}
+
+.math-env em {
+  font-style: normal;
+  font-weight: 600;
+}
+
+.math-env .katex {
+  font-style: normal;
+  color: inherit;
+}
+
+/* Proofs read as argument, not as a statement to memorize, so they get
+   upright text instead of the italic used for definitions/theorems. */
+.math-env-proof {
+  border-left-color: var(--line);
+}
+
+.math-env-proof p {
+  font-style: normal;
+}
+
+/* Dark "terminal" card, matching the hero/market-widget treatment */
+pre.code-block {
+  position: relative;
+  margin: 6px 0 0;
+  padding: 20px 14px 12px;
+  background: var(--blue-950);
+  border: 1px solid var(--line-dark);
+  border-radius: 2px;
+  overflow-x: auto;
+  font-family: ui-monospace, var(--mono);
+  font-size: var(--fs-xs);
+  line-height: 1.55;
+  text-shadow: none;
+}
+
+pre.code-block[data-lang]::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  font-size: var(--fs-2xs);
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+pre.code-block code {
+  background: none;
+  padding: 0;
+  color: var(--accent-bright);
+  font-size: 1em;
+  text-shadow: none;
+}
+
+.entry-figure {
+  display: block;
+  width: 100%;
+  margin: 10px 0 0;
+  border: 1px solid var(--line-dark);
+  border-radius: 2px;
+}
+
+.tok-comment { color: var(--ink-faint); }
+.tok-string { color: var(--metal-silver); }
+.tok-number { color: var(--term-blue); }
+.tok-func { color: var(--metal-gold); }
+.tok-keyword { color: var(--code-red); }
+
+/* Live market widget: a contained, dark "terminal" card (same treatment as the
+   code blocks above) showing a small live BTC/ETH options chain. Scoped to this
+   one card on purpose — it's a demo artifact, not site chrome. */
+.market-widget {
+  position: relative;
+  margin-top: 12px;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--line-dark);
+  background: var(--blue-950);
+}
+
+.market-widget canvas {
+  display: block;
+  width: 100%;
+  height: 300px;
+}
+
+@media (max-width: 560px) {
+  .market-widget canvas { height: 360px; }
+}
+
+/* Landing-page hero: the same live options chain as a full-bleed backdrop,
+   with a short line of intro copy faded in on a light scrim so the chain
+   itself stays the dominant, legible element. */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* Bleeds to the true viewport edge (not just .wrap's own padding), so it
+     stays full-bleed at any width regardless of how .wrap is capped. */
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-bottom: 40px;
+  /* Height follows .hero-content's own content by default, so a short
+     detail-page hero (eyebrow + title + one-line lede) doesn't render as
+     mostly empty photo. A floor keeps very short content from collapsing
+     the image into a sliver. */
+  min-height: 220px;
+  overflow: hidden;
+  border-radius: 2px;
+  border: 1px solid var(--line-dark);
+  background: var(--blue-950);
+}
+
+/* Landing and Personal share this taller fixed height, since both carry
+   a full eyebrow + headline + lede (+ CTA row, for landing). */
+.hero-lg {
+  height: 420px;
+}
+
+/* Landing's hero is the fullest of the two (eyebrow, two-line headline,
+   lede, and a CTA row), and at the base 420px it reads cramped - the CTA
+   row sits close to the bottom edge with little breathing room below it.
+   Taller here, just for landing, rather than growing .hero-lg itself and
+   changing Personal's photo hero to match. Projects, Resume, Blogposts,
+   and Contact match landing's height for visual consistency across pages. */
+.landing-page .hero-lg,
+.projects-index .hero-lg,
+.resume-index .hero-lg,
+.blogposts-index .hero-lg,
+.contact-index .hero-lg {
+  height: 500px;
+}
+
+/* Scrim so the site title/nav stay legible when the transparent header
+   floats over whatever the hero art is doing underneath it. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 130px;
+  background: linear-gradient(to bottom, rgba(6, 10, 18, 0.75) 0%, rgba(6, 10, 18, 0) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Only needed to keep the transparent overlaid header legible; personal
+   page's header sits solid above its hero instead, so this scrim would
+   just darken the top of the photo for no reason. */
+.personal-index .hero::before {
+  display: none;
+}
+
+.hero #market-widget-canvas,
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.85;
+  filter: brightness(1.2) contrast(1.05);
+}
+
+/* Experience hero: the typing-code widget is the desktop treatment, but on
+   phones the code is too small to read while typing, so fall back to the
+   older live options-chain widget instead. */
+.hero-canvas-mobile { display: none; }
+
+@media (max-width: 640px) {
+  .hero-canvas-desktop { display: none; }
+  .hero-canvas-mobile { display: block; }
+}
+
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  opacity: 1;
+  filter: brightness(1.55) contrast(1.05);
+}
+
+/* Personal page's hero is a real photo of the person, shown as-is rather
+   than art brightened to stay legible under overlaid text (its header no
+   longer overlays the photo, so that brightening just washes the photo
+   out). */
+.personal-index .hero-img {
+  filter: none;
+  object-position: 50% 20%;
+}
+
+.hero-fade.hero-fade-soft {
+  background:
+    linear-gradient(100deg, rgba(13, 23, 38, 0.6) 0%, rgba(13, 23, 38, 0.42) 28%, rgba(13, 23, 38, 0.16) 52%, rgba(13, 23, 38, 0.04) 72%);
+}
+
+/* Higher-specificity (.hero-fade.hero-fade-flip) so this reliably beats the
+   base .hero-fade rule regardless of the two rules' order in this file. */
+.hero-fade.hero-fade-flip {
+  background:
+    linear-gradient(to left, rgba(13, 23, 38, 0.9) 0%, rgba(13, 23, 38, 0.74) 28%, rgba(13, 23, 38, 0.22) 52%, rgba(13, 23, 38, 0.02) 72%);
+}
+
+@media (max-width: 640px) {
+  .hero-fade.hero-fade-flip {
+    background:
+      linear-gradient(100deg, rgba(13, 23, 38, 0.9) 0%, rgba(13, 23, 38, 0.74) 28%, rgba(13, 23, 38, 0.22) 52%, rgba(13, 23, 38, 0.02) 72%);
+  }
+}
+
+.hero-fade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(100deg, rgba(13, 23, 38, 0.9) 0%, rgba(13, 23, 38, 0.74) 28%, rgba(13, 23, 38, 0.22) 52%, rgba(13, 23, 38, 0.02) 72%);
+}
+
+/* Darker, wider scrim used by the five photo-hero pages (landing,
+   Projects, Resume, Blogposts, Contact): carries further right than the
+   default .hero-fade and keeps a small residual darkening even at the
+   far edge, for stronger text contrast against the Rotterdam photo. */
+.hero-fade.hero-fade-long {
+  background:
+    linear-gradient(100deg, rgba(13, 23, 38, 0.95) 0%, rgba(13, 23, 38, 0.85) 40%, rgba(13, 23, 38, 0.55) 58%, rgba(13, 23, 38, 0.15) 72%, rgba(13, 23, 38, 0.08) 100%);
+}
+
+.hero-content {
+  position: relative;
+  max-width: 500px;
+  padding: 44px 44px;
+  animation: hero-fade-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Hero text on the five photo-hero pages (landing, Projects, Resume,
+   Blogposts, Contact) sits flush against the same 44px inset as every
+   hero, but the hero itself is full-bleed (true viewport edge), so that
+   reads noticeably tighter than the rest of the page's own 64px gutter.
+   Widen just the text inset here; the hero art stays full-bleed either
+   way since only the text padding changes. Max-width grows by the same
+   40px the extra padding adds, so the actual text column stays the same
+   width instead of narrowing and wrapping onto an extra line, which on
+   the landing page was pushing its CTA row past the hero's fixed
+   height. */
+@media (min-width: 641px) {
+  .landing-page .hero-content,
+  .projects-index .hero-content,
+  .resume-index .hero-content,
+  .blogposts-index .hero-content,
+  .contact-index .hero-content {
+    max-width: 540px;
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+}
+
+/* Clears the transparent header floating on top of the hero (roughly
+   70-75px tall) so its nav text never overlaps the hero copy. Personal
+   page's header sits in normal flow above its hero instead of overlaid
+   (see the .site-header override above), so it needs none of this
+   clearance. */
+body:has(.hero):not(.personal-index) .hero-content {
+  padding-top: 110px;
+}
+
+.hero-content-right {
+  margin-left: auto;
+  text-align: right;
+}
+
+.hero-content-right .hero-cta { justify-content: flex-end; }
+.hero-content-right .hero-lede { margin-left: auto; }
+
+@media (max-width: 640px) {
+  .hero-content-right { margin-left: 0; text-align: left; }
+  .hero-content-right .hero-cta { justify-content: flex-start; }
+  .hero-content-right .hero-lede { margin-left: 0; }
+}
+
+@keyframes hero-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent-bright);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 480px) {
+  .hero-eyebrow-extra { display: none; }
+}
+
+.hero-name {
+  margin: 20px 0 18px;
+  font-family: var(--display-hero);
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: #f3f1ea;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.85);
+}
+
+/* Homepage hero headline is a full sentence rather than a one/two-word
+   page title, so it needs a smaller size to keep line lengths reasonable. */
+.hero-headline {
+  font-size: 38px;
+}
+
+.hero-lede {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: var(--fs-lg);
+  line-height: 1.55;
+  max-width: 34ch;
+  color: rgba(243, 241, 234, 0.92);
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.8);
+  margin-bottom: 28px;
+}
+
+.hero-lede em {
+  font-style: italic;
+  color: var(--accent-bright);
+}
+
+/* Personal page's hero text sits on a solid dark-blue header/scrim rather
+   than directly over photo art, so it doesn't need the drop-shadow "glow"
+   the other heroes use to stay legible over arbitrary image content. */
+.personal-index .hero-eyebrow,
+.personal-index .hero-name,
+.personal-index .hero-lede {
+  text-shadow: none;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+/* Generic reset so a <button class="copy-email"> reads like the plain
+   <a> links next to it (in .hero-cta, .links, or anywhere else), instead
+   of a default browser button. */
+.copy-email {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* .copy-email's button reset otherwise strips the card look .dest-card
+   needs (background/border/padding), since both classes sit on the same
+   <button> and .copy-email's declarations come later in the cascade. */
+.dest-card.copy-email {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-soft);
+  padding: 24px 24px 26px;
+  font: inherit;
+  text-align: left;
+}
+
+/* On the dark Contact panel, the email button needs to fall back to the
+   same dark-card treatment as its sibling <a> cards rather than
+   .dest-card.copy-email's own white background, which otherwise wins the
+   cascade at equal specificity by coming later in the stylesheet. */
+.contact-panel .dest-card.copy-email {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-dark);
+}
+
+.copy-toast {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translate(-50%, 4px);
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--blue-950);
+  background: var(--term-green);
+  padding: 4px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  text-shadow: none;
+}
+
+.copy-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 640px) {
+  .hero { margin-bottom: 32px; }
+  .hero-lg { height: 380px; }
+  .landing-page .hero-lg,
+  .projects-index .hero-lg,
+  .resume-index .hero-lg,
+  .blogposts-index .hero-lg,
+  .contact-index .hero-lg { height: 440px; }
+  .hero-content { max-width: none; padding: 28px 20px; }
+  .hero-cta { margin-top: 22px; }
+  .hero-name { font-size: 32px; }
+  .hero-headline { font-size: 27px; }
+  .hero-fade {
+    background:
+      linear-gradient(180deg, rgba(13, 23, 38, 0.92) 0%, rgba(13, 23, 38, 0.78) 50%, rgba(13, 23, 38, 0.35) 100%);
+  }
+
+  /* Research hero: instead of dropping trade-tape panels on narrow
+     screens, let the hero itself scroll horizontally so all three tables
+     stay reachable. hero-content is pinned to the left edge as it scrolls. */
+  .hero-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .hero-scroll .hero-content { position: sticky; left: 0; z-index: 2; }
+}
+
+/* Contact form */
+.contact-form {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--line);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-form:focus-within {
+  border-color: var(--blue-600);
+  border-left-color: var(--blue-400);
+  box-shadow: 0 0 0 1px rgba(35, 50, 79, 0.15), 0 10px 30px -14px var(--blue-glow);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.contact-form label {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form select,
+.contact-form textarea {
+  font-family: var(--serif);
+  font-size: var(--fs-base);
+  color: var(--ink);
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 11px 13px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  resize: vertical;
+  width: 100%;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--ink-faint);
+}
+
+.contact-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235c8bff' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: var(--blue-500);
+  background: var(--bg-2);
+}
+
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 4px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.form-hint {
+  font-size: var(--fs-sm);
+  color: var(--ink-faint);
+}
+
+.contact-form button {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--bg);
+  background: var(--blue-400);
+  border: none;
+  border-radius: 2px;
+  padding: 11px 22px;
+  cursor: pointer;
+  text-shadow: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.contact-form button:hover {
+  background: var(--blue-300);
+  transform: translateY(-1px);
+}
+
+.cta-button {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--bg);
+  background: var(--blue-400);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 2px;
+  padding: 11px 22px;
+  text-decoration: none;
+  text-shadow: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.cta-button:hover {
+  background: var(--blue-300);
+  border-color: var(--accent-bright);
+  transform: translateY(-1px);
+  color: var(--bg);
+}
+
+.cta-button-outline {
+  background: transparent;
+  color: #f5f7fb;
+  border-color: rgba(245, 247, 251, 0.5);
+}
+
+.cta-button-outline:hover {
+  background: rgba(245, 247, 251, 0.12);
+  border-color: #f5f7fb;
+  color: #ffffff;
+}
+
+.sent-note {
+  display: none;
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: var(--up);
+}
+
+.sent-note.visible { display: block; }
+
+@media (max-width: 560px) {
+  .form-row { grid-template-columns: 1fr; }
+  .form-footer { flex-direction: column; align-items: flex-start; }
+}
+
+/* Links list */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 18px;
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  margin-bottom: 24px;
+}
+
+.links a,
+.links .copy-email {
+  color: var(--ink-soft);
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.links a:hover,
+.links .copy-email:hover {
+  color: var(--blue-300);
+  border-bottom-color: var(--blue-400);
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  color: var(--blue-300);
+  background: rgba(35, 50, 79, 0.12);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+/* Footer */
+.back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 44;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 14px 30px -16px rgba(20, 24, 31, 0.45);
+  color: var(--ink-soft);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  border-color: var(--blue-400);
+  color: var(--blue-400);
+}
+
+.back-to-top svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 520px) {
+  .back-to-top { right: 14px; bottom: 14px; width: 38px; height: 38px; }
+}
+
+/* Full-bleed dark band, same idea as the hero: the footer isn't part of
+   the reading column, so it cancels .wrap's centering to run edge to edge
+   regardless of viewport width. */
+.site-footer {
+  margin-top: 88px;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-top: 48px;
+  padding-bottom: 60px;
+  /* Same three-tier horizontal inset as .wrap/.site-header (64px, then
+     40px, then 16px), so the footer's columns line up with the header
+     and every other section on the page instead of using a flat 40px
+     that only happened to match in the middle tier. */
+  padding-left: 64px;
+  padding-right: 64px;
+  background: var(--blue-950);
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: rgba(233, 236, 243, 0.7);
+}
+
+@media (max-width: 900px) {
+  .site-footer { padding-left: 40px; padding-right: 40px; }
+}
+
+@media (max-width: 640px) {
+  .site-footer { padding-top: 40px; padding-bottom: 52px; padding-left: 16px; padding-right: 16px; }
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding-bottom: 28px;
+}
+
+.footer-contact {
+  padding: 18px 20px;
+  border: 1px solid var(--line-dark);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.footer-contact p {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: rgba(233, 236, 243, 0.75);
+}
+
+.footer-contact .cta-button {
+  font-size: var(--fs-xs);
+  padding: 9px 16px;
+}
+
+/* Compact inline message form so a footer visitor can actually send
+   something from wherever they are, rather than only getting a button
+   that redirects to the full Contact page. */
+.footer-message-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-message-form input[type="email"],
+.footer-message-form textarea {
+  font-family: var(--serif);
+  font-size: var(--fs-sm);
+  color: #f5f7fb;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line-dark);
+  border-radius: 2px;
+  padding: 8px 10px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.footer-message-form input[type="email"]::placeholder,
+.footer-message-form textarea::placeholder {
+  color: rgba(233, 236, 243, 0.35);
+}
+
+.footer-message-form input[type="email"]:focus,
+.footer-message-form textarea:focus {
+  border-color: var(--metal-gold);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.footer-message-form button {
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--bg);
+  background: var(--blue-400);
+  border: none;
+  border-radius: 2px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.footer-message-form button:hover {
+  background: var(--metal-gold);
+  color: var(--blue-950);
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col a {
+  color: rgba(233, 236, 243, 0.75);
+  text-decoration: none;
+  font-size: var(--fs-xs);
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-col a:hover { color: var(--metal-gold); }
+
+.footer-col-label {
+  font-size: var(--fs-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(233, 236, 243, 0.4);
+  margin-bottom: 2px;
+}
+
+.footer-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.footer-mark svg {
+  width: 40px;
+  height: 40px;
+  flex: none;
+}
+
+.footer-mark svg rect { fill: rgba(255, 255, 255, 0.92); }
+.footer-mark svg text {
+  font-family: var(--serif);
+  font-size: var(--fs-xs);
+  fill: var(--blue-950);
+}
+
+.footer-mark span {
+  font-family: var(--serif);
+  font-size: var(--fs-lg);
+  color: #f5f7fb;
+  letter-spacing: -0.005em;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-mark:hover span { color: var(--metal-gold); }
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 18px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-dark);
+}
+
+.footer-note {
+  font-size: var(--fs-2xs);
+  color: rgba(233, 236, 243, 0.4);
+}
+
+@media (max-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+    margin-bottom: 6px;
+  }
+  .footer-contact-col {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-header { padding-top: 32px; }
+  h1 { font-size: 26px; }
+}
+
