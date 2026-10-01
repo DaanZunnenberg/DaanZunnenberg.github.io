@@ -36,8 +36,8 @@ body_class: resume-index
   <div class="entry-org">Schiphol-Rijk, Netherlands</div>
   <ul>
     <li>Built and deployed algorithmic market-making strategies, incorporating volatility and skew estimation, order flow modelling, queue-aware execution, market impact, and reference price dynamics.</li>
-    <li>Built a dynamic liquidity allocation model for smart order routing, reducing slippage and transaction costs by an average of 5.8% through real-time optimization over aggregated fragmented order books.</li>
-    <li>Developed cross-exchange rebalancing methods that optimised timing and execution of inventory transfers under latency constraints, transaction costs, funding rates, and market liquidity.</li>
+    <li>Built a dynamic liquidity allocation model for smart order routing, reducing slippage and transaction costs by an average of 5.8% through real-time optimization over aggregated, fragmented order books.</li>
+    <li>Developed quantitative portfolio rebalancing methods across exchanges that optimised the timing and execution of inventory transfers under latency constraints, transaction costs, and market liquidity.</li>
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>asyncio</code> &middot; <code>numba</code> &middot; <code>ccxt</code></div>
 </div>
@@ -63,7 +63,7 @@ body_class: resume-index
   <div class="entry-org">Amsterdam, Netherlands</div>
   <ul>
     <li>Designed scalable likelihood-based estimation algorithms for functional scale models, optimising computational performance through vectorised computations and parallel processing.</li>
-    <li>Reduced execution time of large-scale Monte Carlo simulations by 92.3% on average using NumPy vectorisation and parallel computing.</li>
+    <li>Reduced execution time of large-scale Monte Carlo simulations by over 90%.</li>
   </ul>
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code> &middot; <a href="{{ '/projects/functional-scale-estimation/' | relative_url }}">Full writeup &rarr;</a></div>
 </div>
@@ -81,8 +81,8 @@ body_class: resume-index
   </div>
   <div class="entry-org">Doctor of Philosophy (PhD), Mathematics &middot; Leiden, Netherlands</div>
   <ul>
-    <li>Researching decomposition theorems, generic chaining, majorizing measures, weak convergence, and Donsker&ndash;Skorokhod theorems for stochastic processes satisfying absolute regularity.</li>
-    <li>Organized and led a weekly graduate seminar on weak convergence and empirical process theory.</li>
+    <li>Researching statistical learning theory, high-dimensional probability, and stochastic processes.</li>
+    <li>Organized and led a weekly graduate seminar on empirical process theory and statistical learning theory, with applications to machine learning and deep learning.</li>
   </ul>
   <p class="form-hint">The full technical writeup, including a walkthrough of the \(\gamma_2\) functional and the majorizing measure theorem, is on the <a href="{{ '/blogposts/dudley-integrals-and-the-majorizing-measure-theorem/' | relative_url }}">Blogposts</a> page.</p>
 </div>
@@ -95,7 +95,7 @@ body_class: resume-index
   <div class="entry-org">Master of Science, Econometrics and Operations Research &middot; Amsterdam, Netherlands</div>
   <ul>
     <li>Honours Programme, GPA 8.9/10 (magna cum laude).</li>
-    <li>Developed a novel functional stationarity test for multidimensional diffusion processes for a thesis project, implementing and packaging the mathematical framework into an open-source <a href="https://github.com/DaanZunnenberg/MultivariateHamrickTaqqu" target="_blank" rel="noopener noreferrer">Git repository</a> (see <a href="{{ '/projects/functional-stationarity-test/' | relative_url }}">Projects</a>).</li>
+    <li>Developed a novel nonparametric testing framework for multidimensional stochastic processes for a thesis project, implementing and packaging the mathematical framework into an open-source <a href="https://github.com/DaanZunnenberg/FunctionalMH" target="_blank" rel="noopener noreferrer">Git repository</a> (see <a href="{{ '/projects/functional-stationarity-test/' | relative_url }}">Projects</a>).</li>
     <li>Relevant coursework: Measure Theoretic Probability, Quantitative Financial Risk Management, Stochastic Processes, Stochastic Integration.</li>
   </ul>
 </div>
@@ -107,7 +107,7 @@ body_class: resume-index
   </div>
   <div class="entry-org">Bachelor of Science, Applied Mathematics &middot; Amsterdam, Netherlands</div>
   <ul>
-    <li>Relevant coursework: Statistical Learning, Time Series, Deep Learning, Risk Theory.</li>
+    <li>Applied deep learning models for binary classification of digital asset news using Keras, with text preprocessing and feature engineering.</li>
   </ul>
 </div>
 
@@ -136,7 +136,7 @@ body_class: resume-index
   </div>
   <ul>
     <li>Implemented Hierarchical Risk Parity via tree clustering using <code>scipy.cluster</code> to stabilize high-dimensional asset allocation, bypassing classical covariance inversion to eliminate noise sensitivity.</li>
-    <li>Generated a mean alpha premium of 3.9% above the benchmark across diverse simulated horizons in a look-ahead-free method that outperformed actively rebalanced benchmark portfolios.</li>
+    <li>Outperformed the benchmark by an average of 3.9 percentage points across multiple simulated investment horizons in a look-ahead-free backtest.</li>
   </ul>
   <div class="tags"><code>Python</code> &middot; <a href="https://coinmerce.capital/en/home" target="_blank" rel="noopener noreferrer">Coinmerce Capital</a></div>
 </div>
@@ -206,24 +206,28 @@ body_class: resume-index
 </div>
 
 <div class="entry">
-  <h4 class="resume-glance-group">Programming &amp; Tools</h4>
+  <h4 class="resume-glance-group">Languages &amp; Tools</h4>
   <ul class="resume-skills">
-    <li>Python</li>
-    <li>numba</li>
-    <li>asyncio</li>
-    <li>ccxt</li>
-    <li>NumPy &amp; SciPy</li>
-    <li>SAS</li>
+    <li>Python (Pandas, NumPy, Numba)</li>
+    <li>Java</li>
+    <li>SQL</li>
+    <li>Git</li>
     <li>Bash</li>
-    <li>Tardis.dev</li>
   </ul>
-  <h4 class="resume-glance-group">Mathematics &amp; Statistics</h4>
+  <h4 class="resume-glance-group">Scientific Computing</h4>
   <ul class="resume-skills">
-    <li>Stochastic processes</li>
-    <li>Empirical process theory</li>
-    <li>Generic chaining</li>
-    <li>Time series &amp; volatility modelling</li>
-    <li>Statistical estimation</li>
+    <li>SciPy</li>
+    <li>statsmodels</li>
+    <li>CVXPY</li>
+    <li>scikit-learn</li>
+    <li>TensorFlow</li>
+  </ul>
+  <h4 class="resume-glance-group">Quantitative Methods</h4>
+  <ul class="resume-skills">
+    <li>Time series analysis</li>
+    <li>Econometrics</li>
+    <li>Statistical inference</li>
+    <li>Optimisation</li>
   </ul>
 </div>
 
