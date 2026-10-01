@@ -55,6 +55,18 @@ body_class: resume-index
   <div class="tags"><code>Python</code> &middot; <code>ccxt</code> &middot; <code>Tardis.dev</code></div>
 </div>
 
+<div class="entry" id="experience-luc-lecturer">
+  <div class="entry-head">
+    <h3>Leiden University College &middot; Lecturer</h3>
+    <span class="entry-date">September 2025 &ndash; November 2026</span>
+  </div>
+  <div class="entry-org">The Hague, Netherlands</div>
+  <ul>
+    <li>Teach statistics, covering hypothesis testing, regression theory, and statistical inference.</li>
+    <li>Supervise a group project in which students apply these methods to an economic analysis of their choice.</li>
+  </ul>
+</div>
+
 <div class="entry" id="experience-vu-research-assistant">
   <div class="entry-head">
     <h3>VU Econometrics and Data Science &middot; Research Assistant</h3>
