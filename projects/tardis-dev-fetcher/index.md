@@ -5,7 +5,7 @@ permalink: /projects/tardis-dev-fetcher/
 ---
 
 <section class="hero">
-  <img class="hero-img" src="{{ '/images/terminal.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
+  <img class="hero-img" src="{{ '/images/volatility/quant_finance.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Tool &middot; 2024</div>
