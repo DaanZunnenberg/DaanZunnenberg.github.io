@@ -1848,6 +1848,7 @@ pre.code-block code {
 .projects-index .hero-lg,
 .resume-index .hero-lg,
 .blogposts-index .hero-lg,
+.publications-index .hero-lg,
 .contact-index .hero-lg {
   height: 500px;
 }
@@ -1968,6 +1969,7 @@ pre.code-block code {
   .projects-index .hero-content,
   .resume-index .hero-content,
   .blogposts-index .hero-content,
+  .publications-index .hero-content,
   .contact-index .hero-content {
     max-width: 540px;
     padding-left: 64px;
@@ -2134,6 +2136,7 @@ body:has(.hero):not(.personal-index) .hero-content {
   .projects-index .hero-lg,
   .resume-index .hero-lg,
   .blogposts-index .hero-lg,
+  .publications-index .hero-lg,
   .contact-index .hero-lg { height: 440px; }
   .hero-content { max-width: none; padding: 28px 20px; }
   .hero-cta { margin-top: 22px; }

@@ -121,9 +121,10 @@ body_class: blogposts-index
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;03</span>
   <h2 id="events">Events</h2>
-  <p>Conferences, talks, and posters I&rsquo;m giving or attending, upcoming and past, newest first &mdash; the date on each entry is the only thing that tells them apart.</p>
+  <p>Conferences, talks, and posters I&rsquo;m giving or attending, upcoming and past, grouped by type and newest first within each group.</p>
 </div>
 
+<h3 id="conferences">Conferences</h3>
 <div class="timeline">
 
   <div class="timeline-item">
@@ -155,10 +156,10 @@ body_class: blogposts-index
 
   <div class="timeline-item">
     <div class="timeline-head">
-      <span class="timeline-date">October 5, 2026</span>
-      <span class="timeline-title">The van Dantzig Seminar</span>
+      <span class="timeline-date">November 13, 2026</span>
+      <span class="timeline-title">Finance Research Day</span>
     </div>
-    <div class="timeline-org">Susanne Ditlevsen (University of Copenhagen) and Johannes Ruf (London School of Economics) &middot; Vrije Universiteit Amsterdam, room HG-15A16</div>
+    <div class="timeline-org">Delft Institute of Applied Mathematics (DIAM), TU Delft &middot; Mondai, Delft, Netherlands &middot; 09:00&ndash;17:00</div>
     <div class="readme-toggle">
       <button type="button" class="readme-summary" aria-expanded="false">
         <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
@@ -166,8 +167,9 @@ body_class: blogposts-index
       <div class="readme-collapse">
         <div class="readme">
           <p>
-            An introductory and an in-depth talk from each of Susanne Ditlevsen and Johannes Ruf, running
-            10:00&ndash;16:15 with breaks, followed by drinks. Talk titles TBA.
+            The fifth Finance Research Day organized by DIAM at TU Delft, connecting academics,
+            practitioners, and regulators working in quantitative finance to discuss current challenges and
+            explore new directions in the field.
           </p>
         </div>
       </div>
@@ -199,10 +201,10 @@ body_class: blogposts-index
 
   <div class="timeline-item">
     <div class="timeline-head">
-      <span class="timeline-date">August 17&ndash;21, 2026</span>
-      <span class="timeline-title">Akuna Capital Quant Trading Challenge</span>
+      <span class="timeline-date">November 2025</span>
+      <span class="timeline-title">53rd Annual Meeting of the Dutch Probability and Statistics Community</span>
     </div>
-    <div class="timeline-org">Akuna Capital &middot; Virtual</div>
+    <div class="timeline-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
     <div class="readme-toggle">
       <button type="button" class="readme-summary" aria-expanded="false">
         <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
@@ -210,11 +212,126 @@ body_class: blogposts-index
       <div class="readme-collapse">
         <div class="readme">
           <p>
-            A week-long virtual market-making competition: participants write a trading bot in Python that
-            competes against Akuna's own models and other entrants on a simulated exchange. It's a
-            practical test of the same market-making problem I work on professionally &mdash; quoting,
-            managing inventory, and reacting to order flow &mdash; but under a fixed, competitive ruleset
-            rather than production constraints.
+            Presented a poster on joint work with Dr. A.M. D&uuml;rre studying the Tukey depth under
+            short-range dependence: how the classical notion of statistical depth, usually studied for
+            independent samples, behaves once the underlying data has short-range temporal dependence
+            instead.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-head">
+      <span class="timeline-date">November 2025</span>
+      <span class="timeline-title">Dutch Math Finance Afternoons</span>
+    </div>
+    <div class="timeline-org">University of Amsterdam &middot; Amsterdam, Netherlands</div>
+    <div class="readme-toggle">
+      <button type="button" class="readme-summary" aria-expanded="false">
+        <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
+      </button>
+      <div class="readme-collapse">
+        <div class="readme">
+          <p>
+            Talks covered functional estimation of option pricing models by Evgenii Vladimirov, valuation of
+            interest rate derivatives on arithmetic averages of risk-free rates by Arco de Kort, and
+            measuring financial resilience using backward stochastic differential equations by Matteo
+            Ferrari.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-head">
+      <span class="timeline-date">October 2025</span>
+      <span class="timeline-title">Finance Research Day</span>
+    </div>
+    <div class="timeline-org">Delft Institute of Applied Mathematics (DIAM), TU Delft &middot; Delft, Netherlands</div>
+    <div class="readme-toggle">
+      <button type="button" class="readme-summary" aria-expanded="false">
+        <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
+      </button>
+      <div class="readme-collapse">
+        <div class="readme">
+          <p>
+            The fourth Finance Research Day organized by DIAM at TU Delft: a one-day mix of academic talks
+            and industry perspectives on quantitative finance, aimed at getting researchers and
+            practitioners in the same room for once.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-head">
+      <span class="timeline-date">November 2024</span>
+      <span class="timeline-title">52nd Annual Meeting of the Dutch Probability and Statistics Community</span>
+    </div>
+    <div class="timeline-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
+    <div class="readme-toggle">
+      <button type="button" class="readme-summary" aria-expanded="false">
+        <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
+      </button>
+      <div class="readme-collapse">
+        <div class="readme">
+          <p>
+            Presented a poster on maximal inequalities and concentration of measure with absolute
+            regularity: how far the classical toolkit for bounding suprema of stochastic processes extends
+            once the underlying process satisfies absolute regularity (beta-mixing) rather than
+            independence.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h3 id="seminars">Seminars</h3>
+<div class="timeline">
+
+  <div class="timeline-item">
+    <div class="timeline-head">
+      <span class="timeline-date">November 24, 2026</span>
+      <span class="timeline-title">Statistics Seminar &middot; Mathematical Institute, Leiden University &middot; Maximal Moment Inequalities and Absolute Regularity</span>
+    </div>
+    <div class="timeline-org">Leiden, Netherlands &middot; own talk</div>
+    <div class="readme-toggle">
+      <button type="button" class="readme-summary" aria-expanded="false">
+        <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
+      </button>
+      <div class="readme-collapse">
+        <div class="readme">
+          <p>
+            A talk on maximal moment inequalities for sums of random variables under absolute regularity
+            (\(\beta\)-mixing), and what these inequalities buy you once the independence assumption behind
+            the classical versions is dropped.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-head">
+      <span class="timeline-date">October 5, 2026</span>
+      <span class="timeline-title">The van Dantzig Seminar</span>
+    </div>
+    <div class="timeline-org">Susanne Ditlevsen (University of Copenhagen) and Johannes Ruf (London School of Economics) &middot; Vrije Universiteit Amsterdam, room HG-15A16</div>
+    <div class="readme-toggle">
+      <button type="button" class="readme-summary" aria-expanded="false">
+        <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
+      </button>
+      <div class="readme-collapse">
+        <div class="readme">
+          <p>
+            An introductory and an in-depth talk from each of Susanne Ditlevsen and Johannes Ruf, running
+            10:00&ndash;16:15 with breaks, followed by drinks. Talk titles TBA.
           </p>
         </div>
       </div>
@@ -355,12 +472,17 @@ body_class: blogposts-index
     </div>
   </div>
 
+</div>
+
+<h3 id="challenges">Challenges</h3>
+<div class="timeline">
+
   <div class="timeline-item">
     <div class="timeline-head">
-      <span class="timeline-date">November 2025</span>
-      <span class="timeline-title">53rd Annual Meeting of the Dutch Probability and Statistics Community</span>
+      <span class="timeline-date">September 11&ndash;November 15, 2026</span>
+      <span class="timeline-title">Wunder Fund RNN Challenge &middot; Connectome</span>
     </div>
-    <div class="timeline-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
+    <div class="timeline-org">Wunder Fund &middot; Virtual</div>
     <div class="readme-toggle">
       <button type="button" class="readme-summary" aria-expanded="false">
         <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
@@ -368,10 +490,11 @@ body_class: blogposts-index
       <div class="readme-collapse">
         <div class="readme">
           <p>
-            Presented a poster on joint work with Dr. A.M. D&uuml;rre studying the Tukey depth under
-            short-range dependence: how the classical notion of statistical depth, usually studied for
-            independent samples, behaves once the underlying data has short-range temporal dependence
-            instead.
+            A sequence-modeling competition run by Wunder Fund: predict future price movements from long
+            sequences of anonymized limit order book states and trades across multiple instruments evolving
+            at once, so the model has to pick up not just how each book moves but how information propagates
+            between them. Each sequence is 1000 steps, with the first 100 used as warm-up and scoring on
+            steps 100&ndash;998, under a strict CPU inference budget. $13,600 prize pool.
           </p>
         </div>
       </div>
@@ -380,10 +503,10 @@ body_class: blogposts-index
 
   <div class="timeline-item">
     <div class="timeline-head">
-      <span class="timeline-date">November 2025</span>
-      <span class="timeline-title">Dutch Math Finance Afternoons</span>
+      <span class="timeline-date">August 17&ndash;21, 2026</span>
+      <span class="timeline-title">Akuna Capital Quant Trading Challenge</span>
     </div>
-    <div class="timeline-org">University of Amsterdam &middot; Amsterdam, Netherlands</div>
+    <div class="timeline-org">Akuna Capital &middot; Virtual</div>
     <div class="readme-toggle">
       <button type="button" class="readme-summary" aria-expanded="false">
         <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
@@ -391,55 +514,11 @@ body_class: blogposts-index
       <div class="readme-collapse">
         <div class="readme">
           <p>
-            Talks covered functional estimation of option pricing models by Evgenii Vladimirov, valuation of
-            interest rate derivatives on arithmetic averages of risk-free rates by Arco de Kort, and
-            measuring financial resilience using backward stochastic differential equations by Matteo
-            Ferrari.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-head">
-      <span class="timeline-date">October 2025</span>
-      <span class="timeline-title">Finance Research Day</span>
-    </div>
-    <div class="timeline-org">Delft Institute of Applied Mathematics (DIAM), TU Delft &middot; Delft, Netherlands</div>
-    <div class="readme-toggle">
-      <button type="button" class="readme-summary" aria-expanded="false">
-        <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
-      </button>
-      <div class="readme-collapse">
-        <div class="readme">
-          <p>
-            The fourth Finance Research Day organized by DIAM at TU Delft: a one-day mix of academic talks
-            and industry perspectives on quantitative finance, aimed at getting researchers and
-            practitioners in the same room for once.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-head">
-      <span class="timeline-date">November 2024</span>
-      <span class="timeline-title">52nd Annual Meeting of the Dutch Probability and Statistics Community</span>
-    </div>
-    <div class="timeline-org">STAR &middot; Stochastics Theoretical and Applied Research &middot; Lunteren, Netherlands</div>
-    <div class="readme-toggle">
-      <button type="button" class="readme-summary" aria-expanded="false">
-        <span class="label-open">+ Show details</span><span class="label-close">&minus; Hide details</span>
-      </button>
-      <div class="readme-collapse">
-        <div class="readme">
-          <p>
-            Presented a poster on maximal inequalities and concentration of measure with absolute
-            regularity: how far the classical toolkit for bounding suprema of stochastic processes extends
-            once the underlying process satisfies absolute regularity (beta-mixing) rather than
-            independence.
+            A week-long virtual market-making competition: participants write a trading bot in Python that
+            competes against Akuna's own models and other entrants on a simulated exchange. It's a
+            practical test of the same market-making problem I work on professionally &mdash; quoting,
+            managing inventory, and reacting to order flow &mdash; but under a fixed, competitive ruleset
+            rather than production constraints.
           </p>
         </div>
       </div>

@@ -24,9 +24,6 @@
 
       <!-- Desktop: grouped hierarchy to keep the top-level item count down -->
       <nav class="site-nav site-nav-desktop site-nav-main" aria-hidden="true">
-        <div class="nav-item">
-          <a href="{{ '/projects/' | relative_url }}" {% if page.url == '/projects/' %}class="active"{% endif %}>Projects</a>
-        </div>
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/resume/' | relative_url }}" {% if page.url == '/resume/' %}class="active"{% endif %}>Resume</a>
           <div class="nav-dropdown">
@@ -35,6 +32,12 @@
             <a href="{{ '/resume/#projects' | relative_url }}">Projects</a>
             <a href="{{ '/resume/#skills' | relative_url }}">Skills</a>
           </div>
+        </div>
+        <div class="nav-item">
+          <a href="{{ '/publications/' | relative_url }}" {% if page.url == '/publications/' %}class="active"{% endif %}>Publications</a>
+        </div>
+        <div class="nav-item">
+          <a href="{{ '/projects/' | relative_url }}" {% if page.url == '/projects/' %}class="active"{% endif %}>Projects</a>
         </div>
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/blogposts/' | relative_url }}" {% if page.url == '/blogposts/' %}class="active"{% endif %}>Blogposts</a>
@@ -60,7 +63,6 @@
 
       <!-- Mobile: flat list -->
       <nav class="site-nav site-nav-mobile" id="site-nav">
-        <a href="{{ '/projects/' | relative_url }}" {% if page.url == '/projects/' %}class="active"{% endif %}>Projects</a>
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/resume/' | relative_url }}" {% if page.url == '/resume/' %}class="active"{% endif %}>Resume</a>
           <div class="nav-dropdown">
@@ -70,6 +72,8 @@
             <a href="{{ '/resume/#skills' | relative_url }}">Skills</a>
           </div>
         </div>
+        <a href="{{ '/publications/' | relative_url }}" {% if page.url == '/publications/' %}class="active"{% endif %}>Publications</a>
+        <a href="{{ '/projects/' | relative_url }}" {% if page.url == '/projects/' %}class="active"{% endif %}>Projects</a>
         <div class="nav-item nav-has-dropdown">
           <a href="{{ '/blogposts/' | relative_url }}" {% if page.url == '/blogposts/' %}class="active"{% endif %}>Blogposts</a>
           <div class="nav-dropdown">
@@ -112,8 +116,9 @@
         <div class="footer-col">
           <div class="footer-col-label">Navigate</div>
           <a href="{{ '/' | relative_url }}">About</a>
-          <a href="{{ '/projects/' | relative_url }}">Projects</a>
           <a href="{{ '/resume/' | relative_url }}">Resume</a>
+          <a href="{{ '/publications/' | relative_url }}">Publications</a>
+          <a href="{{ '/projects/' | relative_url }}">Projects</a>
           <a href="{{ '/blogposts/' | relative_url }}">Blogposts</a>
           <a href="{{ '/contact/' | relative_url }}">Contact</a>
           <a href="{{ '/personal/' | relative_url }}">Personal</a>

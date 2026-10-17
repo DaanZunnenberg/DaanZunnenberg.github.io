@@ -80,6 +80,18 @@ body_class: resume-index
   <div class="tags"><code>Python</code> &middot; <code>SAS</code> &middot; <code>Bash</code> &middot; <a href="{{ '/projects/functional-scale-estimation/' | relative_url }}">Full writeup &rarr;</a></div>
 </div>
 
+<div class="entry" id="experience-beyonddutch-research-intern">
+  <div class="entry-head">
+    <h3>BeyondDutch &middot; Research Intern</h3>
+    <span class="entry-date">January 2022 &ndash; June 2023</span>
+  </div>
+  <div class="entry-org">Hilversum, Netherlands</div>
+  <ul>
+    <li>Implemented a statistical learning framework based on dynamic Cox proportional hazards models to estimate event probabilities and customer retention dynamics in high-dimensional data.</li>
+    <li>Developed parameter estimation procedures and feature engineering pipelines to address right-censoring, non-stationarity, and covariate shift, improving out-of-sample prediction stability.</li>
+  </ul>
+</div>
+
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;02</span>
   <h2 id="education">Education</h2>
@@ -160,10 +172,10 @@ body_class: resume-index
 
 <div class="entry">
   <div class="entry-head">
-    <h3>The Tukey depth under dependence</h3>
-    <span class="entry-date">2026 &middot; forthcoming</span>
+    <h3>The Tukey depth process under short range dependence</h3>
+    <span class="entry-date">2026 &middot; draft</span>
   </div>
-  <div class="entry-org">Zunnenberg, D. &amp; D&uuml;rre, A. &middot; <em>Bernoulli</em></div>
+  <div class="entry-org">Zunnenberg, D. &amp; D&uuml;rre, A. &middot; Unpublished manuscript</div>
 </div>
 
 <div class="entry">
@@ -225,6 +237,7 @@ body_class: resume-index
     <li>SQL</li>
     <li>Git</li>
     <li>Bash</li>
+    <li>Dask</li>
   </ul>
   <h4 class="resume-glance-group">Scientific Computing</h4>
   <ul class="resume-skills">

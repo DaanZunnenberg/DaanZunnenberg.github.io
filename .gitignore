@@ -5,3 +5,11 @@ CoverImgHorizontal.heic
 CONTENT_EDIT.md
 READMETOTAL.md
 blogposts/volatility/
+Gemfile.local
+Gemfile.local.lock
+_site/
+.jekyll-cache/
+images/campus.HEIC
+images/campus.jpeg
+images/campus.jpg
+images/campus.png
