@@ -15,3 +15,5 @@ exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
+  - Gemfile.local
+  - Gemfile.local.lock
