@@ -23,7 +23,7 @@ body_class: landing-page
 
 <p class="lede">
 I'm a mathematician working in generic chaining theory, with professional experience and a lasting interest in
-high-frequency trading, market making, and quantitative investing. Explore the site below.
+high-frequency trading, market making, and quantitative investing. More on each below.
 </p>
 
 <section class="contact-panel landing-panel">
