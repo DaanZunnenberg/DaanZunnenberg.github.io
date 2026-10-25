@@ -5,49 +5,9 @@ permalink: /404.html
 body_class: error-404
 ---
 
-<section class="hero hero-lg">
-  <img class="hero-img" src="{{ '/images/Rotterdam.avif' | relative_url }}?v={{ site.time | date: '%s' }}" alt="">
-  <div class="hero-fade hero-fade-long" aria-hidden="true"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">Error 404</div>
-    <h1 class="hero-name">Page Not Found</h1>
-    <p class="hero-lede">This page doesn't exist.</p>
-  </div>
-</section>
-
-<p class="lede">
-Could be a dead link, a retyped URL, or a page that got moved. Try one of these instead.
-</p>
-
-<section class="contact-panel landing-panel">
-  <div class="hero-eyebrow">Site Map</div>
-  <h2>Explore the Site</h2>
-  <p class="tagline">Four places to go from here.</p>
-
-  <div class="site-index">
-    <a class="site-index-row" href="{{ '/' | relative_url }}">
-      <span class="site-index-num">01</span>
-      <span class="site-index-title">Home</span>
-      <span class="site-index-desc">Back to the start.</span>
-      <span class="site-index-arrow" aria-hidden="true">&rarr;</span>
-    </a>
-    <a class="site-index-row" href="{{ '/projects/' | relative_url }}">
-      <span class="site-index-num">02</span>
-      <span class="site-index-title">Projects</span>
-      <span class="site-index-desc">Research and side projects in statistics, execution, and market-making.</span>
-      <span class="site-index-arrow" aria-hidden="true">&rarr;</span>
-    </a>
-    <a class="site-index-row" href="{{ '/blogposts/' | relative_url }}">
-      <span class="site-index-num">03</span>
-      <span class="site-index-title">Blogposts</span>
-      <span class="site-index-desc">Writing on markets and mathematics, plus talks and conferences.</span>
-      <span class="site-index-arrow" aria-hidden="true">&rarr;</span>
-    </a>
-    <a class="site-index-row" href="{{ '/contact/' | relative_url }}">
-      <span class="site-index-num">04</span>
-      <span class="site-index-title">Contact</span>
-      <span class="site-index-desc">Roles, consulting, or an invitation to meet up.</span>
-      <span class="site-index-arrow" aria-hidden="true">&rarr;</span>
-    </a>
-  </div>
+<section class="error-404-panel">
+  <p class="error-404-code">404</p>
+  <h1>Page Not Found</h1>
+  <p>This page doesn't exist.</p>
+  <a class="cta-button" href="{{ '/' | relative_url }}">Back to Home</a>
 </section>
