@@ -2281,36 +2281,6 @@ body:has(.hero):not(.personal-index) .hero-content {
   transform: translateY(-1px);
 }
 
-.error-404-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 16px;
-  padding: 120px 24px;
-}
-
-.error-404-code {
-  font-family: var(--mono);
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
-  color: var(--ink-faint);
-  margin: 0;
-}
-
-.error-404-panel h1 {
-  margin: 0;
-}
-
-.error-404-panel p {
-  color: var(--ink-soft);
-  margin: 0;
-}
-
-.error-404-panel .cta-button {
-  margin-top: 8px;
-}
-
 .cta-button {
   display: inline-block;
   font-family: var(--mono);
