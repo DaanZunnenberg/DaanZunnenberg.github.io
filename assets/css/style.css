@@ -328,6 +328,14 @@ body:has(.hero) .site-header .site-nav a {
   color: rgba(245, 247, 251, 0.8);
 }
 
+body:has(.hero) .site-header .lang-option {
+  color: rgba(245, 247, 251, 0.8);
+}
+
+body:has(.hero) .site-header .lang-option.active {
+  color: #ffffff;
+}
+
 body:has(.hero) .site-header .site-nav a:hover,
 body:has(.hero) .site-header .site-nav a.active {
   color: #ffffff;
