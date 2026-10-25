@@ -16,7 +16,6 @@
   <div class="bg-grid" aria-hidden="true"></div>
   <div class="wrap">
     <header class="site-header">
-      <a class="site-title" href="{{ '/' | relative_url }}">Daan&nbsp;Zunnenberg</a>
       {% assign langs = site.data.languages %}
       {% if site.data.languages_local %}{% assign langs = langs | concat: site.data.languages_local %}{% endif %}
       {% assign current_code = 'en' %}
@@ -30,6 +29,10 @@
       {% if base_url == '' %}{% assign base_url = '/' %}{% endif %}
       {% assign current_lang = null %}
       {% for l in langs %}{% if l.code == current_code %}{% assign current_lang = l %}{% endif %}{% endfor %}
+      {% assign lp = current_lang.prefix %}
+      {% assign is_nl = false %}
+      {% if current_code == 'nl' %}{% assign is_nl = true %}{% endif %}
+      <a class="site-title" href="{{ lp }}{{ '/' | relative_url }}">Daan&nbsp;Zunnenberg</a>
       <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
         <span></span><span></span><span></span>
       </button>
@@ -38,38 +41,38 @@
       <!-- Desktop: grouped hierarchy to keep the top-level item count down -->
       <nav class="site-nav site-nav-desktop site-nav-main" aria-hidden="true">
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/resume/' | relative_url }}" {% if page.url == '/resume/' %}class="active"{% endif %}>Resume</a>
+          <a href="{{ lp }}{{ '/resume/' | relative_url }}" {% if base_url == '/resume/' %}class="active"{% endif %}>{% if is_nl %}CV{% else %}Resume{% endif %}</a>
           <div class="nav-dropdown">
-            <a href="{{ '/resume/#work-experience' | relative_url }}">Work experience</a>
-            <a href="{{ '/resume/#education' | relative_url }}">Education</a>
-            <a href="{{ '/resume/#projects' | relative_url }}">Projects</a>
-            <a href="{{ '/resume/#skills' | relative_url }}">Skills</a>
+            <a href="{{ lp }}{{ '/resume/#work-experience' | relative_url }}">{% if is_nl %}Werkervaring{% else %}Work experience{% endif %}</a>
+            <a href="{{ lp }}{{ '/resume/#education' | relative_url }}">{% if is_nl %}Opleiding{% else %}Education{% endif %}</a>
+            <a href="{{ lp }}{{ '/resume/#projects' | relative_url }}">{% if is_nl %}Projecten{% else %}Projects{% endif %}</a>
+            <a href="{{ lp }}{{ '/resume/#skills' | relative_url }}">{% if is_nl %}Vaardigheden{% else %}Skills{% endif %}</a>
           </div>
         </div>
         <div class="nav-item">
-          <a href="{{ '/publications/' | relative_url }}" {% if page.url == '/publications/' %}class="active"{% endif %}>Publications</a>
+          <a href="{{ lp }}{{ '/publications/' | relative_url }}" {% if base_url == '/publications/' %}class="active"{% endif %}>{% if is_nl %}Publicaties{% else %}Publications{% endif %}</a>
         </div>
         <div class="nav-item">
-          <a href="{{ '/projects/' | relative_url }}" {% if page.url == '/projects/' %}class="active"{% endif %}>Projects</a>
+          <a href="{{ lp }}{{ '/projects/' | relative_url }}" {% if base_url == '/projects/' %}class="active"{% endif %}>{% if is_nl %}Projecten{% else %}Projects{% endif %}</a>
         </div>
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/blogposts/' | relative_url }}" {% if page.url == '/blogposts/' %}class="active"{% endif %}>Blogposts</a>
+          <a href="{{ lp }}{{ '/blogposts/' | relative_url }}" {% if base_url == '/blogposts/' %}class="active"{% endif %}>Blogposts</a>
           <div class="nav-dropdown">
-            <a href="{{ '/blogposts/#blogposts' | relative_url }}">Blogposts</a>
-            <a href="{{ '/blogposts/#articles' | relative_url }}">Articles</a>
-            <a href="{{ '/blogposts/#events' | relative_url }}">Events</a>
+            <a href="{{ lp }}{{ '/blogposts/#blogposts' | relative_url }}">Blogposts</a>
+            <a href="{{ lp }}{{ '/blogposts/#articles' | relative_url }}">{% if is_nl %}Artikelen{% else %}Articles{% endif %}</a>
+            <a href="{{ lp }}{{ '/blogposts/#events' | relative_url }}">Events</a>
           </div>
         </div>
         <div class="nav-item">
-          <a href="{{ '/contact/' | relative_url }}" {% if page.url == '/contact/' %}class="active"{% endif %}>Contact</a>
+          <a href="{{ lp }}{{ '/contact/' | relative_url }}" {% if base_url == '/contact/' %}class="active"{% endif %}>Contact</a>
         </div>
       </nav>
       <nav class="site-nav site-nav-desktop site-nav-personal-only" aria-hidden="true">
         <div class="nav-item nav-item-personal nav-has-dropdown">
-          <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
+          <a href="{{ lp }}{{ '/personal/' | relative_url }}" {% if base_url contains 'personal' %}class="active"{% endif %}>{% if is_nl %}Priv&eacute;{% else %}Personal{% endif %}</a>
           <div class="nav-dropdown">
-            <a href="{{ '/personal/#math' | relative_url }}">Math</a>
-            <a href="{{ '/personal/#hobbies' | relative_url }}">Hobbies</a>
+            <a href="{{ lp }}{{ '/personal/#math' | relative_url }}">{% if is_nl %}Wiskunde{% else %}Math{% endif %}</a>
+            <a href="{{ lp }}{{ '/personal/#hobbies' | relative_url }}">{% if is_nl %}Hobby's{% else %}Hobbies{% endif %}</a>
           </div>
         </div>
         {% if langs.size > 1 %}
@@ -91,30 +94,30 @@
       <!-- Mobile: flat list -->
       <nav class="site-nav site-nav-mobile" id="site-nav">
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/resume/' | relative_url }}" {% if page.url == '/resume/' %}class="active"{% endif %}>Resume</a>
+          <a href="{{ lp }}{{ '/resume/' | relative_url }}" {% if base_url == '/resume/' %}class="active"{% endif %}>{% if is_nl %}CV{% else %}Resume{% endif %}</a>
           <div class="nav-dropdown">
-            <a href="{{ '/resume/#work-experience' | relative_url }}">Work experience</a>
-            <a href="{{ '/resume/#education' | relative_url }}">Education</a>
-            <a href="{{ '/resume/#projects' | relative_url }}">Projects</a>
-            <a href="{{ '/resume/#skills' | relative_url }}">Skills</a>
+            <a href="{{ lp }}{{ '/resume/#work-experience' | relative_url }}">{% if is_nl %}Werkervaring{% else %}Work experience{% endif %}</a>
+            <a href="{{ lp }}{{ '/resume/#education' | relative_url }}">{% if is_nl %}Opleiding{% else %}Education{% endif %}</a>
+            <a href="{{ lp }}{{ '/resume/#projects' | relative_url }}">{% if is_nl %}Projecten{% else %}Projects{% endif %}</a>
+            <a href="{{ lp }}{{ '/resume/#skills' | relative_url }}">{% if is_nl %}Vaardigheden{% else %}Skills{% endif %}</a>
           </div>
         </div>
-        <a href="{{ '/publications/' | relative_url }}" {% if page.url == '/publications/' %}class="active"{% endif %}>Publications</a>
-        <a href="{{ '/projects/' | relative_url }}" {% if page.url == '/projects/' %}class="active"{% endif %}>Projects</a>
+        <a href="{{ lp }}{{ '/publications/' | relative_url }}" {% if base_url == '/publications/' %}class="active"{% endif %}>{% if is_nl %}Publicaties{% else %}Publications{% endif %}</a>
+        <a href="{{ lp }}{{ '/projects/' | relative_url }}" {% if base_url == '/projects/' %}class="active"{% endif %}>{% if is_nl %}Projecten{% else %}Projects{% endif %}</a>
         <div class="nav-item nav-has-dropdown">
-          <a href="{{ '/blogposts/' | relative_url }}" {% if page.url == '/blogposts/' %}class="active"{% endif %}>Blogposts</a>
+          <a href="{{ lp }}{{ '/blogposts/' | relative_url }}" {% if base_url == '/blogposts/' %}class="active"{% endif %}>Blogposts</a>
           <div class="nav-dropdown">
-            <a href="{{ '/blogposts/#blogposts' | relative_url }}">Blogposts</a>
-            <a href="{{ '/blogposts/#articles' | relative_url }}">Articles</a>
-            <a href="{{ '/blogposts/#events' | relative_url }}">Events</a>
+            <a href="{{ lp }}{{ '/blogposts/#blogposts' | relative_url }}">Blogposts</a>
+            <a href="{{ lp }}{{ '/blogposts/#articles' | relative_url }}">{% if is_nl %}Artikelen{% else %}Articles{% endif %}</a>
+            <a href="{{ lp }}{{ '/blogposts/#events' | relative_url }}">Events</a>
           </div>
         </div>
-        <a href="{{ '/contact/' | relative_url }}" {% if page.url == '/contact/' %}class="active"{% endif %}>Contact</a>
+        <a href="{{ lp }}{{ '/contact/' | relative_url }}" {% if base_url == '/contact/' %}class="active"{% endif %}>Contact</a>
         <div class="nav-item nav-item-personal nav-has-dropdown">
-          <a href="{{ '/personal/' | relative_url }}" {% if page.url contains 'personal' %}class="active"{% endif %}>Personal</a>
+          <a href="{{ lp }}{{ '/personal/' | relative_url }}" {% if base_url contains 'personal' %}class="active"{% endif %}>{% if is_nl %}Priv&eacute;{% else %}Personal{% endif %}</a>
           <div class="nav-dropdown">
-            <a href="{{ '/personal/#math' | relative_url }}">Math</a>
-            <a href="{{ '/personal/#hobbies' | relative_url }}">Hobbies</a>
+            <a href="{{ lp }}{{ '/personal/#math' | relative_url }}">{% if is_nl %}Wiskunde{% else %}Math{% endif %}</a>
+            <a href="{{ lp }}{{ '/personal/#hobbies' | relative_url }}">{% if is_nl %}Hobby's{% else %}Hobbies{% endif %}</a>
           </div>
         </div>
         {% if langs.size > 1 %}
@@ -145,7 +148,7 @@
     <footer class="site-footer">
       <div class="footer-grid">
         <div class="footer-col footer-brand">
-          <a class="footer-mark" href="{{ '/' | relative_url }}">
+          <a class="footer-mark" href="{{ lp }}{{ '/' | relative_url }}">
             <svg viewBox="0 0 32 32" aria-hidden="true">
               <rect width="32" height="32" rx="4"/>
               <text x="16" y="21" text-anchor="middle" letter-spacing="0.5">DZ</text>
@@ -155,35 +158,35 @@
         </div>
 
         <div class="footer-col">
-          <div class="footer-col-label">Navigate</div>
-          <a href="{{ '/' | relative_url }}">About</a>
-          <a href="{{ '/resume/' | relative_url }}">Resume</a>
-          <a href="{{ '/publications/' | relative_url }}">Publications</a>
-          <a href="{{ '/projects/' | relative_url }}">Projects</a>
-          <a href="{{ '/blogposts/' | relative_url }}">Blogposts</a>
-          <a href="{{ '/contact/' | relative_url }}">Contact</a>
-          <a href="{{ '/personal/' | relative_url }}">Personal</a>
+          <div class="footer-col-label">{% if is_nl %}Navigatie{% else %}Navigate{% endif %}</div>
+          <a href="{{ lp }}{{ '/' | relative_url }}">{% if is_nl %}Over mij{% else %}About{% endif %}</a>
+          <a href="{{ lp }}{{ '/resume/' | relative_url }}">{% if is_nl %}CV{% else %}Resume{% endif %}</a>
+          <a href="{{ lp }}{{ '/publications/' | relative_url }}">{% if is_nl %}Publicaties{% else %}Publications{% endif %}</a>
+          <a href="{{ lp }}{{ '/projects/' | relative_url }}">{% if is_nl %}Projecten{% else %}Projects{% endif %}</a>
+          <a href="{{ lp }}{{ '/blogposts/' | relative_url }}">Blogposts</a>
+          <a href="{{ lp }}{{ '/contact/' | relative_url }}">Contact</a>
+          <a href="{{ lp }}{{ '/personal/' | relative_url }}">{% if is_nl %}Priv&eacute;{% else %}Personal{% endif %}</a>
         </div>
         <div class="footer-col">
-          <div class="footer-col-label">Connect</div>
-          <a data-u="{{ site.email | split: '@' | first }}" data-d="{{ site.email | split: '@' | last }}">Email</a>
+          <div class="footer-col-label">{% if is_nl %}Contact{% else %}Connect{% endif %}</div>
+          <a data-u="{{ site.email | split: '@' | first }}" data-d="{{ site.email | split: '@' | last }}">{% if is_nl %}E-mail{% else %}Email{% endif %}</a>
           <a href="https://github.com/{{ site.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://www.linkedin.com/in/{{ site.linkedin }}/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href="https://scholar.google.com/citations?user={{ site.scholar }}" target="_blank" rel="noopener noreferrer">Scholar</a>
-          <a href="{{ '/card/' | relative_url }}">Save Contact (Digital Card)</a>
+          <a href="{{ '/card/' | relative_url }}">{% if is_nl %}Contactkaart opslaan (digitale kaart){% else %}Save Contact (Digital Card){% endif %}</a>
         </div>
         <div class="footer-col footer-contact-col">
           <div class="footer-contact">
-            <p>Open to roles, consulting, or an invitation to meet up.</p>
+            <p>{% if is_nl %}Open voor rollen, consultancy, of een afspraak.{% else %}Open to roles, consulting, or an invitation to meet up.{% endif %}</p>
             <form class="footer-message-form" data-u="{{ site.email | split: '@' | first }}" data-d="{{ site.email | split: '@' | last }}" method="POST">
               <input type="hidden" name="_subject" value="New message from the footer, daanzunnenberg.com">
               <input type="hidden" name="_template" value="table">
               <input type="hidden" name="_captcha" value="true">
               <input type="hidden" name="_next" value="{{ '/contact/' | absolute_url }}?sent=1">
               <input type="text" name="_honey" style="display:none">
-              <input type="email" name="email" placeholder="Your email" required>
-              <textarea name="message" rows="2" placeholder="Quick message..." required></textarea>
-              <button type="submit">Send message &rarr;</button>
+              <input type="email" name="email" placeholder="{% if is_nl %}Jouw e-mailadres{% else %}Your email{% endif %}" required>
+              <textarea name="message" rows="2" placeholder="{% if is_nl %}Kort berichtje...{% else %}Quick message...{% endif %}" required></textarea>
+              <button type="submit">{% if is_nl %}Verstuur bericht{% else %}Send message{% endif %} &rarr;</button>
             </form>
           </div>
         </div>
@@ -191,7 +194,7 @@
 
       <div class="footer-bottom">
         <div class="footer-note">&copy; {{ 'now' | date: "%Y" }} Daan Zunnenberg</div>
-        <div class="footer-note">Last updated {{ site.time | date: "%B %Y" }}</div>
+        <div class="footer-note">{% if is_nl %}Laatst bijgewerkt{% else %}Last updated{% endif %} {{ site.time | date: "%B %Y" }}</div>
       </div>
     </footer>
   </div>
