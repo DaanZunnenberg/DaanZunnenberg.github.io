@@ -328,14 +328,6 @@ body:has(.hero) .site-header .site-nav a {
   color: rgba(245, 247, 251, 0.8);
 }
 
-body:has(.hero) .site-header .lang-option {
-  color: rgba(245, 247, 251, 0.8);
-}
-
-body:has(.hero) .site-header .lang-option.active {
-  color: #ffffff;
-}
-
 body:has(.hero) .site-header .site-nav a:hover,
 body:has(.hero) .site-header .site-nav a.active {
   color: #ffffff;
@@ -409,34 +401,17 @@ body:has(.hero) .site-header .nav-item-personal > a.active {
   opacity: 1;
 }
 
-.lang-switcher {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-left: 12px;
-  font-size: 13px;
+.lang-switcher-single span {
+  color: var(--ink-soft);
+  opacity: 0.75;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: var(--fs-sm);
+  font-family: var(--mono);
 }
 
-.lang-option {
-  color: var(--ink);
-  opacity: 0.55;
-  text-decoration: none;
-  padding: 2px 4px;
-}
-
-.lang-option:hover {
-  opacity: 0.85;
-}
-
-.lang-option.active {
-  opacity: 1;
-  font-weight: 600;
-}
-
-.lang-switcher .lang-option + .lang-option::before {
-  content: "/";
-  margin-right: 6px;
-  opacity: 0.4;
+body:has(.hero) .lang-switcher-single span {
+  color: rgba(245, 247, 251, 0.8);
 }
 
 .site-nav {

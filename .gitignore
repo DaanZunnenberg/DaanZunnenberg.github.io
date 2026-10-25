@@ -14,4 +14,5 @@ images/campus.jpeg
 images/campus.jpg
 images/campus.png
 ro/
-_data/languages.yml
+nl/
+_data/languages_local.yml

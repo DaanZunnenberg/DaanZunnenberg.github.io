@@ -17,22 +17,19 @@
   <div class="wrap">
     <header class="site-header">
       <a class="site-title" href="{{ '/' | relative_url }}">Daan&nbsp;Zunnenberg</a>
-      {% assign is_ro = false %}
-      {% if page.url == '/ro' or page.url contains '/ro/' %}{% assign is_ro = true %}{% endif %}
-      {% assign base_url = page.url | remove_first: '/ro' %}
+      {% assign langs = site.data.languages %}
+      {% if site.data.languages_local %}{% assign langs = langs | concat: site.data.languages_local %}{% endif %}
+      {% assign current_code = 'en' %}
+      {% if page.url == '/ro' or page.url contains '/ro/' %}{% assign current_code = 'ro' %}{% endif %}
+      {% if page.url == '/nl' or page.url contains '/nl/' %}{% assign current_code = 'nl' %}{% endif %}
+      {% assign base_url = page.url %}
+      {% unless current_code == 'en' %}
+        {% assign prefix_to_strip = '/' | append: current_code %}
+        {% assign base_url = page.url | remove_first: prefix_to_strip %}
+      {% endunless %}
       {% if base_url == '' %}{% assign base_url = '/' %}{% endif %}
-      <div class="lang-switcher" aria-label="Language">
-        {% if site.data.languages %}
-          {% for lang in site.data.languages %}
-            {% assign lang_active = false %}
-            {% if lang.code == 'ro' and is_ro %}{% assign lang_active = true %}{% endif %}
-            {% if lang.code == 'en' and is_ro == false %}{% assign lang_active = true %}{% endif %}
-            <a class="lang-option{% if lang_active %} active{% endif %}" href="{{ lang.prefix }}{{ base_url }}">{{ lang.label }}</a>
-          {% endfor %}
-        {% else %}
-          <span class="lang-option active">English</span>
-        {% endif %}
-      </div>
+      {% assign current_lang = null %}
+      {% for l in langs %}{% if l.code == current_code %}{% assign current_lang = l %}{% endif %}{% endfor %}
       <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
         <span></span><span></span><span></span>
       </button>
@@ -75,6 +72,20 @@
             <a href="{{ '/personal/#hobbies' | relative_url }}">Hobbies</a>
           </div>
         </div>
+        {% if langs.size > 1 %}
+        <div class="nav-item nav-has-dropdown lang-switcher">
+          <a href="{{ current_lang.prefix }}{{ base_url }}">{{ current_lang.flag }}&nbsp;{{ current_lang.code | upcase }}</a>
+          <div class="nav-dropdown">
+            {% for l in langs %}{% unless l.code == current_code %}
+            <a href="{{ l.prefix }}{{ base_url }}">{{ l.flag }}&nbsp;{{ l.label }}</a>
+            {% endunless %}{% endfor %}
+          </div>
+        </div>
+        {% else %}
+        <div class="nav-item lang-switcher lang-switcher-single">
+          <span>{{ current_lang.flag }}&nbsp;{{ current_lang.label }}</span>
+        </div>
+        {% endif %}
       </nav>
 
       <!-- Mobile: flat list -->
@@ -106,6 +117,20 @@
             <a href="{{ '/personal/#hobbies' | relative_url }}">Hobbies</a>
           </div>
         </div>
+        {% if langs.size > 1 %}
+        <div class="nav-item nav-has-dropdown lang-switcher">
+          <a href="{{ current_lang.prefix }}{{ base_url }}">{{ current_lang.flag }}&nbsp;{{ current_lang.code | upcase }}</a>
+          <div class="nav-dropdown">
+            {% for l in langs %}{% unless l.code == current_code %}
+            <a href="{{ l.prefix }}{{ base_url }}">{{ l.flag }}&nbsp;{{ l.label }}</a>
+            {% endunless %}{% endfor %}
+          </div>
+        </div>
+        {% else %}
+        <div class="nav-item lang-switcher lang-switcher-single">
+          <span>{{ current_lang.flag }}&nbsp;{{ current_lang.label }}</span>
+        </div>
+        {% endif %}
       </nav>
     </header>
 
