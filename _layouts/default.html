@@ -17,6 +17,22 @@
   <div class="wrap">
     <header class="site-header">
       <a class="site-title" href="{{ '/' | relative_url }}">Daan&nbsp;Zunnenberg</a>
+      {% assign is_ro = false %}
+      {% if page.url == '/ro' or page.url contains '/ro/' %}{% assign is_ro = true %}{% endif %}
+      {% assign base_url = page.url | remove_first: '/ro' %}
+      {% if base_url == '' %}{% assign base_url = '/' %}{% endif %}
+      <div class="lang-switcher" aria-label="Language">
+        {% if site.data.languages %}
+          {% for lang in site.data.languages %}
+            {% assign lang_active = false %}
+            {% if lang.code == 'ro' and is_ro %}{% assign lang_active = true %}{% endif %}
+            {% if lang.code == 'en' and is_ro == false %}{% assign lang_active = true %}{% endif %}
+            <a class="lang-option{% if lang_active %} active{% endif %}" href="{{ lang.prefix }}{{ base_url }}">{{ lang.label }}</a>
+          {% endfor %}
+        {% else %}
+          <span class="lang-option active">English</span>
+        {% endif %}
+      </div>
       <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
         <span></span><span></span><span></span>
       </button>

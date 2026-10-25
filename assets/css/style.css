@@ -401,6 +401,36 @@ body:has(.hero) .site-header .nav-item-personal > a.active {
   opacity: 1;
 }
 
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 12px;
+  font-size: 13px;
+}
+
+.lang-option {
+  color: var(--ink);
+  opacity: 0.55;
+  text-decoration: none;
+  padding: 2px 4px;
+}
+
+.lang-option:hover {
+  opacity: 0.85;
+}
+
+.lang-option.active {
+  opacity: 1;
+  font-weight: 600;
+}
+
+.lang-switcher .lang-option + .lang-option::before {
+  content: "/";
+  margin-right: 6px;
+  opacity: 0.4;
+}
+
 .site-nav {
   font-family: var(--mono);
   font-size: var(--fs-sm);
