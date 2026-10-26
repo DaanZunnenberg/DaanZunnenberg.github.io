@@ -2,3 +2,7 @@
   label: English
   flag: "🇬🇧"
   prefix: ""
+- code: nl
+  label: Nederlands
+  flag: "🇳🇱"
+  prefix: "/nl"
