@@ -1,5 +1,8 @@
+{%- assign html_lang = 'en' -%}
+{%- if page.url == '/nl' or page.url contains '/nl/' -%}{%- assign html_lang = 'nl' -%}{%- endif -%}
+{%- if page.url == '/ro' or page.url contains '/ro/' -%}{%- assign html_lang = 'ro' -%}{%- endif -%}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ html_lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
