@@ -5,4 +5,6 @@ Personal site, built as a static GitHub Pages site using Jekyll and Liquid templ
 
 Live at [daanzunnenberg.com](https://daanzunnenberg.com).
 
+Deployed automatically via GitHub Pages.
+
 Available in English and Dutch, with a language switcher in the site header.
