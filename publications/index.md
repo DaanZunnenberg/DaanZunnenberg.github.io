@@ -70,6 +70,27 @@ body_class: publications-index
   </p>
 </div>
 
+<div class="entry">
+  <div class="entry-head">
+    <h3>Distributed Coherent Radio Frequency Spectrum Operations</h3>
+    <span class="entry-date">Proceedings</span>
+  </div>
+  <div class="entry-org">Choudhary, H., Dombrowsky, C., Eijsvoogel, B., Hupkes, H.J., van der Knaap, V., Luesink, E., Metherall, B., Muskulus, M., Rice, S., Stagnaro, P. &amp; Zunnenberg, D. &middot; Proceedings of the Study Group Mathematics with Industry</div>
+  <p>
+    Software defined radios spread over a region can act as a single antenna array, provided they are
+    synchronized to within a fraction of a sample. This requires accurate estimates of the propagation
+    delays between the radios, which have to be obtained from a received signal that is a noisy
+    superposition of a direct path and several reflections. We study this delay estimation problem for the
+    training field (L-LTF) of a WiFi preamble. We first review the MUSIC, ESPRIT and matrix pencil methods
+    and derive a Cram&eacute;r&ndash;Rao lower bound for the delay estimates. We then show how the singular
+    value decompositions in these methods can be replaced by a randomized singular value decomposition, and
+    test this numerically. Finally, we propose two alternatives that avoid matrix decompositions altogether.
+    NewDiR maximizes a function of the covariance matrix directly, performing a few Newton iterations
+    initiated from cross-correlation peaks. Template matching works entirely in the time domain and extends
+    naturally to time-varying channels.
+  </p>
+</div>
+
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;02</span>
   <h2 id="research-assisted">Research Assisted</h2>

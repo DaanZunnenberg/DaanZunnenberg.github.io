@@ -73,6 +73,28 @@ body_class: publications-index
   </p>
 </div>
 
+<div class="entry">
+  <div class="entry-head">
+    <h3>Distributed Coherent Radio Frequency Spectrum Operations</h3>
+    <span class="entry-date">Proceedings</span>
+  </div>
+  <div class="entry-org">Choudhary, H., Dombrowsky, C., Eijsvoogel, B., Hupkes, H.J., van der Knaap, V., Luesink, E., Metherall, B., Muskulus, M., Rice, S., Stagnaro, P. &amp; Zunnenberg, D. &middot; Proceedings of the Study Group Mathematics with Industry</div>
+  <p>
+    Software defined radios die over een gebied verspreid zijn kunnen samen als één antennearray werken,
+    mits ze tot op een fractie van een sample gesynchroniseerd zijn. Dit vereist nauwkeurige schattingen van
+    de propagatievertragingen tussen de radio's, die afgeleid moeten worden uit een ontvangen signaal dat
+    een ruizige superpositie is van een direct pad en meerdere reflecties. We bestuderen dit
+    vertragingsschattingsprobleem voor het trainingsveld (L-LTF) van een WiFi-preamble. We bespreken eerst
+    de MUSIC-, ESPRIT- en matrix-pencil-methoden en leiden een Cram&eacute;r&ndash;Rao-ondergrens af voor de
+    vertragingsschattingen. Vervolgens laten we zien hoe de singuliere-waardenontbindingen in deze methoden
+    vervangen kunnen worden door een gerandomiseerde singuliere-waardenontbinding, en testen dit numeriek.
+    Tot slot stellen we twee alternatieven voor die matrixontbindingen volledig vermijden. NewDiR
+    maximaliseert direct een functie van de covariantiematrix, met een paar Newton-iteraties die starten
+    vanaf cross-correlatiepieken. Template matching werkt volledig in het tijdsdomein en breidt op
+    natuurlijke wijze uit naar tijdsvariërende kanalen.
+  </p>
+</div>
+
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;02</span>
   <h2 id="research-assisted">Bijgedragen als onderzoeksassistent</h2>
