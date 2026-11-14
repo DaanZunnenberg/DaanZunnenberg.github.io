@@ -1589,6 +1589,23 @@ a:hover { color: var(--blue-300); }
   color: var(--ink-soft);
 }
 
+.pub-authors {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.pub-venue {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+.pub-venue::before {
+  content: "\00b7";
+  display: inline-block;
+  margin: 0 6px;
+  font-style: normal;
+}
+
 .entry-date {
   font-family: var(--mono);
   font-size: var(--fs-xs);
