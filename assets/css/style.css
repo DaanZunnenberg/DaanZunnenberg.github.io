@@ -1589,21 +1589,51 @@ a:hover { color: var(--blue-300); }
   color: var(--ink-soft);
 }
 
+/* Publication list: plain rows with a hanging rule between them, no
+   per-item card/border, so a long author list doesn't read as a boxed
+   form field. */
+.pub-list {
+  margin-top: 18px;
+}
+
+.pub-item {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.pub-item:first-child {
+  padding-top: 0;
+}
+
+.pub-item:last-child {
+  border-bottom: none;
+}
+
+.pub-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.pub-title {
+  margin: 0;
+}
+
+.pub-title a {
+  color: inherit;
+}
+
 .pub-authors {
-  color: var(--ink);
-  font-weight: 600;
+  margin: 6px 0 0;
+  color: var(--ink-soft);
 }
 
 .pub-venue {
+  margin: 2px 0 0;
   color: var(--ink-faint);
   font-style: italic;
-}
-
-.pub-venue::before {
-  content: "\00b7";
-  display: inline-block;
-  margin: 0 6px;
-  font-style: normal;
 }
 
 .entry-date {
@@ -1658,6 +1688,11 @@ a:hover { color: var(--blue-300); }
   text-align: left;
 }
 
+.readme-summary:hover,
+.readme-summary:focus-visible {
+  text-decoration: underline;
+}
+
 .readme-summary .label-close { display: none; }
 .readme-toggle.is-open > .readme-summary .label-open { display: none; }
 .readme-toggle.is-open > .readme-summary .label-close { display: inline; }
@@ -1680,7 +1715,11 @@ a:hover { color: var(--blue-300); }
 .readme {
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px dashed var(--line);
+  border-top: 1px dashed transparent;
+}
+
+.readme-toggle.is-open .readme {
+  border-top-color: var(--line);
 }
 
 @media (prefers-reduced-motion: reduce) {

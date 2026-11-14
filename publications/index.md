@@ -20,15 +20,15 @@ body_class: publications-index
   <h2 id="research-articles">Research Articles</h2>
 </div>
 
-<div class="entry">
-  <div class="entry-head">
-    <h3>The Tukey depth process under short range dependence</h3>
+<div class="pub-list">
+
+<div class="pub-item">
+  <div class="pub-head">
+    <h3 class="pub-title">The Tukey depth process under short range dependence</h3>
     <span class="entry-date">2026 &middot; draft</span>
   </div>
-  <div class="entry-org">
-    <span class="pub-authors">Zunnenberg, D. &amp; D&uuml;rre, A.</span>
-    <span class="pub-venue">Unpublished manuscript</span>
-  </div>
+  <p class="pub-authors">Zunnenberg, D. &amp; D&uuml;rre, A.</p>
+  <p class="pub-venue">Unpublished manuscript</p>
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
       <span class="label-open">+ Show abstract</span><span class="label-close">&minus; Hide abstract</span>
@@ -49,15 +49,13 @@ body_class: publications-index
   </div>
 </div>
 
-<div class="entry">
-  <div class="entry-head">
-    <h3>Absolute regularity and maximal moment inequalities</h3>
+<div class="pub-item">
+  <div class="pub-head">
+    <h3 class="pub-title">Absolute regularity and maximal moment inequalities</h3>
     <span class="entry-date">2026 &middot; in preparation</span>
   </div>
-  <div class="entry-org">
-    <span class="pub-authors">Zunnenberg, D. &amp; D&uuml;rre, A.</span>
-    <span class="pub-venue">Unpublished manuscript</span>
-  </div>
+  <p class="pub-authors">Zunnenberg, D. &amp; D&uuml;rre, A.</p>
+  <p class="pub-venue">Unpublished manuscript</p>
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
       <span class="label-open">+ Show abstract</span><span class="label-close">&minus; Hide abstract</span>
@@ -78,15 +76,13 @@ body_class: publications-index
   </div>
 </div>
 
-<div class="entry">
-  <div class="entry-head">
-    <h3>Absolute regularity and maximal moment inequalities II: Koltchinskii&ndash;Pollard entropy</h3>
+<div class="pub-item">
+  <div class="pub-head">
+    <h3 class="pub-title">Absolute regularity and maximal moment inequalities II: Koltchinskii&ndash;Pollard entropy</h3>
     <span class="entry-date">2026 &middot; in preparation</span>
   </div>
-  <div class="entry-org">
-    <span class="pub-authors">Zunnenberg, D. &amp; D&uuml;rre, A.</span>
-    <span class="pub-venue">Unpublished manuscript</span>
-  </div>
+  <p class="pub-authors">Zunnenberg, D. &amp; D&uuml;rre, A.</p>
+  <p class="pub-venue">Unpublished manuscript</p>
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
       <span class="label-open">+ Show abstract</span><span class="label-close">&minus; Hide abstract</span>
@@ -106,15 +102,13 @@ body_class: publications-index
   </div>
 </div>
 
-<div class="entry">
-  <div class="entry-head">
-    <h3>Distributed Coherent Radio Frequency Spectrum Operations</h3>
+<div class="pub-item">
+  <div class="pub-head">
+    <h3 class="pub-title">Distributed Coherent Radio Frequency Spectrum Operations</h3>
     <span class="entry-date">Proceedings</span>
   </div>
-  <div class="entry-org">
-    <span class="pub-authors">Choudhary, H., Dombrowsky, C., Eijsvoogel, B., Hupkes, H.J., van der Knaap, V., Luesink, E., Metherall, B., Muskulus, M., Rice, S., Stagnaro, P. &amp; Zunnenberg, D.</span>
-    <span class="pub-venue">Proceedings of the Study Group Mathematics with Industry</span>
-  </div>
+  <p class="pub-authors">Choudhary, H., Dombrowsky, C., Eijsvoogel, B., Hupkes, H.J., van der Knaap, V., Luesink, E., Metherall, B., Muskulus, M., Rice, S., Stagnaro, P. &amp; Zunnenberg, D.</p>
+  <p class="pub-venue">Proceedings of the Study Group Mathematics with Industry</p>
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
       <span class="label-open">+ Show abstract</span><span class="label-close">&minus; Hide abstract</span>
@@ -139,21 +133,23 @@ body_class: publications-index
   </div>
 </div>
 
+</div>
+
 <div class="section-break">
   <span class="section-break-label">&sect;&nbsp;02</span>
   <h2 id="research-assisted">Research Assisted</h2>
   <p>Papers I contributed to as a research assistant, without being a listed author.</p>
 </div>
 
-<div class="entry">
-  <div class="entry-head">
-    <h3><a href="https://www.econstor.eu/handle/10419/316193" target="_blank" rel="noopener noreferrer">Functional location-scale models with robust observation-driven dynamics</a></h3>
+<div class="pub-list">
+
+<div class="pub-item">
+  <div class="pub-head">
+    <h3 class="pub-title"><a href="https://www.econstor.eu/handle/10419/316193" target="_blank" rel="noopener noreferrer">Functional location-scale models with robust observation-driven dynamics</a></h3>
     <span class="entry-date">2025</span>
   </div>
-  <div class="entry-org">
-    <span class="pub-authors">Lin, Y. &amp; Lucas, A.</span>
-    <span class="pub-venue">Tinbergen Institute Discussion Paper No. TI 2025-027/III</span>
-  </div>
+  <p class="pub-authors">Lin, Y. &amp; Lucas, A.</p>
+  <p class="pub-venue">Tinbergen Institute Discussion Paper No. TI 2025-027/III</p>
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
       <span class="label-open">+ Show abstract</span><span class="label-close">&minus; Hide abstract</span>
@@ -180,6 +176,8 @@ body_class: publications-index
     </div>
   </div>
   <div class="tags">Research assistantship contribution</div>
+</div>
+
 </div>
 
 <p><a href="{{ '/' | relative_url }}">&larr; Back to About</a></p>
