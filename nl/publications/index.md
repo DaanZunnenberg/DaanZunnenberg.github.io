@@ -27,7 +27,7 @@ body_class: publications-index
     <h3 class="pub-title">The Tukey depth process under short range dependence</h3>
     <span class="entry-date">2026 &middot; concept</span>
   </div>
-  <p class="pub-authors">Zunnenberg, D. &amp; D&uuml;rre, A.</p>
+  <p class="pub-authors">Daan Zunnenberg &amp; Alexander D&uuml;rre</p>
   <p class="pub-venue">Niet-gepubliceerd manuscript</p>
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
@@ -55,7 +55,7 @@ body_class: publications-index
     <h3 class="pub-title">Absolute regularity and maximal moment inequalities</h3>
     <span class="entry-date">2026 &middot; in voorbereiding</span>
   </div>
-  <p class="pub-authors">Zunnenberg, D. &amp; D&uuml;rre, A.</p>
+  <p class="pub-authors">Daan Zunnenberg &amp; Alexander D&uuml;rre</p>
   <p class="pub-venue">Niet-gepubliceerd manuscript</p>
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
@@ -83,7 +83,7 @@ body_class: publications-index
     <h3 class="pub-title">Absolute regularity and maximal moment inequalities II: Koltchinskii&ndash;Pollard entropy</h3>
     <span class="entry-date">2026 &middot; in voorbereiding</span>
   </div>
-  <p class="pub-authors">Zunnenberg, D. &amp; D&uuml;rre, A.</p>
+  <p class="pub-authors">Daan Zunnenberg &amp; Alexander D&uuml;rre</p>
   <p class="pub-venue">Niet-gepubliceerd manuscript</p>
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
@@ -110,7 +110,7 @@ body_class: publications-index
     <h3 class="pub-title">Distributed Coherent Radio Frequency Spectrum Operations</h3>
     <span class="entry-date">Proceedings</span>
   </div>
-  <p class="pub-authors">Choudhary, H., Dombrowsky, C., Eijsvoogel, B., Hupkes, H.J., van der Knaap, V., Luesink, E., Metherall, B., Muskulus, M., Rice, S., Stagnaro, P. &amp; Zunnenberg, D.</p>
+  <p class="pub-authors">Harsh Choudhary, Charlotte Dombrowsky, Bruno Eijsvoogel, Hermen Jan Hupkes, Vincent van der Knaap, Erwin Luesink, Brady Metherall, Michael Muskulus, Silke Rice, Pietro Stagnaro &amp; Daan Zunnenberg</p>
   <p class="pub-venue">Proceedings of the Study Group Mathematics with Industry</p>
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
@@ -152,7 +152,7 @@ body_class: publications-index
     <h3 class="pub-title"><a href="https://www.econstor.eu/handle/10419/316193" target="_blank" rel="noopener noreferrer">Functional location-scale models with robust observation-driven dynamics</a></h3>
     <span class="entry-date">2025</span>
   </div>
-  <p class="pub-authors">Lin, Y. &amp; Lucas, A.</p>
+  <p class="pub-authors">Yicong Lin &amp; Andr&eacute; Lucas</p>
   <p class="pub-venue">Tinbergen Institute Discussion Paper No. TI 2025-027/III</p>
   <div class="readme-toggle">
     <button type="button" class="readme-summary" aria-expanded="false">
