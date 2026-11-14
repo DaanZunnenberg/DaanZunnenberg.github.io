@@ -1604,7 +1604,7 @@ a:hover { color: var(--blue-300); }
 }
 
 .pub-item {
-  padding: 22px 0;
+  padding: 10px 0;
   border-bottom: 1px solid var(--line-soft);
 }
 
