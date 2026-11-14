@@ -204,6 +204,13 @@ main h2,
   max-width: 700px;
 }
 
+/* Publication rows run full-width (title/authors/venue all span the row),
+   so the abstract should match that measure instead of the sitewide
+   700px prose column, which would read as narrower than everything above it. */
+.pub-item .readme p {
+  max-width: none;
+}
+
 /* Project/blogpost long-form pages read as articles, so they get a
    narrower, smaller-type column than the rest of the site &mdash; closer to
    a news or insights piece than a landing page. Centering the whole
