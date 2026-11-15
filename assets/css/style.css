@@ -211,6 +211,15 @@ main h2,
   max-width: none;
 }
 
+.pub-item .readme-toggle {
+  margin-top: 6px;
+}
+
+.pub-item .readme {
+  margin-top: 6px;
+  padding-top: 6px;
+}
+
 /* Project/blogpost long-form pages read as articles, so they get a
    narrower, smaller-type column than the rest of the site &mdash; closer to
    a news or insights piece than a landing page. Centering the whole
