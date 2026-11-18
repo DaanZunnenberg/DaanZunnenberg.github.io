@@ -1652,6 +1652,18 @@ a:hover { color: var(--blue-300); }
   font-style: italic;
 }
 
+@media (max-width: 640px) {
+  .pub-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .pub-head .entry-date {
+    margin-left: 0;
+  }
+}
+
 .entry-date {
   font-family: var(--mono);
   font-size: var(--fs-xs);
