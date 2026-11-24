@@ -1639,6 +1639,12 @@ a:hover { color: var(--blue-300); }
 
 .pub-title a {
   color: inherit;
+  transition: color 0.2s ease;
+}
+
+.pub-title a:hover,
+.pub-title a:focus-visible {
+  color: var(--blue-400);
 }
 
 .pub-authors {
