@@ -145,7 +145,7 @@ body_class: publications-index
 
 <div class="pub-item">
   <div class="pub-head">
-    <h3 class="pub-title"><a href="https://www.econstor.eu/handle/10419/316193" target="_blank" rel="noopener noreferrer">Functional location-scale models with robust observation-driven dynamics</a></h3>
+    <h3 class="pub-title"><a href="https://www.econstor.eu/handle/10419/316193" target="_blank" rel="noopener noreferrer">Functional location-scale models with robust observation-driven dynamics<span class="sr-only"> (opens in new tab)</span></a></h3>
     <span class="entry-date">2025</span>
   </div>
   <p class="pub-authors">Yicong Lin &amp; Andr&eacute; Lucas</p>

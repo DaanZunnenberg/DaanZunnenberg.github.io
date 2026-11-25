@@ -1637,6 +1637,21 @@ a:hover { color: var(--blue-300); }
   margin: 0;
 }
 
+/* Visually hidden but still announced by screen readers, e.g. to flag
+   that a link opens in a new tab without showing redundant text to
+   sighted users. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .pub-title a {
   color: inherit;
   transition: color 0.2s ease;
